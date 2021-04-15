@@ -1,12 +1,10 @@
-# Challenge Accepted 10 
-
-## 要实现目标，必须以不平凡的方式来生活，除此之外，别无他法。
+# Challenge Accepted 10 2020.4.16 周五
 
 [78. 子集](https://leetcode-cn.com/problems/subsets/)
 
-[239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
+[19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 
-[39. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
+[83. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
 
 [62. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
 
@@ -21,6 +19,4 @@
 [48. 旋转图像](https://leetcode-cn.com/problems/rotate-image/)
 
 [31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
-
-
 

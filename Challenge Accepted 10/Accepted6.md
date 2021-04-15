@@ -747,6 +747,7 @@ func max(x, y int) int {
 	return y
 }
 ```
+[470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
 
 
 
@@ -757,12 +758,16 @@ func max(x, y int) int {
 
 ```
 
-[39. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
-
-[470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
+[19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 
 
-[239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
+
+[83. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+
+
+
+
+
 
 
 

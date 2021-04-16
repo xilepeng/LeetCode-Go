@@ -753,10 +753,77 @@ func max(x, y int) int {
 
 
 [240. 搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/)
+![](https://pic.leetcode-cn.com/Figures/240/Slide3.PNG)
+
+## 方法一：模拟 
+
+1. 从右上角开始搜索
 
 ```go
-
+func searchMatrix(matrix [][]int, target int) bool {
+	row, col := 0, len(matrix[0])-1
+	for row <= len(matrix)-1 && col >= 0 {
+		if target == matrix[row][col] {
+			return true
+		} else if target < matrix[row][col] {
+			col--
+		} else {
+			row++
+		}
+	}
+	return false
+}
 ```
+
+2. 从左下角开始搜索
+
+```go
+func searchMatrix(matrix [][]int, target int) bool {
+	row, col := len(matrix)-1, 0
+	for row >= 0 && col <= len(matrix[0])-1 {
+		if target == matrix[row][col] {
+			return true
+		} else if target < matrix[row][col] {
+			row--
+		} else {
+			col++
+		}
+	}
+	return false
+}
+```
+复杂度分析
+
+- 时间复杂度：O(n+m)。
+时间复杂度分析的关键是注意到在每次迭代（我们不返回 true）时，行或列都会精确地递减/递增一次。由于行只能减少 m 次，而列只能增加 n 次，因此在导致 for 循环终止之前，循环不能运行超过 n+m 次。因为所有其他的工作都是常数，所以总的时间复杂度在矩阵维数之和中是线性的。
+- 空间复杂度：O(1)，因为这种方法只处理几个指针，所以它的内存占用是恒定的。
+
+## 方法二：二分法搜索
+
+```go
+func searchMatrix(matrix [][]int, target int) bool {
+	for _, row := range matrix {
+		low, high := 0, len(matrix[0])-1
+		for low <= high {
+			mid := low + (high-low)>>1
+			if target == row[mid] {
+				return true
+			} else if target < row[mid] {
+				high = mid - 1
+			} else {
+				low = mid + 1
+			}
+		}
+	}
+	return false
+}
+```
+
+复杂度分析
+
+- 时间复杂度 O(n log n)
+- 空间复杂度：O(1)
+
 
 [19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 

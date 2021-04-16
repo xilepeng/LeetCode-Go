@@ -749,7 +749,27 @@ func max(x, y int) int {
 ```
 [470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
 
+```go
+func rand10() int {
+	t := (rand7()-1)*7 + rand7() //1~49
+	if t > 40 {
+		return rand10()
+	}
+	return (t-1)%10 + 1
+}
+```
 
+```go
+func rand10() int {
+	for {
+		row, col := rand7(), rand7()
+		idx := col + (row-1)*7
+		if idx <= 40 {
+			return 1 + (idx-1)%10
+		}
+	}
+}
+```
 
 
 [240. 搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/)
@@ -855,6 +875,30 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 - 空间复杂度：O(1)。
 
 [83. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+
+```go
+	/**
+	 * Definition for singly-linked list.
+	 * type ListNode struct {
+	 *     Val int
+	 *     Next *ListNode
+	 * }
+	 */
+	func deleteDuplicates(head *ListNode) *ListNode {
+		if head == nil {
+			return nil
+		}
+		curr := head
+		for curr.Next != nil {
+			if curr.Val == curr.Next.Val {
+				curr.Next = curr.Next.Next
+			} else {
+				curr = curr.Next
+			}
+		}
+		return head
+	}
+```
 
 
 

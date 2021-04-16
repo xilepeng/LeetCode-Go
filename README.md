@@ -73,6 +73,25 @@ func min(x, y int) int {
 
 [239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
 
+```go
+func maxSlidingWindow(nums []int, k int) []int {
+	q, res := []int{}, []int{}
+	for i := 0; i < len(nums); i++ {
+		if len(q) > 0 && i-k+1 > q[0] {
+			q = q[1:] //窗口满了，删除对头
+		}
+		for len(q) > 0 && nums[q[len(q)-1]] <= nums[i] {
+			q = q[:len(q)-1] //队尾小于当前元素，删除队尾
+		}
+		q = append(q, i)
+		if i >= k-1 { //窗口大小大于等于 k
+			res = append(res, nums[q[0]])
+		}
+	}
+	return res
+}
+```
+
 [78. 子集](https://leetcode-cn.com/problems/subsets/)
 
 

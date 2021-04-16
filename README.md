@@ -73,6 +73,8 @@ func min(x, y int) int {
 
 [239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
 
+![](http://ww1.sinaimg.cn/large/007daNw2ly1gpmcfyuvh1j319g0mun0a.jpg)
+
 ```go
 func maxSlidingWindow(nums []int, k int) []int {
 	q, res := []int{}, []int{}

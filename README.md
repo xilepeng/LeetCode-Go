@@ -37,6 +37,40 @@ func combinationSum(candidates []int, target int) (res [][]int) {
 
 [64. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)
 
+### 方法一：动态规划
+
+```go
+func minPathSum(grid [][]int) int {
+	m, n := len(grid), len(grid[0])
+	for i := 1; i < m; i++ {
+		grid[i][0] += grid[i-1][0]
+	}
+	for j := 1; j < n; j++ {
+		grid[0][j] += grid[0][j-1]
+	}
+	for i := 1; i < m; i++ {
+		for j := 1; j < n; j++ {
+			grid[i][j] += min(grid[i][j-1], grid[i-1][j])
+		}
+	}
+	return grid[m-1][n-1]
+}
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(mn)，其中 m 和 n 分别是网格的行数和列数。需要对整个网格遍历一次，计算 dp 的每个元素的值。
+
+- 空间复杂度：O(1)
+
+
+
 [239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
 
 [78. 子集](https://leetcode-cn.com/problems/subsets/)

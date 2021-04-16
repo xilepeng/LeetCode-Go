@@ -827,7 +827,32 @@ func searchMatrix(matrix [][]int, target int) bool {
 
 [19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 
+### 方法一：双指针
+思路与算法
 
+使用两个指针 first 和 second 同时对链表进行遍历，并且 first 比 second 超前 nn 个节点。当 first 遍历到链表的末尾时，second 就恰好处于倒数第 nn 个节点。
+
+
+![](https://assets.leetcode-cn.com/solution-static/19/p3.png)
+
+```go
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	dummy := &ListNode{0, head}
+	first, second := head, dummy
+	for i := 0; i < n; i++ {
+		first = first.Next
+	}
+	for ; first != nil; first = first.Next {
+		second = second.Next
+	}
+	second.Next = second.Next.Next
+	return dummy.Next
+}
+```
+复杂度分析
+
+- 时间复杂度：O(L)，其中 L 是链表的长度。
+- 空间复杂度：O(1)。
 
 [83. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
 

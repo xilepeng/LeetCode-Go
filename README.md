@@ -1,5 +1,4 @@
 
-## 任何梦想成功的人最后会发现，要达到这个目的，必须以不平凡的方式来生活，除此之外，别无他法。
 
 [39. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
 
@@ -275,8 +274,64 @@ func subsets(nums []int) [][]int {
 ```
 
 
+[31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
+
+### 思路
+
+1. 我们需要将一个左边的「较小数」与一个右边的「较大数」交换，以能够让当前排列变大，从而得到下一个排列。
+
+2. 同时我们要让这个「较小数」尽量靠右，而「较大数」尽可能小。当交换完成后，「较大数」右边的数需要按照升序重新排列。这样可以在保证新排列大于原来排列的情况下，使变大的幅度尽可能小。
+
+
+- 从低位挑一个大一点的数，换掉前面的小一点的一个数，实现变大。
+- 变大的幅度要尽量小。
+
+
+像 [3,2,1] 递减的，没有下一个排列，因为大的已经尽量往前排了，没法更大。
+
+像 [1,5,2,4,3,2] 这种，我们希望它稍微变大。
+
+从低位挑一个大一点的数，换掉前面的小一点的一个数。
+
+于是，从右往左，寻找第一个比右邻居小的数。（把它换到后面去）
+
+找到 1 5 (2) 4 3 2 中间这个 2，让它和它身后的一个数交换，轻微变大。
+
+还是从右往左，寻找第一个比这个 2 微大的数。15 (2) 4 (3) 2，交换，变成 15 (3) 4 (2) 2。
+
+这并未结束，变大的幅度可以再小一点，仟位变大了，后三位可以再小一点。
+
+后三位是递减的，翻转，变成[1,5,3,2,2,4]，即为所求。
+
+
+
+```go
+func nextPermutation(nums []int) {
+	i := len(nums) - 2                   // 向左遍历，i从倒数第二开始是为了nums[i+1]要存在
+	for i >= 0 && nums[i] >= nums[i+1] { // 寻找第一个小于右邻居的数
+		i--
+	}
+	if i >= 0 { // 这个数在数组中存在，从它身后挑一个数，和它换
+		j := len(nums) - 1                 // 从最后一项，向左遍历
+		for j >= 0 && nums[j] <= nums[i] { // 寻找第一个大于 nums[i] 的数
+			j--
+		}
+		nums[i], nums[j] = nums[j], nums[i] // 两数交换，实现变大
+	}
+	// 如果 i = -1，说明是递减排列，如 3 2 1，没有下一排列，直接翻转为最小排列：1 2 3
+	l, r := i+1, len(nums)-1
+	for l < r { // i 右边的数进行翻转，使得变大的幅度小一些
+		nums[l], nums[r] = nums[r], nums[l]
+		l++
+		r--
+	}
+}
+```
+
 
 [62. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
+
+
 
 [101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
 
@@ -292,15 +347,11 @@ func subsets(nums []int) [][]int {
 
 
 
-
-
-
-
 [48. 旋转图像](https://leetcode-cn.com/problems/rotate-image/)
 
 [153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
 
-[31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
+
 
 
 [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)

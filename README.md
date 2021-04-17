@@ -1,6 +1,5 @@
-# Challenge Accepted 10 
 
-## 要实现目标，必须以不平凡的方式来生活，除此之外，别无他法。
+## 任何梦想成功的人最后会发现，要达到这个目的，必须以不平凡的方式来生活，除此之外，别无他法。
 
 [39. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
 

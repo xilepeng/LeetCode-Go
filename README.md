@@ -73,6 +73,55 @@ func min(x, y int) int {
 
 [239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
 
+### 方法一 暴力解法 O(nk)
+
+```go
+func maxSlidingWindow(nums []int, k int) []int {
+	res, n := make([]int, 0, k), len(nums)
+	if n == 0 {
+		return make([]int, 0)
+	}
+	for i := 0; i <= n-k; i++ {
+		max := nums[i]
+		for j := 1; j < k; j++ {
+			if max < nums[i+j] {
+				max = nums[i+j]
+			}
+		}
+		res = append(res, max)
+	}
+	return res
+}
+```
+Time Limit Exceeded
+50/61 cases passed (N/A)
+
+### 方法二 双端队列 Deque
+最优的解法是用双端队列，队列的一边永远都存的是窗口的最大值，队列的另外一个边存的是比最大值小的值。队列中最大值左边的所有值都出队。在保证了双端队列的一边即是最大值以后，时间复杂度是 O(n)，空间复杂度是 O(K)
+
+```go
+func maxSlidingWindow(nums []int, k int) []int {
+	if len(nums) == 0 || len(nums) < k {
+		return make([]int, 0)
+	}
+	window := make([]int, 0, k) // store the index of nums
+	result := make([]int, 0, len(nums)-k+1)
+	for i, v := range nums {
+		if i >= k && window[0] <= i-k { // if the left-most index is out of window, remove it
+			window = window[1:len(window)]
+		}
+		for len(window) > 0 && nums[window[len(window)-1]] < v {
+			window = window[0 : len(window)-1]
+		}
+		window = append(window, i)
+		if i >= k-1 {
+			result = append(result, nums[window[0]]) // the left-most is the index of max value in nums
+		}
+	}
+	return result
+}
+```
+
 ![](http://ww1.sinaimg.cn/large/007daNw2ly1gpmcfyuvh1j319g0mun0a.jpg)
 
 ```go
@@ -80,7 +129,7 @@ func maxSlidingWindow(nums []int, k int) []int {
 	q, res := []int{}, []int{}
 	for i := 0; i < len(nums); i++ {
 		if len(q) > 0 && i-k+1 > q[0] {
-			q = q[1:] //窗口满了，删除对头
+			q = q[1:] //窗口满了，删除队头
 		}
 		for len(q) > 0 && nums[q[len(q)-1]] <= nums[i] {
 			q = q[:len(q)-1] //队尾小于当前元素，删除队尾

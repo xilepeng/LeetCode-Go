@@ -145,6 +145,26 @@ func maxSlidingWindow(nums []int, k int) []int {
 [78. 子集](https://leetcode-cn.com/problems/subsets/)
 
 
+### 方法一：位运算
+
+![截屏2021-04-17 11.45.32.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpmlgt89mej31120o2wgb.jpg)
+
+```go
+func subsets(nums []int) [][]int {
+	res, n := [][]int{}, len(nums)
+    //1<<3 二进制：1000 十进制：1*2^n=8
+	for i := 0; i < 1<<n; i++ { // i 从 000 到 111 
+		tmp := []int{}
+		for j := 0; j < n; j++ {
+			if i>>j&1 == 1 { // i 的第 j 位是否为1
+				tmp = append(tmp, nums[j])
+			}
+		}
+		res = append(res, tmp)
+	}
+	return res
+}
+```
 
 
 [62. 不同路径](https://leetcode-cn.com/problems/unique-paths/)

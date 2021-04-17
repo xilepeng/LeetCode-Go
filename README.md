@@ -421,6 +421,14 @@ func invertTree(root *TreeNode) *TreeNode {
 }
 ```
 
+复杂度分析
+
+- 时间复杂度：O(N)，其中 N 为二叉树节点的数目。我们会遍历二叉树中的每一个节点，对每个节点而言，我们在常数时间内交换其两棵子树。
+
+- 空间复杂度：O(N)。使用的空间由递归栈的深度决定，它等于当前节点在二叉树中的高度。在平均情况下，二叉树的高度与节点个数为对数关系，即 O(logN)。而在最坏情况下，树形成链状，空间复杂度为 O(N)。
+
+
+
 #### 总结
 两种分别是后序遍历和前序遍历。都是基于DFS，都是先遍历根节点、再遍历左子树、再右子树。
 唯一的区别是：
@@ -468,14 +476,17 @@ func invertTree(root *TreeNode) *TreeNode {
 ```
 
 
+[101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
+
+
+```go
+
+```
 
 
 
 [62. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
 
-
-
-[101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
 
 
 

@@ -328,6 +328,45 @@ func nextPermutation(nums []int) {
 }
 ```
 
+[165. 比较版本号](https://leetcode-cn.com/problems/compare-version-numbers/)
+
+```go
+func compareVersion(s1 string, s2 string) int {
+	i, j := 0, 0
+	for i < len(s1) || j < len(s2) {
+		a, b := "", ""
+		for i < len(s1) && s1[i] != '.' {
+			a += string(s1[i])
+			i++
+		}
+		for j < len(s2) && s2[j] != '.' {
+			b += string(s2[j])
+			j++
+		}
+		x, _ := strconv.Atoi(a) //string 转 int
+		y, _ := strconv.Atoi(b)
+		if x > y {
+			return 1
+		} else if x < y {
+			return -1
+		}
+		i++
+		j++
+	}
+	return 0
+}
+```
+
+```go
+strconv.Atoi()函数用于将字符串类型的整数转换为int类型，函数签名如下。
+
+func Atoi(s string) (i int, err error)
+
+
+strconv.Itoa()函数用于将int类型数据转换为对应的字符串表示，具体的函数签名如下。
+
+func Itoa(i int) string
+```
 
 [62. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
 

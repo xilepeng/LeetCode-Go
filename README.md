@@ -166,6 +166,115 @@ func subsets(nums []int) [][]int {
 }
 ```
 
+### 方法一：迭代法实现子集枚举
+思路与算法
+
+记原序列中元素的总数为 n。原序列中的每个数字 ai 的状态可能有两种，即「在子集中」和「不在子集中」。我们用 1 表示「在子集中」，0 表示不在子集中，那么每一个子集可以对应一个长度为 n 的 0/1 序列，第 i 位表示 ai 是否在子集中。
+例如，n=3 ，a={5,2,9} 时：
+
+![截屏2021-04-17 14.57.34.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpmr0nopx0j316u0judho.jpg)
+
+可以发现 0/1 序列对应的二进制数正好从 0 到 2^n - 1。我们可以枚举 mask∈[0, 2^n - 1]，mask 的二进制表示是一个 0/1 序列，我们可以按照这个 0/1 序列在原集合当中取数。当我们枚举完所有 2^n 个 mask，我们也就能构造出所有的子集。
+
+```go
+func subsets(nums []int) [][]int {
+	res, n := [][]int{}, len(nums)
+	for mask := 0; mask < 1<<n; mask++ {
+		set := []int{}
+		for i, v := range nums {
+			if mask>>i&1 == 1 {
+				set = append(set, v)
+			}
+		}
+		res = append(res, append([]int(nil), set...))
+	}
+	return res
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n×2^n)。一共 2^n 个状态，每种状态需要 O(n) 的时间来构造子集。
+
+- 空间复杂度：O(n)。即构造子集使用的临时数组 t 的空间代价。
+
+
+
+### 方法二：递归法实现子集枚举
+
+#### 思路 1
+- 单看每个元素，都有两种选择：选入子集，或不选入子集。
+- 比如[1,2,3]，先看1，选1或不选1，都会再看2，选2或不选2，以此类推。
+- 考察当前枚举的数，基于选它而继续，是一个递归分支；基于不选它而继续，又是一个分支。
+
+![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpms453jltj31fw0jjq6r.jpg)
+
+- 用索引index代表当前递归考察的数字nums[index]。
+- 当index越界时，所有数字考察完，得到一个解，位于递归树的底部，把它加入解集，结束当前递归分支。
+
+#### 为什么要回溯？
+- 因为不是找到一个子集就完事。
+- 找到一个子集，结束递归，要撤销当前的选择，回到选择前的状态，做另一个选择——不选当前的数，基于不选，往下递归，继续生成子集。
+- 回退到上一步，才能在包含解的空间树中把路走全，回溯出所有的解。
+
+![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpms4bgnnkj31a60lc0w8.jpg)
+
+
+```go
+func subsets(nums []int) [][]int {
+	res, set := [][]int{}, []int{}
+	var dfs func(int)
+
+	dfs = func(i int) {
+		if i == len(nums) { // 指针越界
+			res = append(res, append([]int(nil), set...)) // 加入解集
+			return                                        // 结束当前的递归
+		}
+		set = append(set, nums[i]) //选择这个数
+		dfs(i + 1)                 // 基于该选择，继续往下递归，考察下一个数
+		set = set[:len(set)-1]     // 上面的递归结束，撤销该选择
+		dfs(i + 1)                 // 不选这个数，继续往下递归，考察下一个数
+	}
+
+	dfs(0)
+	return res
+}
+```
+
+#### 思路2
+刚才的思路是：逐个考察数字，每个数都选或不选。等到递归结束时，把集合加入解集。
+换一种思路：在执行子递归之前，加入解集，即，在递归压栈前 “做事情”。
+
+![3.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpms4h4i9rj31070h1mz8.jpg)
+
+- 用 for 枚举出当前可选的数，比如选第一个数时：1、2、3 可选。
+1. 如果第一个数选 1，选第二个数，2、3 可选；
+2. 如果第一个数选 2，选第二个数，只有 3 可选（不能选1，产生重复组合）
+3. 如果第一个数选 3，没有第二个数可选
+- 每次传入子递归的 index 是：当前你选的数的索引+1当前你选的数的索引+1。
+- 每次递归枚举的选项变少，一直递归到没有可选的数字，进入不了for循环，落入不了递归，整个DFS结束。
+- 可见我们没有显式地设置递归的出口，而是通过控制循环的起点，使得最后递归自然结束。
+
+```go
+func subsets(nums []int) [][]int {
+	res, set := [][]int{}, []int{}
+	var dfs func(int)
+
+	dfs = func(i int) {
+		res = append(res, append([]int(nil), set...)) // 调用子递归前，加入解集
+		for j := i; j < len(nums); j++ {              // 枚举出所有可选的数
+			set = append(set, nums[j]) // 选这个数
+			dfs(j + 1)                 // 基于选这个数，继续递归，传入的j+1，不是i+1
+			set = set[:len(set)-1]     // 撤销选这个数
+		}
+	}
+
+	dfs(0)
+	return res
+}
+```
+
+
 
 [62. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
 

@@ -43,6 +43,10 @@ func isSymmetric(root *TreeNode) bool {
 
 [62. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
 
+```go
+
+```
+
 
 [72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/)
 

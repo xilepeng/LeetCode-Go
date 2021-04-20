@@ -28,59 +28,36 @@ func uniquePaths(m int, n int) int {
 }
 ```
 
-[112. 路径总和](https://leetcode-cn.com/problems/path-sum/)
+复杂度分析
 
-### 方法一：递归
+- 时间复杂度：O(mn)。
+
+- 空间复杂度：O(mn)，即为存储所有状态需要的空间。注意到 dp[i][j] 仅与第 i 行和第 i−1 行的状态有关，因此我们可以使用滚动数组代替代码中的二维数组，使空间复杂度降低为 O(n)。此外，由于我们交换行列的值并不会对答案产生影响，因此我们总可以通过交换 m 和 n 使得 m≤n，这样空间复杂度降低至 O(min(m,n))。
+
+### 优化
 
 ```go
-func hasPathSum(root *TreeNode, sum int) bool {
-	if root == nil {
-		return false // 遍历到null节点
+func uniquePaths(m int, n int) int {
+	dp := make([]int, n)
+	for j := 0; j < n; j++ {
+		dp[j] = 1
 	}
-	if root.Left == nil && root.Right == nil { // 遍历到叶子节点
-		return sum-root.Val == 0 // 如果满足这个就返回true。否则返回false
-	} // 当前递归问题 拆解成 两个子树的问题，其中一个true了就行
-	return hasPathSum(root.Left, sum-root.Val) || hasPathSum(root.Right, sum-root.Val)
-}
-```
-
-[153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
-
-### 思路
-1. 有序数组分成了左右2个小的有序数组，而实际上要找的是右边有序数组的最小值
-2. 如果中间值大于右边的最大值，说明中间值还在左边的小数组里，需要left向右移动
-3. 否则就是中间值小于等于当前右边最大值，mid 已经在右边的小数组里了，但是至少说明了当前右边的right值不是最小值了或者不是唯一的最小值，需要慢慢向左移动一位。
-
-
-```go
-func findMin(nums []int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] > nums[right] {
-			left = mid + 1
-		} else {
-			right--
+	for i := 1; i < m; i++ {
+		for j := 1; j < n; j++ {
+			dp[j] += dp[j-1]
 		}
 	}
-	return nums[left]
+	return dp[n-1]
 }
 ```
+复杂度分析
 
-```go
-func findMin(nums []int) int {
-	left, right := 0, len(nums)-1
-	for left < right {
-		mid := left + (right-left)>>1
-		if nums[mid] < nums[right] {
-			right = mid
-		} else {
-			left = mid + 1
-		}
-	}
-	return nums[left]
-}
-```
+- 时间复杂度：O(mn)。
+
+- 空间复杂度：O(n)，即为存储所有状态需要的空间。注意到 dp[i][j] 仅与第 i 行和第 i−1 行的状态有关，因此我们可以使用滚动数组代替代码中的二维数组，使空间复杂度降低为 O(n)。此外，由于我们交换行列的值并不会对答案产生影响，因此我们总可以通过交换 m 和 n 使得 m≤n，这样空间复杂度降低至 O(min(m,n))。
+
+
+
 
 
 
@@ -91,10 +68,84 @@ func findMin(nums []int) int {
 
 [剑指 Offer 54. 二叉搜索树的第k大节点](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
 
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func kthLargest(root *TreeNode, k int) (res int) {
+    var dfs func(*TreeNode)
+
+    dfs = func(root *TreeNode) {
+        if root == nil {
+            return
+        }
+        dfs(root.Right)
+        k--
+        if k == 0 { res = root.Val}
+        dfs(root.Left) 
+    }
+    
+    dfs(root)
+    return res
+}
+```
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func kthLargest(root *TreeNode, k int) int {
+    res := []int{}
+    var dfs func(*TreeNode)
+
+    dfs = func(root *TreeNode) {
+        if root == nil {
+            return
+        }
+        dfs(root.Right)
+        res = append(res, root.Val)
+        dfs(root.Left)
+    }
+
+    dfs(root)
+    return res[k-1]
+}
+```
+
 
 [48. 旋转图像](https://leetcode-cn.com/problems/rotate-image/)
 
+### 方法一：用翻转代替旋转
 
+![截屏2021-04-20 17.50.27.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpqcvh0n5pj314w0mkadk.jpg)
+
+![截屏2021-04-20 17.50.41.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpqcvp2lc4j318e0o60xd.jpg)
+
+```go
+func rotate(matrix [][]int) {
+	n := len(matrix)
+	// 水平翻转
+	for i := 0; i < n/2; i++ {
+		matrix[i], matrix[n-1-i] = matrix[n-1-i], matrix[i]
+	}
+	// 主对角线翻转
+	for i := 0; i < n; i++ {
+		for j := 0; j < i; j++ {
+			matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+		}
+	}
+}
+```
 
 
 [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)

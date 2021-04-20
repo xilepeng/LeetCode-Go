@@ -1,40 +1,46 @@
-[101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
-
-
-[62. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
-
-
-[72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/)
-
-[93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/)
-
-
-[剑指 Offer 54. 二叉搜索树的第k大节点](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
-
 
 [48. 旋转图像](https://leetcode-cn.com/problems/rotate-image/)
 
-[153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
+[72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/)
 
+[112. 路径总和](https://leetcode-cn.com/problems/path-sum/)
 
-[34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
-
-
-[958. 二叉树的完全性检验](https://leetcode-cn.com/problems/check-completeness-of-a-binary-tree/)
-
-
-[136. 只出现一次的数字](https://leetcode-cn.com/problems/single-number/)
-
-[129. 求根节点到叶节点数字之和](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
-
-
-[82. 删除排序链表中的重复元素 II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
-
+[62. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
 
 [剑指 Offer 36. 二叉搜索树与双向链表](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
 
+[剑指 Offer 54. 二叉搜索树的第k大节点](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
+
+[41. 缺失的第一个正数](https://leetcode-cn.com/problems/first-missing-positive/)
+
+[82. 删除排序链表中的重复元素 II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
+
+[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/)
+
+[136. 只出现一次的数字](https://leetcode-cn.com/problems/single-number/)
+
 
 ------
+
+
+
+[112. 路径总和](https://leetcode-cn.com/problems/path-sum/)
+
+### 方法一：递归
+
+```go
+func hasPathSum(root *TreeNode, sum int) bool {
+	if root == nil {
+		return false // 遍历到null节点
+	}
+	if root.Left == nil && root.Right == nil { // 遍历到叶子节点
+		return sum-root.Val == 0 // 如果满足这个就返回true。否则返回false
+	} // 当前递归问题 拆解成 两个子树的问题，其中一个true了就行
+	return hasPathSum(root.Left, sum-root.Val) || hasPathSum(root.Right, sum-root.Val)
+}
+```
+
+
 
 [101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
 ### 方法一：递归

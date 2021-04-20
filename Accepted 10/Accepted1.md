@@ -4,21 +4,42 @@
 
 [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
 
-[25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
-
 [146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
 
-[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
+[25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
 
-[121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+[补充题4. 手撕快速排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
 [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
 
+[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
+
+[21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+
 [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
 
+
+
+------
 [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
 
+[415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
 
+[141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
+
+[121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+
+[102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+[103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+
+[88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
+
+[236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+
+[20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
+
+[142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
 
 ------
 
@@ -283,50 +304,6 @@ func max(x, y int) int {
  a[bca]bcbb
 
 
-[25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
-
-```go
-func reverseKGroup(head *ListNode, k int) *ListNode {
-	dummy := &ListNode{Next: head}
-	prev := dummy
-	for head != nil {
-		for i := 0; i < k-1 && head != nil; i++ {
-			head = head.Next
-		}
-		if head == nil {
-			break
-		}
-		curr := prev.Next
-		next := head.Next
-		head.Next = nil
-		prev.Next = reverse(curr)
-		curr.Next = next
-		head = next
-		prev = curr
-	}
-	return dummy.Next
-}
-
-func reverse(head *ListNode) *ListNode {
-	var prev *ListNode
-	curr := head
-	for curr != nil {
-		next := curr.Next
-		curr.Next = prev
-		prev = curr
-		curr = next
-	}
-	return prev
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(n)，其中 n 为链表的长度。head 指针会在 O(⌊k/n⌋) 个节点上停留，每次停留需要进行一次 O(k) 的翻转操作。
-
-- 空间复杂度：O(1)，我们只需要建立常数个变量。
-
-
 
 [146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
 
@@ -418,6 +395,201 @@ func (this *LRUCache) removeTail() *DLinkedNode {
 }
 ```
 
+[25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
+
+```go
+func reverseKGroup(head *ListNode, k int) *ListNode {
+	dummy := &ListNode{Next: head}
+	prev := dummy
+	for head != nil {
+		for i := 0; i < k-1 && head != nil; i++ {
+			head = head.Next
+		}
+		if head == nil {
+			break
+		}
+		curr := prev.Next
+		next := head.Next
+		head.Next = nil
+		prev.Next = reverse(curr)
+		curr.Next = next
+		head = next
+		prev = curr
+	}
+	return dummy.Next
+}
+
+func reverse(head *ListNode) *ListNode {
+	var prev *ListNode
+	curr := head
+	for curr != nil {
+		next := curr.Next
+		curr.Next = prev
+		prev = curr
+		curr = next
+	}
+	return prev
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n)，其中 n 为链表的长度。head 指针会在 O(⌊k/n⌋) 个节点上停留，每次停留需要进行一次 O(k) 的翻转操作。
+
+- 空间复杂度：O(1)，我们只需要建立常数个变量。
+
+
+
+
+[补充题4. 手撕快速排序 912. 排序数组 ](https://leetcode-cn.com/problems/sort-an-array/)
+
+* 考点1：能否实现解法的优化
+* 考点2：是否了解快速选择算法
+* 考点3：能否说明堆算法和快速选择算法的适用场景
+
+### 方法一：快速排序
+
+思路和算法
+
+快速排序的主要思想是通过划分将待排序的序列分成前后两部分，其中前一部分的数据都比后一部分的数据要小，
+然后再递归调用函数对两部分的序列分别进行快速排序，以此使整个序列达到有序。
+
+快排思路：
+1. 确定分界点 x：q[l], q[r], q[(l+r)>>1], 随机
+2. 调整区间：left <= x, right >= x
+3. 递归处理左右两边
+
+时间复杂度： O(nlog(n)) 
+空间复杂度： O(log(n)), 递归使用栈空间的空间代价为O(logn)。
+
+```go
+func sortArray(nums []int) []int {
+	quickSort(nums, 0, len(nums)-1)
+	return nums
+}
+func quickSort(a []int, l, r int) {
+	if l < r {
+		pos := partition(a, l, r)
+		quickSort(a, l, pos-1)
+		quickSort(a, pos+1, r)
+	}
+}
+func partition(a []int, l, r int) int {
+	x, i := a[r], l-1
+	for j := l; j < r; j++ {
+		if a[j] < x {
+			i++
+			a[i], a[j] = a[j], a[i] //逆序 交换
+		}
+	}
+	a[i+1], a[r] = a[r], a[i+1]
+	return i + 1
+}
+```
+
+```go
+func sortArray(nums []int) []int {
+	rand.Seed(time.Now().UnixNano())
+	quickSort(nums, 0, len(nums)-1)
+	return nums
+}
+func quickSort(a []int, l, r int) {
+	if l < r {
+		pos := randomPartition(a, l, r)
+		quickSort(a, l, pos-1)
+		quickSort(a, pos+1, r)
+	}
+}
+func randomPartition(a []int, l, r int) int {
+	i := rand.Int()%(r-l+1) + l
+	a[i], a[r] = a[r], a[i]
+	return partition(a, l, r)
+}
+func partition(a []int, l, r int) int {
+	x, i := a[r], l-1
+	for j := l; j < r; j++ {
+		if a[j] < x {
+			i++
+			a[i], a[j] = a[j], a[i] //逆序 交换
+		}
+	}
+	a[i+1], a[r] = a[r], a[i+1]
+	return i + 1
+}
+```
+
+
+[1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
+
+
+方法一：暴力枚举
+思路及算法
+
+最容易想到的方法是枚举数组中的每一个数 x，寻找数组中是否存在 target - x。
+
+```go
+func twoSum(nums []int, target int) []int {
+	for i, x := range nums {
+		for j := i + 1; j < len(nums); j++ {
+			if x+nums[j] == target {
+				return []int{i, j}
+			}
+		}
+	}
+	return nil
+}
+```
+方法二：哈希表
+
+思路及算法
+
+使用哈希表，可以将寻找 target - x 的时间复杂度降低到从 O(N) 降低到 O(1)。
+
+## 查找表法
+
+- 在遍历的同时，记录一些信息，以省去一层循环，这是以空间换时间的想法
+- 需要记录已经遍历过的数值和他所对应的下标，可以借鉴查找表实现
+- 查找表有2个常用的实现：
+1. 哈希表
+2. 平衡二叉搜索树
+
+![](http://ww1.sinaimg.cn/large/007daNw2ly1goda8rlev9j31qu0vs42j.jpg)
+
+
+
+```go
+func twoSum(nums []int, target int) []int {
+	hashTable := map[int]int{}
+	for i, x := range nums {
+		if p, ok := hashTable[target-x]; ok {
+			return []int{p, i}
+		}
+		hashTable[x] = i
+	}
+	return nil
+}
+```
+
+
+*Data Structure:*
+- HashMap:<num, the index of the num>
+
+## Algorithm:
+从头开始遍历数组：
+1. 在map里找到当前这个数的另一半，返回
+2. 没找到，存入map, key为数， value为index
+
+- Solution:先找到另一半，没有就存入
+- Why HashMap ?
+
+存储 num 和 index 的关系，便于快速查找
+
+Any Detial?
+- 找到答案就break结束
+- 先查找另一半，再存入，避免和自己相加
+
+
+
 [15. 三数之和](https://leetcode-cn.com/problems/3sum/)
 
 ```go
@@ -453,6 +625,189 @@ func threeSum(nums []int) [][]int {
 	return res
 }
 ```
+
+
+[21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
+	if l1 == nil {
+		return l2
+	}
+	if l2 == nil {
+		return l1
+	}
+	if l1.Val < l2.Val {
+		l1.Next = mergeTwoLists(l1.Next, l2)
+		return l1
+	} else {
+		l2.Next = mergeTwoLists(l1, l2.Next)
+		return l2
+	}
+}
+```
+
+```go
+func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
+	prev := &ListNode{}
+	dummy := prev
+	for l1 != nil && l2 != nil {
+		if l1.Val < l2.Val {
+			prev.Next = l1
+			l1 = l1.Next
+		} else {
+			prev.Next = l2
+			l2 = l2.Next
+		}
+		prev = prev.Next
+	}
+	if l1 != nil {
+		prev.Next = l1
+	} else {
+		prev.Next = l2
+	}
+	return dummy.Next
+}
+```
+
+
+
+[53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+
+方法一：贪心
+
+- 若当前指针所指元素之前的和小于0， 则丢弃当前元素之前的数列
+- 将当前值与最大值比较，取最大
+
+![截屏2021-03-12 15.20.16.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh5cv919kj30vk0e4wfn.jpg)
+
+```go
+func maxSubArray(nums []int) int {
+	curSum, maxSum := nums[0], nums[0]
+	for i := 1; i < len(nums); i++ {
+		curSum = max(nums[i], curSum+nums[i])
+		maxSum = max(maxSum, curSum)
+	}
+	return maxSum
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+方法二：动态规划
+
+- 若前一个元素大于0，将其加到当前元素上
+
+![截屏2021-03-12 16.53.25.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh9sg1mb9j31780dw3ze.jpg)
+
+```go
+func maxSubArray(nums []int) int {
+	max := nums[0]
+	for i := 1; i < len(nums); i++ {
+		if nums[i-1] > 0 {
+			nums[i] += nums[i-1]
+		}
+		if max < nums[i] {
+			max = nums[i]
+		}
+	}
+	return max
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------
+
+[160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
+
+```go
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+	A, B := headA, headB
+	for A != B {
+		if A != nil {
+			A = A.Next
+		} else {
+			A = headB
+		}
+		if B != nil {
+			B = B.Next
+		} else {
+			B = headA
+		}
+	}
+	return A
+}
+```
+
+[415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
+
+```go
+func addStrings(num1 string, num2 string) string {
+	carry := 0
+	res := ""
+	for i, j := len(num1)-1, len(num2)-1; i >= 0 || j >= 0 || carry != 0; i, j = i-1, j-1 {
+		var x, y int
+		if i >= 0 {
+			x = int(num1[i] - '0')
+		}
+		if j >= 0 {
+			y = int(num2[j] - '0')
+		}
+		tmp := x + y + carry
+		res = strconv.Itoa(tmp%10) + res
+		carry = tmp / 10
+	}
+	return res
+}
+```
+
+[141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
+
+```go
+func hasCycle(head *ListNode) bool {
+	if head == nil || head.Next == nil {
+		return false
+	}
+	slow, fast := head, head.Next
+	for slow != fast {
+		if fast == nil || fast.Next == nil {
+			return false
+		}
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+	return true
+}
+```
+
+
 
 
 [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
@@ -531,142 +886,213 @@ func maxProfit(prices []int) int {
 ```
 Time Limit Exceeded
 
-[1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
 
 
-方法一：暴力枚举
-思路及算法
 
-最容易想到的方法是枚举数组中的每一个数 x，寻找数组中是否存在 target - x。
+
+[102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+方法一：DFS递归
 
 ```go
-func twoSum(nums []int, target int) []int {
-	for i, x := range nums {
-		for j := i + 1; j < len(nums); j++ {
-			if x+nums[j] == target {
-				return []int{i, j}
+var res [][]int
+
+func levelOrder(root *TreeNode) [][]int {
+	res = [][]int{}
+	dfs(root, 0)
+	return res
+}
+func dfs(root *TreeNode, level int) {
+	if root != nil {
+		if level == len(res) {
+			res = append(res, []int{})
+		}
+		res[level] = append(res[level], root.Val)
+		dfs(root.Left, level+1)
+		dfs(root.Right, level+1)
+	}
+```
+
+方法二：BFS(queue)迭代
+
+```go
+func levelOrder(root *TreeNode) [][]int {
+	res := [][]int{}
+	if root == nil {
+		return res
+	}
+	queue := []*TreeNode{root}
+	for level := 0; 0 < len(queue); level++ {
+		res = append(res, []int{})
+		next := []*TreeNode{}
+		for j := 0; j < len(queue); j++ {
+			node := queue[j]
+			res[level] = append(res[level], node.Val)
+			if node.Left != nil {
+				next = append(next, node.Left)
+			}
+			if node.Right != nil {
+				next = append(next, node.Right)
 			}
 		}
+		queue = next
+	}
+	return res
+}
+```
+
+
+
+[103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+
+方法一：深度优先遍历
+```go
+var res [][]int
+
+func zigzagLevelOrder(root *TreeNode) [][]int {
+	res = [][]int{}
+	dfs(root, 0)
+	return res
+}
+func dfs(root *TreeNode, level int) {
+	if root != nil {
+		if len(res) == level {
+			res = append(res, []int{})
+		}
+		if level%2 == 0 {//偶数层，从左往右
+			res[level] = append(res[level], root.Val)
+		} else {//奇数层，从右往左,翻转
+			res[level] = append([]int{root.Val}, res[level]...)
+		}
+		dfs(root.Left, level+1)
+		dfs(root.Right, level+1)
+	}
+}
+```
+
+方法二：广度优先遍历
+```go
+func zigzagLevelOrder(root *TreeNode) (res [][]int) {
+	if root == nil {
+		return
+	}
+	queue := []*TreeNode{root}
+	for level := 0; len(queue) > 0; level++ {
+		vals := []int{}
+		q := queue
+		queue = nil
+		for _, node := range q {
+			vals = append(vals, node.Val)
+			if node.Left != nil {
+				queue = append(queue, node.Left)
+			}
+			if node.Right != nil {
+				queue = append(queue, node.Right)
+			}
+		}
+		if level%2 == 1 { //奇数层的元素翻转即可
+			for i, n := 0, len(vals); i < n/2; i++ {
+				vals[i], vals[n-1-i] = vals[n-1-i], vals[i]
+			}
+		}
+		res = append(res, vals)
+	}
+	return
+}
+```
+
+
+[88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
+
+```go
+func merge(nums1 []int, m int, nums2 []int, n int) {
+	i, j := m-1, n-1
+	for k := m + n - 1; k >= 0; k-- {
+		if j < 0 || (i >= 0 && nums1[i] > nums2[j]) {
+			nums1[k] = nums1[i]
+			i--
+		} else {
+			nums1[k] = nums2[j]
+			j--
+		}
+	}
+}
+```
+
+
+[236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+
+```go
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	if root.Val == p.Val || root.Val == q.Val {
+		return root
+	}
+	left := lowestCommonAncestor(root.Left, p, q)
+	right := lowestCommonAncestor(root.Right, p, q)
+	if left != nil && right != nil {
+		return root
+	}
+	if left == nil {
+		return right
+	}
+	return left
+}
+```
+
+
+[20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
+
+```go
+func isValid(s string) bool {
+	if len(s) == 0 {
+		return true
+	}
+	stack := make([]rune, 0)
+	for _, v := range s {
+		if v == '(' || v == '{' || v == '[' {
+			stack = append(stack, v)
+		} else if v == ')' && len(stack) > 0 && stack[len(stack)-1] == '(' ||
+			v == '}' && len(stack) > 0 && stack[len(stack)-1] == '{' ||
+			v == ']' && len(stack) > 0 && stack[len(stack)-1] == '[' {
+			stack = stack[:len(stack)-1]
+		} else {
+			return false
+		}
+	}
+	return len(stack) == 0
+}
+```
+
+[142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+
+方法一：快慢指针
+我们使用两个指针，fast 与 slow。它们起始都位于链表的头部。随后，slow 指针每次向后移动一个位置，而 fast 指针向后移动两个位置。如果链表中存在环，则 fast 指针最终将再次与 slow 指针在环中相遇。
+
+
+```go
+func detectCycle(head *ListNode) *ListNode {
+	slow, fast := head, head
+	for fast != nil {
+		slow = slow.Next
+		if fast.Next == nil {
+			return nil
+		}
+		fast = fast.Next.Next
+		if slow == fast { //第一次相遇
+			p := head
+			for p != slow {
+				p = p.Nextx
+				slow = slow.Next
+			}
+			return p
+		}
 	}
 	return nil
 }
 ```
-方法二：哈希表
-
-思路及算法
-
-使用哈希表，可以将寻找 target - x 的时间复杂度降低到从 O(N) 降低到 O(1)。
-
-## 查找表法
-
-- 在遍历的同时，记录一些信息，以省去一层循环，这是以空间换时间的想法
-- 需要记录已经遍历过的数值和他所对应的下标，可以借鉴查找表实现
-- 查找表有2个常用的实现：
-1. 哈希表
-2. 平衡二叉搜索树
-
-![](http://ww1.sinaimg.cn/large/007daNw2ly1goda8rlev9j31qu0vs42j.jpg)
 
 
-
-```go
-func twoSum(nums []int, target int) []int {
-	hashTable := map[int]int{}
-	for i, x := range nums {
-		if p, ok := hashTable[target-x]; ok {
-			return []int{p, i}
-		}
-		hashTable[x] = i
-	}
-	return nil
-}
-```
-
-
-*Data Structure:*
-- HashMap:<num, the index of the num>
-
-## Algorithm:
-从头开始遍历数组：
-1. 在map里找到当前这个数的另一半，返回
-2. 没找到，存入map, key为数， value为index
-
-- Solution:先找到另一半，没有就存入
-- Why HashMap ?
-
-存储 num 和 index 的关系，便于快速查找
-
-Any Detial?
-- 找到答案就break结束
-- 先查找另一半，再存入，避免和自己相加
-
-
-[53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
-
-方法一：贪心
-
-- 若当前指针所指元素之前的和小于0， 则丢弃当前元素之前的数列
-- 将当前值与最大值比较，取最大
-
-![截屏2021-03-12 15.20.16.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh5cv919kj30vk0e4wfn.jpg)
-
-```go
-func maxSubArray(nums []int) int {
-	curSum, maxSum := nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		curSum = max(nums[i], curSum+nums[i])
-		maxSum = max(maxSum, curSum)
-	}
-	return maxSum
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
-方法二：动态规划
-
-- 若前一个元素大于0，将其加到当前元素上
-
-![截屏2021-03-12 16.53.25.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh9sg1mb9j31780dw3ze.jpg)
-
-```go
-func maxSubArray(nums []int) int {
-	max := nums[0]
-	for i := 1; i < len(nums); i++ {
-		if nums[i-1] > 0 {
-			nums[i] += nums[i-1]
-		}
-		if max < nums[i] {
-			max = nums[i]
-		}
-	}
-	return max
-}
-```
-
-
-[160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
-
-```go
-func getIntersectionNode(headA, headB *ListNode) *ListNode {
-	A, B := headA, headB
-	for A != B {
-		if A != nil {
-			A = A.Next
-		} else {
-			A = headB
-		}
-		if B != nil {
-			B = B.Next
-		} else {
-			B = headA
-		}
-	}
-	return A
-}
-```
 

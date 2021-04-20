@@ -1,5 +1,5 @@
 
-[912. 排序数组 （补充题4. 手撕快速排序） ](https://leetcode-cn.com/problems/sort-an-array/)
+
 
 [剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
 
@@ -23,83 +23,6 @@
 ------
 
 
-
-[补充题4. 手撕快速排序 912. 排序数组 ](https://leetcode-cn.com/problems/sort-an-array/)
-
-* 考点1：能否实现解法的优化
-* 考点2：是否了解快速选择算法
-* 考点3：能否说明堆算法和快速选择算法的适用场景
-
-### 方法一：快速排序
-
-思路和算法
-
-快速排序的主要思想是通过划分将待排序的序列分成前后两部分，其中前一部分的数据都比后一部分的数据要小，
-然后再递归调用函数对两部分的序列分别进行快速排序，以此使整个序列达到有序。
-
-快排思路：
-1. 确定分界点 x：q[l], q[r], q[(l+r)>>1], 随机
-2. 调整区间：left <= x, right >= x
-3. 递归处理左右两边
-
-时间复杂度： O(nlog(n)) 
-空间复杂度： O(log(n)), 递归使用栈空间的空间代价为O(logn)。
-
-```go
-func sortArray(nums []int) []int {
-	quickSort(nums, 0, len(nums)-1)
-	return nums
-}
-func quickSort(a []int, l, r int) {
-	if l < r {
-		pos := partition(a, l, r)
-		quickSort(a, l, pos-1)
-		quickSort(a, pos+1, r)
-	}
-}
-func partition(a []int, l, r int) int {
-	x, i := a[r], l-1
-	for j := l; j < r; j++ {
-		if a[j] < x {
-			i++
-			a[i], a[j] = a[j], a[i] //逆序 交换
-		}
-	}
-	a[i+1], a[r] = a[r], a[i+1]
-	return i + 1
-}
-```
-
-```go
-func sortArray(nums []int) []int {
-	rand.Seed(time.Now().UnixNano())
-	quickSort(nums, 0, len(nums)-1)
-	return nums
-}
-func quickSort(a []int, l, r int) {
-	if l < r {
-		pos := randomPartition(a, l, r)
-		quickSort(a, l, pos-1)
-		quickSort(a, pos+1, r)
-	}
-}
-func randomPartition(a []int, l, r int) int {
-	i := rand.Int()%(r-l+1) + l
-	a[i], a[r] = a[r], a[i]
-	return partition(a, l, r)
-}
-func partition(a []int, l, r int) int {
-	x, i := a[r], l-1
-	for j := l; j < r; j++ {
-		if a[j] < x {
-			i++
-			a[i], a[j] = a[j], a[i] //逆序 交换
-		}
-	}
-	a[i+1], a[r] = a[r], a[i+1]
-	return i + 1
-}
-```
 
 
 

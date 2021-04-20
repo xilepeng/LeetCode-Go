@@ -1,26 +1,33 @@
 # Challenge Accepted 10 2020.4.16 周五
 
-[78. 子集](https://leetcode-cn.com/problems/subsets/)
 
 [19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 
 [83. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
 
+[226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
+
+[78. 子集](https://leetcode-cn.com/problems/subsets/)
+
+[31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
+
+[93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/)
+
+[165. 比较版本号](https://leetcode-cn.com/problems/compare-version-numbers/)
+
+[153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
+
 [62. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
 
 [101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
 
-[226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
 
-[72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/)
-
-[剑指 Offer 54. 二叉搜索树的第k大节点](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
-
-[48. 旋转图像](https://leetcode-cn.com/problems/rotate-image/)
-
-[31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
 
 ------
+
+
+
+
 
 [39. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
 
@@ -390,6 +397,8 @@ strconv.Itoa()函数用于将int类型数据转换为对应的字符串表示，
 func Itoa(i int) string
 ```
 
+
+
 [226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
 
 ### 方法一：dfs 递归
@@ -494,6 +503,77 @@ func invertTree(root *TreeNode) *TreeNode {
 		}
 	}
 	return root
+}
+```
+
+
+[165. 比较版本号](https://leetcode-cn.com/problems/compare-version-numbers/)
+
+```go
+func compareVersion(s1 string, s2 string) int {
+	i, j := 0, 0
+	for i < len(s1) || j < len(s2) {
+		a, b := "", ""
+		for i < len(s1) && s1[i] != '.' {
+			a += string(s1[i])
+			i++
+		}
+		for j < len(s2) && s2[j] != '.' {
+			b += string(s2[j])
+			j++
+		}
+		x, _ := strconv.Atoi(a)
+		y, _ := strconv.Atoi(b)
+		if x > y {
+			return 1
+		} else if x < y {
+			return -1
+		}
+		i++
+		j++
+	}
+	return 0
+}
+
+```
+
+
+
+[153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
+
+### 思路
+1. 有序数组分成了左右2个小的有序数组，而实际上要找的是右边有序数组的最小值
+2. 如果中间值大于右边的最大值，说明中间值还在左边的小数组里，需要left向右移动
+3. 否则就是中间值小于等于当前右边最大值，mid 已经在右边的小数组里了，但是至少说明了当前右边的right值不是最小值了或者不是唯一的最小值，需要慢慢向左移动一位。
+
+
+```go
+func findMin(nums []int) int {
+	left, right := 0, len(nums)-1
+	for left <= right {
+		mid := left + (right-left)>>1
+		if nums[mid] > nums[right] {
+			left = mid + 1
+		} else {
+			right--
+		}
+	}
+	return nums[left]
+}
+```
+
+```go
+func findMin(nums []int) int {
+	left, right := 0, len(nums)-1
+	for left < right {
+		mid := left + (right-left)>>1
+		if nums[mid] < nums[right] {
+			right = mid
+		} else {
+			left = mid + 1
+		}
+	}
+	return nums[left]
 }
 ```
 

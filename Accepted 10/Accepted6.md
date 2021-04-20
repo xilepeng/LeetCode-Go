@@ -1,93 +1,47 @@
 
+[543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
 
-[56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
-
-[98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/) 	next
 
 [148. 排序链表](https://leetcode-cn.com/problems/sort-list/)
 
-[169. 多数元素](https://leetcode-cn.com/problems/majority-element/)
+[470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
 
 [143. 重排链表](https://leetcode-cn.com/problems/reorder-list/)
 
-[876. 链表的中间结点](https://leetcode-cn.com/problems/middle-of-the-linked-list/)
+[113. 路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/)
 
 [1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
 
 [240. 搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/)
 
+[98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+
 [39. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
 
-[470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
-
 [239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
+
 
 ------
 
 
-
-[56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
-
-
-### 方法一：排序
-
-#### 思路
-
-如果我们按照区间的左端点排序，那么在排完序的列表中，可以合并的区间一定是连续的。如下图所示，标记为蓝色、黄色和绿色的区间分别可以合并成一个大区间，它们在排完序的列表中是连续的：
-
-![0.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfnnsrl94j30qo07a0t1.jpg)
-
-
-#### 算法
-
-我们用数组 merged 存储最终的答案。
-
-首先，我们将列表中的区间按照左端点升序排序。然后我们将第一个区间加入 merged 数组中，并按顺序依次考虑之后的每个区间：
-
-- 如果当前区间的左端点在数组 merged 中最后一个区间的右端点之后，那么它们不会重合，我们可以直接将这个区间加入数组 merged 的末尾；
-
-- 否则，它们重合，我们需要用当前区间的右端点更新数组 merged 中最后一个区间的右端点，将其置为二者的较大值。
-
-
-#### 思路
-prev 初始为第一个区间，cur 表示当前的区间，res 表示结果数组
-
-- 开启遍历，尝试合并 prev 和 cur，合并后更新到 prev 上
-- 因为合并后的新区间还可能和后面的区间重合，继续尝试合并新的 cur，更新给 prev
-- 直到不能合并 —— prev[1] < cur[0]，此时将 prev 区间推入 res 数组
-
-#### 合并的策略
-- 原则上要更新prev[0]和prev[1]，即左右端:
-prev[0] = min(prev[0], cur[0])
-prev[1] = max(prev[1], cur[1])
-- 但如果先按区间的左端排升序，就能保证 prev[0] < cur[0]
-- 所以合并只需这条：prev[1] = max(prev[1], cur[1])
-#### 易错点
-我们是先合并，遇到不重合再推入 prev。
-当考察完最后一个区间，后面没区间了，遇不到不重合区间，最后的 prev 没推入 res。
-要单独补上。
-
-
-![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfnod6g2lj318c0ff760.jpg)
+[543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
 
 ```go
-func merge(intervals [][]int) [][]int {
-	sort.Slice(intervals, func(i, j int) bool {
-		return intervals[i][0] < intervals[j][0]
-	})
-	res := [][]int{}
-	prev := intervals[0]
-	for i := 1; i < len(intervals); i++ {
-		curr := intervals[i]
-		if prev[1] < curr[0] { //没有一点重合
-			res = append(res, prev)
-			prev = curr
-		} else { //有重合
-			prev[1] = max(prev[1], curr[1])
+func diameterOfBinaryTree(root *TreeNode) int {
+	res := 1
+	var depth func(*TreeNode) int
+	depth = func(node *TreeNode) int {
+		if node == nil {
+			return 0
 		}
+		left := depth(node.Left)
+		right := depth(node.Right)
+		res = max(res, left+right+1)
+		return max(left, right) + 1
 	}
-	res = append(res, prev)
-	return res
+	depth(root)
+	return res - 1
 }
 func max(x, y int) int {
 	if x > y {
@@ -97,172 +51,7 @@ func max(x, y int) int {
 }
 ```
 
-复杂度分析
-
-- 时间复杂度：O(nlogn)，其中 nn 为区间的数量。除去排序的开销，我们只需要一次线性扫描，所以主要的时间开销是排序的 O(nlogn)。
-
-- 空间复杂度：O(logn)，其中 nn 为区间的数量。这里计算的是存储答案之外，使用的额外空间。O(logn) 即为排序所需要的空间复杂度。
-
-
-### sort.Slice()介绍
-
-```go
-
-import (
-    "fmt"
-)
-func findRelativeRanks(nums []int){
-    index := []int{}
-    for i := 0; i < len(nums);i++ {
-        index=append(index,i)
-    }
-    // index
-    // {0,1,2,3,4}
-    sort.Slice(index, func (i,j int)bool{
-        return nums[i]<nums[j]
-    })
-    fmt.Println(index)
-    // actually get [1 0 2 4 3], not [1, 4, 2, 3, 0] as expected
-    // can't use sort.Slice between two slices
-}
- 
-func main(){
-    nums := []int{10,3,8,9,4}
-    findRelativeRanks(nums)
-```
-
-
-[98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
-
-### 方法一: 递归
-思路和算法
-
-![](https://assets.leetcode-cn.com/solution-static/98/1.PNG)
-![](https://assets.leetcode-cn.com/solution-static/98/2.PNG)
-![](https://assets.leetcode-cn.com/solution-static/98/3.PNG)
-![](https://assets.leetcode-cn.com/solution-static/98/4.PNG)
-
-解法一，直接按照定义比较大小，比 root 节点小的都在左边，比 root 节点大的都在右边
-```go
-func isValidBST(root *TreeNode) bool {
-	return isValidbst(root, -1<<63, 1<<63-1)
-}
-func isValidbst(root *TreeNode, min, max int) bool {
-	if root == nil {
-		return true
-	}
-	v := root.Val
-	return min < v && v < max && isValidbst(root.Left, min, v) && isValidbst(root.Right, v, max)
-}
-```
-
-```go
-func isValidBST(root *TreeNode) bool {
-	return dfs(root, -1<<63, 1<<63-1)
-}
-func dfs(root *TreeNode, lower, upper int) bool {
-	return root == nil || root.Val > lower && root.Val < upper &&
-		dfs(root.Left, lower, root.Val) &&
-		dfs(root.Right, root.Val, upper)
-}
-```
-
-
-```go
-func isValidBST(root *TreeNode) bool {
-	return dfs(root, math.MinInt64, math.MaxInt64)
-}
-func dfs(root *TreeNode, lower, upper int) bool {
-	if root == nil {
-		return true
-	}
-	if root.Val <= lower || root.Val >= upper {
-		return false
-	}
-	return dfs(root.Left, lower, root.Val) && dfs(root.Right, root.Val, upper)
-}
-```
-
-```go
-func isValidBST(root *TreeNode) bool {
-	var dfs func(*TreeNode, int, int) bool
-	dfs = func(root *TreeNode, lower, upper int) bool {
-		if root == nil {
-			return true
-		}
-		if root.Val <= lower || root.Val >= upper {
-			return false
-		}
-		return dfs(root.Left, lower, root.Val) && dfs(root.Right, root.Val, upper)
-	}
-	return dfs(root, math.MinInt64, math.MaxInt64)
-}
-```
-复杂度分析
-
-时间复杂度 : O(n)，其中 n 为二叉树的节点个数。在递归调用的时候二叉树的每个节点最多被访问一次，因此时间复杂度为 O(n)。
-
-空间复杂度 : O(n)，其中 n 为二叉树的节点个数。递归函数在递归过程中需要为每一层递归函数分配栈空间，所以这里需要额外的空间且该空间取决于递归的深度，即二叉树的高度。最坏情况下二叉树为一条链，树的高度为 n ，递归最深达到 n 层，故最坏情况下空间复杂度为 O(n) 。
-
-
-
-
-### 方法二：中序遍历
-思路和算法
-
-基于方法一中提及的性质，我们可以进一步知道二叉搜索树「中序遍历」得到的值构成的序列一定是升序的，这启示我们在中序遍历的时候实时检查当前节点的值是否大于前一个中序遍历到的节点的值即可。如果均大于说明这个序列是升序的，整棵树是二叉搜索树，否则不是
-
-```go
-func isValidBST(root *TreeNode) bool {
-	stack := []*TreeNode{}
-	inorder := math.MinInt64
-	for len(stack) > 0 || root != nil {
-		for root != nil {
-			stack = append(stack, root)
-			root = root.Left
-		}
-		root = stack[len(stack)-1]
-		stack = stack[:len(stack)-1]
-		if root.Val <= inorder {
-			return false
-		}
-		inorder = root.Val
-		root = root.Right
-	}
-	return true
-}
-```
-
-解法二，把 BST 按照左中右的顺序输出到数组中，如果是 BST，则数组中的数字是从小到大有序的，如果出现逆序就不是 BST
-
-```go
-func isValidBST(root *TreeNode) bool {
-	nums := []int{}
-
-	var inorder func(*TreeNode)
-	inorder = func(root *TreeNode) {
-		if root == nil {
-			return
-		}
-		inorder(root.Left)
-		nums = append(nums, root.Val)
-		inorder(root.Right)
-	}
-	inorder(root)
-
-	for i := 1; i < len(nums); i++ {
-		if nums[i-1] >= nums[i] {
-			return false
-		}
-	}
-	return true
-}
-```
-
-复杂度分析
-
-- 时间复杂度 : O(n)，其中 n 为二叉树的节点个数。二叉树的每个节点最多被访问一次，因此时间复杂度为 O(n)。
-- 空间复杂度 : O(n)，其中 n 为二叉树的节点个数。栈最多存储 n 个节点，因此需要额外的 O(n) 的空间。
+[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)	next
 
 
 
@@ -573,55 +362,33 @@ func mergeList(l1, l2 *ListNode) *ListNode {
 ![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gph68oyr9nj30z70qb0tr.jpg)
 
 
-[169. 多数元素](https://leetcode-cn.com/problems/majority-element/)
 
-### 方法五：Boyer-Moore 投票算法
-思路
 
-如果我们把众数记为 +1，把其他数记为 −1，将它们全部加起来，显然和大于 0，从结果本身我们可以看出众数比其他数多。
-
-不同元素相互抵消，最后剩余就是众数
+[470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
 
 ```go
-func majorityElement(nums []int) int {
-	res, count := 0, 0
-	for _, num := range nums {
-		if count == 0 {
-			res = num
-		}
-		if res == num {
-			count++
-		} else {
-			count--
-		}
+func rand10() int {
+	t := (rand7()-1)*7 + rand7() //1~49
+	if t > 40 {
+		return rand10()
 	}
-	return res
+	return (t-1)%10 + 1
 }
 ```
 
 ```go
-func majorityElement(nums []int) int {
-	res, count := 0, 0
-	for _, num := range nums {
-		if count == 0 {
-			res, count = num, 1
-		} else {
-			if res == num {
-				count++
-			} else {
-				count--
-			}
+func rand10() int {
+	for {
+		row, col := rand7(), rand7()
+		idx := col + (row-1)*7
+		if idx <= 40 {
+			return 1 + (idx-1)%10
 		}
 	}
-	return res
 }
 ```
 
-复杂度分析
 
-- 时间复杂度：O(n)。Boyer-Moore 算法只对数组进行了一次遍历。
-
-- 空间复杂度：O(1)。Boyer-Moore 算法只需要常数级别的额外空间。
 
 
 
@@ -663,25 +430,7 @@ func reorderList(head *ListNode) {
 }
 ```
 
-[876. 链表的中间结点](https://leetcode-cn.com/problems/middle-of-the-linked-list/)
 
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func middleNode(head *ListNode) *ListNode {
-    slow, fast := head, head 
-    for fast != nil && fast.Next != nil {
-        slow = slow.Next
-        fast = fast.Next.Next
-    }
-    return slow
-}
-```
 
 
 [1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
@@ -745,29 +494,10 @@ func max(x, y int) int {
 	return y
 }
 ```
-[470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
 
-```go
-func rand10() int {
-	t := (rand7()-1)*7 + rand7() //1~49
-	if t > 40 {
-		return rand10()
-	}
-	return (t-1)%10 + 1
-}
-```
 
-```go
-func rand10() int {
-	for {
-		row, col := rand7(), rand7()
-		idx := col + (row-1)*7
-		if idx <= 40 {
-			return 1 + (idx-1)%10
-		}
-	}
-}
-```
+
+
 
 
 [240. 搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/)
@@ -843,65 +573,246 @@ func searchMatrix(matrix [][]int, target int) bool {
 - 空间复杂度：O(1)
 
 
-[19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
-
-### 方法一：双指针
-思路与算法
-
-使用两个指针 first 和 second 同时对链表进行遍历，并且 first 比 second 超前 nn 个节点。当 first 遍历到链表的末尾时，second 就恰好处于倒数第 nn 个节点。
 
 
-![](https://assets.leetcode-cn.com/solution-static/19/p3.png)
+[98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+
+### 方法一: 递归
+思路和算法
+
+![](https://assets.leetcode-cn.com/solution-static/98/1.PNG)
+![](https://assets.leetcode-cn.com/solution-static/98/2.PNG)
+![](https://assets.leetcode-cn.com/solution-static/98/3.PNG)
+![](https://assets.leetcode-cn.com/solution-static/98/4.PNG)
+
+解法一，直接按照定义比较大小，比 root 节点小的都在左边，比 root 节点大的都在右边
+```go
+func isValidBST(root *TreeNode) bool {
+	return isValidbst(root, -1<<63, 1<<63-1)
+}
+func isValidbst(root *TreeNode, min, max int) bool {
+	if root == nil {
+		return true
+	}
+	v := root.Val
+	return min < v && v < max && isValidbst(root.Left, min, v) && isValidbst(root.Right, v, max)
+}
+```
 
 ```go
-func removeNthFromEnd(head *ListNode, n int) *ListNode {
-	dummy := &ListNode{0, head}
-	first, second := head, dummy
-	for i := 0; i < n; i++ {
-		first = first.Next
+func isValidBST(root *TreeNode) bool {
+	return dfs(root, -1<<63, 1<<63-1)
+}
+func dfs(root *TreeNode, lower, upper int) bool {
+	return root == nil || root.Val > lower && root.Val < upper &&
+		dfs(root.Left, lower, root.Val) &&
+		dfs(root.Right, root.Val, upper)
+}
+```
+
+
+```go
+func isValidBST(root *TreeNode) bool {
+	return dfs(root, math.MinInt64, math.MaxInt64)
+}
+func dfs(root *TreeNode, lower, upper int) bool {
+	if root == nil {
+		return true
 	}
-	for ; first != nil; first = first.Next {
-		second = second.Next
+	if root.Val <= lower || root.Val >= upper {
+		return false
 	}
-	second.Next = second.Next.Next
-	return dummy.Next
+	return dfs(root.Left, lower, root.Val) && dfs(root.Right, root.Val, upper)
+}
+```
+
+```go
+func isValidBST(root *TreeNode) bool {
+	var dfs func(*TreeNode, int, int) bool
+	dfs = func(root *TreeNode, lower, upper int) bool {
+		if root == nil {
+			return true
+		}
+		if root.Val <= lower || root.Val >= upper {
+			return false
+		}
+		return dfs(root.Left, lower, root.Val) && dfs(root.Right, root.Val, upper)
+	}
+	return dfs(root, math.MinInt64, math.MaxInt64)
 }
 ```
 复杂度分析
 
-- 时间复杂度：O(L)，其中 L 是链表的长度。
-- 空间复杂度：O(1)。
+时间复杂度 : O(n)，其中 n 为二叉树的节点个数。在递归调用的时候二叉树的每个节点最多被访问一次，因此时间复杂度为 O(n)。
 
-[83. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+空间复杂度 : O(n)，其中 n 为二叉树的节点个数。递归函数在递归过程中需要为每一层递归函数分配栈空间，所以这里需要额外的空间且该空间取决于递归的深度，即二叉树的高度。最坏情况下二叉树为一条链，树的高度为 n ，递归最深达到 n 层，故最坏情况下空间复杂度为 O(n) 。
+
+
+
+
+### 方法二：中序遍历
+思路和算法
+
+基于方法一中提及的性质，我们可以进一步知道二叉搜索树「中序遍历」得到的值构成的序列一定是升序的，这启示我们在中序遍历的时候实时检查当前节点的值是否大于前一个中序遍历到的节点的值即可。如果均大于说明这个序列是升序的，整棵树是二叉搜索树，否则不是
 
 ```go
-	/**
-	 * Definition for singly-linked list.
-	 * type ListNode struct {
-	 *     Val int
-	 *     Next *ListNode
-	 * }
-	 */
-	func deleteDuplicates(head *ListNode) *ListNode {
-		if head == nil {
-			return nil
+func isValidBST(root *TreeNode) bool {
+	stack := []*TreeNode{}
+	inorder := math.MinInt64
+	for len(stack) > 0 || root != nil {
+		for root != nil {
+			stack = append(stack, root)
+			root = root.Left
 		}
-		curr := head
-		for curr.Next != nil {
-			if curr.Val == curr.Next.Val {
-				curr.Next = curr.Next.Next
-			} else {
-				curr = curr.Next
-			}
+		root = stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		if root.Val <= inorder {
+			return false
 		}
-		return head
+		inorder = root.Val
+		root = root.Right
 	}
+	return true
+}
+```
+
+解法二，把 BST 按照左中右的顺序输出到数组中，如果是 BST，则数组中的数字是从小到大有序的，如果出现逆序就不是 BST
+
+```go
+func isValidBST(root *TreeNode) bool {
+	nums := []int{}
+
+	var inorder func(*TreeNode)
+	inorder = func(root *TreeNode) {
+		if root == nil {
+			return
+		}
+		inorder(root.Left)
+		nums = append(nums, root.Val)
+		inorder(root.Right)
+	}
+	inorder(root)
+
+	for i := 1; i < len(nums); i++ {
+		if nums[i-1] >= nums[i] {
+			return false
+		}
+	}
+	return true
+}
+```
+
+复杂度分析
+
+- 时间复杂度 : O(n)，其中 n 为二叉树的节点个数。二叉树的每个节点最多被访问一次，因此时间复杂度为 O(n)。
+- 空间复杂度 : O(n)，其中 n 为二叉树的节点个数。栈最多存储 n 个节点，因此需要额外的 O(n) 的空间。
+
+
+
+
+[39. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
+
+![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gplqpjg5wdj31ax0jnn10.jpg)
+
+```go
+func combinationSum(candidates []int, target int) (res [][]int) {
+	path := []int{}
+	sort.Ints(candidates)
+	var dfs func(int, int)
+
+	dfs = func(target, index int) {
+		if target <= 0 {
+			if target == 0 {
+				res = append(res, append([]int(nil), path...))
+			}
+			return
+		}
+		for i := index; i < len(candidates); i++ { // 枚举当前可选的数，从index开始
+			if candidates[i] > target { // 剪枝优化
+				break
+			}
+			path = append(path, candidates[i]) // 选这个数,基于此，继续选择，传i，下次就不会选到i左边的数
+			dfs(target-candidates[i], i)       // 注意这里迭代的时候 index 依旧不变，因为一个元素可以取多次
+			path = path[:len(path)-1]          // 撤销选择，回到选择candidates[i]之前的状态，继续尝试选同层右边的数
+		}
+	}
+
+	dfs(target, 0)
+	return
+}
+
 ```
 
 
+[239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
 
+### 方法一 暴力解法 O(nk)
 
+```go
+func maxSlidingWindow(nums []int, k int) []int {
+	res, n := make([]int, 0, k), len(nums)
+	if n == 0 {
+		return make([]int, 0)
+	}
+	for i := 0; i <= n-k; i++ {
+		max := nums[i]
+		for j := 1; j < k; j++ {
+			if max < nums[i+j] {
+				max = nums[i+j]
+			}
+		}
+		res = append(res, max)
+	}
+	return res
+}
+```
+Time Limit Exceeded
+50/61 cases passed (N/A)
 
+### 方法二 双端队列 Deque
+最优的解法是用双端队列，队列的一边永远都存的是窗口的最大值，队列的另外一个边存的是比最大值小的值。队列中最大值左边的所有值都出队。在保证了双端队列的一边即是最大值以后，时间复杂度是 O(n)，空间复杂度是 O(K)
 
+```go
+func maxSlidingWindow(nums []int, k int) []int {
+	if len(nums) == 0 || len(nums) < k {
+		return make([]int, 0)
+	}
+	window := make([]int, 0, k) // store the index of nums
+	result := make([]int, 0, len(nums)-k+1)
+	for i, v := range nums {
+		if i >= k && window[0] <= i-k { // if the left-most index is out of window, remove it
+			window = window[1:len(window)]
+		}
+		for len(window) > 0 && nums[window[len(window)-1]] < v {
+			window = window[0 : len(window)-1]
+		}
+		window = append(window, i)
+		if i >= k-1 {
+			result = append(result, nums[window[0]]) // the left-most is the index of max value in nums
+		}
+	}
+	return result
+}
+```
 
+![](http://ww1.sinaimg.cn/large/007daNw2ly1gpmcfyuvh1j319g0mun0a.jpg)
+
+```go
+func maxSlidingWindow(nums []int, k int) []int {
+	q, res := []int{}, []int{}
+	for i := 0; i < len(nums); i++ {
+		if len(q) > 0 && i-k+1 > q[0] {
+			q = q[1:] //窗口满了，删除队头
+		}
+		for len(q) > 0 && nums[q[len(q)-1]] <= nums[i] {
+			q = q[:len(q)-1] //队尾小于当前元素，删除队尾
+		}
+		q = append(q, i)
+		if i >= k-1 { //窗口大小大于等于 k
+			res = append(res, nums[q[0]])
+		}
+	}
+	return res
+}
+```
 

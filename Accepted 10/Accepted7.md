@@ -1,5 +1,3 @@
-# Challenge Accepted 10 2020.4.16 周五
-
 
 [19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 
@@ -11,7 +9,7 @@
 
 [31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
 
-[93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/)
+[93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/) next
 
 [165. 比较版本号](https://leetcode-cn.com/problems/compare-version-numbers/)
 
@@ -27,148 +25,173 @@
 
 
 
+[19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+
+### 方法一：双指针
+思路与算法
+
+使用两个指针 first 和 second 同时对链表进行遍历，并且 first 比 second 超前 nn 个节点。当 first 遍历到链表的末尾时，second 就恰好处于倒数第 nn 个节点。
 
 
-[39. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
-
-![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gplqpjg5wdj31ax0jnn10.jpg)
+![](https://assets.leetcode-cn.com/solution-static/19/p3.png)
 
 ```go
-func combinationSum(candidates []int, target int) (res [][]int) {
-	path := []int{}
-	sort.Ints(candidates)
-	var dfs func(int, int)
-
-	dfs = func(target, index int) {
-		if target <= 0 {
-			if target == 0 {
-				res = append(res, append([]int(nil), path...))
-			}
-			return
-		}
-		for i := index; i < len(candidates); i++ { // 枚举当前可选的数，从index开始
-			if candidates[i] > target { // 剪枝优化
-				break
-			}
-			path = append(path, candidates[i]) // 选这个数,基于此，继续选择，传i，下次就不会选到i左边的数
-			dfs(target-candidates[i], i)       // 注意这里迭代的时候 index 依旧不变，因为一个元素可以取多次
-			path = path[:len(path)-1]          // 撤销选择，回到选择candidates[i]之前的状态，继续尝试选同层右边的数
-		}
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	dummy := &ListNode{0, head}
+	first, second := head, dummy
+	for i := 0; i < n; i++ {
+		first = first.Next
 	}
-
-	dfs(target, 0)
-	return
+	for ; first != nil; first = first.Next {
+		second = second.Next
+	}
+	second.Next = second.Next.Next
+	return dummy.Next
 }
+```
+复杂度分析
 
+- 时间复杂度：O(L)，其中 L 是链表的长度。
+- 空间复杂度：O(1)。
+
+
+
+[83. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+
+```go
+	/**
+	 * Definition for singly-linked list.
+	 * type ListNode struct {
+	 *     Val int
+	 *     Next *ListNode
+	 * }
+	 */
+	func deleteDuplicates(head *ListNode) *ListNode {
+		if head == nil {
+			return nil
+		}
+		curr := head
+		for curr.Next != nil {
+			if curr.Val == curr.Next.Val {
+				curr.Next = curr.Next.Next
+			} else {
+				curr = curr.Next
+			}
+		}
+		return head
+	}
 ```
 
-[64. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)
 
-### 方法一：动态规划
+
+[226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
+
+### 方法一：dfs 递归
+
+#### 递归思路1
+
+我们从根节点开始，递归地对树进行遍历，并从叶子结点先开始翻转。如果当前遍历到的节点 root 的左右两棵子树都已经翻转，那么我们只需要交换两棵子树的位置，即可完成以 root 为根节点的整棵子树的翻转。
+
+*思路*
+一个二叉树，怎么才算翻转了？
+
+它的左右子树要交换，并且左右子树内部的所有子树，都要进行左右子树的交换。
+
+![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpmz43wk4yj31er0fw0w1.jpg)
+
+
+每个子树的根节点都说：先交换我的左右子树吧。那么递归就会先压栈压到底。然后才做交换。
+即，位于底部的、左右孩子都是 null 的子树，先被翻转。
+随着递归向上返回，子树一个个被翻转……整棵树翻转好了。
+问题是在递归出栈时解决的。
 
 ```go
-func minPathSum(grid [][]int) int {
-	m, n := len(grid), len(grid[0])
-	for i := 1; i < m; i++ {
-		grid[i][0] += grid[i-1][0]
+func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
 	}
-	for j := 1; j < n; j++ {
-		grid[0][j] += grid[0][j-1]
-	}
-	for i := 1; i < m; i++ {
-		for j := 1; j < n; j++ {
-			grid[i][j] += min(grid[i][j-1], grid[i-1][j])
-		}
-	}
-	return grid[m-1][n-1]
+	invertTree(root.Left)
+	invertTree(root.Right)
+	root.Left, root.Right = root.Right, root.Left
+	return root
 }
-func min(x, y int) int {
-	if x < y {
-		return x
+```
+
+#### 递归思路 2
+
+![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpmz4kjl1jj31fu0gh77e.jpg)
+
+思路变了：先 “做事”——先交换左右子树，它们内部的子树还没翻转——丢给递归去做。
+把交换的操作，放在递归子树之前。
+问题是在递归压栈前被解决的。
+
+```go
+func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
 	}
-	return y
+	root.Left, root.Right = root.Right, root.Left
+	invertTree(root.Left)
+	invertTree(root.Right)
+	return root
 }
 ```
 
 复杂度分析
 
-- 时间复杂度：O(mn)，其中 m 和 n 分别是网格的行数和列数。需要对整个网格遍历一次，计算 dp 的每个元素的值。
+- 时间复杂度：O(N)，其中 N 为二叉树节点的数目。我们会遍历二叉树中的每一个节点，对每个节点而言，我们在常数时间内交换其两棵子树。
 
-- 空间复杂度：O(1)
+- 空间复杂度：O(N)。使用的空间由递归栈的深度决定，它等于当前节点在二叉树中的高度。在平均情况下，二叉树的高度与节点个数为对数关系，即 O(logN)。而在最坏情况下，树形成链状，空间复杂度为 O(N)。
 
 
 
-[239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
+#### 总结
+两种分别是后序遍历和前序遍历。都是基于DFS，都是先遍历根节点、再遍历左子树、再右子树。
+唯一的区别是：
+前序遍历：将「处理当前节点」放到「递归左子树」之前。
+后序遍历：将「处理当前节点」放到「递归右子树」之后。
 
-### 方法一 暴力解法 O(nk)
+这个「处理当前节点」，就是交换左右子树 ，就是解决问题的代码：
 
 ```go
-func maxSlidingWindow(nums []int, k int) []int {
-	res, n := make([]int, 0, k), len(nums)
-	if n == 0 {
-		return make([]int, 0)
-	}
-	for i := 0; i <= n-k; i++ {
-		max := nums[i]
-		for j := 1; j < k; j++ {
-			if max < nums[i+j] {
-				max = nums[i+j]
-			}
-		}
-		res = append(res, max)
-	}
-	return res
-}
+root.Left, root.Right = root.Right, root.Left
 ```
-Time Limit Exceeded
-50/61 cases passed (N/A)
 
-### 方法二 双端队列 Deque
-最优的解法是用双端队列，队列的一边永远都存的是窗口的最大值，队列的另外一个边存的是比最大值小的值。队列中最大值左边的所有值都出队。在保证了双端队列的一边即是最大值以后，时间复杂度是 O(n)，空间复杂度是 O(K)
+递归只是帮你遍历这棵树，核心还是解决问题的代码，递归把它应用到每个子树上，解决每个子问题，最后解决整个问题。
+
+### 方法二：BFS 
+
+用层序遍历的方式去遍历二叉树。
+
+根节点先入列，然后出列，出列就 “做事”，交换它的左右子节点（左右子树）。
+并让左右子节点入列，往后，这些子节点出列，也被翻转。
+直到队列为空，就遍历完所有的节点，翻转了所有子树。
+
+解决问题的代码放在节点出列时。
+
 
 ```go
-func maxSlidingWindow(nums []int, k int) []int {
-	if len(nums) == 0 || len(nums) < k {
-		return make([]int, 0)
+func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
 	}
-	window := make([]int, 0, k) // store the index of nums
-	result := make([]int, 0, len(nums)-k+1)
-	for i, v := range nums {
-		if i >= k && window[0] <= i-k { // if the left-most index is out of window, remove it
-			window = window[1:len(window)]
+	q := []*TreeNode{root}
+	for len(q) > 0 {
+		cur := q[0]
+		q = q[1:len(q)]
+		cur.Left, cur.Right = cur.Right, cur.Left
+		if cur.Left != nil {
+			q = append(q, cur.Left)
 		}
-		for len(window) > 0 && nums[window[len(window)-1]] < v {
-			window = window[0 : len(window)-1]
-		}
-		window = append(window, i)
-		if i >= k-1 {
-			result = append(result, nums[window[0]]) // the left-most is the index of max value in nums
+		if cur.Right != nil {
+			q = append(q, cur.Right)
 		}
 	}
-	return result
+	return root
 }
 ```
 
-![](http://ww1.sinaimg.cn/large/007daNw2ly1gpmcfyuvh1j319g0mun0a.jpg)
 
-```go
-func maxSlidingWindow(nums []int, k int) []int {
-	q, res := []int{}, []int{}
-	for i := 0; i < len(nums); i++ {
-		if len(q) > 0 && i-k+1 > q[0] {
-			q = q[1:] //窗口满了，删除队头
-		}
-		for len(q) > 0 && nums[q[len(q)-1]] <= nums[i] {
-			q = q[:len(q)-1] //队尾小于当前元素，删除队尾
-		}
-		q = append(q, i)
-		if i >= k-1 { //窗口大小大于等于 k
-			res = append(res, nums[q[0]])
-		}
-	}
-	return res
-}
-```
 
 [78. 子集](https://leetcode-cn.com/problems/subsets/)
 
@@ -357,6 +380,14 @@ func nextPermutation(nums []int) {
 }
 ```
 
+
+
+[93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/)
+
+
+
+
+
 [165. 比较版本号](https://leetcode-cn.com/problems/compare-version-numbers/)
 
 ```go
@@ -397,145 +428,6 @@ strconv.Itoa()函数用于将int类型数据转换为对应的字符串表示，
 func Itoa(i int) string
 ```
 
-
-
-[226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
-
-### 方法一：dfs 递归
-
-#### 递归思路1
-
-我们从根节点开始，递归地对树进行遍历，并从叶子结点先开始翻转。如果当前遍历到的节点 root 的左右两棵子树都已经翻转，那么我们只需要交换两棵子树的位置，即可完成以 root 为根节点的整棵子树的翻转。
-
-*思路*
-一个二叉树，怎么才算翻转了？
-
-它的左右子树要交换，并且左右子树内部的所有子树，都要进行左右子树的交换。
-
-![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpmz43wk4yj31er0fw0w1.jpg)
-
-
-每个子树的根节点都说：先交换我的左右子树吧。那么递归就会先压栈压到底。然后才做交换。
-即，位于底部的、左右孩子都是 null 的子树，先被翻转。
-随着递归向上返回，子树一个个被翻转……整棵树翻转好了。
-问题是在递归出栈时解决的。
-
-```go
-func invertTree(root *TreeNode) *TreeNode {
-	if root == nil {
-		return nil
-	}
-	invertTree(root.Left)
-	invertTree(root.Right)
-	root.Left, root.Right = root.Right, root.Left
-	return root
-}
-```
-
-#### 递归思路 2
-
-![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpmz4kjl1jj31fu0gh77e.jpg)
-
-思路变了：先 “做事”——先交换左右子树，它们内部的子树还没翻转——丢给递归去做。
-把交换的操作，放在递归子树之前。
-问题是在递归压栈前被解决的。
-
-```go
-func invertTree(root *TreeNode) *TreeNode {
-	if root == nil {
-		return nil
-	}
-	root.Left, root.Right = root.Right, root.Left
-	invertTree(root.Left)
-	invertTree(root.Right)
-	return root
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(N)，其中 N 为二叉树节点的数目。我们会遍历二叉树中的每一个节点，对每个节点而言，我们在常数时间内交换其两棵子树。
-
-- 空间复杂度：O(N)。使用的空间由递归栈的深度决定，它等于当前节点在二叉树中的高度。在平均情况下，二叉树的高度与节点个数为对数关系，即 O(logN)。而在最坏情况下，树形成链状，空间复杂度为 O(N)。
-
-
-
-#### 总结
-两种分别是后序遍历和前序遍历。都是基于DFS，都是先遍历根节点、再遍历左子树、再右子树。
-唯一的区别是：
-前序遍历：将「处理当前节点」放到「递归左子树」之前。
-后序遍历：将「处理当前节点」放到「递归右子树」之后。
-
-这个「处理当前节点」，就是交换左右子树 ，就是解决问题的代码：
-
-```go
-root.Left, root.Right = root.Right, root.Left
-```
-
-递归只是帮你遍历这棵树，核心还是解决问题的代码，递归把它应用到每个子树上，解决每个子问题，最后解决整个问题。
-
-### 方法二：BFS 
-
-用层序遍历的方式去遍历二叉树。
-
-根节点先入列，然后出列，出列就 “做事”，交换它的左右子节点（左右子树）。
-并让左右子节点入列，往后，这些子节点出列，也被翻转。
-直到队列为空，就遍历完所有的节点，翻转了所有子树。
-
-解决问题的代码放在节点出列时。
-
-
-```go
-func invertTree(root *TreeNode) *TreeNode {
-	if root == nil {
-		return nil
-	}
-	q := []*TreeNode{root}
-	for len(q) > 0 {
-		cur := q[0]
-		q = q[1:len(q)]
-		cur.Left, cur.Right = cur.Right, cur.Left
-		if cur.Left != nil {
-			q = append(q, cur.Left)
-		}
-		if cur.Right != nil {
-			q = append(q, cur.Right)
-		}
-	}
-	return root
-}
-```
-
-
-[165. 比较版本号](https://leetcode-cn.com/problems/compare-version-numbers/)
-
-```go
-func compareVersion(s1 string, s2 string) int {
-	i, j := 0, 0
-	for i < len(s1) || j < len(s2) {
-		a, b := "", ""
-		for i < len(s1) && s1[i] != '.' {
-			a += string(s1[i])
-			i++
-		}
-		for j < len(s2) && s2[j] != '.' {
-			b += string(s2[j])
-			j++
-		}
-		x, _ := strconv.Atoi(a)
-		y, _ := strconv.Atoi(b)
-		if x > y {
-			return 1
-		} else if x < y {
-			return -1
-		}
-		i++
-		j++
-	}
-	return 0
-}
-
-```
 
 
 
@@ -579,107 +471,87 @@ func findMin(nums []int) int {
 
 
 
-[34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
-### 方法一：二分查找
+[64. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)
 
-### 解题思路 
-- 给出一个有序数组 nums 和一个数 target，要求在数组中找到第一个和这个元素相等的元素下标，最后一个和这个元素相等的元素下标。
-
-- 这一题是经典的二分搜索变种题。二分搜索有 4 大基础变种题：
-
-	1. 查找第一个值等于给定值的元素
-	2. 查找最后一个值等于给定值的元素
-	3. 查找第一个大于等于给定值的元素
-	4. 查找最后一个小于等于给定值的元素
-这一题的解题思路可以分别利用变种 1 和变种 2 的解法就可以做出此题。或者用一次变种 1 的方法，然后循环往后找到最后一个与给定值相等的元素。不过后者这种方法可能会使时间复杂度下降到 O(n)，因为有可能数组中 n 个元素都和给定元素相同。(4 大基础变种的实现见代码)
+### 方法一：动态规划
 
 ```go
-func searchRange(nums []int, target int) []int {
-	return []int{searchFirstEqualElement(nums, target), searchLastEqualElement(nums, target)}
-}
-
-// 二分查找第一个与 target 相等的元素，时间复杂度 O(logn)
-func searchFirstEqualElement(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] < target {
-			left = mid + 1
-		} else if nums[mid] > target {
-			right = mid - 1
-		} else {
-			if mid == 0 || nums[mid-1] != target { // 找到第一个与 target 相等的元素
-				return mid
-			}
-			right = mid - 1
+func minPathSum(grid [][]int) int {
+	m, n := len(grid), len(grid[0])
+	for i := 1; i < m; i++ {
+		grid[i][0] += grid[i-1][0]
+	}
+	for j := 1; j < n; j++ {
+		grid[0][j] += grid[0][j-1]
+	}
+	for i := 1; i < m; i++ {
+		for j := 1; j < n; j++ {
+			grid[i][j] += min(grid[i][j-1], grid[i-1][j])
 		}
 	}
-	return -1
+	return grid[m-1][n-1]
 }
-
-// 二分查找最后一个与 target 相等的元素，时间复杂度 O(logn)
-func searchLastEqualElement(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] < target {
-			left = mid + 1
-		} else if nums[mid] > target {
-			right = mid - 1
-		} else {
-			if mid == len(nums)-1 || nums[mid+1] != target { // 找到最后一个与 target 相等的元素
-				return mid
-			}
-			left = mid + 1
-		}
+func min(x, y int) int {
+	if x < y {
+		return x
 	}
-	return -1
-}
-
-// 二分查找第一个大于等于 target 的元素，时间复杂度 O(logn)
-func searchFirstGreaterElement(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] >= target {
-			if mid == 0 || nums[mid-1] < target { // 找到第一个大于等于 target 的元素
-				return mid
-			}
-			right = mid - 1
-		} else {
-			left = mid + 1
-		}
-	}
-	return -1
-}
-
-// 二分查找最后一个小于等于 target 的元素，时间复杂度 O(logn)
-func searchLastLessElement(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] <= target {
-			if mid == len(nums)-1 || nums[mid+1] > target { // 找到最后一个小于等于 target 的元素
-				return mid
-			}
-			left = mid + 1
-		} else {
-			right = mid - 1
-		}
-	}
-	return -1
+	return y
 }
 ```
-### 方法二：二分查找
 
+复杂度分析
+
+- 时间复杂度：O(mn)，其中 m 和 n 分别是网格的行数和列数。需要对整个网格遍历一次，计算 dp 的每个元素的值。
+
+- 空间复杂度：O(1)
+
+
+
+
+
+[101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
+### 方法一：递归
 ```go
-func searchRange(nums []int, target int) []int {
-	leftmost := sort.SearchInts(nums, target)
-	if leftmost == len(nums) || nums[leftmost] != target {
-		return []int{-1, -1}
+func isSymmetric(root *TreeNode) bool {
+	return check(root, root)
+}
+func check(p, q *TreeNode) bool {
+	if p == nil && q == nil {
+		return true
 	}
-	rightmost := sort.SearchInts(nums, target+1) - 1
-	return []int{leftmost, rightmost}
+	if p == nil || q == nil {
+		return false
+	}
+	return p.Val == q.Val && check(p.Left, q.Right) && check(p.Right, q.Left)
 }
 ```
+### 方法二：迭代
+```go
+func isSymmetric(root *TreeNode) bool {
+	q := []*TreeNode{root, root}
+	for 0 < len(q) {
+		l, r := q[0], q[1]
+		q = q[2:]
+		if l == nil && r == nil {
+			continue
+		}
+		if l == nil || r == nil {
+			return false
+		}
+		if l.Val != r.Val {
+			return false
+		}
+		q = append(q, l.Left)
+		q = append(q, r.Right)
+
+		q = append(q, l.Right)
+		q = append(q, r.Left)
+	}
+	return true
+}
+```
+
+
+
+

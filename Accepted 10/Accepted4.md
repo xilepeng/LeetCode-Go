@@ -1,109 +1,70 @@
 
-[300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+[剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
 
-[92. 反转链表 II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
+[42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
 
-[144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
+[69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
+
+[704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
+
+[34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)  补充
+
+[70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+
+[151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
+
+[23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
+
+[104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
 
 [2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
 
 [110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
 
-[704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
-
-[113. 路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/)
-
-[104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
-
-[23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
-
-[155. 最小栈](https://leetcode-cn.com/problems/min-stack/)
 
 ------
 
 
 
-[300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
-
-### 方法一： nlogn 动态规划 
+[剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
 
 ```go
-func lengthOfLIS(nums []int) int {
-	dp := []int{}
-	for _, num := range nums {
-		i := sort.SearchInts(dp, num) //min_index
-		if i == len(dp) {
-			dp = append(dp, num)
+func getKthFromEnd(head *ListNode, k int) *ListNode {
+     slow, fast := head, head 
+     for ; k>0; k-- {
+         fast = fast.Next
+     }
+     for fast != nil {
+         slow, fast = slow.Next, fast.Next
+     }
+     return slow
+}
+```
+
+
+
+[42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
+
+### 方法一：双指针
+
+![截屏2021-04-06 18.24.23.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpa760w1vwj31440gy77h.jpg)
+
+```go
+func trap(height []int) (res int) {
+	left, right := 0, len(height)-1
+	leftMax, rightMax := 0, 0
+	for left < right {
+		leftMax = max(leftMax, height[left])
+		rightMax = max(rightMax, height[right])
+		if height[left] < height[right] {
+			res += leftMax - height[left]
+			left++
 		} else {
-			dp[i] = num
+			res += rightMax - height[right]
+			right--
 		}
 	}
-	return len(dp)
-}
-```
-复杂度分析
-
-- 时间复杂度：O(nlogn)。数组 nums 的长度为 n，我们依次用数组中的元素去更新 dp 数组，而更新 dp 数组时需要进行 O(logn) 的二分搜索，所以总时间复杂度为 O(nlogn)。
-
-- 空间复杂度：O(n)，需要额外使用长度为 n 的 dp 数组。
-
-#### func SearchInts
-- func SearchInts(a []int, x int) int
-- SearchInts在递增顺序的a中搜索x，返回x的索引。如果查找不到，返回值是x应该插入a的位置（以保证a的递增顺序），返回值可以是len(a)。
-
-### 方法二：贪心 + 二分查找
-
-![贪心 + 二分查找](http://ww1.sinaimg.cn/large/007daNw2ly1gpbeyy69rdj31ag0lmtb8.jpg)
-
-```go
-func lengthOfLIS(nums []int) int {
-	d := []int{}
-	for _, num := range nums {
-		if len(d) == 0 || d[len(d)-1] < num {
-			d = append(d, num)
-		} else { //二分查找
-			l, r := 0, len(d)-1
-			pos := r
-			for l <= r {
-				mid := (l + r) >> 1
-				if d[mid] >= num {
-					pos = mid
-					r = mid - 1
-				} else {
-					l = mid + 1
-				}
-			}
-			d[pos] = num
-		}
-	}
-	return len(d)
-}
-```
-复杂度分析
-
-- 时间复杂度：O(nlogn)。数组 nums 的长度为 n，我们依次用数组中的元素去更新 d 数组，而更新 d 数组时需要进行 O(logn) 的二分搜索，所以总时间复杂度为 O(nlogn)。
-
-- 空间复杂度：O(n)，需要额外使用长度为 n 的 d 数组。
-
-### 方法三：动态规划
-
-```go
-func lengthOfLIS(nums []int) int {
-	n := len(nums)
-	if n == 0 {
-		return 0
-	}
-	dp, res := make([]int, n), 0
-	for i := 0; i < n; i++ {
-		dp[i] = 1
-		for j := 0; j < i; j++ {
-			if nums[j] < nums[i] {
-				dp[i] = max(dp[i], dp[j]+1)
-			}
-		}
-		res = max(res, dp[i])
-	}
-	return res
+	return
 }
 func max(x, y int) int {
 	if x > y {
@@ -112,144 +73,86 @@ func max(x, y int) int {
 	return y
 }
 ```
-复杂度分析：
 
-- 时间复杂度 O(N^2)： 遍历计算 dp 列表需 O(N)，计算每个 dp[i] 需 O(N)。
-- 空间复杂度 O(N) ： dp 列表占用线性大小额外空间。
-
-
-[92. 反转链表 II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
-
-### 方法一：双指针 
-
+### 方法二：单调栈
 ```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-
-func reverseBetween(head *ListNode, left int, right int) *ListNode {
-	dummy := &ListNode{Next: head}
-	prevLeft := dummy
-	for i := 0; i < left-1; i++ {
-		prevLeft = prevLeft.Next
-	}
-	prev := prevLeft.Next
-	curr := prev.Next
-	for i := 0; i < right-left; i++ {
-		next := curr.Next
-		curr.Next = prev
-		prev = curr
-		curr = next
-	}
-	prevLeft.Next.Next = curr
-	prevLeft.Next = prev
-	return dummy.Next
-}
-```
-
-
-
-### 方法二：头插法 
-
-![](https://pic.leetcode-cn.com/1615105232-cvTINs-image.png)
-
-整体思想是：在需要反转的区间里，每遍历到一个节点，让这个新节点来到反转部分的起始位置。下面的图展示了整个流程。
-
-![](https://pic.leetcode-cn.com/1615105242-ZHlvOn-image.png)
-
-下面我们具体解释如何实现。使用三个指针变量 pre、curr、next 来记录反转的过程中需要的变量，它们的意义如下：
-
-- curr：指向待反转区域的第一个节点 left；
-- next：永远指向 curr 的下一个节点，循环过程中，curr 变化以后 next 会变化；
-- pre：永远指向待反转区域的第一个节点 left 的前一个节点，在循环过程中不变。
-第 1 步，我们使用 ①、②、③ 标注「穿针引线」的步骤。
-
-![](https://pic.leetcode-cn.com/1615105296-bmiPxl-image.png)
-
-操作步骤：
-
-- 先将 curr 的下一个节点记录为 next；
-- 执行操作 ①：把 curr 的下一个节点指向 next 的下一个节点；
-- 执行操作 ②：把 next 的下一个节点指向 pre 的下一个节点；
-- 执行操作 ③：把 pre 的下一个节点指向 next。
-第 1 步完成以后「拉直」的效果如下：
-
-![](https://pic.leetcode-cn.com/1615105340-UBnTBZ-image.png)
-
-第 2 步，同理。同样需要注意 「穿针引线」操作的先后顺序。
-
-![](https://pic.leetcode-cn.com/1615105353-PsCmzb-image.png)
-
-第 2 步完成以后「拉直」的效果如下：
-
-![](https://pic.leetcode-cn.com/1615105364-aDIFqy-image.png)
-
-第 3 步，同理。
-![](https://pic.leetcode-cn.com/1615105376-jIyGwv-image.png)
-
-第 3 步完成以后「拉直」的效果如下：
-![](https://pic.leetcode-cn.com/1615105395-EJQnMe-image.png)
-
-
-
-
-```go
-func reverseBetween(head *ListNode, left int, right int) *ListNode {
-	dummy := &ListNode{Next: head}
-	prev := dummy
-	for i := 0; i < left-1; i++ {
-		prev = prev.Next
-	}
-	curr := prev.Next
-	for i := 0; i < right-left; i++ {
-		next := curr.Next
-		curr.Next = next.Next
-		next.Next = prev.Next
-		prev.Next = next
-	}
-	return dummy.Next
-}
-```
-
-
-
-
-[33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
-
-![](https://assets.leetcode-cn.com/solution-static/33/33_fig1.png)
-
-```go
-func search(nums []int, target int) int {
-	if len(nums) == 0 {
-		return -1
-	}
-	l, r := 0, len(nums)-1
-	for l <= r {
-		mid := (l + r) >> 1
-		if nums[mid] == target {
-			return mid
-		}
-		if nums[l] <= nums[mid] { //左边有序
-			if nums[l] <= target && target < nums[mid] {
-				r = mid - 1
-			} else {
-				l = mid + 1
+func trap(height []int) (res int) {
+	stack := []int{}
+	for i, h := range height {
+		for len(stack) > 0 && h > height[stack[len(stack)-1]] {
+			top := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			if len(stack) == 0 {
+				break
 			}
+			left := stack[len(stack)-1]
+			curWidth := i - left - 1
+			curHeight := min(height[left], h) - height[top]
+			res += curWidth * curHeight
+		}
+		stack = append(stack, i)
+	}
+	return
+}
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+```
+
+单调栈：查找每个数左侧第一个比它小的数
+单调队列：滑动窗口中的最值
+
+
+
+
+
+[69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
+
+### 方法一：二分查找
+
+```go
+func mySqrt(x int) (res int) {
+	left, right := 0, x
+	for left <= right {
+		mid := left + (right-left)>>1
+		if mid*mid <= x {
+			res = mid
+			left = mid + 1
 		} else {
-			if nums[mid] < target && target <= nums[r] {
-				l = mid + 1
-			} else {
-				r = mid - 1
-			}
+			right = mid - 1
 		}
 	}
-	return -1
+	return 
 }
 ```
+复杂度分析
+
+- 时间复杂度：O(logx)，即为二分查找需要的次数。
+- 空间复杂度：O(1)。
+
+### 方法二：牛顿迭代
+
+```go
+func mySqrt(x int) int {
+	r := x
+	for r*r > x {
+		r = (r + x/r) >> 1
+	}
+	return r
+}
+```
+复杂度分析
+
+- 时间复杂度：O(logx)，此方法是二次收敛的，相较于二分查找更快。
+- 空间复杂度：O(1)。
+
+
+
+
+
 
 [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
 
@@ -287,6 +190,8 @@ func search(nums []int, target int) int {
 
 - 时间复杂度：O(logN)。
 - 空间复杂度：O(1)。
+
+
 
 [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
@@ -392,6 +297,265 @@ func searchRange(nums []int, target int) []int {
 	return []int{leftmost, rightmost}
 }
 ```
+
+
+[70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+
+
+### 方法一：滚动数组 (斐波那契数列)
+
+![截屏2021-04-09 11.50.02.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdcsbx511j31940gu756.jpg)
+
+思路和算法
+
+我们用 f(x) 表示爬到第 x 级台阶的方案数，考虑最后一步可能跨了一级台阶，也可能跨了两级台阶，所以我们可以列出如下式子：
+
+f(x) = f(x - 1) + f(x - 2)
+
+f(x) 只和 f(x−1) 与 f(x−2) 有关，所以我们可以用「滚动数组思想」把空间复杂度优化成 O(1)。
+
+
+```go
+func climbStairs(n int) int {
+	p, q, r := 0, 0, 1
+	for i := 1; i <= n; i++ {
+		p = q
+		q = r
+		r = p + q
+	}
+	return r
+}
+```
+复杂度分析
+
+- 时间复杂度：循环执行 n 次，每次花费常数的时间代价，故渐进时间复杂度为 O(n)。
+- 空间复杂度：这里只用了常数个变量作为辅助空间，故渐进空间复杂度为 O(1)。
+
+
+
+### 方法二：动态规划
+
+解题思路 
+- 简单的 DP，经典的爬楼梯问题。一个楼梯可以由 n-1 和 n-2 的楼梯爬上来。
+- 这一题求解的值就是斐波那契数列。
+
+```go
+func climbStairs(n int) int {
+	dp := make([]int, n+1)
+	dp[0], dp[1] = 1, 1
+	for i := 2; i <= n; i++ {
+		dp[i] = dp[i-1] + dp[i-2]
+	}
+	return dp[n]
+}
+```
+
+复杂度分析
+
+- 时间复杂度：循环执行 n 次，每次花费常数的时间代价，故渐进时间复杂度为 O(n)。
+- 空间复杂度： O(n)。
+
+### 解题思路 
+#### 假设 n = 5，有 5 级楼梯要爬
+- 题意说，每次有2种选择：爬1级，或爬2级。
+	如果爬1级，则剩下4级要爬。
+	如果爬2级，则剩下3级要爬。
+- 这拆分出了2个问题：
+	爬4级楼梯有几种方式？
+	爬3级楼梯有几种方式？
+- 于是，爬 5 级楼梯的方式数 = 爬 4 级楼梯的方式数 + 爬 3 级楼梯的方式数。
+#### 画出递归树
+- 用「剩下要爬的楼梯数」描述一个节点。
+![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdsdqld5ij317207674g.jpg)
+
+- 子问题又会面临 2 个选择，不断分支，直到位于递归树底部的 base case：
+
+	楼梯数为 0 时，只有 1 种选择：什么都不做。
+	楼梯数为 1 时，只有1种选择：爬1级。
+
+![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdsewfog7j30y60ctaam.jpg)
+
+- 当递归遍历到 base case，解是已知的，开始返回，如下图，子问题的结果不断向上返回，得到父问题的解。
+
+![4.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdsfh45y0j314h0hkdhr.jpg)
+
+- 调用栈的深度是楼梯数 n，空间复杂度是O(n)O(n)，时间复杂度最坏是O(2^n)，所有节点都遍历到。
+
+### 存在重复的子问题
+- 如下图，黄色阴影部分，蓝色阴影部分，是相同的子树，即相同的子问题。
+
+![5.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdsh8p300j30zr0i7jtk.jpg)
+
+- 子问题的计算结果可以存储在哈希表中，或者数组，下次遇到就不用再进入相同的递归。
+
+- 去除重复的计算后的子树如下，时间复杂度降到了O(n)，空间复杂度O(n)。
+
+![6.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdsiibb52j30sp0fpabc.jpg)
+
+## 动态规划，自底而上思考
+- 我们发现，爬 i 层楼梯的方式数 = 爬 i-2 层楼梯的方式数 + 爬 i-1 层楼梯的方式数。
+- 我们有两个 base case，结合上面的递推式，就能递推出爬 i 层楼梯的方式数。
+- 用一个数组 dp 存放中间子问题的结果。
+- dp[i]：爬 i 级楼梯的方式数。从dp[0]、dp[1]出发，顺序计算，直到算出 dp[i]，就像填表格。
+
+![7.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdskk5ycoj31c00kx781.jpg)
+
+```go
+func climbStairs(n int) int {
+	dp := make([]int, n+1)
+	dp[0] = 1
+	dp[1] = 1
+	for i := 2; i < len(dp); i++ {
+		dp[i] = dp[i-2] + dp[i-1]
+	}
+	return dp[n]
+}
+
+```
+
+## 压缩空间，优化
+dp[i] 只与过去的两项：dp[i-1] 和 dp[i-2] 有关，没有必要存下所有计算过的 dp 项。用两个变量去存这两个过去的状态就好。
+
+```go
+
+func climbStairs(n int) int {
+	prev := 1
+	cur := 1
+	for i := 2; i < n+1; i++ {
+		temp := cur
+		cur = prev + cur
+		prev = temp
+	}
+	return cur
+}
+
+```
+
+### 可以用动态规划的问题都能用递归
+- 从子问题入手，解决原问题，分两种做法：自顶向下和自底向上
+- 前者对应递归，借助函数调用自己，是程序解决问题的方式，它不会记忆解
+- 后者对应动态规划，利用迭代将子问题的解存在数组里，从数组0位开始顺序往后计算
+- 递归的缺点在于包含重复的子问题（没有加记忆化的情况下），动态规划的效率更高
+
+### DP也有局限性
+- DP 相比于 递归，有时候不太好理解，或者边界情况比较难确定
+- 而且必须是一步步邻接的，连续地计算
+- 加入了记忆化的递归，就灵活很多，它在递归基础上稍作修改，往往更好理解，也少了局限性，不好用DP时一定能用它
+- 比如有时候要求出达到某个结果的路径，递归（DFS）回溯出路径，显然更有优势
+
+
+
+
+
+
+
+[151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
+
+解题思路 
+- 给出一个中间有空格分隔的字符串，要求把这个字符串按照单词的维度前后翻转。
+- 依照题意，先把字符串按照空格分隔成每个小单词，然后把单词前后翻转，最后再把每个单词中间添加空格。
+
+```go
+func reverseWords(s string) string {
+	ss := strings.Fields(s)
+	reverse(&ss, 0, len(ss)-1)
+	return strings.Join(ss, " ")
+}
+func reverse(m *[]string, i, j int) {
+	for i <= j {
+		(*m)[i], (*m)[j] = (*m)[j], (*m)[i]
+		i++
+		j--
+	}
+}
+```
+
+```go
+func reverseWords(s string) string {
+	ss := strings.Fields(s) //ss = ["the", "sky", "is", "blue"]
+	var reverse func([]string, int, int)
+	reverse = func(m []string, i, j int) {
+		for i <= j {
+			m[i], m[j] = m[j], m[i] // ["blue", "sky", "is", "the"]
+			i++
+			j--
+		}
+	}
+	reverse(ss, 0, len(ss)-1)
+	return strings.Join(ss, " ") //"blue is sky the"
+}
+```
+
+### func Fields
+```go
+func Fields(s string) []string
+```
+返回将字符串按照空白（unicode.IsSpace确定，可以是一到多个连续的空白字符）分割的多个字符串。如果字符串全部是空白或者是空字符串的话，会返回空切片。
+
+```go
+Example
+fmt.Printf("Fields are: %q", strings.Fields("  foo bar  baz   "))
+Output:
+
+Fields are: ["foo" "bar" "baz"]
+```
+
+### func Join
+```go
+func Join(a []string, sep string) string
+```
+将一系列字符串连接为一个字符串，之间用sep来分隔。
+
+```go
+Example
+s := []string{"foo", "bar", "baz"}
+fmt.Println(strings.Join(s, ", "))
+Output:
+
+foo, bar, baz
+```
+
+
+
+
+[23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
+
+
+```go
+func mergeKLists(lists []*ListNode) *ListNode {
+	length := len(lists)
+	if length < 1 {
+		return nil
+	}
+	if length == 1 {
+		return lists[0]
+	}
+	num := length / 2
+	left := mergeKLists(lists[:num])
+	right := mergeKLists(lists[num:])
+	return mergeTwoLists1(left, right)
+}
+func mergeTwoLists1(l1 *ListNode, l2 *ListNode) *ListNode {
+	if l1 == nil {
+		return l2
+	}
+	if l2 == nil {
+		return l1
+	}
+	if l1.Val < l2.Val {
+		l1.Next = mergeTwoLists1(l1.Next, l2)
+		return l1
+	} else {
+		l2.Next = mergeTwoLists1(l1, l2.Next)
+		return l2
+	}
+}
+```
+
+
+
+
+
 [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
 
 ### 方法一：深度优先搜索
@@ -428,51 +592,32 @@ func max(x, y int) int {
 
 
 
-[69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
 
-### 方法一：二分查找
+[2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
 
 ```go
-func mySqrt(x int) (res int) {
-	left, right := 0, x
-	for left <= right {
-		mid := left + (right-left)>>1
-		if mid*mid <= x {
-			res = mid
-			left = mid + 1
-		} else {
-			right = mid - 1
+func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+	dummy := new(ListNode)
+	curr, carry := dummy, 0
+	for l1 != nil || l2 != nil || carry > 0 {
+		curr.Next = new(ListNode)
+		curr = curr.Next
+		if l1 != nil {
+			carry += l1.Val
+			l1 = l1.Next
 		}
+		if l2 != nil {
+			carry += l2.Val
+			l2 = l2.Next
+		}
+		curr.Val = carry % 10
+		carry /= 10
 	}
-	return 
+	return dummy.Next
 }
 ```
-复杂度分析
-
-- 时间复杂度：O(logx)，即为二分查找需要的次数。
-- 空间复杂度：O(1)。
-
-### 方法二：牛顿迭代
-
-```go
-func mySqrt(x int) int {
-	r := x
-	for r*r > x {
-		r = (r + x/r) >> 1
-	}
-	return r
-}
-```
-复杂度分析
-
-- 时间复杂度：O(logx)，此方法是二次收敛的，相较于二分查找更快。
-- 空间复杂度：O(1)。
 
 
-
-
-# Challenge Accepted 10 
-# Done 2021.4.9 
 
 
 [110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
@@ -556,185 +701,6 @@ func max(x, y int) int {
 ```
 
 
-[23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
-
-
-```go
-func mergeKLists(lists []*ListNode) *ListNode {
-	length := len(lists)
-	if length < 1 {
-		return nil
-	}
-	if length == 1 {
-		return lists[0]
-	}
-	num := length / 2
-	left := mergeKLists(lists[:num])
-	right := mergeKLists(lists[num:])
-	return mergeTwoLists1(left, right)
-}
-func mergeTwoLists1(l1 *ListNode, l2 *ListNode) *ListNode {
-	if l1 == nil {
-		return l2
-	}
-	if l2 == nil {
-		return l1
-	}
-	if l1.Val < l2.Val {
-		l1.Next = mergeTwoLists1(l1.Next, l2)
-		return l1
-	} else {
-		l2.Next = mergeTwoLists1(l1, l2.Next)
-		return l2
-	}
-}
-```
-
-[2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
-
-```go
-func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-	dummy := new(ListNode)
-	curr, carry := dummy, 0
-	for l1 != nil || l2 != nil || carry > 0 {
-		curr.Next = new(ListNode)
-		curr = curr.Next
-		if l1 != nil {
-			carry += l1.Val
-			l1 = l1.Next
-		}
-		if l2 != nil {
-			carry += l2.Val
-			l2 = l2.Next
-		}
-		curr.Val = carry % 10
-		carry /= 10
-	}
-	return dummy.Next
-}
-```
-
-[144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
-
-### 方法一：递归
-
-```go
-func preorderTraversal(root *TreeNode) (res []int) {
-	var preorder func(*TreeNode)
-	preorder = func(node *TreeNode) {
-		if node != nil {
-			res = append(res, node.Val)
-			preorder(node.Left)
-			preorder(node.Right)
-		}
-	}
-	preorder(root)
-	return
-}
-```
-
-```go
-func preorderTraversal(root *TreeNode) (res []int) {
-	if root != nil {
-		res = append(res, root.Val)
-		tmp := preorderTraversal(root.Left)
-		for _, t := range tmp {
-			res = append(res, t)
-		}
-		tmp = preorderTraversal(root.Right)
-		for _, t := range tmp {
-			res = append(res, t)
-		}
-	}
-	return
-}
-```
-
-```go
-var res []int
-
-func preorderTraversal(root *TreeNode) []int {
-	res = []int{}
-	preorder(root)
-	return res
-}
-func preorder(node *TreeNode) {
-	if node != nil {
-		res = append(res, node.Val)
-		preorder(node.Left)
-		preorder(node.Right)
-	}
-}
-```
-
-```go
-func preorderTraversal(root *TreeNode) []int {
-	res := []int{}
-	preorder(root, &res)
-	return res
-}
-func preorder(node *TreeNode, res *[]int) {
-	if node != nil {
-		*res = append(*res, node.Val)
-		preorder(node.Left, res)
-		preorder(node.Right, res)
-	}
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(n)，其中 n 是二叉树的节点数。每一个节点恰好被遍历一次。
-- 空间复杂度：O(n)，为递归过程中栈的开销，平均情况下为 O(logn)，最坏情况下树呈现链状，为 O(n)。
-
-### 方法二：迭代
-
-
-```go
-func preorderTraversal(root *TreeNode) (res []int) {
-	stack, node := []*TreeNode{}, root
-	for node != nil || len(stack) > 0 {
-		for node != nil {
-			res = append(res, node.Val)
-			stack = append(stack, node)
-			node = node.Left
-		}
-		node = stack[len(stack)-1]
-		stack = stack[:len(stack)-1]
-		node = node.Right
-	}
-	return
-}
-```
-
-```go
-func preorderTraversal(root *TreeNode) (res []int) {
-	if root == nil {
-		return []int{}
-	}
-	stack := []*TreeNode{root}
-	for len(stack) > 0 {
-		node := stack[len(stack)-1]
-		stack = stack[:len(stack)-1]
-		if node != nil {
-			res = append(res, node.Val)
-		}
-		if node.Right != nil {
-			stack = append(stack, node.Right)
-		}
-		if node.Left != nil {
-			stack = append(stack, node.Left)
-		}
-	}
-	return
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(n)，其中 n 是二叉树的节点数。每一个节点恰好被遍历一次。
-
-- 空间复杂度：O(n)，为迭代过程中显式栈的开销，平均情况下为 O(logn)，最坏情况下树呈现链状，为 O(n)。
 
 
 
@@ -742,69 +708,12 @@ func preorderTraversal(root *TreeNode) (res []int) {
 
 
 
-[151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
 
-解题思路 
-- 给出一个中间有空格分隔的字符串，要求把这个字符串按照单词的维度前后翻转。
-- 依照题意，先把字符串按照空格分隔成每个小单词，然后把单词前后翻转，最后再把每个单词中间添加空格。
 
-```go
-func reverseWords(s string) string {
-	ss := strings.Fields(s)
-	reverse(&ss, 0, len(ss)-1)
-	return strings.Join(ss, " ")
-}
-func reverse(m *[]string, i, j int) {
-	for i <= j {
-		(*m)[i], (*m)[j] = (*m)[j], (*m)[i]
-		i++
-		j--
-	}
-}
-```
 
-```go
-func reverseWords(s string) string {
-	ss := strings.Fields(s) //ss = ["the", "sky", "is", "blue"]
-	var reverse func([]string, int, int)
-	reverse = func(m []string, i, j int) {
-		for i <= j {
-			m[i], m[j] = m[j], m[i] // ["blue", "sky", "is", "the"]
-			i++
-			j--
-		}
-	}
-	reverse(ss, 0, len(ss)-1)
-	return strings.Join(ss, " ") //"blue is sky the"
-}
-```
 
-### func Fields
-```go
-func Fields(s string) []string
-```
-返回将字符串按照空白（unicode.IsSpace确定，可以是一到多个连续的空白字符）分割的多个字符串。如果字符串全部是空白或者是空字符串的话，会返回空切片。
 
-```go
-Example
-fmt.Printf("Fields are: %q", strings.Fields("  foo bar  baz   "))
-Output:
 
-Fields are: ["foo" "bar" "baz"]
-```
 
-### func Join
-```go
-func Join(a []string, sep string) string
-```
-将一系列字符串连接为一个字符串，之间用sep来分隔。
 
-```go
-Example
-s := []string{"foo", "bar", "baz"}
-fmt.Println(strings.Join(s, ", "))
-Output:
-
-foo, bar, baz
-```
 

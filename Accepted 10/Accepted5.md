@@ -1,489 +1,33 @@
+
+[8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 	next
+
 [718. 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
 
-[70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+[144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
+
+[169. 多数元素](https://leetcode-cn.com/problems/majority-element/)
 
 [113. 路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/)
 
-[8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/)
-
 [234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
+
+[876. 链表的中间结点](https://leetcode-cn.com/problems/middle-of-the-linked-list/) 补充
 
 [155. 最小栈](https://leetcode-cn.com/problems/min-stack/)
 
-[543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
+[56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
 
 [105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 
 [124. 二叉树中的最大路径和](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
 
-[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)
-
 
 ------
 
-
-[70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
-
-
-### 方法一：滚动数组 (斐波那契数列)
-
-![截屏2021-04-09 11.50.02.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdcsbx511j31940gu756.jpg)
-
-思路和算法
-
-我们用 f(x) 表示爬到第 x 级台阶的方案数，考虑最后一步可能跨了一级台阶，也可能跨了两级台阶，所以我们可以列出如下式子：
-
-f(x) = f(x - 1) + f(x - 2)
-
-f(x) 只和 f(x−1) 与 f(x−2) 有关，所以我们可以用「滚动数组思想」把空间复杂度优化成 O(1)。
-
-
-```go
-func climbStairs(n int) int {
-	p, q, r := 0, 0, 1
-	for i := 1; i <= n; i++ {
-		p = q
-		q = r
-		r = p + q
-	}
-	return r
-}
-```
-复杂度分析
-
-- 时间复杂度：循环执行 n 次，每次花费常数的时间代价，故渐进时间复杂度为 O(n)。
-- 空间复杂度：这里只用了常数个变量作为辅助空间，故渐进空间复杂度为 O(1)。
-
-
-
-### 方法二：动态规划
-
-解题思路 
-- 简单的 DP，经典的爬楼梯问题。一个楼梯可以由 n-1 和 n-2 的楼梯爬上来。
-- 这一题求解的值就是斐波那契数列。
-
-```go
-func climbStairs(n int) int {
-	dp := make([]int, n+1)
-	dp[0], dp[1] = 1, 1
-	for i := 2; i <= n; i++ {
-		dp[i] = dp[i-1] + dp[i-2]
-	}
-	return dp[n]
-}
-```
-
-复杂度分析
-
-- 时间复杂度：循环执行 n 次，每次花费常数的时间代价，故渐进时间复杂度为 O(n)。
-- 空间复杂度： O(n)。
-
-### 解题思路 
-#### 假设 n = 5，有 5 级楼梯要爬
-- 题意说，每次有2种选择：爬1级，或爬2级。
-	如果爬1级，则剩下4级要爬。
-	如果爬2级，则剩下3级要爬。
-- 这拆分出了2个问题：
-	爬4级楼梯有几种方式？
-	爬3级楼梯有几种方式？
-- 于是，爬 5 级楼梯的方式数 = 爬 4 级楼梯的方式数 + 爬 3 级楼梯的方式数。
-#### 画出递归树
-- 用「剩下要爬的楼梯数」描述一个节点。
-![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdsdqld5ij317207674g.jpg)
-
-- 子问题又会面临 2 个选择，不断分支，直到位于递归树底部的 base case：
-
-	楼梯数为 0 时，只有 1 种选择：什么都不做。
-	楼梯数为 1 时，只有1种选择：爬1级。
-
-![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdsewfog7j30y60ctaam.jpg)
-
-- 当递归遍历到 base case，解是已知的，开始返回，如下图，子问题的结果不断向上返回，得到父问题的解。
-
-![4.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdsfh45y0j314h0hkdhr.jpg)
-
-- 调用栈的深度是楼梯数 n，空间复杂度是O(n)O(n)，时间复杂度最坏是O(2^n)，所有节点都遍历到。
-
-### 存在重复的子问题
-- 如下图，黄色阴影部分，蓝色阴影部分，是相同的子树，即相同的子问题。
-
-![5.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdsh8p300j30zr0i7jtk.jpg)
-
-- 子问题的计算结果可以存储在哈希表中，或者数组，下次遇到就不用再进入相同的递归。
-
-- 去除重复的计算后的子树如下，时间复杂度降到了O(n)，空间复杂度O(n)。
-
-![6.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdsiibb52j30sp0fpabc.jpg)
-
-## 动态规划，自底而上思考
-- 我们发现，爬 i 层楼梯的方式数 = 爬 i-2 层楼梯的方式数 + 爬 i-1 层楼梯的方式数。
-- 我们有两个 base case，结合上面的递推式，就能递推出爬 i 层楼梯的方式数。
-- 用一个数组 dp 存放中间子问题的结果。
-- dp[i]：爬 i 级楼梯的方式数。从dp[0]、dp[1]出发，顺序计算，直到算出 dp[i]，就像填表格。
-
-![7.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdskk5ycoj31c00kx781.jpg)
-
-```go
-func climbStairs(n int) int {
-	dp := make([]int, n+1)
-	dp[0] = 1
-	dp[1] = 1
-	for i := 2; i < len(dp); i++ {
-		dp[i] = dp[i-2] + dp[i-1]
-	}
-	return dp[n]
-}
-
-```
-
-## 压缩空间，优化
-dp[i] 只与过去的两项：dp[i-1] 和 dp[i-2] 有关，没有必要存下所有计算过的 dp 项。用两个变量去存这两个过去的状态就好。
-
-```go
-
-func climbStairs(n int) int {
-	prev := 1
-	cur := 1
-	for i := 2; i < n+1; i++ {
-		temp := cur
-		cur = prev + cur
-		prev = temp
-	}
-	return cur
-}
-
-```
-
-### 可以用动态规划的问题都能用递归
-- 从子问题入手，解决原问题，分两种做法：自顶向下和自底向上
-- 前者对应递归，借助函数调用自己，是程序解决问题的方式，它不会记忆解
-- 后者对应动态规划，利用迭代将子问题的解存在数组里，从数组0位开始顺序往后计算
-- 递归的缺点在于包含重复的子问题（没有加记忆化的情况下），动态规划的效率更高
-
-### DP也有局限性
-- DP 相比于 递归，有时候不太好理解，或者边界情况比较难确定
-- 而且必须是一步步邻接的，连续地计算
-- 加入了记忆化的递归，就灵活很多，它在递归基础上稍作修改，往往更好理解，也少了局限性，不好用DP时一定能用它
-- 比如有时候要求出达到某个结果的路径，递归（DFS）回溯出路径，显然更有优势
-
-
-
-
-
-[113. 路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/)
-
-### 方法一：深度优先搜索
-
-思路及算法
-
-我们可以采用深度优先搜索的方式，枚举每一条从根节点到叶子节点的路径。当我们遍历到叶子节点，且此时路径和恰为目标和时，我们就找到了一条满足条件的路径。
-
-```go
-func pathSum(root *TreeNode, targetSum int) [][]int {
-	var res [][]int
-	res = findPath(root, targetSum, res, []int(nil))
-	return res
-}
-func findPath(node *TreeNode, sum int, res [][]int, stack []int) [][]int {
-	if node == nil {
-		return res
-	}
-	sum -= node.Val
-	stack = append(stack, node.Val)
-	if sum == 0 && node.Left == nil && node.Right == nil {
-		res = append(res, append([]int(nil), stack...))
-		stack = stack[:len(stack)-1]
-	}
-	res = findPath(node.Left, sum, res, stack)
-	res = findPath(node.Right, sum, res, stack)
-	return res
-}
-```
-
-
-```go
-func pathSum(root *TreeNode, targetSum int) (res [][]int) {
-	stack := []int{} //path
-	var dfs func(*TreeNode, int)
-	dfs = func(node *TreeNode, sum int) {
-		if node == nil {
-			return
-		}
-		sum -= node.Val
-		stack = append(stack, node.Val)
-		defer func() { stack = stack[:len(stack)-1] }()
-		if sum == 0 && node.Left == nil && node.Right == nil {
-			res = append(res, append([]int(nil), stack...))
-			return
-		}
-		dfs(node.Left, sum)
-		dfs(node.Right, sum)
-	}
-	dfs(root, targetSum)
-	return
-}
-```
-复杂度分析
-
-- 时间复杂度：O(N^2)，其中 N 是树的节点数。在最坏情况下，树的上半部分为链状，下半部分为完全二叉树，并且从根节点到每一个叶子节点的路径都符合题目要求。此时，路径的数目为 O(N)，并且每一条路径的节点个数也为 O(N)，因此要将这些路径全部添加进答案中，时间复杂度为 O(N^2)。
-
-- 空间复杂度：O(N)，其中 N 是树的节点数。空间复杂度主要取决于栈空间的开销，栈中的元素个数不会超过树的节点数。
-
-
-
-
-[155. 最小栈](https://leetcode-cn.com/problems/min-stack/)
-
-```go
-type MinStack struct {
-	stack, minStack []int
-}
-
-/** initialize your data structure here. */
-func Constructor() MinStack {
-	return MinStack{
-		stack:    []int{},
-		minStack: []int{math.MaxInt64},
-	}
-}
-
-func (this *MinStack) Push(val int) {
-	this.stack = append(this.stack, val)
-	top := this.minStack[len(this.minStack)-1]
-	this.minStack = append(this.minStack, min(val, top))
-}
-
-func (this *MinStack) Pop() {
-	this.stack = this.stack[:len(this.stack)-1]
-	this.minStack = this.minStack[:len(this.minStack)-1]
-}
-
-func (this *MinStack) Top() int {
-	return this.stack[len(this.stack)-1]
-}
-
-func (this *MinStack) GetMin() int {
-	return this.minStack[len(this.minStack)-1]
-}
-
-func min(x, y int) int {
-	if x < y {
-		return x
-	}
-	return y
-}
-```
-
-```go
-// MinStack define
-type MinStack struct {
-	stack, min []int
-	l          int
-}
-
-/** initialize your data structure here. */
-
-// Constructor155 define
-func Constructor() MinStack {
-	return MinStack{make([]int, 0), make([]int, 0), 0}
-}
-
-// Push define
-func (this *MinStack) Push(x int) {
-	this.stack = append(this.stack, x)
-	if this.l == 0 {
-		this.min = append(this.min, x)
-	} else {
-		min := this.GetMin()
-		if x < min {
-			this.min = append(this.min, x)
-		} else {
-			this.min = append(this.min, min)
-		}
-	}
-	this.l++
-}
-
-func (this *MinStack) Pop() {
-	this.l--
-	this.min = this.min[:this.l]
-	this.stack = this.stack[:this.l]
-}
-
-func (this *MinStack) Top() int {
-	return this.stack[this.l-1]
-}
-
-func (this *MinStack) GetMin() int {
-	return this.min[this.l-1]
-}
-```
-
-
 [8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/)
-
-[543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
-
-```go
-func diameterOfBinaryTree(root *TreeNode) int {
-	res := 1
-	var depth func(*TreeNode) int
-	depth = func(node *TreeNode) int {
-		if node == nil {
-			return 0
-		}
-		left := depth(node.Left)
-		right := depth(node.Right)
-		res = max(res, left+right+1)
-		return max(left, right) + 1
-	}
-	depth(root)
-	return res - 1
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
-
-[105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
-
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func buildTree(preorder []int, inorder []int) *TreeNode {
-	if len(preorder) == 0 {
-		return nil
-	}
-	root := &TreeNode{preorder[0], nil, nil}
-	i := 0
-	for ; i < len(inorder); i++ {
-		if inorder[i] == preorder[0] { //找到根结点在 inorder 中的位置索引 i
-			break
-		}
-	}
-	root.Left = buildTree(preorder[1:len(inorder[:i])+1], inorder[:i])
-	root.Right = buildTree(preorder[len(inorder[:i])+1:], inorder[i+1:])
-	return root
-}
-```
-
-# Challenge Accepted 10 	Done 2021.4.10
-
-
-
-
-[234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
-
-### 方法一：转成数组
-遍历一遍，把值放入数组中，然后用双指针判断是否回文。
-
-- 时间复杂度O(n)。
-- 空间复杂度O(n)。
-
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
-*/
-func isPalindrome(head *ListNode) bool {
-	nums := []int{}
-	for head != nil {
-		nums = append(nums, head.Val)
-		head = head.Next
-	}
-	left, right := 0, len(nums)-1
-	for left < right {
-		if nums[left] != nums[right] {
-			return false
-		}
-		left++
-		right--
-	}
-	return true
-}
-
-```
-
-
-
-
-### 方法二：快慢指针
-快慢指针，起初都指向表头，快指针一次走两步，慢指针一次走一步，遍历结束时：
-
-- 要么，slow 正好指向中间两个结点的后一个。
-- 要么，slow 正好指向中间结点。
-用 prev 保存 slow 的前一个结点，通过prev.next = null断成两个链表。
-
-将后半段链表翻转，和前半段从头比对。空间复杂度降为O(1)。
-
-![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpecx13c3rj30z20fcjv7.jpg)
-
-### 如何翻转单链表
-可以这么思考：一次迭代中，有哪些指针需要变动：
-
-每个结点的 next 指针要变动。
-指向表头的 slow 指针要变动。
-需要有指向新链表表头的 head2 指针，它也要变。
-
-![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpecxtza7vj31ie0ogn3i.jpg)
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
-*/
-func isPalindrome(head *ListNode) bool {
-	if head == nil || head.Next == nil {
-		return true
-	}
-	slow, fast := head, head
-	prev := new(ListNode) // var prev *ListNode = nil
-	for fast != nil && fast.Next != nil {
-		prev = slow
-		slow = slow.Next
-		fast = fast.Next.Next
-	}
-	prev.Next = nil //断开
-	//翻转后半部分链表
-	head2 := new(ListNode)
-	for slow != nil { 
-		t := slow.Next
-		slow.Next = head2
-		head2, slow = slow, t
-	}
-	for head != nil && head2 != nil {
-		if head.Val != head2.Val {
-			return false
-		}
-		head = head.Next
-		head2 = head2.Next
-	}
-	return true
-}
-```
 
 
 [718. 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
-
-
 
 
 ### 方法一：暴力
@@ -653,6 +197,592 @@ N 表示数组 A 的长度，M 表示数组 B 的长度。
 
 
 
+[144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
+
+### 方法一：递归
+
+```go
+func preorderTraversal(root *TreeNode) (res []int) {
+	var preorder func(*TreeNode)
+	preorder = func(node *TreeNode) {
+		if node != nil {
+			res = append(res, node.Val)
+			preorder(node.Left)
+			preorder(node.Right)
+		}
+	}
+	preorder(root)
+	return
+}
+```
+
+```go
+func preorderTraversal(root *TreeNode) (res []int) {
+	if root != nil {
+		res = append(res, root.Val)
+		tmp := preorderTraversal(root.Left)
+		for _, t := range tmp {
+			res = append(res, t)
+		}
+		tmp = preorderTraversal(root.Right)
+		for _, t := range tmp {
+			res = append(res, t)
+		}
+	}
+	return
+}
+```
+
+```go
+var res []int
+
+func preorderTraversal(root *TreeNode) []int {
+	res = []int{}
+	preorder(root)
+	return res
+}
+func preorder(node *TreeNode) {
+	if node != nil {
+		res = append(res, node.Val)
+		preorder(node.Left)
+		preorder(node.Right)
+	}
+}
+```
+
+```go
+func preorderTraversal(root *TreeNode) []int {
+	res := []int{}
+	preorder(root, &res)
+	return res
+}
+func preorder(node *TreeNode, res *[]int) {
+	if node != nil {
+		*res = append(*res, node.Val)
+		preorder(node.Left, res)
+		preorder(node.Right, res)
+	}
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n)，其中 n 是二叉树的节点数。每一个节点恰好被遍历一次。
+- 空间复杂度：O(n)，为递归过程中栈的开销，平均情况下为 O(logn)，最坏情况下树呈现链状，为 O(n)。
+
+### 方法二：迭代
+
+
+```go
+func preorderTraversal(root *TreeNode) (res []int) {
+	stack, node := []*TreeNode{}, root
+	for node != nil || len(stack) > 0 {
+		for node != nil {
+			res = append(res, node.Val)
+			stack = append(stack, node)
+			node = node.Left
+		}
+		node = stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		node = node.Right
+	}
+	return
+}
+```
+
+```go
+func preorderTraversal(root *TreeNode) (res []int) {
+	if root == nil {
+		return []int{}
+	}
+	stack := []*TreeNode{root}
+	for len(stack) > 0 {
+		node := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		if node != nil {
+			res = append(res, node.Val)
+		}
+		if node.Right != nil {
+			stack = append(stack, node.Right)
+		}
+		if node.Left != nil {
+			stack = append(stack, node.Left)
+		}
+	}
+	return
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n)，其中 n 是二叉树的节点数。每一个节点恰好被遍历一次。
+
+- 空间复杂度：O(n)，为迭代过程中显式栈的开销，平均情况下为 O(logn)，最坏情况下树呈现链状，为 O(n)。
+
+
+
+
+[169. 多数元素](https://leetcode-cn.com/problems/majority-element/)
+
+### 方法五：Boyer-Moore 投票算法
+思路
+
+如果我们把众数记为 +1，把其他数记为 −1，将它们全部加起来，显然和大于 0，从结果本身我们可以看出众数比其他数多。
+
+不同元素相互抵消，最后剩余就是众数
+
+```go
+func majorityElement(nums []int) int {
+	res, count := 0, 0
+	for _, num := range nums {
+		if count == 0 {
+			res = num
+		}
+		if res == num {
+			count++
+		} else {
+			count--
+		}
+	}
+	return res
+}
+```
+
+```go
+func majorityElement(nums []int) int {
+	res, count := 0, 0
+	for _, num := range nums {
+		if count == 0 {
+			res, count = num, 1
+		} else {
+			if res == num {
+				count++
+			} else {
+				count--
+			}
+		}
+	}
+	return res
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n)。Boyer-Moore 算法只对数组进行了一次遍历。
+
+- 空间复杂度：O(1)。Boyer-Moore 算法只需要常数级别的额外空间。
+
+
+
+
+
+[113. 路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/)
+
+### 方法一：深度优先搜索
+
+思路及算法
+
+我们可以采用深度优先搜索的方式，枚举每一条从根节点到叶子节点的路径。当我们遍历到叶子节点，且此时路径和恰为目标和时，我们就找到了一条满足条件的路径。
+
+```go
+func pathSum(root *TreeNode, targetSum int) [][]int {
+	var res [][]int
+	res = findPath(root, targetSum, res, []int(nil))
+	return res
+}
+func findPath(node *TreeNode, sum int, res [][]int, stack []int) [][]int {
+	if node == nil {
+		return res
+	}
+	sum -= node.Val
+	stack = append(stack, node.Val)
+	if sum == 0 && node.Left == nil && node.Right == nil {
+		res = append(res, append([]int(nil), stack...))
+		stack = stack[:len(stack)-1]
+	}
+	res = findPath(node.Left, sum, res, stack)
+	res = findPath(node.Right, sum, res, stack)
+	return res
+}
+```
+
+
+```go
+func pathSum(root *TreeNode, targetSum int) (res [][]int) {
+	stack := []int{} //path
+	var dfs func(*TreeNode, int)
+	dfs = func(node *TreeNode, sum int) {
+		if node == nil {
+			return
+		}
+		sum -= node.Val
+		stack = append(stack, node.Val)
+		defer func() { stack = stack[:len(stack)-1] }()
+		if sum == 0 && node.Left == nil && node.Right == nil {
+			res = append(res, append([]int(nil), stack...))
+			return
+		}
+		dfs(node.Left, sum)
+		dfs(node.Right, sum)
+	}
+	dfs(root, targetSum)
+	return
+}
+```
+复杂度分析
+
+- 时间复杂度：O(N^2)，其中 N 是树的节点数。在最坏情况下，树的上半部分为链状，下半部分为完全二叉树，并且从根节点到每一个叶子节点的路径都符合题目要求。此时，路径的数目为 O(N)，并且每一条路径的节点个数也为 O(N)，因此要将这些路径全部添加进答案中，时间复杂度为 O(N^2)。
+
+- 空间复杂度：O(N)，其中 N 是树的节点数。空间复杂度主要取决于栈空间的开销，栈中的元素个数不会超过树的节点数。
+
+
+
+[234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
+
+### 方法一：转成数组
+遍历一遍，把值放入数组中，然后用双指针判断是否回文。
+
+- 时间复杂度O(n)。
+- 空间复杂度O(n)。
+
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+*/
+func isPalindrome(head *ListNode) bool {
+	nums := []int{}
+	for head != nil {
+		nums = append(nums, head.Val)
+		head = head.Next
+	}
+	left, right := 0, len(nums)-1
+	for left < right {
+		if nums[left] != nums[right] {
+			return false
+		}
+		left++
+		right--
+	}
+	return true
+}
+
+```
+
+
+
+
+### 方法二：快慢指针
+快慢指针，起初都指向表头，快指针一次走两步，慢指针一次走一步，遍历结束时：
+
+- 要么，slow 正好指向中间两个结点的后一个。
+- 要么，slow 正好指向中间结点。
+用 prev 保存 slow 的前一个结点，通过prev.next = null断成两个链表。
+
+将后半段链表翻转，和前半段从头比对。空间复杂度降为O(1)。
+
+![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpecx13c3rj30z20fcjv7.jpg)
+
+### 如何翻转单链表
+可以这么思考：一次迭代中，有哪些指针需要变动：
+
+每个结点的 next 指针要变动。
+指向表头的 slow 指针要变动。
+需要有指向新链表表头的 head2 指针，它也要变。
+
+![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpecxtza7vj31ie0ogn3i.jpg)
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+*/
+func isPalindrome(head *ListNode) bool {
+	if head == nil || head.Next == nil {
+		return true
+	}
+	slow, fast := head, head
+	prev := new(ListNode) // var prev *ListNode = nil
+	for fast != nil && fast.Next != nil {
+		prev = slow
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+	prev.Next = nil //断开
+	//翻转后半部分链表
+	head2 := new(ListNode)
+	for slow != nil { 
+		t := slow.Next
+		slow.Next = head2
+		head2, slow = slow, t
+	}
+	for head != nil && head2 != nil {
+		if head.Val != head2.Val {
+			return false
+		}
+		head = head.Next
+		head2 = head2.Next
+	}
+	return true
+}
+```
+
+
+[876. 链表的中间结点](https://leetcode-cn.com/problems/middle-of-the-linked-list/)
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func middleNode(head *ListNode) *ListNode {
+    slow, fast := head, head 
+    for fast != nil && fast.Next != nil {
+        slow = slow.Next
+        fast = fast.Next.Next
+    }
+    return slow
+}
+```
+
+
+[155. 最小栈](https://leetcode-cn.com/problems/min-stack/)
+
+```go
+type MinStack struct {
+	stack, minStack []int
+}
+
+/** initialize your data structure here. */
+func Constructor() MinStack {
+	return MinStack{
+		stack:    []int{},
+		minStack: []int{math.MaxInt64},
+	}
+}
+
+func (this *MinStack) Push(val int) {
+	this.stack = append(this.stack, val)
+	top := this.minStack[len(this.minStack)-1]
+	this.minStack = append(this.minStack, min(val, top))
+}
+
+func (this *MinStack) Pop() {
+	this.stack = this.stack[:len(this.stack)-1]
+	this.minStack = this.minStack[:len(this.minStack)-1]
+}
+
+func (this *MinStack) Top() int {
+	return this.stack[len(this.stack)-1]
+}
+
+func (this *MinStack) GetMin() int {
+	return this.minStack[len(this.minStack)-1]
+}
+
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+```
+
+```go
+// MinStack define
+type MinStack struct {
+	stack, min []int
+	l          int
+}
+
+/** initialize your data structure here. */
+
+// Constructor155 define
+func Constructor() MinStack {
+	return MinStack{make([]int, 0), make([]int, 0), 0}
+}
+
+// Push define
+func (this *MinStack) Push(x int) {
+	this.stack = append(this.stack, x)
+	if this.l == 0 {
+		this.min = append(this.min, x)
+	} else {
+		min := this.GetMin()
+		if x < min {
+			this.min = append(this.min, x)
+		} else {
+			this.min = append(this.min, min)
+		}
+	}
+	this.l++
+}
+
+func (this *MinStack) Pop() {
+	this.l--
+	this.min = this.min[:this.l]
+	this.stack = this.stack[:this.l]
+}
+
+func (this *MinStack) Top() int {
+	return this.stack[this.l-1]
+}
+
+func (this *MinStack) GetMin() int {
+	return this.min[this.l-1]
+}
+```
+
+
+
+[56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
+
+
+### 方法一：排序
+
+#### 思路
+
+如果我们按照区间的左端点排序，那么在排完序的列表中，可以合并的区间一定是连续的。如下图所示，标记为蓝色、黄色和绿色的区间分别可以合并成一个大区间，它们在排完序的列表中是连续的：
+
+![0.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfnnsrl94j30qo07a0t1.jpg)
+
+
+#### 算法
+
+我们用数组 merged 存储最终的答案。
+
+首先，我们将列表中的区间按照左端点升序排序。然后我们将第一个区间加入 merged 数组中，并按顺序依次考虑之后的每个区间：
+
+- 如果当前区间的左端点在数组 merged 中最后一个区间的右端点之后，那么它们不会重合，我们可以直接将这个区间加入数组 merged 的末尾；
+
+- 否则，它们重合，我们需要用当前区间的右端点更新数组 merged 中最后一个区间的右端点，将其置为二者的较大值。
+
+
+#### 思路
+prev 初始为第一个区间，cur 表示当前的区间，res 表示结果数组
+
+- 开启遍历，尝试合并 prev 和 cur，合并后更新到 prev 上
+- 因为合并后的新区间还可能和后面的区间重合，继续尝试合并新的 cur，更新给 prev
+- 直到不能合并 —— prev[1] < cur[0]，此时将 prev 区间推入 res 数组
+
+#### 合并的策略
+- 原则上要更新prev[0]和prev[1]，即左右端:
+prev[0] = min(prev[0], cur[0])
+prev[1] = max(prev[1], cur[1])
+- 但如果先按区间的左端排升序，就能保证 prev[0] < cur[0]
+- 所以合并只需这条：prev[1] = max(prev[1], cur[1])
+#### 易错点
+我们是先合并，遇到不重合再推入 prev。
+当考察完最后一个区间，后面没区间了，遇不到不重合区间，最后的 prev 没推入 res。
+要单独补上。
+
+
+![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfnod6g2lj318c0ff760.jpg)
+
+```go
+func merge(intervals [][]int) [][]int {
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+	res := [][]int{}
+	prev := intervals[0]
+	for i := 1; i < len(intervals); i++ {
+		curr := intervals[i]
+		if prev[1] < curr[0] { //没有一点重合
+			res = append(res, prev)
+			prev = curr
+		} else { //有重合
+			prev[1] = max(prev[1], curr[1])
+		}
+	}
+	res = append(res, prev)
+	return res
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(nlogn)，其中 nn 为区间的数量。除去排序的开销，我们只需要一次线性扫描，所以主要的时间开销是排序的 O(nlogn)。
+
+- 空间复杂度：O(logn)，其中 nn 为区间的数量。这里计算的是存储答案之外，使用的额外空间。O(logn) 即为排序所需要的空间复杂度。
+
+
+### sort.Slice()介绍
+
+```go
+
+import (
+    "fmt"
+)
+func findRelativeRanks(nums []int){
+    index := []int{}
+    for i := 0; i < len(nums);i++ {
+        index=append(index,i)
+    }
+    // index
+    // {0,1,2,3,4}
+    sort.Slice(index, func (i,j int)bool{
+        return nums[i]<nums[j]
+    })
+    fmt.Println(index)
+    // actually get [1 0 2 4 3], not [1, 4, 2, 3, 0] as expected
+    // can't use sort.Slice between two slices
+}
+ 
+func main(){
+    nums := []int{10,3,8,9,4}
+    findRelativeRanks(nums)
+```
+
+
+
+
+
+[105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func buildTree(preorder []int, inorder []int) *TreeNode {
+	if len(preorder) == 0 {
+		return nil
+	}
+	root := &TreeNode{preorder[0], nil, nil}
+	i := 0
+	for ; i < len(inorder); i++ {
+		if inorder[i] == preorder[0] { //找到根结点在 inorder 中的位置索引 i
+			break
+		}
+	}
+	root.Left = buildTree(preorder[1:len(inorder[:i])+1], inorder[:i])
+	root.Right = buildTree(preorder[len(inorder[:i])+1:], inorder[i+1:])
+	return root
+}
+```
+
 
 
 [124. 二叉树中的最大路径和](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
@@ -709,6 +839,16 @@ func max(x, y int) int {
 	return y
 }
 ```
-[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)
+
+
+
+
+
+
+
+
+
+
+
 
 

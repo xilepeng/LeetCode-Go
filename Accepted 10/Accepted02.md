@@ -26,6 +26,12 @@
 
 [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
 
+### 方法一：双指针法
+
+![截屏2021-04-21 11.23.18.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7bhprljj31ck0p6do3.jpg)
+
+![截屏2021-04-21 11.23.31.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7brsn7wj31c60m0793.jpg)
+
 ```go
 func getIntersectionNode(headA, headB *ListNode) *ListNode {
 	A, B := headA, headB
@@ -44,6 +50,12 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
 	return A
 }
 ```
+
+复杂度分析
+
+- 时间复杂度 : O(m+n)。
+- 空间复杂度 : O(1)。
+
 
 [415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
 

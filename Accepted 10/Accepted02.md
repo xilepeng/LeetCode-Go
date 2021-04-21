@@ -81,6 +81,8 @@ func addStrings(num1 string, num2 string) string {
 
 [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
 
+![截屏2021-04-21 12.13.52.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr8r3r6ijj31780mcq9j.jpg)
+
 ```go
 func hasCycle(head *ListNode) bool {
 	if head == nil || head.Next == nil {

@@ -58,6 +58,11 @@ func reverseList(head *ListNode) *ListNode {
 
 ### 方法二：头插法
 
+![截屏2021-04-21 12.11.01.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr8ocoatoj316s0o844c.jpg)
+
+![截屏2021-04-21 12.11.12.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr8otljdfj315c0oy42w.jpg)
+
+
 ```go
 /**
  * Definition for singly-linked list.

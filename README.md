@@ -78,14 +78,53 @@ func isCompleteTree(root *TreeNode) bool {
 
 [468. 验证IP地址](https://leetcode-cn.com/problems/validate-ip-address/)
 
+
+
 [剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/)
+
+```go
+func exchange(nums []int) []int {
+    for i, j := 0, 0; i < len(nums); i++ {
+        if nums[i] & 1 == 1 { //nums[i]奇数      nums[j]偶数
+            nums[i], nums[j] = nums[j], nums[i] //奇偶交换
+            j++
+        }
+    }
+    return nums
+}
+```
+
+```go
+func exchange(nums []int) []int {
+    i, j := 0, len(nums)-1
+    for i < j {
+        for i < j && nums[i] & 1 == 1 { //从左往右、奇数一直向右走
+            i++
+        }
+        for i < j && nums[j] & 1 == 0 { //从右向左、偶数一直向左走
+            j--
+        }
+        nums[i], nums[j] = nums[j], nums[i]
+    }
+    return nums
+}
+```
+
 
 [322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/)
 
+
+
 [剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
+
+
 
 [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
+
+
 [7. 整数反转](https://leetcode-cn.com/problems/reverse-integer/)
+
+
 
 [460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)

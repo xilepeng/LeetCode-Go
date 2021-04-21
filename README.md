@@ -104,7 +104,7 @@ func exchange(nums []int) []int {
         for i < j && nums[j] & 1 == 0 { //从右向左、偶数一直向左走
             j--
         }
-        nums[i], nums[j] = nums[j], nums[i]
+        nums[i], nums[j] = nums[j], nums[i] //奇偶交换
     }
     return nums
 }
@@ -113,9 +113,53 @@ func exchange(nums []int) []int {
 
 [322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/)
 
+```go
+func coinChange(coins []int, amount int) int {
+	dp := make([]int, amount+1)
+	dp[0] = 0
+	for i := 1; i < len(dp); i++ {
+		dp[i] = amount + 1
+	}
+	for i := 1; i <= amount; i++ {
+		for _, coin := range coins {
+			if i-coin >= 0 {
+				dp[i] = min(dp[i], dp[i-coin]+1)
+			}
+		}
+	}
+	if amount-dp[amount] < 0 {
+		return -1
+	}
+	return dp[amount]
+}
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+```
+
+
+
+
+
 
 
 [剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
+
+
+
+
+
+[162. 寻找峰值](https://leetcode-cn.com/problems/find-peak-element/)
+
+
+
+
+[179. 最大数](https://leetcode-cn.com/problems/largest-number/)
+
+
 
 
 
@@ -123,8 +167,40 @@ func exchange(nums []int) []int {
 
 
 
+
 [7. 整数反转](https://leetcode-cn.com/problems/reverse-integer/)
 
 
 
+
+
 [460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
+
+
+
+
+[补充题6. 手撕堆排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+
+
+[59. 螺旋矩阵 II](https://leetcode-cn.com/problems/spiral-matrix-ii/)
+
+
+
+[128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
+
+
+
+[剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
+
+
+
+[24. 两两交换链表中的节点](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)
+
+
+
+[32. 最长有效括号](https://leetcode-cn.com/problems/longest-valid-parentheses/)
+
+
+
+[498. 对角线遍历](https://leetcode-cn.com/problems/diagonal-traverse/)

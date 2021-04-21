@@ -113,6 +113,8 @@ func exchange(nums []int) []int {
 
 [322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/)
 
+![322. Coin Change and 518. Coin Change 2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gps6k2bgrtj31kg3tub29.jpg)
+
 ```go
 func coinChange(coins []int, amount int) int {
 	dp := make([]int, amount+1)

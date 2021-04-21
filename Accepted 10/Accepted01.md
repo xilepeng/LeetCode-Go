@@ -376,6 +376,8 @@ func (this *LRUCache) removeTail() *DLinkedNode {
 
 [25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
 
+![截屏2021-04-21 11.31.37.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7jmcf05j315g0pen05.jpg)
+
 ```go
 func reverseKGroup(head *ListNode, k int) *ListNode {
 	dummy := &ListNode{Next: head}

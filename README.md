@@ -209,6 +209,21 @@ func change(amount int, coins []int) int {
 
 [剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
 
+```go
+func fib(n int) int {
+    if n < 2 { 
+        return n 
+    }
+    prev, curr := 0, 1
+    for i := 2; i <= n; i++ {
+        sum := prev + curr
+        prev = curr
+        curr = sum % 1000000007
+    }
+    return curr 
+}
+```
+
 
 [509. 斐波那契数](https://leetcode-cn.com/problems/fibonacci-number/)
 

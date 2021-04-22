@@ -322,7 +322,7 @@ func fib(n int) int {
 
 ```go
 func fib(n int) int {
-	if n < 2 { //base case
+	if n == 0 || n == 1 { //base case
 		return n
 	} //递推关系
 	prev, curr := 0, 1

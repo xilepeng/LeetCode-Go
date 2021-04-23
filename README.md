@@ -215,7 +215,33 @@ func (this *CQueue) DeleteHead() int {
 
 [162. 寻找峰值](https://leetcode-cn.com/problems/find-peak-element/)
 
+### 方法一：二分查找
 
+```go
+func findPeakElement(nums []int) int {
+	left, right := 0, len(nums)-1
+	for left < right {
+		mid := left + (right-left)>>1
+		if nums[mid] > nums[mid+1] {
+			right = mid
+		} else {
+			left = mid + 1
+		}
+	}
+	return left
+}
+```
+### 方法二: 线性扫描
+```go
+func findPeakElement(nums []int) int {
+	for i := 0; i < len(nums)-1; i++ {
+		if nums[i] > nums[i+1] {
+			return i
+		}
+	}
+	return len(nums) - 1
+}
+```
 
 
 [179. 最大数](https://leetcode-cn.com/problems/largest-number/)

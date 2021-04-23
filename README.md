@@ -116,9 +116,12 @@ func exchange(nums []int) []int {
 
 ![322. Coin Change and 518. Coin Change 2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gps6k2bgrtj31kg3tub29.jpg)
 
-![截屏2021-04-23 13.16.30.png](http://ww1.sinaimg.cn/large/007daNw2ly1gptltlne4fj319k0nsq7g.jpg)
+![截屏2021-04-23 16.55.43.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpts6iwvafj319i0o042z.jpg)
 
 ![截屏2021-04-23 13.16.57.png](http://ww1.sinaimg.cn/large/007daNw2ly1gptltwipl8j319q0p2go8.jpg)
+
+
+#### iterate amount
 
 ```go
 func coinChange(coins []int, amount int) int {
@@ -150,6 +153,10 @@ func min(x, y int) int {
 
 
 [518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/)
+
+![截屏2021-04-23 16.57.11.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpts6y27nhj319a0n8gpb.jpg)
+
+#### iterate coins
 
 ```go
 func change(amount int, coins []int) int {

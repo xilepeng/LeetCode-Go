@@ -176,6 +176,7 @@ func change(amount int, coins []int) int {
 
 [剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
 
+
 ```go
 type CQueue struct {
     inStack, outStack []int
@@ -318,7 +319,8 @@ func fib(n int) int {
 
 ### 方法二：带备忘录递归
 
-![截屏2021-04-22 11.34.48.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsd9xnzs1j30s20mi75n.jpg)
+
+![截屏2021-04-23 20.07.36.png](http://ww1.sinaimg.cn/large/007daNw2ly1gptxon19akj319k0nw407.jpg)
 
 闭包写法：
 ```go

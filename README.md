@@ -345,7 +345,8 @@ dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i]) //前一天持有�
 
 ### 方法三：动态规划
 
-第一题，k = 1
+#### 第一题，k = 1
+
 直接套状态转移方程，根据 base case，可以做一些化简：
 
 ```go
@@ -565,7 +566,39 @@ func min(x, y int) int {
 
 [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
+#### 第二题，k = +infinity
 
+如果 k 为正无穷，那么就可以认为 k 和 k - 1 是一样的。可以这样改写框架：
+
+```go
+dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
+dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
+            = max(dp[i-1][k][1], dp[i-1][k][0] - prices[i])
+
+我们发现数组中的 k 已经不会改变了，也就是说不需要记录 k 这个状态了：
+dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
+dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i])
+```
+
+直接翻译成代码：
+
+```go
+func maxProfit(prices []int) int {
+	dp_i_0, dp_i_1, n := 0, math.MinInt64, len(prices)
+	for i := 0; i < n; i++ {
+		temp := dp_i_0
+		dp_i_0 = max(dp_i_0, dp_i_1+prices[i])
+		dp_i_1 = max(dp_i_1, temp-prices[i])
+	}
+	return dp_i_0
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
 
 
 [123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)

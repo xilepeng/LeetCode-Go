@@ -249,6 +249,55 @@ func findPeakElement(nums []int) int {
 
 
 
+
+# 买卖股票的最佳时机
+
+*我们要跳出固有的思维模式，并不是要考虑买还是卖，而是要最大化手里持有的钱。
+买股票手里的钱减少，卖股票手里的钱增加，无论什么时刻，我们要保证手里的钱最多。
+并且我们这一次买还是卖只跟上一次我们卖还是买的状态有关。*
+
+[121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+
+
+
+[122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
+
+
+
+
+
+[123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)
+
+
+
+
+[188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
+
+
+[309. 最佳买卖股票时机含冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
+
+
+
+
+[714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------
+
 [188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
 
 ### 一、穷举框架
@@ -685,16 +734,19 @@ func max(x, y int) int {
 ```
 
 
+[188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
+
+
+### 第五题，k = 2
+
+
+
 
 
 
 [123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)
 
-
-
-
-
-
+### 第六题，k = any integer
 
 
 

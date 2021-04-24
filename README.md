@@ -345,7 +345,7 @@ dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i]) //前一天持有�
 
 ### 方法三：动态规划
 
-#### 第一题，k = 1
+### 第一题，k = 1
 
 直接套状态转移方程，根据 base case，可以做一些化简：
 
@@ -428,6 +428,23 @@ func maxProfit(prices []int) int {
 		// dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i])
 		dp_i_0 = max(dp_i_0, dp_i_1+prices[i])
 		// dp[i][1] = max(dp[i-1][1], -prices[i])
+		dp_i_1 = max(dp_i_1, -prices[i])
+	}
+	return dp_i_0
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+```go
+func maxProfit(prices []int) int {
+	dp_i_0, dp_i_1, n := 0, math.MinInt64, len(prices)
+	for i := 0; i < n; i++ {
+		dp_i_0 = max(dp_i_0, dp_i_1+prices[i])
 		dp_i_1 = max(dp_i_1, -prices[i])
 	}
 	return dp_i_0
@@ -566,7 +583,7 @@ func min(x, y int) int {
 
 [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
-#### 第二题，k = +infinity
+### 第二题，k = +infinity
 
 如果 k 为正无穷，那么就可以认为 k 和 k - 1 是一样的。可以这样改写框架：
 
@@ -601,6 +618,44 @@ func max(x, y int) int {
 ```
 
 
+[309. 最佳买卖股票时机含冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
+
+### 第三题，k = +infinity with cooldown
+每次 sell 之后要等一天才能继续交易。只要把这个特点融入上一题的状态转移方程即可：
+
+```go
+dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
+dp[i][1] = max(dp[i-1][1], dp[i-2][0] - prices[i])
+解释：第 i 天选择 buy 的时候，要从 i-2 的状态转移，而不是 i-1 。
+```
+
+```go
+func maxProfit(prices []int) int {
+	dp_i_0, dp_i_1, n := 0, math.MinInt64, len(prices)
+	dp_pre_0 := 0 //代表 dp[i-2][0]
+	for i := 0; i < n; i++ {
+		temp := dp_i_0
+		dp_i_0 = max(dp_i_0, dp_i_1+prices[i])
+		dp_i_1 = max(dp_i_1, dp_pre_0-prices[i])
+		dp_pre_0 = temp
+	}
+	return dp_i_0
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+[714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
+
+
+### 第四题，k = +infinity with fee
+
+
+
 [123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)
 
 
@@ -608,11 +663,6 @@ func max(x, y int) int {
 
 
 
-[309. 最佳买卖股票时机含冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
-
-
-
-[714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
 
 
 

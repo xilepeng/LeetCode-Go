@@ -343,6 +343,8 @@ dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i]) //前一天持有�
 
 [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
+### 方法三：动态规划
+
 第一题，k = 1
 直接套状态转移方程，根据 base case，可以做一些化简：
 
@@ -501,6 +503,62 @@ func maxProfit(prices []int) int {
 		}
 	}
 	return maxprofit
+}
+```
+
+### dp
+
+```go
+func maxProfit(prices []int) int {
+	minprice, n := prices[0], len(prices)
+	dp := make([]int, n)
+	for i, price := range prices {
+		if i-1 == -1 {
+			dp[i] = 0
+			minprice = prices[0]
+			continue
+		}
+		dp[i] = max(dp[i-1], price-minprice)
+		minprice = min(minprice, price)
+	}
+	return dp[n-1]
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+```
+
+### 优化空间
+
+```go
+func maxProfit(prices []int) int {
+	minprice, maxprofit := prices[0], 0
+	for _, price := range prices {
+		maxprofit = max(maxprofit, price-minprice)
+		minprice = min(minprice, price)
+	}
+	return maxprofit
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
 }
 ```
 

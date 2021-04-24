@@ -420,7 +420,7 @@ func max(x, y int) int {
 ```go
 func maxProfit(prices []int) int {
 	n := len(prices)
-	dp_i_0, dp_i_1 := 0, math.MinInt64
+	dp_i_0, dp_i_1 := 0, math.MinInt64	//-1<<63
 	for i := 0; i < n; i++ {
 		// dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i])
 		dp_i_0 = max(dp_i_0, dp_i_1+prices[i])
@@ -438,7 +438,71 @@ func max(x, y int) int {
 ```
 
 
+### 方法一：暴力法
 
+Time Limit Exceeded
+201/210 cases passed (N/A)
+
+```go
+func maxProfit(prices []int) int {
+	res, n := 0, len(prices)
+	for i := 0; i < n; i++ {
+		for j := i + 1; j < n; j++ {
+			res = max(res, prices[j]-prices[i])
+		}
+	}
+	return res
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+
+
+### 方法二：一次遍历
+
+```go
+func maxProfit(prices []int) int {
+	minprice, maxprofit := math.MaxInt64, 0
+	for _, price := range prices {
+		minprice = min(minprice, price)
+		maxprofit = max(maxprofit, price-minprice)
+	}
+	return maxprofit
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+```
+
+
+```go
+func maxProfit(prices []int) int {
+	minprice, maxprofit := math.MaxInt64, 0 // 1<<63-1
+	for _, price := range prices {
+		if price < minprice {
+			minprice = price
+		}
+		if maxprofit < price-minprice {
+			maxprofit = price - minprice
+		}
+	}
+	return maxprofit
+}
+```
 
 
 [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)

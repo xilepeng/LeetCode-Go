@@ -1,256 +1,99 @@
 
 
-[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) next
+[121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
-[129. 求根节点到叶节点数字之和](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
+[122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
-### 方法一：深度优先搜索
-思路与算法
+[123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)
 
-从根节点开始，遍历每个节点，如果遇到叶子节点，则将叶子节点对应的数字加到数字之和。如果当前节点不是叶子节点，则计算其子节点对应的数字，然后对子节点递归遍历。
+[188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
 
-![](https://assets.leetcode-cn.com/solution-static/129/fig1.png)
+[309. 最佳买卖股票时机含冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
 
-![](https://pic.leetcode-cn.com/1603933660-UNWQbT-image.png)
+[714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
 
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func sumNumbers(root *TreeNode) int {
-	var dfs func(*TreeNode, int) int
+------
+## I -- General cases
 
-	dfs = func(root *TreeNode, prevSum int) int {
-		if root == nil {
-			return 0
-		}
-		sum := prevSum*10 + root.Val
-		if root.Left == nil && root.Right == nil {
-			return sum
-		}
-		return dfs(root.Left, sum) + dfs(root.Right, sum)
-	}
+The idea begins with the following question: Given an array representing the price of stocks on each day, what determines the maximum profit we can obtain?
 
-	return dfs(root, 0)
-}
-```
+Most of you can quickly come up with answers like "it depends on which day we are and how many transactions we are allowed to complete". Sure, those are important factors as they manifest themselves in the problem descriptions. However, there is a hidden factor that is not so obvious but vital in determining the maximum profit, which is elaborated below.
 
-复杂度分析
+First let's spell out the notations to streamline our analyses. Let prices be the stock price array with length n, i denote the i-th day (i will go from 0 to n-1), k denote the maximum number of transactions allowed to complete, T[i][k] be the maximum profit that could be gained at the end of the i-th day with at most k transactions. Apparently we have base cases: T[-1][k] = T[i][0] = 0, that is, no stock or no transaction yield no profit (note the first day has i = 0 so i = -1 means no stock). Now if we can somehow relate T[i][k] to its subproblems like T[i-1][k], T[i][k-1], T[i-1][k-1], ..., we will have a working recurrence relation and the problem can be solved recursively. So how do we achieve that?
 
-- 时间复杂度：O(n)，其中 n 是二叉树的节点个数。对每个节点访问一次。
+The most straightforward way would be looking at actions taken on the i-th day. How many options do we have? The answer is three: buy, sell, rest. Which one should we take? The answer is: we don't really know, but to find out which one is easy. We can try each option and then choose the one that maximizes our profit, provided there are no other restrictions. However, we do have an extra restriction saying no multiple transactions are allowed at the same time, meaning if we decide to buy on the i-th day, there should be 0 stock held in our hand before we buy; if we decide to sell on the i-th day, there should be exactly 1 stock held in our hand before we sell. The number of stocks held in our hand is the hidden factor mentioned above that will affect the action on the i-th day and thus affect the maximum profit.
 
-- 空间复杂度：O(n)，其中 n 是二叉树的节点个数。空间复杂度主要取决于递归调用的栈空间，递归栈的深度等于二叉树的高度，最坏情况下，二叉树的高度等于节点个数，空间复杂度为 O(n)。
+Therefore our definition of T[i][k] should really be split into two: T[i][k][0] and T[i][k][1], where the former denotes the maximum profit at the end of the i-th day with at most k transactions and with 0 stock in our hand AFTER taking the action, while the latter denotes the maximum profit at the end of the i-th day with at most k transactions and with 1 stock in our hand AFTER taking the action. Now the base cases and the recurrence relations can be written as:
 
+	1. Base cases:
+	T[-1][k][0] = 0, T[-1][k][1] = -Infinity
+	T[i][0][0] = 0, T[i][0][1] = -Infinity
 
+	2. Recurrence relations:
+	T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
+	T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0] - prices[i])
 
-[958. 二叉树的完全性检验](https://leetcode-cn.com/problems/check-completeness-of-a-binary-tree/)
+For the base cases, T[-1][k][0] = T[i][0][0] = 0 has the same meaning as before while T[-1][k][1] = T[i][0][1] = -Infinity emphasizes the fact that it is impossible for us to have 1 stock in hand if there is no stock available or no transactions are allowed.
 
-### 方法一：广度优先搜索
-1. 按 根左右(前序遍历) 顺序依次检查
-2. 如果出现空节点，标记end = true
-3. 如果后面还有节点，返回false
+For T[i][k][0] in the recurrence relations, the actions taken on the i-th day can only be rest and sell, since we have 0 stock in our hand at the end of the day. T[i-1][k][0] is the maximum profit if action rest is taken, while T[i-1][k][1] + prices[i] is the maximum profit if action sell is taken. Note that the maximum number of allowable transactions remains the same, due to the fact that a transaction consists of two actions coming as a pair -- buy and sell. Only action buy will change the maximum number of transactions allowed (well, there is actually an alternative interpretation, see my comment below).
 
-```go
-func isCompleteTree(root *TreeNode) bool {
-	q, end := []*TreeNode{root}, false
-	for len(q) > 0 {
-		node := q[0]
-		q = q[1:]
-		if node == nil {
-			end = true
-		} else {
-			if end == true {
-				return false
-			}
-			q = append(q, node.Left)
-			q = append(q, node.Right)
-		}
-	}
-	return true
-}
-```
+For T[i][k][1] in the recurrence relations, the actions taken on the i-th day can only be rest and buy, since we have 1 stock in our hand at the end of the day. T[i-1][k][1] is the maximum profit if action rest is taken, while T[i-1][k-1][0] - prices[i] is the maximum profit if action buy is taken. Note that the maximum number of allowable transactions decreases by one, since buying on the i-th day will use one transaction, as explained above.
 
+To find the maximum profit at the end of the last day, we can simply loop through the prices array and update T[i][k][0] and T[i][k][1] according to the recurrence relations above. The final answer will be T[i][k][0] (we always have larger profit if we end up with 0 stock in hand).
 
-[468. 验证IP地址](https://leetcode-cn.com/problems/validate-ip-address/)
+------
+
+## II -- Applications to specific cases
+
+The aforementioned six stock problems are classified by the value of k, which is the maximum number of allowable transactions (the last two also have additional requirements such as "cooldown" or "transaction fee"). I will apply the general solution to each of them one by one.
 
 
 
-[剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/)
+[121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+### Case I: k = 1
+
+For this case, we really have two unknown variables on each day: T[i][1][0] and T[i][1][1], and the recurrence relations say:
+
+T[i][1][0] = max(T[i-1][1][0], T[i-1][1][1] + prices[i])
+T[i][1][1] = max(T[i-1][1][1], T[i-1][0][0] - prices[i]) = max(T[i-1][1][1], -prices[i])
+
+where we have taken advantage of the base caseT[i][0][0] = 0 for the second equation.
+
+It is straightforward to write the O(n) time and O(n) space solution, based on the two equations above. However, if you notice that the maximum profits on the i-th day actually only depend on those on the (i-1)-th day, the space can be cut down to O(1). Here is the space-optimized solution:
 
 ```go
-func exchange(nums []int) []int {
-    for i, j := 0, 0; i < len(nums); i++ {
-        if nums[i] & 1 == 1 { //nums[i]奇数      nums[j]偶数
-            nums[i], nums[j] = nums[j], nums[i] //奇偶交换
-            j++
-        }
-    }
-    return nums
-}
-```
-
-```go
-func exchange(nums []int) []int {
-    i, j := 0, len(nums)-1
-    for i < j {
-        for i < j && nums[i] & 1 == 1 { //从左往右、奇数一直向右走
-            i++
-        }
-        for i < j && nums[j] & 1 == 0 { //从右向左、偶数一直向左走
-            j--
-        }
-        nums[i], nums[j] = nums[j], nums[i] //奇偶交换
-    }
-    return nums
-}
-```
-
-
-[322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/)
-
-
-![322. Coin Change and 518. Coin Change 2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gps6k2bgrtj31kg3tub29.jpg)
-
-![截屏2021-04-23 16.55.43.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpts6iwvafj319i0o042z.jpg)
-
-![截屏2021-04-23 13.16.57.png](http://ww1.sinaimg.cn/large/007daNw2ly1gptltwipl8j319q0p2go8.jpg)
-
-
-#### iterate amount
-
-```go
-func coinChange(coins []int, amount int) int {
-	dp := make([]int, amount+1)
-	dp[0] = 0 //base case
-	for i := 1; i < len(dp); i++ {
-		dp[i] = amount + 1
+func maxProfit(prices []int) int {
+	T_i10, T_i11 := 0, math.MinInt64
+	for _, price := range prices {
+		T_i10 = max(T_i10, T_i11+price)
+		T_i11 = max(T_i11, 0-price)
 	}
-	for i := 1; i <= amount; i++ { //遍历所有状态的所有值
-		for _, coin := range coins { //求所有选择的最小值 min(dp[4],dp[3],dp[0])+1
-			if i-coin >= 0 {
-				dp[i] = min(dp[i], dp[i-coin]+1)
-			}
-		}
-	}
-	if amount-dp[amount] < 0 {
-		return -1
-	}
-	return dp[amount]
+	return T_i10
 }
-func min(x, y int) int {
-	if x < y {
+func max(x, y int) int {
+	if x > y {
 		return x
 	}
 	return y
 }
 ```
 
+Now let's try to gain some insight of the solution above. If we examine the part inside the loop more carefully, T_i11 really just represents the maximum value of the negative of all stock prices up to the i-th day, or equivalently the minimum value of all the stock prices. As for T_i10, we just need to decide which action yields a higher profit, sell or rest. And if action sell is taken, the price at which we bought the stock is T_i11, i.e., the minimum value before the i-th day. This is exactly what we would do in reality if we want to gain maximum profit. I should point out that this is not the only way of solving the problem for this case. You may find some other nice solutions [here](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/discuss/39038/kadanes-algorithm-since-no-one-has-mentioned-about-this-so-far-in-case-if-interviewer-twists-the-input).
 
 
-[518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/)
+[122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
-![截屏2021-04-23 16.57.11.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpts6y27nhj319a0n8gpb.jpg)
+[123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)
 
-#### iterate coins
+[188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
 
-```go
-func change(amount int, coins []int) int {
-	dp := make([]int, amount+1)
-	dp[0] = 1
-	for _, coin := range coins {
-		for i := coin; i <= amount; i++ {
-			dp[i] += dp[i-coin]
-		}
-	}
-	return dp[amount]
-}
-```
+[309. 最佳买卖股票时机含冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
+
+[714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
 
 
-
-
-[剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
-
-
-```go
-type CQueue struct {
-    inStack, outStack []int
-}
-
-func Constructor() CQueue {
-    return CQueue{}
-}
-
-func (this *CQueue) AppendTail(value int)  {
-    this.inStack = append(this.inStack, value)
-}
-
-func (this *CQueue) DeleteHead() int {
-    if len(this.outStack) == 0 {
-        if len(this.inStack) == 0 { return -1}
-        for len(this.inStack) > 0 {
-            top := this.inStack[len(this.inStack)-1]
-            this.inStack = this.inStack[:len(this.inStack)-1]
-            this.outStack = append(this.outStack, top)
-        }
-    }
-    top := this.outStack[len(this.outStack)-1]
-    this.outStack = this.outStack[:len(this.outStack)-1]
-    return top
-}
-
-/**
- * Your CQueue object will be instantiated and called as such:
- * obj := Constructor();
- * obj.AppendTail(value);
- * param_2 := obj.DeleteHead();
- */
-```
-
-
-
-[162. 寻找峰值](https://leetcode-cn.com/problems/find-peak-element/)
-
-### 方法一：二分查找
-
-```go
-func findPeakElement(nums []int) int {
-	left, right := 0, len(nums)-1
-	for left < right {
-		mid := left + (right-left)>>1
-		if nums[mid] > nums[mid+1] {
-			right = mid
-		} else {
-			left = mid + 1
-		}
-	}
-	return left
-}
-```
-### 方法二: 线性扫描
-```go
-func findPeakElement(nums []int) int {
-	for i := 0; i < len(nums)-1; i++ {
-		if nums[i] > nums[i+1] {
-			return i
-		}
-	}
-	return len(nums) - 1
-}
-```
-
-
-[179. 最大数](https://leetcode-cn.com/problems/largest-number/)
-
-
-
-
-# 买卖股票的最佳时机
+------
+# 思路1：买卖股票的最佳时机
 
 **我们要跳出固有的思维模式，并不是要考虑买还是卖，而是要最大化手里持有的钱。
 买股票手里的钱减少，卖股票手里的钱增加，无论什么时刻，我们要保证手里的钱最多。
@@ -325,6 +168,31 @@ func max(x, y int) int {
 
 [188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
 
+到了第四题，相信大家已经要懂了，第三题最多两次我们有2x2个状态，那么k次我们就需要kx2个状态。
+那么我们并不需要像第三题那样真的列kx2个参数，我们只需要两个数组就可以了。
+注意，我这里sell后面的[0] 是为了保证第一次买的时候sell[0-1] == 0，
+是为了让大家更清楚地看懂迭代的那两句话，当然每个人都有不同的初始化习惯。
+
+python 不懂
+```python
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        k = min(k, len(prices) // 2)
+        if k <= 0:
+            return 0
+
+        buy = [-float("inf")] * k
+        sell = [0] * k + [0]
+
+        for p in prices:
+            for j in range(k):
+                buy[j] = max(buy[j], sell[j-1] - p)
+                sell[j] = max(sell[j], buy[j] + p)
+
+        return sell[-2]
+
+```
+
 
 
 [309. 最佳买卖股票时机含冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
@@ -383,6 +251,7 @@ func max(x, y int) int {
 
 
 ------
+# 思路二：
 
 [188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
 
@@ -822,8 +691,8 @@ func max(x, y int) int {
 
 [188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
 
-
 ### 第五题，k = 2
+
 
 
 
@@ -832,177 +701,8 @@ func max(x, y int) int {
 
 [123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)
 
+
 ### 第六题，k = any integer
 
 
 
-
-
-
-
-[7. 整数反转](https://leetcode-cn.com/problems/reverse-integer/)
-
-
-
-
-
-[460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
-
-
-
-
-[补充题6. 手撕堆排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
-
-
-
-[59. 螺旋矩阵 II](https://leetcode-cn.com/problems/spiral-matrix-ii/)
-
-
-
-[128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
-
-
-
-[剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
-
-```go
-func fib(n int) int {
-    if n < 2 { 
-        return n 
-    }
-    prev, curr := 0, 1
-    for i := 2; i <= n; i++ {
-        sum := prev + curr
-        prev = curr
-        curr = sum % 1000000007
-    }
-    return curr 
-}
-```
-
-
-[509. 斐波那契数](https://leetcode-cn.com/problems/fibonacci-number/)
-
-### 方法一：递归
-
-![截屏2021-04-22 11.34.30.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsd9a3yaxj317o0o0q7h.jpg)
-
-```go
-func fib(n int) int {
-	if n == 0 || n == 1 {
-		return n
-	}
-	return fib(n-1) + fib(n-2)
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(2^n)。
-- 空间复杂度：O(h)。
-
-### 方法二：带备忘录递归
-
-
-![截屏2021-04-23 20.07.36.png](http://ww1.sinaimg.cn/large/007daNw2ly1gptxon19akj319k0nw407.jpg)
-
-闭包写法：
-```go
-func fib(n int) int {
-	memo := make([]int, n+1)//从0开始
-	var helper func(int) int
-
-	helper = func(n int) int {
-		if n == 0 || n == 1 {
-			return n
-		}
-		if memo[n] != 0 {
-			return memo[n]
-		}
-		memo[n] = helper(n-1) + helper(n-2)
-		return memo[n]
-	}
-
-	return helper(n)
-}
-```
-
-```go
-func fib(n int) int {
-	memo := make([]int, n+1)
-	return helper(memo, n)
-}
-func helper(memo []int, n int) int {
-	if n < 2 {
-		return n
-	}
-	if memo[n] != 0 { //剪枝
-		return memo[n]
-	}
-	memo[n] = helper(memo, n-1) + helper(memo, n-2)
-	return memo[n]
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(n)。
-- 空间复杂度：O(n)。
-
-### 方法三：动态规划
-
-![截屏2021-04-22 11.35.07.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsda7wdjwj30zu0hwmyn.jpg)
-
-```go
-func fib(n int) int {
-	if n == 0 {
-		return 0
-	}
-	dp := make([]int, n+1)
-	dp[0], dp[1] = 0, 1       //base case
-	for i := 2; i <= n; i++ { //状态转移
-		dp[i] = dp[i-1] + dp[i-2]
-	}
-	return dp[n]
-}
-```
-复杂度分析
-
-- 时间复杂度：O(n)。
-- 空间复杂度：O(n)。
-
-### 方法四：滚动数组
-
-![截屏2021-04-22 11.42.22.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsdgjxvorj31520kgjsx.jpg)
-
-动态规划空间优化：只存储前2项
-
-```go
-func fib(n int) int {
-	if n == 0 || n == 1 { //base case
-		return n
-	} //递推关系
-	prev, curr := 0, 1
-	for i := 2; i <= n; i++ {
-		next := prev + curr
-		prev = curr
-		curr = next
-	}
-	return curr
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(n)。
-- 空间复杂度：O(1)。
-
-[24. 两两交换链表中的节点](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)
-
-
-
-[32. 最长有效括号](https://leetcode-cn.com/problems/longest-valid-parentheses/)
-
-
-
-[498. 对角线遍历](https://leetcode-cn.com/problems/diagonal-traverse/)

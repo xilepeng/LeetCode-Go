@@ -12,6 +12,8 @@
 
 [714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
 
+# 思路1：
+
 ------
 ## I -- General cases
 
@@ -49,7 +51,11 @@ The aforementioned six stock problems are classified by the value of k, which is
 
 
 
+
+
+
 [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+
 ### Case I: k = 1
 
 For this case, we really have two unknown variables on each day: T[i][1][0] and T[i][1][1], and the recurrence relations say:
@@ -60,6 +66,8 @@ T[i][1][1] = max(T[i-1][1][1], T[i-1][0][0] - prices[i]) = max(T[i-1][1][1], -pr
 where we have taken advantage of the base caseT[i][0][0] = 0 for the second equation.
 
 It is straightforward to write the O(n) time and O(n) space solution, based on the two equations above. However, if you notice that the maximum profits on the i-th day actually only depend on those on the (i-1)-th day, the space can be cut down to O(1). Here is the space-optimized solution:
+
+
 
 ```go
 func maxProfit(prices []int) int {
@@ -83,17 +91,240 @@ Now let's try to gain some insight of the solution above. If we examine the part
 
 [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
+### Case II: k = +Infinity
+
+If k is positive infinity, then there isn't really any difference between k and k - 1 (wonder why? see my comment below), which implies T[i-1][k-1][0] = T[i-1][k][0] and T[i-1][k-1][1] = T[i-1][k][1]. Therefore, we still have two unknown variables on each day: T[i][k][0] and T[i][k][1] with k = +Infinity, and the recurrence relations say:
+
+T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
+T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0] - prices[i]) = max(T[i-1][k][1], T[i-1][k][0] - prices[i])
+
+where we have taken advantage of the fact that T[i-1][k-1][0] = T[i-1][k][0] for the second equation. The O(n) time and O(1) space solution is as follows:
+
+```go
+func maxProfit(prices []int) int {
+	T_ik0, T_ik1 := 0, math.MinInt64
+	for _, price := range prices {
+		T_ik0_old := T_ik0
+		T_ik0 = max(T_ik0, T_ik1+price)
+		T_ik1 = max(T_ik1, T_ik0_old-price)
+	}
+	return T_ik0
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+```go
+func maxProfit(prices []int) int {
+	T_ik0, T_ik1 := 0, math.MinInt64
+	for _, price := range prices {
+		T_ik1 = max(T_ik1, T_ik0-price)
+		T_ik0 = max(T_ik0, T_ik1+price)
+	}
+	return T_ik0
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+(Note: The caching of the old values of T_ik0, that is, the variable T_ik0_old, is unnecessary. Special thanks to 0x0101 and elvina for clarifying this.)
+
+This solution suggests a greedy strategy of gaining maximum profit: as long as possible, buy stock at each local minimum and sell at the immediately followed local maximum. This is equivalent to finding increasing subarrays in prices (the stock price array), and buying at the beginning price of each subarray while selling at its end price. It's easy to show that this is the same as accumulating profits as long as it is profitable to do so, as demonstrated in this post.
+
+
 [123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)
+
+### Case III: k = 2
+
+Similar to the case where k = 1, except now we have four variables instead of two on each day: T[i][1][0], T[i][1][1], T[i][2][0], T[i][2][1], and the recurrence relations are:
+
+T[i][2][0] = max(T[i-1][2][0], T[i-1][2][1] + prices[i])
+T[i][2][1] = max(T[i-1][2][1], T[i-1][1][0] - prices[i])
+T[i][1][0] = max(T[i-1][1][0], T[i-1][1][1] + prices[i])
+T[i][1][1] = max(T[i-1][1][1], -prices[i])
+
+where again we have taken advantage of the base caseT[i][0][0] = 0 for the last equation. The O(n) time and O(1) space solution is as follows:
+
+```go
+func maxProfit(prices []int) int {
+	T_i10, T_i11 := 0, math.MinInt64
+	T_i20, T_i21 := 0, math.MinInt64
+	for _, price := range prices {
+		T_i20 = max(T_i20, T_i21+price)
+		T_i21 = max(T_i21, T_i10-price)
+		T_i10 = max(T_i10, T_i11+price)
+		T_i11 = max(T_i11, -price)
+	}
+	return T_i20
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+which is essentially the same as the one given [here](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/discuss/39611/is-it-best-solution-with-on-o1).
+
+
 
 [188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
 
+### Case IV: k is arbitrary
+
+This is the most general case so on each day we need to update all the maximum profits with different k values corresponding to 0 or 1 stocks in hand at the end of the day. However, there is a minor optimization we can do if k exceeds some critical value, beyond which the maximum profit will no long depend on the number of allowable transactions but instead will be bound by the number of available stocks (length of the prices array). Let's figure out what this critical value will be.
+
+A profitable transaction takes at least two days (buy at one day and sell at the other, provided the buying price is less than the selling price). If the length of the prices array is n, the maximum number of profitable transactions is n/2 (integer division). After that no profitable transaction is possible, which implies the maximum profit will stay the same. Therefore the critical value of k is n/2. If the given k is no less than this value, i.e., k >= n/2, we can extend k to positive infinity and the problem is equivalent to Case II.
+
+The following is the O(kn) time and O(k) space solution. Without the optimization, the code will be met with TLE for large k values.
+
+
+```go
+func maxProfit(k int, prices []int) int {
+	if k >= len(prices)>>1 {
+		T_ik0, T_ik1 := 0, math.MinInt64
+		for _, price := range prices {
+			T_ik0_old := T_ik0
+			T_ik0 = max(T_ik0, T_ik1+price)
+			T_ik1 = max(T_ik1, T_ik0_old-price)
+		}
+		return T_ik0
+	}
+	T_ik0, T_ik1 := make([]int, k+1), make([]int, k+1)
+	for i := range T_ik0 {
+		T_ik0[i] = 0
+		T_ik1[i] = math.MinInt64
+	}
+	for _, price := range prices {
+		for j := k; j > 0; j-- {
+			T_ik0[j] = max(T_ik0[j], T_ik1[j]+price)
+			T_ik1[j] = max(T_ik1[j], T_ik0[j-1]-price)
+		}
+	}
+	return T_ik0[k]
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+
+```
+
+
 [309. 最佳买卖股票时机含冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
+
+### Case V: k = +Infinity but with cooldown
+
+This case resembles Case II very much due to the fact that they have the same k value, except now the recurrence relations have to be modified slightly to account for the "cooldown" requirement. The original recurrence relations for Case II are given by
+
+T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
+T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i])
+
+But with "cooldown", we cannot buy on the i-th day if a stock is sold on the (i-1)-th day. Therefore, in the second equation above, instead of T[i-1][k][0], we should actually use T[i-2][k][0] if we intend to buy on the i-th day. Everything else remains the same and the new recurrence relations are
+
+T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
+T[i][k][1] = max(T[i-1][k][1], T[i-2][k][0] - prices[i])
+
+And here is the O(n) time and O(1) space solution:
+
+
+```go
+func maxProfit(prices []int) int {
+	T_ik0_pre, T_ik0, T_ik1 := 0, 0, math.MinInt64
+	for _, price := range prices {
+		T_ik0_old := T_ik0
+		T_ik0 = max(T_ik0, T_ik1+price)
+		T_ik1 = max(T_ik1, T_ik0_pre-price)
+		T_ik0_pre = T_ik0_old
+	}
+	return T_ik0
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
 
 [714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
 
+### Case VI: k = +Infinity but with transaction fee
+
+Again this case resembles Case II very much as they have the same k value, except now the recurrence relations need to be modified slightly to account for the "transaction fee" requirement. The original recurrence relations for Case II are given by
+
+T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
+T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i])
+
+Since now we need to pay some fee (denoted as fee) for each transaction made, the profit after buying or selling the stock on the i-th day should be subtracted by this amount, therefore the new recurrence relations will be either
+
+T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i])
+T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i] - fee)
+
+or
+
+T[i][k][0] = max(T[i-1][k][0], T[i-1][k][1] + prices[i] - fee)
+T[i][k][1] = max(T[i-1][k][1], T[i-1][k][0] - prices[i])
+
+Note we have two options as for when to subtract the fee. This is because (as I mentioned above) each transaction is characterized by two actions coming as a pair - - buy and sell. The fee can be paid either when we buy the stock (corresponds to the first set of equations) or when we sell it (corresponds to the second set of equations). The following are the O(n) time and O(1) space solutions corresponding to these two options, where for the second solution we need to pay attention to possible overflows.
+
+Solution I -- pay the fee when buying the stock:
+
+
+```go
+func maxProfit(prices []int, fee int) int {
+	T_ik0, T_ik1 := 0, math.MinInt64
+	for _, price := range prices {
+		T_ik0_old := T_ik0
+		T_ik0 = max(T_ik0, T_ik1+price)
+		T_ik1 = max(T_ik1, T_ik0_old-price-fee)
+	}
+	return T_ik0
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+```go
+func maxProfit(prices []int, fee int) int {
+	T_ik0, T_ik1 := 0, math.MinInt64
+	for _, price := range prices {
+		T_ik1 = max(T_ik1, T_ik0-price-fee)
+		T_ik0 = max(T_ik0, T_ik1+price)
+	}
+	return T_ik0
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+参考：
+[Most consistent ways of dealing with the series of stock problems](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/discuss/108870/Most-consistent-ways-of-dealing-with-the-series-of-stock-problems)
+
 
 ------
-# 思路1：买卖股票的最佳时机
+
+# 思路2：买卖股票的最佳时机
 
 **我们要跳出固有的思维模式，并不是要考虑买还是卖，而是要最大化手里持有的钱。
 买股票手里的钱减少，卖股票手里的钱增加，无论什么时刻，我们要保证手里的钱最多。
@@ -246,12 +477,11 @@ func max(x, y int) int {
 
 
 
-
-
-
-
 ------
-# 思路二：
+
+
+
+# 思路3：
 
 [188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
 
@@ -689,18 +919,33 @@ func max(x, y int) int {
 ```
 
 
-[188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
-
-### 第五题，k = 2
-
-
-
-
-
 
 
 [123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)
 
+### 第五题，k = 2
+
+k = 2 和前面题目的情况稍微不同，因为上面的情况都和 k 的关系不太大。要么 k 是正无穷，状态转移和 k 没关系了；要么 k = 1，跟 k = 0 这个 base case 挨得近，最后也没有存在感。
+这道题 k = 2 和后面要讲的 k 是任意正整数的情况中，对 k 的处理就凸显出来了。我们直接写代码，边写边分析原因。
+
+```go
+原始的动态转移方程，没有可化简的地方
+dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
+dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
+```
+
+
+我们必须穷举所有状态。其实我们之前的解法，都在穷举所有状态，只是之前的题目中 k 都被化简掉了。比如说第一题，k = 1：
+这道题由于没有消掉 k 的影响，所以必须要对 k 进行穷举：
+
+
+
+
+
+
+
+
+[188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
 
 ### 第六题，k = any integer
 

@@ -263,19 +263,62 @@ func dfs(root *TreeNode, level int) {
 }
 ```
 
-方法二：广度优先遍历
 ```go
-func zigzagLevelOrder(root *TreeNode) (res [][]int) {
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func zigzagLevelOrder(root *TreeNode) [][]int {
+	res := [][]int{}
+	var dfs func(*TreeNode, int)
+
+	dfs = func(root *TreeNode, level int) {
+		if root != nil {
+			if len(res) == level {
+				res = append(res, []int{})
+			}
+			if level%2 == 0 {
+				res[level] = append(res[level], root.Val)
+			} else {//翻转奇数层的元素
+				res[level] = append([]int{root.Val}, res[level]...)
+			}
+			dfs(root.Left, level+1)
+			dfs(root.Right, level+1)
+		}
+	}
+
+	dfs(root, 0)
+	return res
+}
+```
+
+方法二：广度优先遍历
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func zigzagLevelOrder(root *TreeNode) [][]int {
+	res := [][]int{}
 	if root == nil {
-		return
+		return res
 	}
 	queue := []*TreeNode{root}
 	for level := 0; len(queue) > 0; level++ {
-		vals := []int{}
-		q := queue
+		res = append(res, []int{})
+		next, q := []int{}, queue
 		queue = nil
 		for _, node := range q {
-			vals = append(vals, node.Val)
+			next = append(next, node.Val)
 			if node.Left != nil {
 				queue = append(queue, node.Left)
 			}
@@ -283,16 +326,17 @@ func zigzagLevelOrder(root *TreeNode) (res [][]int) {
 				queue = append(queue, node.Right)
 			}
 		}
-		if level%2 == 1 { //奇数层的元素翻转即可
-			for i, n := 0, len(vals); i < n/2; i++ {
-				vals[i], vals[n-1-i] = vals[n-1-i], vals[i]
+		if level%2 == 1 { //翻转奇数层的元素
+			for i, n := 0, len(next); i < n/2; i++ {
+				next[i], next[n-1-i] = next[n-1-i], next[i]
 			}
 		}
-		res = append(res, vals)
+		res[level] = append(res[level], next...)
 	}
-	return
+	return res
 }
 ```
+
 
 
 [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)

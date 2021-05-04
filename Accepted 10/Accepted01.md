@@ -79,7 +79,7 @@ func reverseList(head *ListNode) *ListNode {
 	for curr.Next != nil {
 		next := curr.Next
 		curr.Next = next.Next
-		next.Next = dummy.Next
+		next.Next = dummy.Next //插入链表头
 		dummy.Next = next
 	}
 	return dummy.Next
@@ -121,8 +121,8 @@ func reverseList(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil { //只有一个节点或没有节点
 		return head
 	}
-	newHead := reverseList(head.Next) //head.Next后 已反转
-	head.Next.Next = head             //反转head
+	newHead := reverseList(head.Next) //反转 head.Next
+	head.Next.Next = head             //反转 head
 	head.Next = nil
 	return newHead
 }
@@ -615,6 +615,39 @@ func threeSum(nums []int) [][]int {
 
 [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
 
+
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
+	dummy := new(ListNode)
+	prev := dummy
+	for l1 != nil && l2 != nil {
+		if l1.Val < l2.Val {
+			prev.Next = l1
+			l1 = l1.Next
+		} else {
+			prev.Next = l2
+			l2 = l2.Next
+		}
+		prev = prev.Next
+	}
+	if l1 != nil {
+		prev.Next = l1
+	} else {
+		prev.Next = l2
+	}
+	return dummy.Next
+}
+```
+
+
 ```go
 /**
  * Definition for singly-linked list.
@@ -640,28 +673,7 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 }
 ```
 
-```go
-func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-	prev := &ListNode{}
-	dummy := prev
-	for l1 != nil && l2 != nil {
-		if l1.Val < l2.Val {
-			prev.Next = l1
-			l1 = l1.Next
-		} else {
-			prev.Next = l2
-			l2 = l2.Next
-		}
-		prev = prev.Next
-	}
-	if l1 != nil {
-		prev.Next = l1
-	} else {
-		prev.Next = l2
-	}
-	return dummy.Next
-}
-```
+
 
 
 

@@ -570,8 +570,101 @@ func fib(n int) int {
 
 
 
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func swapPairs(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+	newHead := head.Next
+	head.Next = swapPairs(newHead.Next)
+	newHead.Next = head
+	return newHead
+}
+```
+
+
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func swapPairs(head *ListNode) *ListNode {
+	dummy := &ListNode{0, head}
+	temp := dummy
+	for temp.Next != nil && temp.Next.Next != nil {
+		node1 := temp.Next
+		node2 := temp.Next.Next
+		temp.Next = node2
+		node1.Next = node2.Next
+		node2.Next = node1
+		temp = node1
+	}
+	return dummy.Next
+}
+```
+
 [32. 最长有效括号](https://leetcode-cn.com/problems/longest-valid-parentheses/)
 
 
 
 [498. 对角线遍历](https://leetcode-cn.com/problems/diagonal-traverse/)
+
+
+
+
+
+[328. 奇偶链表](https://leetcode-cn.com/problems/odd-even-linked-list/)
+
+![](https://pic.leetcode-cn.com/1605227711-BsDKjR-image.png)
+
+思路
+- odd 指针扫描奇数结点，even 指针扫描偶数结点
+
+	- 奇数结点逐个改 next，连成奇链
+	- 偶数结点逐个改 next，连成偶链
+- 循环体内，做 4 件事：
+
+	- 当前奇数结点 ——next——> 下一个奇数结点
+	- odd 指针推进 ——————> 下一个奇数结点
+	- 当前偶数结点 ——next——> 下一个偶数结点
+	- even 指针推进 ——————> 下一个偶数结点
+
+- 扫描结束时，奇链偶链就分开了，此时 odd 指向奇链的尾结点
+- 奇链的尾结点 ——next——> 偶链的头结点（循环前保存），就连接了奇偶链
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func oddEvenList(head *ListNode) *ListNode {
+	if head == nil {
+		return head
+	}
+	evenHead := head.Next
+	odd, even := head, evenHead
+	for even != nil && even.Next != nil {
+		odd.Next = even.Next
+		odd = odd.Next
+		even.Next = odd.Next
+		even = even.Next
+	}
+	odd.Next = evenHead
+	return head
+}
+```
+

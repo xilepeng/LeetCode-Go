@@ -46,7 +46,115 @@
 
 [补充题4. 手撕快速排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
+思路和算法
+
+快速排序的主要思想是通过划分将待排序的序列分成前后两部分，其中前一部分的数据都比后一部分的数据要小，
+然后再递归调用函数对两部分的序列分别进行快速排序，以此使整个序列达到有序。
+
+快排思路：
+1. 确定分界点 x：q[l], q[r], q[(l+r)>>1], 随机
+2. 调整区间：left <= x, right >= x
+3. 递归处理左右两边
+
+
+
+```go
+func sortArray(nums []int) []int {
+	quickSort(nums, 0, len(nums)-1)
+	return nums
+}
+func quickSort(a []int, l, r int) {
+	if l < r {
+		pos := partition(a, l, r)
+		quickSort(a, l, pos-1)
+		quickSort(a, pos+1, r)
+	}
+}
+func partition(a []int, l, r int) int {
+	a[r], a[(l+r)>>1] = a[(l+r)>>1], a[r]
+	x, i := a[r], l-1
+	for j := l; j < r; j++ {
+		if a[j] <= x { //逆序 交换
+			i++
+			a[i], a[j] = a[j], a[i]
+		}
+	}
+	a[i+1], a[r] = a[r], a[i+1]
+	return i + 1
+}
+```
+
+- 时间复杂度： O(nlog(n)) 
+- 空间复杂度： O(log(n)), 递归使用栈空间的空间代价为O(logn)。
+
+
+```go
+func sortArray(nums []int) []int {
+	quickSort(nums, 0, len(nums)-1)
+	return nums
+}
+func quickSort(a []int, l, r int) {
+	if l < r {
+		a[(l+r)>>1], a[r] = a[r], a[(l+r)>>1]
+		i := l - 1
+		for j := l; j < r; j++ {
+			if a[j] <= a[r] { //逆序交换
+				i++
+				a[i], a[j] = a[j], a[i]
+			}
+		}
+		i++
+		a[i], a[r] = a[r], a[i]
+		quickSort(a, l, i-1)
+		quickSort(a, i+1, r)
+	}
+}
+```
+
+```go
+func sortArray(nums []int) []int {
+	rand.Seed(time.Now().UnixNano())
+	quickSort(nums, 0, len(nums)-1)
+	return nums
+}
+func quickSort(a []int, l, r int) {
+	if l < r {
+		pos := randomPartition(a, l, r)
+		quickSort(a, l, pos-1)
+		quickSort(a, pos+1, r)
+	}
+}
+func randomPartition(a []int, l, r int) int {
+	i := rand.Int()%(r-l+1) + l
+	a[r], a[i] = a[i], a[r]
+	return partition(a, l, r)
+}
+func partition(a []int, l, r int) int {
+	x, i := a[r], l-1
+	for j := l; j < r; j++ {
+		if a[j] <= x { //逆序 交换
+			i++
+			a[i], a[j] = a[j], a[i]
+		}
+	}
+	a[i+1], a[r] = a[r], a[i+1]
+	return i + 1
+}
+
+```
+
+复杂度分析
+
+- 时间复杂度：基于随机选取主元的快速排序时间复杂度为期望 O(nlogn)，其中 n 为数组的长度。详细证明过程可以见《算法导论》第七章，这里不再大篇幅赘述。
+
+- 空间复杂度：O(h)，其中 h 为快速排序递归调用的层数。我们需要额外的 O(h) 的递归调用的栈空间，由于划分的结果不同导致了快速排序递归调用的层数也会不同，最坏情况下需 O(n) 的空间，最优情况下每次都平衡，此时整个递归树高度为 logn，空间复杂度为 O(logn)。
+
 [补充题6. 手撕堆排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+
+```go
+
+```
 
 [补充题1. 排序奇升偶降链表](https://mp.weixin.qq.com/s/377FfqvpY8NwMInhpoDgsw)
 
@@ -111,6 +219,10 @@ func merge(l1, l2 *ListNode) *ListNode {
 ```
 
 [补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+```go
+
+```
 
 [补充题23. 检测循环依赖](https://mp.weixin.qq.com/s/q6AhBt6MX2RL_HNZc8cYKQ)
 

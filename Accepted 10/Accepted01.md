@@ -445,8 +445,9 @@ func reverse(head *ListNode) *ListNode {
 2. 调整区间：left <= x, right >= x
 3. 递归处理左右两边
 
-时间复杂度： O(nlog(n)) 
-空间复杂度： O(log(n)), 递归使用栈空间的空间代价为O(logn)。
+- 时间复杂度： O(nlog(n)) 
+- 空间复杂度： O(log(n)), 递归使用栈空间的空间代价为O(logn)。
+
 
 ```go
 func sortArray(nums []int) []int {
@@ -461,17 +462,43 @@ func quickSort(a []int, l, r int) {
 	}
 }
 func partition(a []int, l, r int) int {
+	a[r], a[(l+r)>>1] = a[(l+r)>>1], a[r]
 	x, i := a[r], l-1
 	for j := l; j < r; j++ {
-		if a[j] < x {
+		if a[j] <= x { //逆序 交换
 			i++
-			a[i], a[j] = a[j], a[i] //逆序 交换
+			a[i], a[j] = a[j], a[i]
 		}
 	}
 	a[i+1], a[r] = a[r], a[i+1]
 	return i + 1
 }
 ```
+
+
+```go
+func sortArray(nums []int) []int {
+	quickSort(nums, 0, len(nums)-1)
+	return nums
+}
+func quickSort(a []int, l, r int) {
+	if l < r {
+		a[(l+r)>>1], a[r] = a[r], a[(l+r)>>1]
+		i := l - 1
+		for j := l; j < r; j++ {
+			if a[j] <= a[r] { //逆序交换
+				i++
+				a[i], a[j] = a[j], a[i]
+			}
+		}
+		i++
+		a[i], a[r] = a[r], a[i]
+		quickSort(a, l, i-1)
+		quickSort(a, i+1, r)
+	}
+}
+```
+
 
 ```go
 func sortArray(nums []int) []int {
@@ -488,21 +515,28 @@ func quickSort(a []int, l, r int) {
 }
 func randomPartition(a []int, l, r int) int {
 	i := rand.Int()%(r-l+1) + l
-	a[i], a[r] = a[r], a[i]
+	a[r], a[i] = a[i], a[r]
 	return partition(a, l, r)
 }
 func partition(a []int, l, r int) int {
 	x, i := a[r], l-1
 	for j := l; j < r; j++ {
-		if a[j] < x {
+		if a[j] <= x { //逆序 交换
 			i++
-			a[i], a[j] = a[j], a[i] //逆序 交换
+			a[i], a[j] = a[j], a[i]
 		}
 	}
 	a[i+1], a[r] = a[r], a[i+1]
 	return i + 1
 }
+
 ```
+
+复杂度分析
+
+- 时间复杂度：基于随机选取主元的快速排序时间复杂度为期望 O(nlogn)，其中 n 为数组的长度。详细证明过程可以见《算法导论》第七章，这里不再大篇幅赘述。
+
+- 空间复杂度：O(h)，其中 h 为快速排序递归调用的层数。我们需要额外的 O(h) 的递归调用的栈空间，由于划分的结果不同导致了快速排序递归调用的层数也会不同，最坏情况下需 O(n) 的空间，最优情况下每次都平衡，此时整个递归树高度为 logn，空间复杂度为 O(logn)。
 
 
 [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)

@@ -423,6 +423,51 @@ func max(x, y int) int {
 [补充题6. 手撕堆排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
 
+思路和算法
+
+堆排序的思想就是先将待排序的序列建成大根堆，使得每个父节点的元素大于等于它的子节点。此时整个序列最大值即为堆顶元素，我们将其与末尾元素交换，使末尾元素为最大值，然后再调整堆顶元素使得剩下的 n−1 个元素仍为大根堆，再重复执行以上操作我们即能得到一个有序的序列。
+
+
+```go
+func sortArray(nums []int) []int {
+	heapSort(nums)
+	return nums
+}
+func heapSort(a []int) {
+	heapSize := len(a)
+	buildMaxHeap(a, heapSize)
+	for i := heapSize - 1; i >= 0; i-- {
+		a[0], a[i] = a[i], a[0] //堆顶元素和堆底元素交换
+		heapSize--              //把剩余待排序元素整理成堆
+		maxHeapify(a, 0, heapSize)
+	}
+}
+func buildMaxHeap(a []int, heapSize int) { // O(n)
+	for i := heapSize / 2; i >= 0; i-- { // 从后往前调整所有非叶子节点
+		maxHeapify(a, i, heapSize)
+	}
+}
+func maxHeapify(a []int, i, heapSize int) { // O(nlogn)
+	l, r, largest := i*2+1, i*2+2, i
+	if l < heapSize && a[largest] < a[l] { //左儿子存在且大于a[largest]
+		largest = l
+	}
+	if r < heapSize && a[largest] < a[r] { //右儿子存在且大于a[largest]
+		largest = r
+	}
+	if largest != i {
+		a[largest], a[i] = a[i], a[largest] //堆顶调整为最大值
+		maxHeapify(a, largest, heapSize)    //递归处理
+	}
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(nlogn)。初始化建堆的时间复杂度为 O(n)，建完堆以后需要进行 n−1 次调整，一次调整（即 maxHeapify） 的时间复杂度为 O(logn)，那么 n−1 次调整即需要 O(nlogn) 的时间复杂度。因此，总时间复杂度为 O(n+nlogn)=O(nlogn)。
+
+- 空间复杂度：O(1)。只需要常数的空间存放若干变量。
+
 
 [59. 螺旋矩阵 II](https://leetcode-cn.com/problems/spiral-matrix-ii/)
 

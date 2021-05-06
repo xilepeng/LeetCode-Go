@@ -41,6 +41,8 @@
 
 [补充题20. 立方根]()
 
+[字节跳动某面试官的压箱题——灯泡开关](https://mp.weixin.qq.com/s/GPQ3EqmBLU_kCeKn1Ggyvg)
+
 ------
 
 
@@ -56,7 +58,7 @@
 2. 调整区间：left <= x, right >= x
 3. 递归处理左右两边
 
-
+### 方法一：快速排序
 
 ```go
 func sortArray(nums []int) []int {
@@ -87,7 +89,7 @@ func partition(a []int, l, r int) int {
 - 时间复杂度： O(nlog(n)) 
 - 空间复杂度： O(log(n)), 递归使用栈空间的空间代价为O(logn)。
 
-
+### 方法二：快速排序
 ```go
 func sortArray(nums []int) []int {
 	quickSort(nums, 0, len(nums)-1)
@@ -110,6 +112,8 @@ func quickSort(a []int, l, r int) {
 	}
 }
 ```
+
+### 方法三：基于随机选取主元的快速排序
 
 ```go
 func sortArray(nums []int) []int {
@@ -151,7 +155,7 @@ func partition(a []int, l, r int) int {
 
 [补充题6. 手撕堆排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
-
+### 方法一：堆排序（大根堆）
 思路和算法
 
 堆排序的思想就是先将待排序的序列建成大根堆，使得每个父节点的元素大于等于它的子节点。此时整个序列最大值即为堆顶元素，我们将其与末尾元素交换，使末尾元素为最大值，然后再调整堆顶元素使得剩下的 n−1 个元素仍为大根堆，再重复执行以上操作我们即能得到一个有序的序列。
@@ -265,6 +269,8 @@ func merge(l1, l2 *ListNode) *ListNode {
 
 [补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
+### 方法一：归并排序
+
 思路
 
 归并排序利用了分治的思想来对序列进行排序。
@@ -282,13 +288,12 @@ func sortArray(nums []int) []int {
 	return nums
 }
 func mergeSort(a []int, l, r int) {
-	if l == r {
-		return
+	if l < r {
+		mid := (l + r) >> 1
+		mergeSort(a, l, mid)
+		mergeSort(a, mid+1, r)
+		merge(a, l, mid, r)
 	}
-	mid := (l + r) >> 1
-	mergeSort(a, l, mid)
-	mergeSort(a, mid+1, r)
-	merge(a, l, mid, r)
 }
 func merge(a []int, l, mid, r int) {
 	tmp := []int{}
@@ -306,30 +311,30 @@ func merge(a []int, l, mid, r int) {
 }
 ```
 
+### 方法二：归并排序
 ```go
 func sortArray(nums []int) []int {
 	mergeSort(nums, 0, len(nums)-1)
 	return nums
 }
 func mergeSort(a []int, l, r int) {
-	if l == r {
-		return
-	}
-	mid := (l + r) >> 1
-	mergeSort(a, l, mid)
-	mergeSort(a, mid+1, r)
-	tmp := []int{}
-	i, j := l, mid+1
-	for i <= mid || j <= r {
-		if i > mid || j <= r && a[j] < a[i] {
-			tmp = append(tmp, a[j])
-			j++
-		} else {
-			tmp = append(tmp, a[i])
-			i++
+	if l < r {
+		mid := (l + r) >> 1
+		mergeSort(a, l, mid)
+		mergeSort(a, mid+1, r)
+		tmp := []int{}
+		i, j := l, mid+1
+		for i <= mid || j <= r {
+			if i > mid || j <= r && a[j] < a[i] {
+				tmp = append(tmp, a[j])
+				j++
+			} else {
+				tmp = append(tmp, a[i])
+				i++
+			}
 		}
+		copy(a[l:r+1], tmp)
 	}
-	copy(a[l:r+1], tmp)
 }
 ```
 

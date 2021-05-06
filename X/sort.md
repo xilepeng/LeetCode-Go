@@ -1,12 +1,50 @@
+# Golang 9大排序总结
+
+![常见的排序算法的时间复杂度.png](http://ww1.sinaimg.cn/large/007daNw2ly1go45x0kga6j32a017e4cd.jpg)
+
+
+### 快速排序
+
+#### 模板1：
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------
+
+
+
+
+
+
+
+### 排序高频题
 
 [补充题4. 手撕快速排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+[785. 快速排序](https://www.acwing.com/problem/content/description/787/)
+
+[Quick Sort](https://www.hackerearth.com/practice/algorithms/sorting/quick-sort/tutorial/)
+
+
 
 
 [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
 
 [补充题6. 手撕堆排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
-
+[补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 ------
 
 
@@ -89,6 +127,54 @@ func partition(a []int, l, r int) int {
 ```
 
 
+[785. 快速排序](https://www.acwing.com/problem/content/description/787/)
+```go
+package main 
+
+import "fmt"
+
+func quickSort(q []int, l, r int) {
+    if l >= r { // 终止条件
+        return
+    }
+    x := q[(l+r)>>1] // 确定分界点
+    i, j := l-1, r+1  // 两个指针，因为do while要先自增/自减
+    for i < j {       // 每次迭代
+        for { // do while 语法
+            i++ // 交换后指针要移动，避免没必要的交换
+            if q[i] >= x {
+                break
+            }
+        }
+        for {
+            j--
+            if q[j] <= x {
+                break
+            }
+        }
+        if i < j { // swap 两个元素
+            q[i], q[j] = q[j], q[i]
+        }
+    }
+    quickSort(q, l, j) // 递归处理左右两段
+    quickSort(q, j+1, r)
+}
+
+func main() {
+    var n int 
+    fmt.Scanf("%d", &n)
+    q := make([]int, n)
+    for i := 0; i < n; i ++ {
+        fmt.Scanf("%d", &q[i])
+    }
+    quickSort(q, 0, n-1)
+    for i := 0; i < n; i ++ {
+        fmt.Printf("%d ",q[i] )
+    }
+}
+
+
+```
 
 
 [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
@@ -205,8 +291,12 @@ func maxHeapify(a []int, i, heapSize int) {
 
 
 
+[补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
 
+```go
+
+```
 
 
 

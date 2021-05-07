@@ -6,7 +6,7 @@ import (
 
 func merge_sort(A []int, start, end int) {
 	if start < end {
-		mid := (start + end) >> 1
+		mid := (start + end) / 2
 		merge_sort(A, start, mid)
 		merge_sort(A, mid+1, end)
 		merge(A, start, mid, end)
@@ -19,6 +19,7 @@ func merge(A []int, start, mid, end int) {
 		if i > mid || j <= end && A[j] < A[i] {
 			tmp = append(tmp, A[j])
 			j++
+			count += mid - i + 1
 		} else {
 			tmp = append(tmp, A[i])
 			i++
@@ -26,6 +27,8 @@ func merge(A []int, start, mid, end int) {
 	}
 	copy(A[start:end+1], tmp)
 }
+
+var count int
 
 func main() {
 	var n int
@@ -35,5 +38,5 @@ func main() {
 		fmt.Scanf("%d", &A[i])
 	}
 	merge_sort(A, 0, len(A)-1)
-	fmt.Println(A)
+	fmt.Println(count)
 }

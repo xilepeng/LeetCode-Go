@@ -73,12 +73,12 @@ func heap_sort(A []int) {
 	}
 }
 func build_maxheap(A []int, heap_size int) {
-	for i := heap_size >> 1; i >= 0; i-- {
+	for i := heap_size / 2; i >= 0; i-- {
 		max_heapify(A, i, heap_size)
 	}
 }
 func max_heapify(A []int, i, heap_size int) {
-	l, r, largest := i<<1+1, i<<1+2, i
+	l, r, largest := i*2+1, i*2+2, i
 	for l < heap_size && A[largest] < A[l] {
 		largest = l
 	}
@@ -105,6 +105,7 @@ func main() {
 ```
 
 
+
 [Merge Sort](https://www.hackerearth.com/practice/algorithms/sorting/merge-sort/tutorial/)
 
 ```go
@@ -116,7 +117,7 @@ import (
 
 func merge_sort(A []int, start, end int) {
 	if start < end {
-		mid := (start + end) >> 1
+		mid := (start + end) / 2
 		merge_sort(A, start, mid)
 		merge_sort(A, mid+1, end)
 		merge(A, start, mid, end)
@@ -129,6 +130,7 @@ func merge(A []int, start, mid, end int) {
 		if i > mid || j <= end && A[j] < A[i] {
 			tmp = append(tmp, A[j])
 			j++
+			count += mid - i + 1
 		} else {
 			tmp = append(tmp, A[i])
 			i++
@@ -136,6 +138,8 @@ func merge(A []int, start, mid, end int) {
 	}
 	copy(A[start:end+1], tmp)
 }
+
+var count int
 
 func main() {
 	var n int
@@ -145,7 +149,7 @@ func main() {
 		fmt.Scanf("%d", &A[i])
 	}
 	merge_sort(A, 0, len(A)-1)
-	fmt.Println(A)
+	fmt.Println(count)
 }
 
 ```
@@ -224,3 +228,51 @@ func main() {
 
 ```
 
+
+[Insertion Sort](https://www.hackerearth.com/practice/algorithms/sorting/insertion-sort/tutorial/#c252800)
+
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func insertion_sort(A []int, n int) {
+	for i := 0; i < n; i++ {
+		tmp, j := A[i], i
+		for j > 0 && tmp < A[j-1] {
+			A[j] = A[j-1]
+			j--
+		}
+		A[j] = tmp
+	}
+}
+
+func main() {
+	var n int
+	fmt.Scanf("%d", &n)
+	A, B, hash := make([]int, n), make([]int, n), make(map[int]int, n)
+	for i := 0; i < n; i++ {
+		fmt.Scanf("%d", &A[i])
+		B[i] = A[i]
+	}
+
+	insertion_sort(A, n)
+	for i := 0; i < n; i++ {
+		hash[A[i]] = i + 1
+	}
+	for i := 0; i < n; i++ {
+		fmt.Printf("%d ", hash[B[i]])
+	}
+}
+
+// input
+// 5
+// 9 7 8 12 10
+
+// 7 8 9 10 12 -- sorted array
+// output-- 3 1 2 5 4
+
+```

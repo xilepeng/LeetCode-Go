@@ -14,12 +14,12 @@ func heap_sort(A []int) {
 	}
 }
 func build_maxheap(A []int, heap_size int) {
-	for i := heap_size >> 1; i >= 0; i-- {
+	for i := heap_size / 2; i >= 0; i-- {
 		max_heapify(A, i, heap_size)
 	}
 }
 func max_heapify(A []int, i, heap_size int) {
-	l, r, largest := i<<1+1, i<<1+2, i
+	l, r, largest := i*2+1, i*2+2, i
 	for l < heap_size && A[largest] < A[l] {
 		largest = l
 	}

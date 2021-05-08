@@ -34,7 +34,6 @@ func random_partition(A []int, start, end int) int {
 
 ```go
 func heap_sort(Arr []int, heap_size int) {
-	// heap_size := len(Arr)
 	build_maxheap(Arr, heap_size)
 	for i := heap_size - 1; i >= 0; i-- {
 		Arr[0], Arr[i] = Arr[i], Arr[0]

@@ -6,36 +6,47 @@ import (
 	"os"
 )
 
-func merge_sort(A []int, start, end int) {
-	if start < end {
-		mid := (start + end) >> 1
-		merge_sort(A, start, mid)
-		merge_sort(A, mid+1, end)
-		merge(A, start, mid, end)
+func merge_sort(A, Arr []int, start, end int) int {
+	if start >= end {
+		return 0
 	}
+	mid := start + (end-start)>>1
+	left := merge_sort(A, Arr, start, mid)
+	right := merge_sort(A, Arr, mid+1, end)
+	cross := merge(A, Arr, start, mid, end)
+	return left + right + cross
 }
-func merge(A []int, start, mid, end int) {
-	tmp := []int{}
-	i, j := start, mid+1
-	for i <= mid || j <= end {
-		if i > mid || j <= end && A[j] < A[i] {
-			tmp = append(tmp, A[j])
-			j++
-			count += mid - i + 1 //逆序对
+func merge(A, Arr []int, start, mid, end int) int {
+	p, q, k, count := start, mid+1, 0, 0
+	for i := start; i <= end; i++ {
+		if p > mid {
+			Arr[k] = A[q]
+			q++
+		} else if q > end {
+			Arr[k] = A[p]
+			p++
+		} else if A[p] <= A[q] {
+			Arr[k] = A[p]
+			p++
 		} else {
-			tmp = append(tmp, A[i])
-			i++
+			Arr[k] = A[q]
+			q++
+			count += mid - p + 1
 		}
+		k++
 	}
-	copy(A[start:end+1], tmp)
+	for p = 0; p < k; p++ {
+		A[start] = Arr[p]
+		start++
+	}
+	return count
 }
-
-var count, n int
 
 func main() {
+	var n int
 	_, _ = fmt.Scanln(&n)
 	b, _ := ioutil.ReadAll(os.Stdin)
-	A := make([]int, n)
+	A, Arr := make([]int, n), make([]int, n)
 	num, i := 0, 0
 	for _, by := range b {
 		if by == ' ' {
@@ -48,77 +59,5 @@ func main() {
 	}
 	A[i] = num
 
-	merge_sort(A, 0, len(A)-1)
-	fmt.Println(count)
+	fmt.Println(merge_sort(A, Arr, 0, n-1))
 }
-
-/*
-
-
-package main
-
-import (
-	"fmt"
-	"io/ioutil"
-	"os"
-)
-
-func merge_sort(A []int, start, end int) {
-	if start < end {
-		mid := (start + end) >> 1
-		merge_sort(A, start, mid)
-		merge_sort(A, mid+1, end)
-		merge(A, start, mid, end)
-	}
-}
-func merge(A []int, start, mid, end int) {
-	tmp := []int{}
-	i, j := start, mid+1
-	for i <= mid || j <= end {
-		if i > mid || j <= end && A[j] < A[i] {
-			tmp = append(tmp, A[j])
-			j++
-			if i <= mid {
-				count += mid - i + 1 //逆序对
-			}
-		} else {
-			tmp = append(tmp, A[i])
-			i++
-		}
-	}
-	copy(A[start:end+1], tmp)
-}
-
-var count int
-
-func main() {
-	// var n int
-	// fmt.Scanf("%d", &n)
-	// A := make([]int, n)
-	// for i := 0; i < n; i++ {
-	// 	fmt.Scanf("%d", &A[i])
-	// }
-	var n int
-	_, _ = fmt.Scanln(&n)
-	b, _ := ioutil.ReadAll(os.Stdin)
-	// fmt.Println(b)
-	i := 0
-	A := make([]int, n)
-	num := 0
-	for _, by := range b {
-		if by == ' ' {
-			A[i] = num
-			num = 0
-			i++
-		} else {
-			num = num*10 + int(by-'0')
-		}
-	}
-	A[i] = num
-
-	merge_sort(A, 0, len(A)-1)
-	fmt.Println(count)
-}
-
-
-*/

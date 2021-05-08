@@ -4,22 +4,22 @@ import (
 	"fmt"
 )
 
-func heap_sort(A []int) {
-	heap_size := len(A)
-	build_maxheap(A, heap_size)
+func heap_sort(Arr []int, heap_size int) {
+	// heap_size := len(Arr)
+	build_maxheap(Arr, heap_size)
 	for i := heap_size - 1; i >= 0; i-- {
-		A[0], A[i] = A[i], A[0]
+		Arr[0], Arr[i] = Arr[i], Arr[0]
 		heap_size--
-		max_heapify(A, 0, heap_size)
+		max_heapify(Arr, 0, heap_size)
 	}
 }
 func build_maxheap(A []int, heap_size int) {
-	for i := heap_size / 2; i >= 0; i-- {
+	for i := heap_size >> 1; i >= 0; i-- {
 		max_heapify(A, i, heap_size)
 	}
 }
 func max_heapify(A []int, i, heap_size int) {
-	l, r, largest := i*2+1, i*2+2, i
+	l, r, largest := i<<1+1, i<<1+2, i
 	for l < heap_size && A[largest] < A[l] {
 		largest = l
 	}
@@ -33,12 +33,23 @@ func max_heapify(A []int, i, heap_size int) {
 }
 
 func main() {
-	var n int
+	n, count := 0, 0
 	fmt.Scanf("%d", &n)
 	A := make([]int, n)
 	for i := 0; i < n; i++ {
 		fmt.Scanf("%d", &A[i])
+		count++
+
+		if count < 3 {
+			fmt.Printf("-1\n")
+		} else {
+			heap_sort(A, count)
+			j := count - 1
+			for i := 1; i <= 3; i++ {
+				fmt.Printf("%d ", A[j])
+				j--
+			}
+			fmt.Printf("\n")
+		}
 	}
-	heap_sort(A)
-	fmt.Println(A)
 }

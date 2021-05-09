@@ -37,6 +37,43 @@ func quick_sort(A []int, start, end int) {
 ```
 
 
+```go
+func sortArray(nums []int) []int {
+	n := len(nums)
+	temp := make([]int, n)
+	mergeSort(nums, temp, 0, n-1)
+	return nums
+}
+func mergeSort(A, temp []int, start, end int) {
+	if start < end {
+		mid := start + (end-start)>>1
+		mergeSort(A, temp, start, mid)
+		mergeSort(A, temp, mid+1, end)
+		merge(A, temp, start, mid, end)
+	}
+}
+func merge(A, temp []int, start, mid, end int) {
+	i, j, k := start, mid+1, 0
+	for ; i <= mid && j <= end; k++ {
+		if A[i] <= A[j] {
+			temp[k] = A[i]
+			i++
+		} else {
+			temp[k] = A[j]
+			j++
+		}
+	}
+	for ; i <= mid; i++ {
+		temp[k] = A[i]
+		k++
+	}
+	for ; j <= end; j++ {
+		temp[k] = A[j]
+		k++
+	}
+	copy(A[start:end+1], temp)
+}
+```
 
 
 

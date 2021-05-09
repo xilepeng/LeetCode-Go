@@ -33,31 +33,31 @@ func random_partition(A []int, start, end int) int {
 ### 2. Heap Sort
 
 ```go
-func heapSort(a []int) {
-	heapSize := len(a)
-	buildMaxHeap(a, heapSize)
+func heap_sort(A []int) {
+	heapSize := len(A)
+	build_maxheap(A, heapSize)
 	for i := heapSize - 1; i >= 0; i-- {
-		a[0], a[i] = a[i], a[0] //堆顶(最大值)交换到末尾,堆顶元素和堆底元素交换 
-		heapSize--              //把剩余待排序元素整理成堆
-		maxHeapify(a, 0, heapSize)
+		A[0], A[i] = A[i], A[0]
+		heapSize--
+		heapify(A, 0, heapSize)
 	}
 }
-func buildMaxHeap(a []int, heapSize int) { // O(n)
-	for i := heapSize / 2; i >= 0; i-- { // heapSize / 2后面都是叶子节点，不需要向下调整
-		maxHeapify(a, i, heapSize)
+func build_maxheap(A []int, heapSize int) {
+	for i := heapSize >> 1; i >= 0; i-- {
+		heapify(A, i, heapSize)
 	}
 }
-func maxHeapify(a []int, i, heapSize int) { // O(nlogn) 大根堆，如果堆顶节点小于叶子，向下调整 
-	l, r, largest := i*2+1, i*2+2, i
-	if l < heapSize && a[largest] < a[l] { //左儿子存在且大于a[largest]
-		largest = l
+func heapify(A []int, i, heapSize int) {
+	lson, rson, largest := i<<1+1, i<<1+2, i
+	for lson < heapSize && A[largest] < A[lson] {
+		largest = lson
 	}
-	if r < heapSize && a[largest] < a[r] { //右儿子存在且大于a[largest]
-		largest = r
+	for rson < heapSize && A[largest] < A[rson] {
+		largest = rson
 	}
-	if largest != i {				
-		a[largest], a[i] = a[i], a[largest] //堆顶调整为最大值
-		maxHeapify(a, largest, heapSize)    //递归处理
+	if largest != i {
+		A[largest], A[i] = A[i], A[largest]
+		heapify(A, largest, heapSize)
 	}
 }
 ```

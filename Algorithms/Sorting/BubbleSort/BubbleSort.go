@@ -9,13 +9,13 @@ func bubble_sort(A []int, n int) {
 		for i := 0; i < n-k-1; i++ {
 			if A[i] > A[i+1] {
 				A[i], A[i+1] = A[i+1], A[i]
-				swap++
+				count++
 			}
 		}
 	}
 }
 
-var swap int
+var count int
 
 func main() {
 	var n int
@@ -25,5 +25,5 @@ func main() {
 		fmt.Scanf("%d", &A[i])
 	}
 	bubble_sort(A, n)
-	fmt.Println(swap)
+	fmt.Println(count)
 }

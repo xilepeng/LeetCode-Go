@@ -6,12 +6,12 @@ import (
 
 func insertion_sort(A []int, n int) {
 	for i := 0; i < n; i++ {
-		tmp, j := A[i], i
-		for j > 0 && tmp < A[j-1] {
+		temp, j := A[i], i
+		for j > 0 && temp < A[j-1] {
 			A[j] = A[j-1]
 			j--
 		}
-		A[j] = tmp
+		A[j] = temp
 	}
 }
 

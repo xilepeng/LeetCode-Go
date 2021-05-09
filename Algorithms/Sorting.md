@@ -14,9 +14,9 @@ func quick_sort(A []int, start, end int) {
 	}
 }
 func partition(A []int, start, end int) int {
-	piv, i := A[start], start+1//第一个元素作为枢轴
+	piv, i := A[start], start+1			//第一个元素作为枢轴
 	for j := start + 1; j <= end; j++ {
-		if A[j] < piv {//小于枢轴的放一边、大于枢轴的放另一边
+		if A[j] < piv {					//小于枢轴的放一边、大于枢轴的放另一边
 			A[i], A[j] = A[j], A[i]
 			i++
 		}
@@ -61,7 +61,7 @@ func max_heapify(A []int, i, heap_size int) {
 	for rson < heap_size && A[largest] < A[rson] { //右儿子存在并大于根
 		largest = rson
 	}
-	if i != largest { //找到左右儿子的最大值
+	if i != largest { 						//找到左右儿子的最大值
 		A[i], A[largest] = A[largest], A[i] //堆顶调整为最大值
 		max_heapify(A, largest, heap_size)  //递归调整子树
 	}
@@ -86,13 +86,13 @@ func merge(A []int, start, mid, end int) {
 	Arr := make([]int, end-start+1)
 	p, q, k := start, mid+1, 0
 	for i := start; i <= end; i++ {
-		if p > mid { //检查第一部分是否到达末尾
+		if p > mid { 				//检查第一部分是否到达末尾
 			Arr[k] = A[q]
 			q++
-		} else if q > end { //检查第二部分是否到达末尾
+		} else if q > end { 		//检查第二部分是否到达末尾
 			Arr[k] = A[p]
 			p++
-		} else if A[p] <= A[q] { //检查哪一部分有更小的元素
+		} else if A[p] <= A[q] { 	//检查哪一部分有更小的元素
 			Arr[k] = A[p]
 			p++
 		} else {
@@ -116,10 +116,10 @@ func insertion_sort(A []int, n int) {
 	for i := 0; i < n; i++ {
 		temp, j := A[i], i
 		for j > 0 && temp < A[j-1] { //左边元素大于当前元素
-			A[j] = A[j-1] //向前移动左边元素->
+			A[j] = A[j-1] 			 //向前移动左边元素->
 			j--
 		}
-		A[j] = temp //移动当前元素到正确的位置
+		A[j] = temp 				 //移动当前元素到正确的位置
 	}
 }
 ```
@@ -130,7 +130,7 @@ func insertion_sort(A []int, n int) {
 
 ```go
 func bubble_sort(A []int, n int) {
-	for k := 0; k < n-1; k++ { //按对反复比较调整元素交换它们位置在无序区
+	for k := 0; k < n-1; k++ { 		 //按对反复比较调整元素交换它们位置在无序区
 		for i := 0; i < n-k-1; i++ {
 			if A[i] > A[i+1] {
 				A[i], A[i+1] = A[i+1], A[i]
@@ -150,11 +150,11 @@ func selection_sort(A []int, n int) {
 	for i := 0; i < n-1; i++ {
 		min := i                     //假设第一个元素是最小元素
 		for j := i + 1; j < n; j++ { //给定无序数组的有效尺寸
-			if A[j] < A[min] { //寻找最小元素
+			if A[j] < A[min] { 		 //寻找最小元素
 				min = j
 			}
 		}
-		A[i], A[min] = A[min], A[i] //放置最小元素到恰当位置
+		A[i], A[min] = A[min], A[i]  //放置最小元素到恰当位置
 	}
 }
 ```

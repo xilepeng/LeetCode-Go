@@ -3,6 +3,7 @@
 
 ### 1. Quick Sort
 
+
 ```go
 func quick_sort(A []int, start, end int) {
 	if start < end {
@@ -19,13 +20,13 @@ func partition(A []int, start, end int) int {
 			i++
 		}
 	}
-	A[start], A[i-1] = A[i-1], A[start]
+	A[i-1], A[start] = A[start], A[i-1]
 	return i - 1
 }
 func random_partition(A []int, start, end int) int {
-	rand.Seed(time.Now().UnixNano())
-	random := rand.Int()%(end-start+1) + start
-	A[random], A[start] = A[start], A[random]
+	rand.Seed(time.Now().Unix())
+	random := start + rand.Int()%(end-start+1)
+	A[start], A[random] = A[random], A[start]
 	return partition(A, start, end)
 }
 ```

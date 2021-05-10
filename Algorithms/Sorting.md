@@ -1,7 +1,8 @@
 
 ## Sorting
 
-### 1. Quick Sort
+### 1. [Quick Sort](https://www.hackerearth.com/practice/algorithms/sorting/quick-sort/tutorial/)
+
 
 快速排序基于分而治之的方法，随机选择枢轴元素划分数组，左边小于枢轴、右边大于枢轴，递归处理左右两边
 
@@ -34,7 +35,8 @@ func random_partition(A []int, start, end int) int {
 
 
 
-### 2. Heap Sort
+
+### 2. [Heap Sort](https://www.hackerearth.com/practice/algorithms/sorting/heap-sort/tutorial/)
 
 在大根堆中、最大元素总在根上，堆排序使用堆的这个属性进行排序
 
@@ -69,7 +71,8 @@ func max_heapify(A []int, i, heap_size int) {
 ```
 
 
-### 3. Merge Sort
+
+### 3. [Merge Sort](https://www.hackerearth.com/practice/algorithms/sorting/merge-sort/tutorial/)
 
 归并排序是一种分而治之的算法，其思想是将一个列表分解为几个子列表，直到每个子列表由一个元素组成，然后将这些子列表合并为排序后的列表。
 
@@ -109,7 +112,10 @@ func merge(A []int, start, mid, end int) {
 }
 ```
 
-### 4. Insertion Sort
+
+
+
+### 4. [Insertion Sort](https://www.hackerearth.com/practice/algorithms/sorting/insertion-sort/tutorial/#c252800)
 
 插入排序基于这样的想法：每次迭代都会消耗输入元素中的一个元素，以找到其正确位置，即该元素在排序数组中的位置。
 
@@ -128,7 +134,11 @@ func insertion_sort(A []int, n int) {
 }
 ```
 
-### 5. Bubble Sort
+
+
+
+
+### 5. [Bubble Sort](https://www.hackerearth.com/practice/algorithms/sorting/bubble-sort/tutorial/)
 
 
 反复比较成对的相邻元素，交换它们的位置如果他们在无序区。（最大元素冒泡到最后）
@@ -146,7 +156,7 @@ func bubble_sort(A []int, n int) {
 ```
 
 
-### 6. Selection Sort
+### 6. [Selection Sort](https://www.hackerearth.com/practice/algorithms/sorting/selection-sort/tutorial/)
 
 在未排序的数组中找到最小或最大元素，然后将其放在已排序的数组中的正确位置。
 
@@ -501,7 +511,6 @@ func main() {
 	fmt.Println(merge_sort(A, Arr, 0, n-1))
 }
 ```
-
 
 
 [Bubble Sort](https://www.hackerearth.com/practice/algorithms/sorting/bubble-sort/tutorial/)

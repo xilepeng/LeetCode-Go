@@ -112,6 +112,37 @@ func merge(A []int, start, mid, end int) {
 }
 ```
 
+```go
+func merge_sort(A []int, start, end int) {
+	if start >= end {
+		return
+	}
+	mid := start + (end-start)>>1
+	merge_sort(A, start, mid)
+	merge_sort(A, mid+1, end)
+
+	Arr := make([]int, end-start+1)
+	p, q, k := start, mid+1, 0
+	for i := start; i <= end; i++ {
+		if p > mid {
+			Arr[k] = A[q]
+			q++
+		} else if q > end {
+			Arr[k] = A[p]
+			p++
+		} else if A[p] < A[q] {
+			Arr[k] = A[p]
+			p++
+		} else {
+			Arr[k] = A[q]
+			q++
+
+		}
+		k++
+	}
+	copy(A[start:end+1], Arr)
+}
+```
 
 
 

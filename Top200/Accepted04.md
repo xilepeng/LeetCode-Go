@@ -159,8 +159,81 @@ func invertTree(root *TreeNode) *TreeNode {
 
 [93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/)
 
+思路
+
+- 以 "25525511135" 为例，做第一步时我们有几种选择？
+
+1. 选 "2" 作为第一个片段
+2. 选 "25" 作为第一个片段
+3. 选 "255" 作为第一个片段
+- 能切三种不同的长度，切第二个片段时，又面临三种选择。
+- 这会向下分支形成一棵树，我们用 DFS 去遍历所有选择，必要时提前回溯。
+	因为某一步的选择可能是错的，得不到正确的结果，不要往下做了。撤销最后一个选择，回到选择前的状态，去试另一个选择。
+- 回溯的第一个要点：选择，它展开了一颗空间树。
+
+#### 回溯的要点二——约束
+- 约束条件限制了当前的选项，这道题的约束条件是：
+1. 一个片段的长度是 1~3
+2. 片段的值范围是 0~255
+3. 不能是 "0x"、"0xx" 形式（测试用例告诉我们的）
+- 用这些约束进行充分地剪枝，去掉一些选择，避免搜索「不会产生正确答案」的分支。
+#### 回溯的要点三——目标
+- 目标决定了什么时候捕获答案，什么时候砍掉死支，回溯。
+- 目标是生成 4 个有效片段，并且要耗尽 IP 的字符。
+- 当满足该条件时，说明生成了一个有效组合，加入解集，结束当前递归，继续探索别的分支。
+- 如果满4个有效片段，但没耗尽字符，不是想要的解，不继续往下递归，提前回溯。
+#### 定义 dfs 函数
+- dfs 函数传什么？也就是，用什么描述一个节点的状态？
+- 选择切出一个片段后，继续递归剩余子串。可以传子串，也可以传指针，加上当前的片段数组，描述节点的状态。
+- dfs 函数做的事：复原从 start 到末尾的子串。
+
+我把递归树画了出来，可以看看回溯的细节：
 
 
+![](https://pic.leetcode-cn.com/5276b1631cb1fc47d8d88dd021f1302213291bf05bfdfdc6209370ce9034be83-image.png)
+
+如图['2','5','5','2']未耗尽字符，不是有效组合，不继续选下去。撤销选择"2"，回到之前的状态（当前分支砍掉了），切入到另一个分支，选择"25"。
+
+回溯会穷举所有节点，通常用于解决「找出所有可能的组合」问题。
+
+下图展示找到一个有效的组合的样子。start 指针越界，代表耗尽了所有字符，且满 4 个片段。
+
+
+![](https://pic.leetcode-cn.com/e3e3a6dac1ecb79da18740f7968a5eedaa80d5a0e0e45463c7096f663748e0fa-image.png)
+
+```go
+func restoreIpAddresses(s string) []string {
+	res := []string{}
+	var dfs func([]string, int)
+
+	dfs = func(sub []string, start int) {
+		if len(sub) == 4 && start == len(s) { // 片段满4段，且耗尽所有字符
+			res = append(res, strings.Join(sub, ".")) // 拼成字符串，加入解集
+			return
+		}
+		if len(sub) == 4 && start < len(s) { // 满4段，字符未耗尽，不用往下选了
+			return
+		}
+		for length := 1; length <= 3; length++ { // 枚举出选择，三种切割长度
+			if start+length-1 >= len(s) { // 加上要切的长度就越界，不能切这个长度
+				return
+			}
+			if length != 1 && s[start] == '0' { // 不能切出'0x'、'0xx'
+				return
+			}
+			str := s[start : start+length]          // 当前选择切出的片段
+			if n, _ := strconv.Atoi(str); n > 255 { // 不能超过255
+				return
+			}
+			sub = append(sub, str) // 作出选择，将片段加入sub
+			dfs(sub, start+length) // 基于当前选择，继续选择，注意更新指针
+			sub = sub[:len(sub)-1] // 上面一句的递归分支结束，撤销最后的选择，进入下一轮迭代，考察下一个切割长度
+		}
+	}
+	dfs([]string{}, 0)
+	return res
+}
+```
 
 
 [239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
@@ -831,7 +904,7 @@ func min(x, y int) int {
 - 空间复杂度：O(1)
 
 
-[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) next
+[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) 
 
 
 
@@ -980,7 +1053,7 @@ func searchRange(nums []int, target int) []int {
 ```
 
 
-[72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/) next
+[72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/) 
 
 
 

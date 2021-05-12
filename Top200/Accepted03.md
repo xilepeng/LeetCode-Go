@@ -32,7 +32,7 @@
 
 [19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 
-[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/) 	next
+[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/) 	
 
 [101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
 
@@ -1136,10 +1136,108 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 
 
 
+[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)
+
+
+for example，a=[1 2 3 4 6 9]and, b=[1 1 5 6 9 10 11]，total numbers are 13， 
+you should find the seventh number , int(7/2)=3, a[3]<b[3], 
+so you don't need to consider a[0],a[1],a[2] because they can't be the seventh number. Then find the fourth number in the others numbers which don't include a[0]a[1]a[2]. just like this , decrease half of numbers every time .......
+
+
+```go
+func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
+	if l := len(nums1) + len(nums2); l%2 == 0 {
+		return (findKth(nums1, nums2, l/2-1) + findKth(nums1, nums2, l/2)) / 2.0
+	} else {
+		return findKth(nums1, nums2, l/2)
+	}
+}
+func findKth(nums1, nums2 []int, k int) float64 {
+	for {
+		l1, l2 := len(nums1), len(nums2)
+		m1, m2 := l1/2, l2/2
+		if l1 == 0 {
+			return float64(nums2[k])
+		} else if l2 == 0 {
+			return float64(nums1[k])
+		} else if k == 0 {
+			if n1, n2 := nums1[0], nums2[0]; n1 <= n2 {
+				return float64(n1)
+			} else {
+				return float64(n2)
+			}
+		}
+		if k <= m1+m2 {
+			if nums1[m1] <= nums2[m2] {
+				nums2 = nums2[:m2]
+			} else {
+				nums1 = nums1[:m1]
+			}
+		} else {
+			if nums1[m1] <= nums2[m2] {
+				nums1 = nums1[m1+1:]
+				k -= m1 + 1
+			} else {
+				nums2 = nums2[m2+1:]
+			}
+		}
+	}
+}
+
+```
+复杂度分析
+
+- 时间复杂度：O(log(m+n))，其中 m 和 n 分别是数组 nums1 和 nums2 的长度。初始时有 k=(m+n)/2 或 k=(m+n)/2+1，每一轮循环可以将查找范围减少一半，因此时间复杂度是 O(log(m+n))。
+
+- 空间复杂度：O(1)。
 
 
 
-[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)	next
+```go
+func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
+	l1, l2 := len(nums1), len(nums2)
+	if l1 > l2 {
+		return findMedianSortedArrays(nums2, nums1)
+	}
+	for start, end := 0, l1; ; {
+		nums1Med := (start + end) / 2
+		nums2Med := (l2+l1+1)/2 - nums1Med
+		nums1Left, nums1Right, nums2Left, nums2Right := math.MinInt64,
+			math.MaxInt64, math.MinInt64, math.MaxInt64
+		if nums1Med != 0 {
+			nums1Left = nums1[nums1Med-1]
+		}
+		if nums1Med != l1 {
+			nums1Right = nums1[nums1Med]
+		}
+		if nums2Med != 0 {
+			nums2Left = nums2[nums2Med-1]
+		}
+		if nums2Med != l2 {
+			nums2Right = nums2[nums2Med]
+		}
+		if nums1Left > nums2Right {
+			end = nums1Med - 1
+		} else if nums2Left > nums1Right {
+			start = nums1Med + 1
+		} else {
+			if (l1+l2)%2 == 1 {
+				return math.Max(float64(nums1Left), float64(nums2Left))
+			}
+			return (math.Max(float64(nums1Left), float64(nums2Left)) +
+				math.Min(float64(nums1Right), float64(nums2Right))) / 2
+		}
+	}
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(logmin(m,n)))，其中 m 和 n 分别是数组 nums1 和 nums2 的长度。查找的区间是 [0,m]，而该区间的长度在每次循环之后都会减少为原来的一半。所以，只需要执行 logm 次循环。由于每次循环中的操作次数是常数，所以时间复杂度为 O(logm)。由于我们可能需要交换 nums1 和 nums2 使得 m≤n，因此时间复杂度是 O(log -min(m,n)))。
+
+- 空间复杂度：O(1)。
+
+
 
 
 

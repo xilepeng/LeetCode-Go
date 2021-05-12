@@ -37,7 +37,7 @@
 
 [151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
 
-[8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 	next
+[8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 
 
 [23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
 
@@ -1399,7 +1399,43 @@ foo, bar, baz
 ```
 
 
-[8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 	next
+[8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 
+
+```go
+func myAtoi(s string) int {
+	abs, sign, i, n := 0, 1, 0, len(s)
+	//丢弃无用的前导空格
+	for i < n && s[i] == ' ' {
+		i++
+	}
+	//标记正负号
+	if i < n {
+		if s[i] == '-' {
+			sign = -1
+			i++
+		} else if s[i] == '+' {
+			sign = 1
+			i++
+		}
+	}
+	for i < n && s[i] >= '0' && s[i] <= '9' {
+		abs = 10*abs + int(s[i]-'0')  //字节 byte '0' == 48
+		if sign*abs < math.MinInt32 { //整数超过 32 位有符号整数范围
+			return math.MinInt32
+		} else if sign*abs > math.MaxInt32 {
+			return math.MaxInt32
+		}
+		i++
+	}
+	return sign * abs
+}
+```
+复杂度分析
+
+- 时间复杂度：O(n)，其中 n 为字符串的长度。我们只需要依次处理所有的字符，处理每个字符需要的时间为 O(1)。
+
+- 空间复杂度：O(1)，只需要常数空间存储。
+
 
 
 

@@ -1,7 +1,7 @@
 
 [剑指 Offer 36. 二叉搜索树与双向链表](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
 
-[41. 缺失的第一个正数](https://leetcode-cn.com/problems/first-missing-positive/) next
+[41. 缺失的第一个正数](https://leetcode-cn.com/problems/first-missing-positive/)
 
 [剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/)
 

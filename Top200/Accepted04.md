@@ -2,7 +2,7 @@
 
 [226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
 
-[93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/) next
+[93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/) 
 
 [239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
 
@@ -29,13 +29,13 @@
 
 [64. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)
 
-[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) next
+[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) 
 
 [136. 只出现一次的数字](https://leetcode-cn.com/problems/single-number/)
 
 [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
-[72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/) next
+[72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/) 
 
 [958. 二叉树的完全性检验](https://leetcode-cn.com/problems/check-completeness-of-a-binary-tree/)
 

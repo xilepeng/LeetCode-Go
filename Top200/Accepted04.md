@@ -1055,8 +1055,68 @@ func searchRange(nums []int, target int) []int {
 [72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/) 
 
 
+- 替换：dp[i-1][j-1] + 1 
+	case 1. if word1[i] == word2[j]  相等跳过: dp[i-1][j-1] 不操作
+	case 2. if word1[i] != word2[j]  word1[i-1] 等于 word2[j-1], 再加上最后一步替换操作(+1)  dp[i-1][j-1] + 1
+
+- 插入：dp[i][j-1] + 1
+	word1[i] 插入一个字符变成 word2[j], 插完相等，因此插入字符一定是 word2[j]， 插入前 word1[i] 和 word2[j-1]已经匹配(相等)
+
+- 删除：dp[i-1][j] + 1
+	word1[i] 删除一个字符变成 word2[j], word1[i] 删除前 word1[i-1] 和 word2[j] 已经匹配(相等)
 
 
+```go
+func minDistance(word1 string, word2 string) int {
+	m, n := len(word1), len(word2)
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+	for i := 0; i < m+1; i++ {
+		dp[i][0] = i // word1[i] 变成 word2[0], 删掉 word1[i], 需要 i 部操作
+	}
+	for j := 0; j < n+1; j++ {
+		dp[0][j] = j // word1[0] 变成 word2[j], 插入 word1[j]，需要 j 部操作
+	}
+	for i := 1; i < m+1; i++ {
+		for j := 1; j < n+1; j++ {
+			if word1[i-1] == word2[j-1] {
+				dp[i][j] = dp[i-1][j-1]
+			} else { // Min(插入，删除，替换)
+				dp[i][j] = Min(dp[i][j-1], dp[i-1][j], dp[i-1][j-1]) + 1
+			}
+		}
+	}
+	return dp[m][n]
+}
+func Min(args ...int) int {
+	min := args[0]
+	for _, item := range args {
+		if item < min {
+			min = item
+		}
+	}
+	return min
+}
+/*
+替换：dp[i-1][j-1] + 1 
+	case 1. if word1[i] == word2[j]  相等跳过: dp[i-1][j-1] 不操作
+	case 2. if word1[i] != word2[j]  word1[i-1] 等于 word2[j-1], 再加上最后一步替换操作(+1)  dp[i-1][j-1] + 1
+
+插入：dp[i][j-1] + 1
+	word1[i] 插入一个字符变成 word2[j], 插完相等，因此插入字符一定是 word2[j]， 插入前 word1[i] 和 word2[j-1]已经匹配(相等)
+
+删除：dp[i-1][j] + 1
+	word1[i] 删除一个字符变成 word2[j], word1[i] 删除前 word1[i-1] 和 word2[j] 已经匹配(相等)
+*/
+```
+
+```go
+	if coding != nil && basketball != nil {
+		return all
+	}
+```
 
 
 [76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) 

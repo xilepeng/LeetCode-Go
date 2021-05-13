@@ -1054,7 +1054,19 @@ func searchRange(nums []int, target int) []int {
 
 [72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/) 
 
+
+![截屏2021-05-13 11.37.51.png](http://ww1.sinaimg.cn/large/007daNw2ly1gqgne3nwbzj31fk0y2gr2.jpg)
+
+![截屏2021-05-13 11.38.22.png](http://ww1.sinaimg.cn/large/007daNw2ly1gqgnegsvsbj31bg0vigsg.jpg)
+
+
+![](https://pic.leetcode-cn.com/8704230781a0bc6f11ff317757c73505e8c4cb2c1ca1dcdfb9b0c84eb08d901f-%E5%B9%BB%E7%81%AF%E7%89%872.PNG)
+
+![](https://pic.leetcode-cn.com/bfc8d2232a17c8999b7d700806bf0048ad4727b567ee756e01fa16750e9e0d07-%E5%B9%BB%E7%81%AF%E7%89%873.PNG)
+
 ![](https://pic.leetcode-cn.com/0e81d8994ffa586183a32f545c259f81d7b33baa753275a4ffb9587c65a55c15-%E5%B9%BB%E7%81%AF%E7%89%874.PNG)
+
+
 
 - 替换：dp[i-1][j-1] + 1 
 	case 1. if word1[i] == word2[j]  相等跳过: dp[i-1][j-1] 不操作

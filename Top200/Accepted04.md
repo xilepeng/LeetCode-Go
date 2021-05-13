@@ -1055,11 +1055,6 @@ func searchRange(nums []int, target int) []int {
 [72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/) 
 
 
-![截屏2021-05-13 11.37.51.png](http://ww1.sinaimg.cn/large/007daNw2ly1gqgne3nwbzj31fk0y2gr2.jpg)
-
-![截屏2021-05-13 11.38.22.png](http://ww1.sinaimg.cn/large/007daNw2ly1gqgnegsvsbj31bg0vigsg.jpg)
-
-
 ![](https://pic.leetcode-cn.com/8704230781a0bc6f11ff317757c73505e8c4cb2c1ca1dcdfb9b0c84eb08d901f-%E5%B9%BB%E7%81%AF%E7%89%872.PNG)
 
 ![](https://pic.leetcode-cn.com/bfc8d2232a17c8999b7d700806bf0048ad4727b567ee756e01fa16750e9e0d07-%E5%B9%BB%E7%81%AF%E7%89%873.PNG)
@@ -1068,14 +1063,14 @@ func searchRange(nums []int, target int) []int {
 
 
 
-- 替换：dp[i-1][j-1] + 1 
+#### 替换 word1[i] 字符：dp[i-1][j-1] + 1 
 	case 1. if word1[i] == word2[j]  相等跳过: dp[i-1][j-1] 不操作
 	case 2. if word1[i] != word2[j]  word1[i-1] 等于 word2[j-1], 再加上最后一步替换操作(+1)  dp[i-1][j-1] + 1
 
-- 插入：dp[i][j-1] + 1
+#### 插入 word1[i] 字符：dp[i][j-1] + 1
 	word1[i] 插入一个字符变成 word2[j], 插完相等，因此插入字符一定是 word2[j]， 插入前 word1[i] 和 word2[j-1]已经匹配(相等)
 
-- 删除：dp[i-1][j] + 1
+#### 删除 word1[i] 字符：dp[i-1][j] + 1
 	word1[i] 删除一个字符变成 word2[j], word1[i] 删除前 word1[i-1] 和 word2[j] 已经匹配(相等)
 
 
@@ -1112,17 +1107,7 @@ func Min(args ...int) int {
 	}
 	return min
 }
-/*
-替换：dp[i-1][j-1] + 1 
-	case 1. if word1[i] == word2[j]  相等跳过: dp[i-1][j-1] 不操作
-	case 2. if word1[i] != word2[j]  word1[i-1] 等于 word2[j-1], 再加上最后一步替换操作(+1)  dp[i-1][j-1] + 1
 
-插入：dp[i][j-1] + 1
-	word1[i] 插入一个字符变成 word2[j], 插完相等，因此插入字符一定是 word2[j]， 插入前 word1[i] 和 word2[j-1]已经匹配(相等)
-
-删除：dp[i-1][j] + 1
-	word1[i] 删除一个字符变成 word2[j], word1[i] 删除前 word1[i-1] 和 word2[j] 已经匹配(相等)
-*/
 ```
 
 ```go

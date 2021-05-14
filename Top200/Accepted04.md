@@ -1219,30 +1219,31 @@ func Min(args ...int) int {
 
 [76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) 
 
+
 ```go
 func minWindow(s string, t string) string {
 	need, window := map[byte]int{}, map[byte]int{}
 	for i := range t {
 		need[t[i]]++
-	}
+	} // 记录最小覆盖子串的起始索引及长度
 	left, right, valid, index, length := 0, 0, 0, 0, math.MaxInt64
 	for right < len(s) {
-		b := s[right]
-		right++
-		if _, ok := need[b]; ok {
+		b := s[right]             // b 是将移入窗口的字符
+		right++                   // 右移窗口
+		if _, ok := need[b]; ok { // 进行窗口内数据的一系列更新
 			window[b]++
 			if window[b] == need[b] {
 				valid++
 			}
 		}
-		for valid == len(need) {
-			if right-left < length {
+		for valid == len(need) { // 判断左侧窗口是否要收缩
+			if right-left < length { // 在这里更新最小覆盖子串
 				index = left
 				length = right - left
 			}
-			d := s[left]
-			left++
-			if _, ok := need[d]; ok {
+			d := s[left]              // d 是将移出窗口的字符
+			left++                    // 左移窗口
+			if _, ok := need[d]; ok { // 进行窗口内数据的一系列更新
 				window[d]--
 				if window[d] < need[d] {
 					valid--
@@ -1257,30 +1258,33 @@ func minWindow(s string, t string) string {
 }
 ```
 
+1. Use two pointers: start and end to represent a window.
+2. Move end to find a valid window.
+3. When a valid window is found, move start to find a smaller window.
+
 ```go
 func minWindow(s string, t string) string {
 	need := make(map[byte]int)
-	for i := 0; i < len(t); i++ {
+	for i := range t {
 		need[t[i]]++
 	}
 	start, end, count, i := 0, -1, len(t), 0
 	for j := 0; j < len(s); j++ {
-		c := s[j]
-		if need[c] > 0 {
+		if need[s[j]] > 0 { //如果t中存在字符 s[j]，减少计数器
 			count--
 		}
-		need[c]--
-		if count == 0 {
-			for i < j && need[s[i]] < 0 {
-				need[s[i]]++
-				i++
+		need[s[j]]--    //减少s[j]，如果字符s[j]在t中不存在，need[s[j]]置为负数
+		if count == 0 { //找到有效的窗口后，开始移动以查找较小的窗口
+			for i < j && need[s[i]] < 0 { //指针未越界且 字符s[i]在t中不存在
+				need[s[i]]++ //移除t中不存在的字符 s[i]
+				i++          // 左移窗口
 			}
 			if end == -1 || j-i < end-start {
 				start, end = i, j
 			}
-			need[s[i]]++
+			need[s[i]]++ //移除t中存在的字符 s[i]
 			count++
-			i++
+			i++ //缩小窗口
 		}
 	}
 	if end < start {

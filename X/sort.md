@@ -3,6 +3,8 @@
 
 ### 1. Quick Sort
 
+
+
 ```go
 func quick_sort(A []int, start, end int) {
 	if start < end {
@@ -30,7 +32,31 @@ func random_partition(A []int, start, end int) int {
 }
 ```
 
-
+```go
+func quick_sort(A []int, start, end int) {
+	if start < end {
+		piv_pos := random_partition(A, start, end)
+		quick_sort(A, start, piv_pos-1)
+		quick_sort(A, piv_pos+1, end)
+	}
+}
+func partition(A []int, start, end int) int {
+	piv, i := A[end], start-1
+	for j := start; j < end; j++ {
+		if A[j] < piv {
+			i++
+			A[i], A[j] = A[j], A[i]
+		}
+	}
+	A[i+1], A[end] = A[end], A[i+1]
+	return i + 1
+}
+func random_partition(A []int, start, end int) int {
+	random := start + rand.Int()%(end-start+1)
+	A[random], A[end] = A[end], A[random]
+	return partition(A, start, end)
+}
+```
 
 ### 2. Heap Sort
 
@@ -181,6 +207,8 @@ func selection_sort(A []int, n int) {
 
 
 [补充题4. 手撕快速排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+
 
 ```go
 func sortArray(nums []int) []int {

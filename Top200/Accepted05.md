@@ -254,7 +254,7 @@ func swapPairs(head *ListNode) *ListNode {
 ```
 
 
-[468. 验证IP地址](https://leetcode-cn.com/problems/validate-ip-address/) next
+[468. 验证IP地址](https://leetcode-cn.com/problems/validate-ip-address/) 
 
 
 
@@ -377,6 +377,142 @@ func maxHeapify(a []int, i, heapSize int) { // O(nlogn)
 
 
 [179. 最大数](https://leetcode-cn.com/problems/largest-number/)
+
+
+```go
+func largestNumber(nums []int) string {
+	if len(nums) == 0 {
+		return ""
+	}
+	numStrs := toStringArray(nums)
+	quickSort(numStrs, 0, len(numStrs)-1)
+	res := ""
+	for _, str := range numStrs {
+		if res == "0" && str == "0" {
+			continue
+		}
+		res = res + str
+	}
+	return res
+}
+func toStringArray(nums []int) []string {
+	strs := make([]string, 0)
+	for _, num := range nums {
+		strs = append(strs, strconv.Itoa(num))
+	}
+	return strs
+}
+func quickSort(A []string, start, end int) {
+	if start < end {
+		piv_pos := partition(A, start, end)
+		quickSort(A, start, piv_pos-1)
+		quickSort(A, piv_pos+1, end)
+	}
+}
+func partition(A []string, start, end int) int {
+	piv, i := A[start], start+1
+	for j := start + 1; j <= end; j++ { //注意：必须加等号
+		ajStr := A[j] + piv
+		pivStr := piv + A[j]
+		if ajStr > pivStr {
+			A[i], A[j] = A[j], A[i]
+			i++
+		}
+	}
+	A[start], A[i-1] = A[i-1], A[start]
+	return i - 1
+}
+```
+
+
+```go
+func largestNumber(nums []int) string {
+	if len(nums) == 0 {
+		return ""
+	}
+	strArr := toStringArray(nums)
+	quickSort(strArr, 0, len(strArr)-1)
+	res := ""
+	for _, str := range strArr {
+		if res == "0" && str == "0" {
+			continue
+		}
+		res = res + str
+	}
+	return res
+}
+func toStringArray(nums []int) []string {
+	str := []string{}
+	for _, i := range nums {
+		str = append(str, strconv.Itoa(i))
+	}
+	return str
+}
+func quickSort(A []string, start, end int) {
+	if start < end {
+		piv_pos := partition(A, start, end)
+		quickSort(A, start, piv_pos-1)
+		quickSort(A, piv_pos+1, end)
+	}
+}
+func partition(A []string, start, end int) int {
+	piv, i := A[end], start-1
+	for j := start; j < end; j++ {
+		ajPiv := A[j] + piv
+		pivAj := piv + A[j]
+		if ajPiv > pivAj {
+			i++
+			A[i], A[j] = A[j], A[i]
+		}
+	}
+	A[i+1], A[end] = A[end], A[i+1]
+	return i + 1
+}
+```
+
+
+
+
+
+### func Atoi
+```go
+func Atoi(s string) (i int, err error)
+```
+Atoi是ParseInt(s, 10, 0)的简写。
+
+
+### func Itoa
+```go
+func Itoa(i int) string
+```
+Itoa是FormatInt(i, 10) 的简写。
+
+```go
+package main
+
+import (
+	"fmt"
+	"strconv"
+)
+
+func main() {
+	nums := []int{1, 2, 3}
+	s := []string{}
+	num := []int{}
+	for _, n := range nums {
+		s = append(s, strconv.Itoa(n))
+	}
+	fmt.Println("整数转字符串", s) //字符串 [1 2 3] 数据类型：string
+
+	for i := 0; i < len(s); i++ {
+		n, _ := strconv.Atoi(s[i])
+		num = append(num, n)
+	}
+	fmt.Println("字符串转整数", num) //整数 [1 2 3]
+}
+```
+
+
 
 [128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
 

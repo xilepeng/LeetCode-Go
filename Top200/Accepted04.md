@@ -35,6 +35,8 @@
 
 [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
+[41. 缺失的第一个正数](https://leetcode-cn.com/problems/first-missing-positive/)
+
 [72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/) 
 
 [958. 二叉树的完全性检验](https://leetcode-cn.com/problems/check-completeness-of-a-binary-tree/)
@@ -1052,26 +1054,107 @@ func searchRange(nums []int, target int) []int {
 ```
 
 
+
+[41. 缺失的第一个正数](https://leetcode-cn.com/problems/first-missing-positive/) 
+
+
+## 方法一：置换
+除了打标记以外，我们还可以使用置换的方法，将给定的数组「恢复」成下面的形式：
+
+如果数组中包含 x x∈[1,N]，那么恢复后，数组的第 x - 1 个元素为 x。
+
+```go
+func firstMissingPositive(nums []int) int {
+	n := len(nums)
+	for i := 0; i < n; i++ {
+		for nums[i] > 0 && nums[i] <= n && nums[nums[i]-1] != nums[i] {
+			nums[nums[i]-1], nums[i] = nums[i], nums[nums[i]-1]
+		}
+	}
+	for i := 0; i < n; i++ {
+		if nums[i] != i+1 {
+			return i + 1
+		}
+	}
+	return n + 1
+}
+```
+
+
+复杂度分析
+
+- 时间复杂度：O(N)，其中 N 是数组的长度。
+
+- 空间复杂度：O(1)。
+
+
+
+## 方法二：哈希表
+
+![](https://assets.leetcode-cn.com/solution-static/41/41_fig1.png)
+
+
+```go
+func firstMissingPositive(nums []int) int {
+	n := len(nums)
+	for i := 0; i < n; i++ { //将小于等于0的数变为 n+1
+		if nums[i] <= 0 {
+			nums[i] = n + 1
+		}
+	}
+	for _, v := range nums { //将小于等于 n 的元素对应位置变为负数
+		num := abs(v)
+		if num <= n {
+			nums[num-1] = -abs(nums[num-1])
+		}
+	}
+	for i := 0; i < n; i++ {
+		if nums[i] > 0 { //返回第一个大于0的元素下标 +1
+			return i + 1
+		}
+	}
+	return n + 1
+}
+func abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(N)，其中 N 是数组的长度。
+
+- 空间复杂度：O(1)。
+
+
+
+```go
+func firstMissingPositive(nums []int) int {
+	n := len(nums)
+	hash := make(map[int]int, n)
+	for _, v := range nums {
+		hash[v] = v
+	}
+	for i := 1; i < n+1; i++ {
+		if _, ok := hash[i]; !ok {
+			return i
+		}
+	}
+	return n + 1
+}
+```
+复杂度分析
+
+- 时间复杂度：O(N)，其中 N 是数组的长度。
+
+- 空间复杂度：O(N)。
+
+
 [72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/) 
 
-
-![](https://pic.leetcode-cn.com/8704230781a0bc6f11ff317757c73505e8c4cb2c1ca1dcdfb9b0c84eb08d901f-%E5%B9%BB%E7%81%AF%E7%89%872.PNG)
-
-![](https://pic.leetcode-cn.com/bfc8d2232a17c8999b7d700806bf0048ad4727b567ee756e01fa16750e9e0d07-%E5%B9%BB%E7%81%AF%E7%89%873.PNG)
-
-![](https://pic.leetcode-cn.com/0e81d8994ffa586183a32f545c259f81d7b33baa753275a4ffb9587c65a55c15-%E5%B9%BB%E7%81%AF%E7%89%874.PNG)
-
-
-
-#### 替换 word1[i] 字符：dp[i-1][j-1] + 1 
-	case 1. if word1[i] == word2[j]  相等跳过: dp[i-1][j-1] 不操作
-	case 2. if word1[i] != word2[j]  word1[i-1] 等于 word2[j-1], 再加上最后一步替换操作(+1)  dp[i-1][j-1] + 1
-
-#### 插入 word1[i] 字符：dp[i][j-1] + 1
-	word1[i] 插入一个字符变成 word2[j], 插完相等，因此插入字符一定是 word2[j]， 插入前 word1[i] 和 word2[j-1]已经匹配(相等)
-
-#### 删除 word1[i] 字符：dp[i-1][j] + 1
-	word1[i] 删除一个字符变成 word2[j], word1[i] 删除前 word1[i-1] 和 word2[j] 已经匹配(相等)
 
 
 ```go
@@ -1110,19 +1193,102 @@ func Min(args ...int) int {
 
 ```
 
-```go
-	if coding != nil && basketball != nil {
-		return all
-	}
-```
+![](https://pic.leetcode-cn.com/8704230781a0bc6f11ff317757c73505e8c4cb2c1ca1dcdfb9b0c84eb08d901f-%E5%B9%BB%E7%81%AF%E7%89%872.PNG)
+
+![](https://pic.leetcode-cn.com/bfc8d2232a17c8999b7d700806bf0048ad4727b567ee756e01fa16750e9e0d07-%E5%B9%BB%E7%81%AF%E7%89%873.PNG)
+
+![](https://pic.leetcode-cn.com/0e81d8994ffa586183a32f545c259f81d7b33baa753275a4ffb9587c65a55c15-%E5%B9%BB%E7%81%AF%E7%89%874.PNG)
+
+
+
+#### 替换 word1[i] 字符：dp[i-1][j-1] + 1 
+	case 1. if word1[i] == word2[j]  相等跳过: dp[i-1][j-1] 不操作
+	case 2. if word1[i] != word2[j]  word1[i-1] 等于 word2[j-1], 再加上最后一步替换操作(+1)  dp[i-1][j-1] + 1
+
+#### 插入 word1[i] 字符：dp[i][j-1] + 1
+	word1[i] 插入一个字符变成 word2[j], 插完相等，因此插入字符一定是 word2[j]， 插入前 word1[i] 和 word2[j-1]已经匹配(相等)
+
+#### 删除 word1[i] 字符：dp[i-1][j] + 1
+	word1[i] 删除一个字符变成 word2[j], word1[i] 删除前 word1[i-1] 和 word2[j] 已经匹配(相等)
+
+
+
+
+
 
 
 [76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) 
 
 ```go
-
+func minWindow(s string, t string) string {
+	need, window := map[byte]int{}, map[byte]int{}
+	for i := range t {
+		need[t[i]]++
+	}
+	left, right, valid, index, length := 0, 0, 0, 0, math.MaxInt64
+	for right < len(s) {
+		b := s[right]
+		right++
+		if _, ok := need[b]; ok {
+			window[b]++
+			if window[b] == need[b] {
+				valid++
+			}
+		}
+		for valid == len(need) {
+			if right-left < length {
+				index = left
+				length = right - left
+			}
+			d := s[left]
+			left++
+			if _, ok := need[d]; ok {
+				window[d]--
+				if window[d] < need[d] {
+					valid--
+				}
+			}
+		}
+	}
+	if length == math.MaxInt64 {
+		return ""
+	}
+	return s[index : index+length]
+}
 ```
 
+```go
+func minWindow(s string, t string) string {
+	need := make(map[byte]int)
+	for i := 0; i < len(t); i++ {
+		need[t[i]]++
+	}
+	start, end, count, i := 0, -1, len(t), 0
+	for j := 0; j < len(s); j++ {
+		c := s[j]
+		if need[c] > 0 {
+			count--
+		}
+		need[c]--
+		if count == 0 {
+			for i < j && need[s[i]] < 0 {
+				need[s[i]]++
+				i++
+			}
+			if end == -1 || j-i < end-start {
+				start, end = i, j
+			}
+			need[s[i]]++
+			count++
+			i++
+		}
+	}
+	if end < start {
+		return ""
+	}
+	return s[start : end+1]
+}
+```
 
 
 

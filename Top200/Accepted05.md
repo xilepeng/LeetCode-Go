@@ -46,6 +46,42 @@
 
 ------
 
+[227. 基本计算器 II](https://leetcode-cn.com/problems/basic-calculator-ii/)
+
+- 加号：将数字压入栈；
+- 减号：将数字的相反数压入栈；
+- 乘除号：计算数字与栈顶元素，并将栈顶元素替换为计算结果。
+
+```go
+func calculate(s string) int {
+	stack, preSign, num, res := []int{}, '+', 0, 0
+	for i, ch := range s {
+		isDigit := '0' <= ch && ch <= '9' // ch 是 0-9 的数字
+		if isDigit {
+			num = num*10 + int(ch-'0') //字符转数字
+		}
+		if !isDigit && ch != ' ' || i == len(s)-1 { // ch 是运算符
+			switch preSign {
+			case '+':
+				stack = append(stack, num)
+			case '-':
+				stack = append(stack, -num)
+			case '*':
+				stack[len(stack)-1] *= num
+			default:
+				stack[len(stack)-1] /= num
+			}
+			preSign = ch
+			num = 0
+		}
+	}
+	for _, v := range stack {
+		res += v
+	}
+	return res
+}
+```
+
 [14. 最长公共前缀](https://leetcode-cn.com/problems/longest-common-prefix/)
 
 ### 方法一：纵向扫描

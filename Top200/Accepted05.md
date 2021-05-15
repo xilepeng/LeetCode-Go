@@ -9,6 +9,8 @@
 
 [24. 两两交换链表中的节点](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)
 
+[14. 最长公共前缀](https://leetcode-cn.com/problems/longest-common-prefix/)
+
 [468. 验证IP地址](https://leetcode-cn.com/problems/validate-ip-address/)
 
 [剑指 Offer 54. 二叉搜索树的第k大节点](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
@@ -43,6 +45,30 @@
 
 
 ------
+
+[14. 最长公共前缀](https://leetcode-cn.com/problems/longest-common-prefix/)
+
+### 方法一：纵向扫描
+
+纵向扫描时，从前往后遍历所有字符串的每一列，比较相同列上的字符是否相同，如果相同则继续对下一列进行比较，如果不相同则当前列不再属于公共前缀，当前列之前的部分为最长公共前缀。
+
+![](https://assets.leetcode-cn.com/solution-static/14/14_fig2.png)
+
+```go
+func longestCommonPrefix(strs []string) string {
+	if len(strs) == 0 {
+		return ""
+	}
+	for i := 0; i < len(strs[0]); i++ {
+		for j := 1; j < len(strs); j++ {
+			if i == len(strs[j]) || strs[j][i] != strs[0][i] {
+				return strs[0][:i]
+			}
+		}
+	}
+	return strs[0]
+}
+```
 
 
 [剑指 Offer 36. 二叉搜索树与双向链表](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
@@ -378,7 +404,6 @@ func maxHeapify(a []int, i, heapSize int) { // O(nlogn)
 
 [179. 最大数](https://leetcode-cn.com/problems/largest-number/)
 
-
 ```go
 func largestNumber(nums []int) string {
 	if len(nums) == 0 {
@@ -414,6 +439,7 @@ func partition(A []string, start, end int) int {
 	for j := start + 1; j <= end; j++ { //注意：必须加等号
 		ajStr := A[j] + piv
 		pivStr := piv + A[j]
+		fmt.Printf("%v %v\n", ajStr, pivStr) //210 102
 		if ajStr > pivStr {
 			A[i], A[j] = A[j], A[i]
 			i++
@@ -423,6 +449,7 @@ func partition(A []string, start, end int) int {
 	return i - 1
 }
 ```
+
 
 
 ```go
@@ -515,6 +542,8 @@ func main() {
 
 
 [128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
+
+
 
 [460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 

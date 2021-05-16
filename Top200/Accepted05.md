@@ -474,9 +474,42 @@ func kthLargest(root *TreeNode, k int) int {
 
 [43. 字符串相乘](https://leetcode-cn.com/problems/multiply-strings/)
 
-```go
 
+
+```go
+func multiply(num1 string, num2 string) string {
+	if num1 == "0" || num2 == "0" {
+		return "0"
+	}
+	m, n := len(num1), len(num2)
+	A := make([]int, m+n)
+	for i := m - 1; i >= 0; i-- {
+		x := int(num1[i]) - '0'
+		for j := n - 1; j >= 0; j-- {
+			y := int(num2[j]) - '0'
+			A[i+j+1] += x * y
+		}
+	}
+	for i := m + n - 1; i > 0; i-- { //进位
+		A[i-1] += A[i] / 10
+		A[i] %= 10
+	}
+	res, i := "", 0
+	if A[0] == 0 {
+		i = 1
+	}
+	for ; i < m+n; i++ {
+		res += strconv.Itoa(A[i]) //整数转字符串、拼接
+	}
+	return res
+}
 ```
+
+复杂度分析
+
+- 时间复杂度：O(mn)
+- 空间复杂度：O(m+n)
+
 
 [补充题6. 手撕堆排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 

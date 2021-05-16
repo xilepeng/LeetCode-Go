@@ -21,15 +21,19 @@
 
 [179. 最大数](https://leetcode-cn.com/problems/largest-number/)
 
-[128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
 
-[460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 
 [498. 对角线遍历](https://leetcode-cn.com/problems/diagonal-traverse/)
 
 [227. 基本计算器 II](https://leetcode-cn.com/problems/basic-calculator-ii/)
 
+[7. 整数反转](https://leetcode-cn.com/problems/reverse-integer/)
+
 [32. 最长有效括号](https://leetcode-cn.com/problems/longest-valid-parentheses/)
+
+[128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
+
+[283. 移动零](https://leetcode-cn.com/problems/move-zeroes/)
 
 [补充题1. 排序奇升偶降链表](https://mp.weixin.qq.com/s/377FfqvpY8NwMInhpoDgsw)
 
@@ -42,69 +46,8 @@
 [198. 打家劫舍](https://leetcode-cn.com/problems/house-robber/)
 
 
-
-
 ------
 
-[227. 基本计算器 II](https://leetcode-cn.com/problems/basic-calculator-ii/)
-
-- 加号：将数字压入栈；
-- 减号：将数字的相反数压入栈；
-- 乘除号：计算数字与栈顶元素，并将栈顶元素替换为计算结果。
-
-```go
-func calculate(s string) int {
-	stack, preSign, num, res := []int{}, '+', 0, 0
-	for i, ch := range s {
-		isDigit := '0' <= ch && ch <= '9' // ch 是 0-9 的数字
-		if isDigit {
-			num = num*10 + int(ch-'0') //字符转数字
-		}
-		if !isDigit && ch != ' ' || i == len(s)-1 { // ch 是运算符
-			switch preSign {
-			case '+':
-				stack = append(stack, num)
-			case '-':
-				stack = append(stack, -num)
-			case '*':
-				stack[len(stack)-1] *= num
-			default:
-				stack[len(stack)-1] /= num
-			}
-			preSign = ch
-			num = 0
-		}
-	}
-	for _, v := range stack {
-		res += v
-	}
-	return res
-}
-```
-
-[14. 最长公共前缀](https://leetcode-cn.com/problems/longest-common-prefix/)
-
-### 方法一：纵向扫描
-
-纵向扫描时，从前往后遍历所有字符串的每一列，比较相同列上的字符是否相同，如果相同则继续对下一列进行比较，如果不相同则当前列不再属于公共前缀，当前列之前的部分为最长公共前缀。
-
-![](https://assets.leetcode-cn.com/solution-static/14/14_fig2.png)
-
-```go
-func longestCommonPrefix(strs []string) string {
-	if len(strs) == 0 {
-		return ""
-	}
-	for i := 0; i < len(strs[0]); i++ {
-		for j := 1; j < len(strs); j++ {
-			if i == len(strs[j]) || strs[j][i] != strs[0][i] {
-				return strs[0][:i]
-			}
-		}
-	}
-	return strs[0]
-}
-```
 
 
 [剑指 Offer 36. 二叉搜索树与双向链表](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
@@ -769,6 +712,65 @@ func merge(l1, l2 *ListNode) *ListNode {
 ```
 
 
+[227. 基本计算器 II](https://leetcode-cn.com/problems/basic-calculator-ii/)
+
+- 加号：将数字压入栈；
+- 减号：将数字的相反数压入栈；
+- 乘除号：计算数字与栈顶元素，并将栈顶元素替换为计算结果。
+
+```go
+func calculate(s string) int {
+	stack, preSign, num, res := []int{}, '+', 0, 0
+	for i, ch := range s {
+		isDigit := '0' <= ch && ch <= '9' // ch 是 0-9 的数字
+		if isDigit {
+			num = num*10 + int(ch-'0') //字符转数字
+		}
+		if !isDigit && ch != ' ' || i == len(s)-1 { // ch 是运算符
+			switch preSign {
+			case '+':
+				stack = append(stack, num)
+			case '-':
+				stack = append(stack, -num)
+			case '*':
+				stack[len(stack)-1] *= num
+			default:
+				stack[len(stack)-1] /= num
+			}
+			preSign = ch
+			num = 0
+		}
+	}
+	for _, v := range stack {
+		res += v
+	}
+	return res
+}
+```
+
+[14. 最长公共前缀](https://leetcode-cn.com/problems/longest-common-prefix/)
+
+### 方法一：纵向扫描
+
+纵向扫描时，从前往后遍历所有字符串的每一列，比较相同列上的字符是否相同，如果相同则继续对下一列进行比较，如果不相同则当前列不再属于公共前缀，当前列之前的部分为最长公共前缀。
+
+![](https://assets.leetcode-cn.com/solution-static/14/14_fig2.png)
+
+```go
+func longestCommonPrefix(strs []string) string {
+	if len(strs) == 0 {
+		return ""
+	}
+	for i := 0; i < len(strs[0]); i++ {
+		for j := 1; j < len(strs); j++ {
+			if i == len(strs[j]) || strs[j][i] != strs[0][i] {
+				return strs[0][:i]
+			}
+		}
+	}
+	return strs[0]
+}
+```
 
 
 [59. 螺旋矩阵 II](https://leetcode-cn.com/problems/spiral-matrix-ii/)
@@ -806,22 +808,64 @@ func generateMatrix(n int) [][]int {
 }
 ```
 
-[498. 对角线遍历](https://leetcode-cn.com/problems/diagonal-traverse/)
+[498. 对角线遍历](https://leetcode-cn.com/problems/diagonal-traverse/) next
 
 ```go
-
+func findDiagonalOrder(mat [][]int) []int {
+	res := []int{}
+	if len(mat) == 0 {
+		return res
+	}
+	i, j, m, n, up := 0, 0, len(mat), len(mat[0]), true
+	for i < m && j < n {
+		res = append(res, mat[i][j])
+		if up {
+			if j == n-1 { // 右边界
+				i, up = i+1, false
+			} else if i == 0 { // 上边界
+				j, up = j+1, false
+			} else {
+				i, j = i-1, j+1
+			}
+		} else {
+			if i == m-1 { // 下边界
+				j, up = j+1, true
+			} else if j == 0 { // 左边界
+				i, up = i+1, true
+			} else {
+				i, j = i+1, j-1
+			}
+		}
+	}
+	return res
+}
 ```
+
+
+[7. 整数反转](https://leetcode-cn.com/problems/reverse-integer/)
+
+```go
+func reverse(x int) int {
+	res := 0
+	for x != 0 {
+		res = res*10 + x%10
+		x /= 10
+	}
+	if res < -(1<<31) || res > 1<<31-1 {
+		return 0
+	}
+	return res
+}
+```
+
+[32. 最长有效括号](https://leetcode-cn.com/problems/longest-valid-parentheses/)
 
 [128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
 
+[283. 移动零](https://leetcode-cn.com/problems/move-zeroes/)
 
 
-[460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 
-
-[227. 基本计算器 II](https://leetcode-cn.com/problems/basic-calculator-ii/)
-
-[32. 最长有效括号](https://leetcode-cn.com/problems/longest-valid-parentheses/)
 
 
 [162. 寻找峰值](https://leetcode-cn.com/problems/find-peak-element/)

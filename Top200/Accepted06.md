@@ -1,10 +1,10 @@
-
+[460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 
 [剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
 
 [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
-[7. 整数反转](https://leetcode-cn.com/problems/reverse-integer/)
+
 
 [补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 

@@ -703,17 +703,6 @@ func main() {
 
 
 
-[128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
-
-
-
-[460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
-
-[498. 对角线遍历](https://leetcode-cn.com/problems/diagonal-traverse/)
-
-[227. 基本计算器 II](https://leetcode-cn.com/problems/basic-calculator-ii/)
-
-[32. 最长有效括号](https://leetcode-cn.com/problems/longest-valid-parentheses/)
 
 
 
@@ -780,8 +769,59 @@ func merge(l1, l2 *ListNode) *ListNode {
 ```
 
 
+
+
 [59. 螺旋矩阵 II](https://leetcode-cn.com/problems/spiral-matrix-ii/)
 
+```go
+func generateMatrix(n int) [][]int {
+	matrix, num := make([][]int, n), 1
+	for i := range matrix {
+		matrix[i] = make([]int, n)
+	}
+	left, right, top, bottom := 0, n-1, 0, n-1
+	for num <= n*n {
+		for i := left; i <= right; i++ {
+			matrix[top][i] = num
+			num++
+		}
+		top++
+		for i := top; i <= bottom; i++ {
+			matrix[i][right] = num
+			num++
+		}
+		right--
+		for i := right; i >= left; i-- {
+			matrix[bottom][i] = num
+			num++
+		}
+		bottom--
+		for i := bottom; i >= top; i-- {
+			matrix[i][left] = num
+			num++
+		}
+		left++
+	}
+	return matrix
+}
+```
+
+[498. 对角线遍历](https://leetcode-cn.com/problems/diagonal-traverse/)
+
+```go
+
+```
+
+[128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
+
+
+
+[460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
+
+
+[227. 基本计算器 II](https://leetcode-cn.com/problems/basic-calculator-ii/)
+
+[32. 最长有效括号](https://leetcode-cn.com/problems/longest-valid-parentheses/)
 
 
 [162. 寻找峰值](https://leetcode-cn.com/problems/find-peak-element/)

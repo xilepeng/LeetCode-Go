@@ -1,31 +1,31 @@
-
-
-[226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
-
-[93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/) 
-
-[239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
-
-[165. 比较版本号](https://leetcode-cn.com/problems/compare-version-numbers/)
-
-[48. 旋转图像](https://leetcode-cn.com/problems/rotate-image/)
-
-[240. 搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/)
-
-[98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
-
-[78. 子集](https://leetcode-cn.com/problems/subsets/)
+[83. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
 
 [112. 路径总和](https://leetcode-cn.com/problems/path-sum/)
 
 [113. 路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/) 补充
 
+[239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
+
+[165. 比较版本号](https://leetcode-cn.com/problems/compare-version-numbers/)
+
+[82. 删除排序链表中的重复元素 II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
+
+[93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/) 
+
+[98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+
+[129. 求根节点到叶节点数字之和](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
+
+
+[48. 旋转图像](https://leetcode-cn.com/problems/rotate-image/)
+
+[240. 搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/)
+
+[78. 子集](https://leetcode-cn.com/problems/subsets/)
 
 [153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
 
 [39. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
-
-[129. 求根节点到叶节点数字之和](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
 
 [64. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)
 
@@ -44,198 +44,122 @@
 [62. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
 
 
-[82. 删除排序链表中的重复元素 II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
 
 
 ------
 
 
 
-[226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
-
-### 方法一：dfs 递归
-
-#### 递归思路1
-
-我们从根节点开始，递归地对树进行遍历，并从叶子结点先开始翻转。如果当前遍历到的节点 root 的左右两棵子树都已经翻转，那么我们只需要交换两棵子树的位置，即可完成以 root 为根节点的整棵子树的翻转。
-
-*思路*
-一个二叉树，怎么才算翻转了？
-
-它的左右子树要交换，并且左右子树内部的所有子树，都要进行左右子树的交换。
-
-![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpmz43wk4yj31er0fw0w1.jpg)
-
-
-每个子树的根节点都说：先交换我的左右子树吧。那么递归就会先压栈压到底。然后才做交换。
-即，位于底部的、左右孩子都是 null 的子树，先被翻转。
-随着递归向上返回，子树一个个被翻转……整棵树翻转好了。
-问题是在递归出栈时解决的。
+[83. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
 
 ```go
-func invertTree(root *TreeNode) *TreeNode {
-	if root == nil {
-		return nil
+	/**
+	 * Definition for singly-linked list.
+	 * type ListNode struct {
+	 *     Val int
+	 *     Next *ListNode
+	 * }
+	 */
+	func deleteDuplicates(head *ListNode) *ListNode {
+		if head == nil {
+			return nil
+		}
+		curr := head
+		for curr.Next != nil {
+			if curr.Val == curr.Next.Val {
+				curr.Next = curr.Next.Next
+			} else {
+				curr = curr.Next
+			}
+		}
+		return head
 	}
-	invertTree(root.Left)
-	invertTree(root.Right)
-	root.Left, root.Right = root.Right, root.Left
-	return root
+```
+
+
+
+[112. 路径总和](https://leetcode-cn.com/problems/path-sum/)
+
+### 方法一：递归
+
+```go
+func hasPathSum(root *TreeNode, sum int) bool {
+	if root == nil {
+		return false // 遍历到null节点
+	}
+	if root.Left == nil && root.Right == nil { // 遍历到叶子节点
+		return sum-root.Val == 0 // 如果满足这个就返回true。否则返回false
+	} // 当前递归问题 拆解成 两个子树的问题，其中一个true了就行
+	return hasPathSum(root.Left, sum-root.Val) || hasPathSum(root.Right, sum-root.Val)
 }
 ```
 
-#### 递归思路 2
-
-![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpmz4kjl1jj31fu0gh77e.jpg)
-
-思路变了：先 “做事”——先交换左右子树，它们内部的子树还没翻转——丢给递归去做。
-把交换的操作，放在递归子树之前。
-问题是在递归压栈前被解决的。
+[113. 路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/) 补充
 
 ```go
-func invertTree(root *TreeNode) *TreeNode {
-	if root == nil {
-		return nil
-	}
-	root.Left, root.Right = root.Right, root.Left
-	invertTree(root.Left)
-	invertTree(root.Right)
-	return root
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(N)，其中 N 为二叉树节点的数目。我们会遍历二叉树中的每一个节点，对每个节点而言，我们在常数时间内交换其两棵子树。
-
-- 空间复杂度：O(N)。使用的空间由递归栈的深度决定，它等于当前节点在二叉树中的高度。在平均情况下，二叉树的高度与节点个数为对数关系，即 O(logN)。而在最坏情况下，树形成链状，空间复杂度为 O(N)。
-
-
-
-#### 总结
-两种分别是后序遍历和前序遍历。都是基于DFS，都是先遍历根节点、再遍历左子树、再右子树。
-唯一的区别是：
-前序遍历：将「处理当前节点」放到「递归左子树」之前。
-后序遍历：将「处理当前节点」放到「递归右子树」之后。
-
-这个「处理当前节点」，就是交换左右子树 ，就是解决问题的代码：
-
-```go
-root.Left, root.Right = root.Right, root.Left
-```
-
-递归只是帮你遍历这棵树，核心还是解决问题的代码，递归把它应用到每个子树上，解决每个子问题，最后解决整个问题。
-
-### 方法二：BFS 
-
-用层序遍历的方式去遍历二叉树。
-
-根节点先入列，然后出列，出列就 “做事”，交换它的左右子节点（左右子树）。
-并让左右子节点入列，往后，这些子节点出列，也被翻转。
-直到队列为空，就遍历完所有的节点，翻转了所有子树。
-
-解决问题的代码放在节点出列时。
-
-
-```go
-func invertTree(root *TreeNode) *TreeNode {
-	if root == nil {
-		return nil
-	}
-	q := []*TreeNode{root}
-	for len(q) > 0 {
-		cur := q[0]
-		q = q[1:len(q)]
-		cur.Left, cur.Right = cur.Right, cur.Left
-		if cur.Left != nil {
-			q = append(q, cur.Left)
-		}
-		if cur.Right != nil {
-			q = append(q, cur.Right)
-		}
-	}
-	return root
-}
-```
-
-
-[93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/)
-
-思路
-
-- 以 "25525511135" 为例，做第一步时我们有几种选择？
-
-1. 选 "2" 作为第一个片段
-2. 选 "25" 作为第一个片段
-3. 选 "255" 作为第一个片段
-- 能切三种不同的长度，切第二个片段时，又面临三种选择。
-- 这会向下分支形成一棵树，我们用 DFS 去遍历所有选择，必要时提前回溯。
-	因为某一步的选择可能是错的，得不到正确的结果，不要往下做了。撤销最后一个选择，回到选择前的状态，去试另一个选择。
-- 回溯的第一个要点：选择，它展开了一颗空间树。
-
-#### 回溯的要点二——约束
-- 约束条件限制了当前的选项，这道题的约束条件是：
-1. 一个片段的长度是 1~3
-2. 片段的值范围是 0~255
-3. 不能是 "0x"、"0xx" 形式（测试用例告诉我们的）
-- 用这些约束进行充分地剪枝，去掉一些选择，避免搜索「不会产生正确答案」的分支。
-#### 回溯的要点三——目标
-- 目标决定了什么时候捕获答案，什么时候砍掉死支，回溯。
-- 目标是生成 4 个有效片段，并且要耗尽 IP 的字符。
-- 当满足该条件时，说明生成了一个有效组合，加入解集，结束当前递归，继续探索别的分支。
-- 如果满4个有效片段，但没耗尽字符，不是想要的解，不继续往下递归，提前回溯。
-#### 定义 dfs 函数
-- dfs 函数传什么？也就是，用什么描述一个节点的状态？
-- 选择切出一个片段后，继续递归剩余子串。可以传子串，也可以传指针，加上当前的片段数组，描述节点的状态。
-- dfs 函数做的事：复原从 start 到末尾的子串。
-
-我把递归树画了出来，可以看看回溯的细节：
-
-
-![](https://pic.leetcode-cn.com/5276b1631cb1fc47d8d88dd021f1302213291bf05bfdfdc6209370ce9034be83-image.png)
-
-如图['2','5','5','2']未耗尽字符，不是有效组合，不继续选下去。撤销选择"2"，回到之前的状态（当前分支砍掉了），切入到另一个分支，选择"25"。
-
-回溯会穷举所有节点，通常用于解决「找出所有可能的组合」问题。
-
-下图展示找到一个有效的组合的样子。start 指针越界，代表耗尽了所有字符，且满 4 个片段。
-
-
-![](https://pic.leetcode-cn.com/e3e3a6dac1ecb79da18740f7968a5eedaa80d5a0e0e45463c7096f663748e0fa-image.png)
-
-```go
-func restoreIpAddresses(s string) []string {
-	res := []string{}
-	var dfs func([]string, int)
-
-	dfs = func(sub []string, start int) {
-		if len(sub) == 4 && start == len(s) { // 片段满4段，且耗尽所有字符
-			res = append(res, strings.Join(sub, ".")) // 拼成字符串，加入解集
-			return
-		}
-		if len(sub) == 4 && start < len(s) { // 满4段，字符未耗尽，不用往下选了
-			return
-		}
-		for length := 1; length <= 3; length++ { // 枚举出选择，三种切割长度
-			if start+length-1 >= len(s) { // 加上要切的长度就越界，不能切这个长度
-				return
-			}
-			if length != 1 && s[start] == '0' { // 不能切出'0x'、'0xx'
-				return
-			}
-			str := s[start : start+length]          // 当前选择切出的片段
-			if n, _ := strconv.Atoi(str); n > 255 { // 不能超过255
-				return
-			}
-			sub = append(sub, str) // 作出选择，将片段加入sub
-			dfs(sub, start+length) // 基于当前选择，继续选择，注意更新指针
-			sub = sub[:len(sub)-1] // 上面一句的递归分支结束，撤销最后的选择，进入下一轮迭代，考察下一个切割长度
-		}
-	}
-	dfs([]string{}, 0)
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func pathSum(root *TreeNode, targetSum int) [][]int {
+	var res [][]int
+	res = findPath(root, targetSum, res, []int(nil))
 	return res
 }
+func findPath(node *TreeNode, sum int, res [][]int, stack []int) [][]int {
+	if node == nil {
+		return res
+	}
+	sum -= node.Val
+	stack = append(stack, node.Val)
+	if sum == 0 && node.Left == nil && node.Right == nil {
+		res = append(res, append([]int(nil), stack...))
+		stack = stack[:len(stack)-1]
+	}
+	res = findPath(node.Left, sum, res, stack)
+	res = findPath(node.Right, sum, res, stack)
+	return res
+}
+
 ```
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func pathSum(root *TreeNode, targetSum int) (res [][]int) {
+	stack := []int{} //path
+	var dfs func(*TreeNode, int)
+	dfs = func(node *TreeNode, sum int) {
+		if node == nil {
+			return
+		}
+		sum -= node.Val
+		stack = append(stack, node.Val)
+		defer func() { stack = stack[:len(stack)-1] }()
+		if sum == 0 && node.Left == nil && node.Right == nil {
+			res = append(res, append([]int(nil), stack...))
+			return
+		}
+		dfs(node.Left, sum)
+		dfs(node.Right, sum)
+	}
+	dfs(root, targetSum)
+	return
+}
+
+```
+
+
 
 
 [239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
@@ -354,107 +278,113 @@ func Itoa(i int) string
 
 
 
+[82. 删除排序链表中的重复元素 II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
 
-
-
-[48. 旋转图像](https://leetcode-cn.com/problems/rotate-image/)
-
-### 方法一：用翻转代替旋转
-
-![截屏2021-04-20 17.50.27.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpqcvh0n5pj314w0mkadk.jpg)
-
-![截屏2021-04-20 17.50.41.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpqcvp2lc4j318e0o60xd.jpg)
+![截屏2021-04-19 12.05.24.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpox9o0ps6j30wg0di75x.jpg)
 
 ```go
-func rotate(matrix [][]int) {
-	n := len(matrix)
-	// 水平翻转
-	for i := 0; i < n/2; i++ {
-		matrix[i], matrix[n-1-i] = matrix[n-1-i], matrix[i]
+func deleteDuplicates(head *ListNode) *ListNode {
+	if head == nil {
+		return nil
 	}
-	// 主对角线翻转
-	for i := 0; i < n; i++ {
-		for j := 0; j < i; j++ {
-			matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
-		}
-	}
-}
-```
-
-
-
-
-[240. 搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/)
-![](https://pic.leetcode-cn.com/Figures/240/Slide3.PNG)
-
-## 方法一：模拟 
-
-1. 从右上角开始搜索
-
-```go
-func searchMatrix(matrix [][]int, target int) bool {
-	row, col := 0, len(matrix[0])-1
-	for row <= len(matrix)-1 && col >= 0 {
-		if target == matrix[row][col] {
-			return true
-		} else if target < matrix[row][col] {
-			col--
-		} else {
-			row++
-		}
-	}
-	return false
-}
-```
-
-2. 从左下角开始搜索
-
-```go
-func searchMatrix(matrix [][]int, target int) bool {
-	row, col := len(matrix)-1, 0
-	for row >= 0 && col <= len(matrix[0])-1 {
-		if target == matrix[row][col] {
-			return true
-		} else if target < matrix[row][col] {
-			row--
-		} else {
-			col++
-		}
-	}
-	return false
-}
-```
-复杂度分析
-
-- 时间复杂度：O(n+m)。
-时间复杂度分析的关键是注意到在每次迭代（我们不返回 true）时，行或列都会精确地递减/递增一次。由于行只能减少 m 次，而列只能增加 n 次，因此在导致 for 循环终止之前，循环不能运行超过 n+m 次。因为所有其他的工作都是常数，所以总的时间复杂度在矩阵维数之和中是线性的。
-- 空间复杂度：O(1)，因为这种方法只处理几个指针，所以它的内存占用是恒定的。
-
-## 方法二：二分法搜索
-
-```go
-func searchMatrix(matrix [][]int, target int) bool {
-	for _, row := range matrix {
-		low, high := 0, len(matrix[0])-1
-		for low <= high {
-			mid := low + (high-low)>>1
-			if target == row[mid] {
-				return true
-			} else if target < row[mid] {
-				high = mid - 1
-			} else {
-				low = mid + 1
+	dummy := &ListNode{0, head}
+	cur := dummy
+	for cur.Next != nil && cur.Next.Next != nil {
+		if cur.Next.Val == cur.Next.Next.Val {
+			x := cur.Next.Val
+			for cur.Next != nil && cur.Next.Val == x {
+				cur.Next = cur.Next.Next
 			}
+		} else {
+			cur = cur.Next
 		}
 	}
-	return false
+	return dummy.Next
 }
 ```
 
-复杂度分析
 
-- 时间复杂度 O(n log n)
-- 空间复杂度：O(1)
+
+
+
+
+[93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/)
+
+思路
+
+- 以 "25525511135" 为例，做第一步时我们有几种选择？
+
+1. 选 "2" 作为第一个片段
+2. 选 "25" 作为第一个片段
+3. 选 "255" 作为第一个片段
+- 能切三种不同的长度，切第二个片段时，又面临三种选择。
+- 这会向下分支形成一棵树，我们用 DFS 去遍历所有选择，必要时提前回溯。
+	因为某一步的选择可能是错的，得不到正确的结果，不要往下做了。撤销最后一个选择，回到选择前的状态，去试另一个选择。
+- 回溯的第一个要点：选择，它展开了一颗空间树。
+
+#### 回溯的要点二——约束
+- 约束条件限制了当前的选项，这道题的约束条件是：
+1. 一个片段的长度是 1~3
+2. 片段的值范围是 0~255
+3. 不能是 "0x"、"0xx" 形式（测试用例告诉我们的）
+- 用这些约束进行充分地剪枝，去掉一些选择，避免搜索「不会产生正确答案」的分支。
+#### 回溯的要点三——目标
+- 目标决定了什么时候捕获答案，什么时候砍掉死支，回溯。
+- 目标是生成 4 个有效片段，并且要耗尽 IP 的字符。
+- 当满足该条件时，说明生成了一个有效组合，加入解集，结束当前递归，继续探索别的分支。
+- 如果满4个有效片段，但没耗尽字符，不是想要的解，不继续往下递归，提前回溯。
+#### 定义 dfs 函数
+- dfs 函数传什么？也就是，用什么描述一个节点的状态？
+- 选择切出一个片段后，继续递归剩余子串。可以传子串，也可以传指针，加上当前的片段数组，描述节点的状态。
+- dfs 函数做的事：复原从 start 到末尾的子串。
+
+我把递归树画了出来，可以看看回溯的细节：
+
+
+![](https://pic.leetcode-cn.com/5276b1631cb1fc47d8d88dd021f1302213291bf05bfdfdc6209370ce9034be83-image.png)
+
+如图['2','5','5','2']未耗尽字符，不是有效组合，不继续选下去。撤销选择"2"，回到之前的状态（当前分支砍掉了），切入到另一个分支，选择"25"。
+
+回溯会穷举所有节点，通常用于解决「找出所有可能的组合」问题。
+
+下图展示找到一个有效的组合的样子。start 指针越界，代表耗尽了所有字符，且满 4 个片段。
+
+
+![](https://pic.leetcode-cn.com/e3e3a6dac1ecb79da18740f7968a5eedaa80d5a0e0e45463c7096f663748e0fa-image.png)
+
+```go
+func restoreIpAddresses(s string) []string {
+	res := []string{}
+	var dfs func([]string, int)
+
+	dfs = func(sub []string, start int) {
+		if len(sub) == 4 && start == len(s) { // 片段满4段，且耗尽所有字符
+			res = append(res, strings.Join(sub, ".")) // 拼成字符串，加入解集
+			return
+		}
+		if len(sub) == 4 && start < len(s) { // 满4段，字符未耗尽，不用往下选了
+			return
+		}
+		for length := 1; length <= 3; length++ { // 枚举出选择，三种切割长度
+			if start+length-1 >= len(s) { // 加上要切的长度就越界，不能切这个长度
+				return
+			}
+			if length != 1 && s[start] == '0' { // 不能切出'0x'、'0xx'
+				return
+			}
+			str := s[start : start+length]          // 当前选择切出的片段
+			if n, _ := strconv.Atoi(str); n > 255 { // 不能超过255
+				return
+			}
+			sub = append(sub, str) // 作出选择，将片段加入sub
+			dfs(sub, start+length) // 基于当前选择，继续选择，注意更新指针
+			sub = sub[:len(sub)-1] // 上面一句的递归分支结束，撤销最后的选择，进入下一轮迭代，考察下一个切割长度
+		}
+	}
+	dfs([]string{}, 0)
+	return res
+}
+```
 
 
 
@@ -594,6 +524,55 @@ func isValidBST(root *TreeNode) bool {
 
 
 
+[129. 求根节点到叶节点数字之和](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
+
+### 方法一：深度优先搜索
+思路与算法
+
+从根节点开始，遍历每个节点，如果遇到叶子节点，则将叶子节点对应的数字加到数字之和。如果当前节点不是叶子节点，则计算其子节点对应的数字，然后对子节点递归遍历。
+
+![](https://assets.leetcode-cn.com/solution-static/129/fig1.png)
+
+![](https://pic.leetcode-cn.com/1603933660-UNWQbT-image.png)
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func sumNumbers(root *TreeNode) int {
+	var dfs func(*TreeNode, int) int
+
+	dfs = func(root *TreeNode, prevSum int) int {
+		if root == nil {
+			return 0
+		}
+		sum := prevSum*10 + root.Val
+		if root.Left == nil && root.Right == nil {
+			return sum
+		}
+		return dfs(root.Left, sum) + dfs(root.Right, sum)
+	}
+
+	return dfs(root, 0)
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n)，其中 n 是二叉树的节点个数。对每个节点访问一次。
+
+- 空间复杂度：O(n)，其中 n 是二叉树的节点个数。空间复杂度主要取决于递归调用的栈空间，递归栈的深度等于二叉树的高度，最坏情况下，二叉树的高度等于节点个数，空间复杂度为 O(n)。
+
+
+
+
+
+
 [78. 子集](https://leetcode-cn.com/problems/subsets/)
 
 
@@ -726,22 +705,145 @@ func subsets(nums []int) [][]int {
 }
 ```
 
+[48. 旋转图像](https://leetcode-cn.com/problems/rotate-image/)
 
-[112. 路径总和](https://leetcode-cn.com/problems/path-sum/)
+### 方法一：用翻转代替旋转
 
-### 方法一：递归
+![截屏2021-04-20 17.50.27.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpqcvh0n5pj314w0mkadk.jpg)
+
+![截屏2021-04-20 17.50.41.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpqcvp2lc4j318e0o60xd.jpg)
 
 ```go
-func hasPathSum(root *TreeNode, sum int) bool {
-	if root == nil {
-		return false // 遍历到null节点
+func rotate(matrix [][]int) {
+	n := len(matrix)
+	// 水平翻转
+	for i := 0; i < n/2; i++ {
+		matrix[i], matrix[n-1-i] = matrix[n-1-i], matrix[i]
 	}
-	if root.Left == nil && root.Right == nil { // 遍历到叶子节点
-		return sum-root.Val == 0 // 如果满足这个就返回true。否则返回false
-	} // 当前递归问题 拆解成 两个子树的问题，其中一个true了就行
-	return hasPathSum(root.Left, sum-root.Val) || hasPathSum(root.Right, sum-root.Val)
+	// 主对角线翻转
+	for i := 0; i < n; i++ {
+		for j := 0; j < i; j++ {
+			matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+		}
+	}
 }
 ```
+
+
+
+
+[240. 搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/)
+![](https://pic.leetcode-cn.com/Figures/240/Slide3.PNG)
+
+## 方法一：模拟 
+
+1. 从右上角开始搜索
+
+```go
+func searchMatrix(matrix [][]int, target int) bool {
+	row, col := 0, len(matrix[0])-1
+	for row <= len(matrix)-1 && col >= 0 {
+		if target == matrix[row][col] {
+			return true
+		} else if target < matrix[row][col] {
+			col--
+		} else {
+			row++
+		}
+	}
+	return false
+}
+```
+
+2. 从左下角开始搜索
+
+```go
+func searchMatrix(matrix [][]int, target int) bool {
+	row, col := len(matrix)-1, 0
+	for row >= 0 && col <= len(matrix[0])-1 {
+		if target == matrix[row][col] {
+			return true
+		} else if target < matrix[row][col] {
+			row--
+		} else {
+			col++
+		}
+	}
+	return false
+}
+```
+复杂度分析
+
+- 时间复杂度：O(n+m)。
+时间复杂度分析的关键是注意到在每次迭代（我们不返回 true）时，行或列都会精确地递减/递增一次。由于行只能减少 m 次，而列只能增加 n 次，因此在导致 for 循环终止之前，循环不能运行超过 n+m 次。因为所有其他的工作都是常数，所以总的时间复杂度在矩阵维数之和中是线性的。
+- 空间复杂度：O(1)，因为这种方法只处理几个指针，所以它的内存占用是恒定的。
+
+## 方法二：二分法搜索
+
+```go
+func searchMatrix(matrix [][]int, target int) bool {
+	for _, row := range matrix {
+		low, high := 0, len(matrix[0])-1
+		for low <= high {
+			mid := low + (high-low)>>1
+			if target == row[mid] {
+				return true
+			} else if target < row[mid] {
+				high = mid - 1
+			} else {
+				low = mid + 1
+			}
+		}
+	}
+	return false
+}
+```
+
+复杂度分析
+
+- 时间复杂度 O(n log n)
+- 空间复杂度：O(1)
+
+
+
+
+[136. 只出现一次的数字](https://leetcode-cn.com/problems/single-number/)
+
+### 方法一：位运算 
+
+异或运算的作用
+　　参与运算的两个值，如果两个相应bit位相同，则结果为0，否则为1。
+
+　　即：
+
+　　0^0 = 0，
+
+　　1^0 = 1，
+
+　　0^1 = 1，
+
+　　1^1 = 0
+
+　　按位异或的3个特点：
+
+　　（1） 0^0=0，0^1=1  0异或任何数＝任何数
+
+　　（2） 1^0=1，1^1=0  1异或任何数－任何数取反
+
+　　（3） 任何数异或自己＝把自己置0
+
+```go
+func singleNumber(nums []int) int {
+	res := 0
+	for _, num := range nums {
+		res ^= num
+	}
+	return res
+}
+```
+
+
+
 
 
 
@@ -781,168 +883,6 @@ func findMin(nums []int) int {
 		}
 	}
 	return nums[left]
-}
-```
-
-
-
-[39. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
-
-![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gplqpjg5wdj31ax0jnn10.jpg)
-
-```go
-func combinationSum(candidates []int, target int) (res [][]int) {
-	path := []int{}
-	sort.Ints(candidates)
-	var dfs func(int, int)
-
-	dfs = func(target, index int) {
-		if target <= 0 {
-			if target == 0 {
-				res = append(res, append([]int(nil), path...))
-			}
-			return
-		}
-		for i := index; i < len(candidates); i++ { // 枚举当前可选的数，从index开始
-			if candidates[i] > target { // 剪枝优化
-				break
-			}
-			path = append(path, candidates[i]) // 选这个数,基于此，继续选择，传i，下次就不会选到i左边的数
-			dfs(target-candidates[i], i)       // 注意这里迭代的时候 index 依旧不变，因为一个元素可以取多次
-			path = path[:len(path)-1]          // 撤销选择，回到选择candidates[i]之前的状态，继续尝试选同层右边的数
-		}
-	}
-
-	dfs(target, 0)
-	return
-}
-
-```
-
-
-
-[129. 求根节点到叶节点数字之和](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
-
-### 方法一：深度优先搜索
-思路与算法
-
-从根节点开始，遍历每个节点，如果遇到叶子节点，则将叶子节点对应的数字加到数字之和。如果当前节点不是叶子节点，则计算其子节点对应的数字，然后对子节点递归遍历。
-
-![](https://assets.leetcode-cn.com/solution-static/129/fig1.png)
-
-![](https://pic.leetcode-cn.com/1603933660-UNWQbT-image.png)
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func sumNumbers(root *TreeNode) int {
-	var dfs func(*TreeNode, int) int
-
-	dfs = func(root *TreeNode, prevSum int) int {
-		if root == nil {
-			return 0
-		}
-		sum := prevSum*10 + root.Val
-		if root.Left == nil && root.Right == nil {
-			return sum
-		}
-		return dfs(root.Left, sum) + dfs(root.Right, sum)
-	}
-
-	return dfs(root, 0)
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(n)，其中 n 是二叉树的节点个数。对每个节点访问一次。
-
-- 空间复杂度：O(n)，其中 n 是二叉树的节点个数。空间复杂度主要取决于递归调用的栈空间，递归栈的深度等于二叉树的高度，最坏情况下，二叉树的高度等于节点个数，空间复杂度为 O(n)。
-
-
-
-
-
-
-
-[64. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)
-
-### 方法一：动态规划
-
-```go
-func minPathSum(grid [][]int) int {
-	m, n := len(grid), len(grid[0])
-	for i := 1; i < m; i++ {
-		grid[i][0] += grid[i-1][0]
-	}
-	for j := 1; j < n; j++ {
-		grid[0][j] += grid[0][j-1]
-	}
-	for i := 1; i < m; i++ {
-		for j := 1; j < n; j++ {
-			grid[i][j] += min(grid[i][j-1], grid[i-1][j])
-		}
-	}
-	return grid[m-1][n-1]
-}
-func min(x, y int) int {
-	if x < y {
-		return x
-	}
-	return y
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(mn)，其中 m 和 n 分别是网格的行数和列数。需要对整个网格遍历一次，计算 dp 的每个元素的值。
-
-- 空间复杂度：O(1)
-
-
-
-
-
-
-
-[136. 只出现一次的数字](https://leetcode-cn.com/problems/single-number/)
-
-### 方法一：位运算 
-
-异或运算的作用
-　　参与运算的两个值，如果两个相应bit位相同，则结果为0，否则为1。
-
-　　即：
-
-　　0^0 = 0，
-
-　　1^0 = 1，
-
-　　0^1 = 1，
-
-　　1^1 = 0
-
-　　按位异或的3个特点：
-
-　　（1） 0^0=0，0^1=1  0异或任何数＝任何数
-
-　　（2） 1^0=1，1^1=0  1异或任何数－任何数取反
-
-　　（3） 任何数异或自己＝把自己置0
-
-```go
-func singleNumber(nums []int) int {
-	res := 0
-	for _, num := range nums {
-		res ^= num
-	}
-	return res
 }
 ```
 
@@ -1052,6 +992,90 @@ func searchRange(nums []int, target int) []int {
 	return []int{leftmost, rightmost}
 }
 ```
+
+
+
+
+[39. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
+
+![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gplqpjg5wdj31ax0jnn10.jpg)
+
+```go
+func combinationSum(candidates []int, target int) (res [][]int) {
+	path := []int{}
+	sort.Ints(candidates)
+	var dfs func(int, int)
+
+	dfs = func(target, index int) {
+		if target <= 0 {
+			if target == 0 {
+				res = append(res, append([]int(nil), path...))
+			}
+			return
+		}
+		for i := index; i < len(candidates); i++ { // 枚举当前可选的数，从index开始
+			if candidates[i] > target { // 剪枝优化
+				break
+			}
+			path = append(path, candidates[i]) // 选这个数,基于此，继续选择，传i，下次就不会选到i左边的数
+			dfs(target-candidates[i], i)       // 注意这里迭代的时候 index 依旧不变，因为一个元素可以取多次
+			path = path[:len(path)-1]          // 撤销选择，回到选择candidates[i]之前的状态，继续尝试选同层右边的数
+		}
+	}
+
+	dfs(target, 0)
+	return
+}
+
+```
+
+
+
+
+
+
+[64. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)
+
+### 方法一：动态规划
+
+```go
+func minPathSum(grid [][]int) int {
+	m, n := len(grid), len(grid[0])
+	for i := 1; i < m; i++ {
+		grid[i][0] += grid[i-1][0]
+	}
+	for j := 1; j < n; j++ {
+		grid[0][j] += grid[0][j-1]
+	}
+	for i := 1; i < m; i++ {
+		for j := 1; j < n; j++ {
+			grid[i][j] += min(grid[i][j-1], grid[i-1][j])
+		}
+	}
+	return grid[m-1][n-1]
+}
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(mn)，其中 m 和 n 分别是网格的行数和列数。需要对整个网格遍历一次，计算 dp 的每个元素的值。
+
+- 空间复杂度：O(1)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1299,32 +1323,6 @@ func minWindow(s string, t string) string {
 
 
 
-[958. 二叉树的完全性检验](https://leetcode-cn.com/problems/check-completeness-of-a-binary-tree/)
-
-### 方法一：广度优先搜索
-1. 按 根左右(前序遍历) 顺序依次检查
-2. 如果出现空节点，标记end = true
-3. 如果后面还有节点，返回false
-
-```go
-func isCompleteTree(root *TreeNode) bool {
-	q, end := []*TreeNode{root}, false
-	for len(q) > 0 {
-		node := q[0]
-		q = q[1:]
-		if node == nil {
-			end = true
-		} else {
-			if end == true {
-				return false
-			}
-			q = append(q, node.Left)
-			q = append(q, node.Right)
-		}
-	}
-	return true
-}
-```
 
 
 
@@ -1390,29 +1388,4 @@ func uniquePaths(m int, n int) int {
 
 
 
-
-[82. 删除排序链表中的重复元素 II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
-
-![截屏2021-04-19 12.05.24.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpox9o0ps6j30wg0di75x.jpg)
-
-```go
-func deleteDuplicates(head *ListNode) *ListNode {
-	if head == nil {
-		return nil
-	}
-	dummy := &ListNode{0, head}
-	cur := dummy
-	for cur.Next != nil && cur.Next.Next != nil {
-		if cur.Next.Val == cur.Next.Next.Val {
-			x := cur.Next.Val
-			for cur.Next != nil && cur.Next.Val == x {
-				cur.Next = cur.Next.Next
-			}
-		} else {
-			cur = cur.Next
-		}
-	}
-	return dummy.Next
-}
-```
 

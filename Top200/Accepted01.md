@@ -11,28 +11,25 @@
 
 [25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
 
-[53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
-
 [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
+
+[53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
 
 [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
 
-[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
-
-
-
-
-
-
 [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
 
-[121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+
+
+[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
 
 [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
 
-[415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
-
 [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+[121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+
+[415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
 
 [103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
 
@@ -42,8 +39,9 @@
 
 [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
 
-[142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+[704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
 
+[34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)  补充
 ------
 
 
@@ -563,57 +561,6 @@ func reverse(head *ListNode) *ListNode {
 
 
 
-
-[53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
-
-方法一：贪心
-
-- 若当前指针所指元素之前的和小于0， 则丢弃当前元素之前的数列
-- 将当前值与最大值比较，取最大
-
-![截屏2021-03-12 15.20.16.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh5cv919kj30vk0e4wfn.jpg)
-
-```go
-func maxSubArray(nums []int) int {
-	curSum, maxSum := nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		curSum = max(nums[i], curSum+nums[i])
-		maxSum = max(maxSum, curSum)
-	}
-	return maxSum
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
-方法二：动态规划
-
-- 若前一个元素大于0，将其加到当前元素上
-
-![截屏2021-03-12 16.53.25.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh9sg1mb9j31780dw3ze.jpg)
-
-```go
-func maxSubArray(nums []int) int {
-	max := nums[0]
-	for i := 1; i < len(nums); i++ {
-		if nums[i-1] > 0 {
-			nums[i] += nums[i-1]
-		}
-		if max < nums[i] {
-			max = nums[i]
-		}
-	}
-	return max
-}
-```
-
-
-
-
 [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
 
 
@@ -685,6 +632,57 @@ Any Detial?
 
 
 
+[53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+
+方法一：贪心
+
+- 若当前指针所指元素之前的和小于0， 则丢弃当前元素之前的数列
+- 将当前值与最大值比较，取最大
+
+![截屏2021-03-12 15.20.16.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh5cv919kj30vk0e4wfn.jpg)
+
+```go
+func maxSubArray(nums []int) int {
+	curSum, maxSum := nums[0], nums[0]
+	for i := 1; i < len(nums); i++ {
+		curSum = max(nums[i], curSum+nums[i])
+		maxSum = max(maxSum, curSum)
+	}
+	return maxSum
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+方法二：动态规划
+
+- 若前一个元素大于0，将其加到当前元素上
+
+![截屏2021-03-12 16.53.25.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh9sg1mb9j31780dw3ze.jpg)
+
+```go
+func maxSubArray(nums []int) int {
+	max := nums[0]
+	for i := 1; i < len(nums); i++ {
+		if nums[i-1] > 0 {
+			nums[i] += nums[i-1]
+		}
+		if max < nums[i] {
+			max = nums[i]
+		}
+	}
+	return max
+}
+```
+
+
+
+
+
 
 
 [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
@@ -748,6 +746,58 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 ```
 
 
+[160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
+
+### 方法一：双指针法
+
+![截屏2021-04-21 11.23.18.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7bhprljj31ck0p6do3.jpg)
+
+![截屏2021-04-21 11.23.31.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7brsn7wj31c60m0793.jpg)
+
+```go
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+	A, B := headA, headB
+	for A != B {
+		if A != nil {
+			A = A.Next
+		} else {
+			A = headB
+		}
+		if B != nil {
+			B = B.Next
+		} else {
+			B = headA
+		}
+	}
+	return A
+}
+```
+
+复杂度分析
+
+- 时间复杂度 : O(m+n)。
+- 空间复杂度 : O(1)。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 [15. 三数之和](https://leetcode-cn.com/problems/3sum/)
@@ -790,60 +840,88 @@ func threeSum(nums []int) [][]int {
 
 
 
+[141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
-
-### 方法一：双指针法
-
-![截屏2021-04-21 11.23.18.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7bhprljj31ck0p6do3.jpg)
-
-![截屏2021-04-21 11.23.31.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7brsn7wj31c60m0793.jpg)
+![截屏2021-04-21 12.13.52.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr8r3r6ijj31780mcq9j.jpg)
 
 ```go
-func getIntersectionNode(headA, headB *ListNode) *ListNode {
-	A, B := headA, headB
-	for A != B {
-		if A != nil {
-			A = A.Next
-		} else {
-			A = headB
-		}
-		if B != nil {
-			B = B.Next
-		} else {
-			B = headA
-		}
+func hasCycle(head *ListNode) bool {
+	if head == nil || head.Next == nil {
+		return false
 	}
-	return A
+	slow, fast := head, head.Next
+	for slow != fast {
+		if fast == nil || fast.Next == nil {
+			return false
+		}
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+	return true
 }
 ```
 
-复杂度分析
 
-- 时间复杂度 : O(m+n)。
-- 空间复杂度 : O(1)。
+
+
+
+
+
+
+
+[102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+方法一：DFS递归
+
+```go
+var res [][]int
+
+func levelOrder(root *TreeNode) [][]int {
+	res = [][]int{}
+	dfs(root, 0)
+	return res
+}
+func dfs(root *TreeNode, level int) {
+	if root != nil {
+		if level == len(res) {
+			res = append(res, []int{})
+		}
+		res[level] = append(res[level], root.Val)
+		dfs(root.Left, level+1)
+		dfs(root.Right, level+1)
+	}
+```
+
+方法二：BFS(queue)迭代
+
+```go
+func levelOrder(root *TreeNode) [][]int {
+	res := [][]int{}
+	if root == nil {
+		return res
+	}
+	queue := []*TreeNode{root}
+	for level := 0; 0 < len(queue); level++ {
+		res = append(res, []int{})
+		next := []*TreeNode{}
+		for j := 0; j < len(queue); j++ {
+			node := queue[j]
+			res[level] = append(res[level], node.Val)
+			if node.Left != nil {
+				next = append(next, node.Left)
+			}
+			if node.Right != nil {
+				next = append(next, node.Right)
+			}
+		}
+		queue = next
+	}
+	return res
+}
+```
+
+
+
 
 
 
@@ -928,28 +1006,6 @@ Time Limit Exceeded
 
 
 
-[141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
-
-![截屏2021-04-21 12.13.52.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr8r3r6ijj31780mcq9j.jpg)
-
-```go
-func hasCycle(head *ListNode) bool {
-	if head == nil || head.Next == nil {
-		return false
-	}
-	slow, fast := head, head.Next
-	for slow != fast {
-		if fast == nil || fast.Next == nil {
-			return false
-		}
-		slow = slow.Next
-		fast = fast.Next.Next
-	}
-	return true
-}
-```
-
-
 
 [415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
 
@@ -976,58 +1032,6 @@ func addStrings(num1 string, num2 string) string {
 
 
 
-
-
-[102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
-
-方法一：DFS递归
-
-```go
-var res [][]int
-
-func levelOrder(root *TreeNode) [][]int {
-	res = [][]int{}
-	dfs(root, 0)
-	return res
-}
-func dfs(root *TreeNode, level int) {
-	if root != nil {
-		if level == len(res) {
-			res = append(res, []int{})
-		}
-		res[level] = append(res[level], root.Val)
-		dfs(root.Left, level+1)
-		dfs(root.Right, level+1)
-	}
-```
-
-方法二：BFS(queue)迭代
-
-```go
-func levelOrder(root *TreeNode) [][]int {
-	res := [][]int{}
-	if root == nil {
-		return res
-	}
-	queue := []*TreeNode{root}
-	for level := 0; 0 < len(queue); level++ {
-		res = append(res, []int{})
-		next := []*TreeNode{}
-		for j := 0; j < len(queue); j++ {
-			node := queue[j]
-			res[level] = append(res[level], node.Val)
-			if node.Left != nil {
-				next = append(next, node.Left)
-			}
-			if node.Right != nil {
-				next = append(next, node.Right)
-			}
-		}
-		queue = next
-	}
-	return res
-}
-```
 
 
 
@@ -1198,41 +1202,154 @@ func isValid(s string) bool {
 }
 ```
 
-[142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
 
-方法一：快慢指针
-我们使用两个指针，fast 与 slow。它们起始都位于链表的头部。随后，slow 指针每次向后移动一个位置，而 fast 指针向后移动两个位置。如果链表中存在环，则 fast 指针最终将再次与 slow 指针在环中相遇。
+
+[704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
+
+1. 如果目标值等于中间元素，则找到目标值。
+2. 如果目标值较小，继续在左侧搜索。
+3. 如果目标值较大，则继续在右侧搜索。
+
+#### 算法：
+
+- 初始化指针 left = 0, right = n - 1。
+- 当 left <= right：
+比较中间元素 nums[mid] 和目标值 target 。
+	1. 如果 target = nums[mid]，返回 mid。
+	2. 如果 target < nums[mid]，则在左侧继续搜索 right = mid - 1。
+	3. 如果 target > nums[mid]，则在右侧继续搜索 left = mid + 1。
 
 
 ```go
-func detectCycle(head *ListNode) *ListNode {
-	slow, fast := head, head
-	for fast != nil {
-		slow = slow.Next
-		if fast.Next == nil {
-			return nil
-		}
-		fast = fast.Next.Next
-		if slow == fast { //第一次相遇
-			p := head
-			for p != slow {
-				p = p.Nextx
-				slow = slow.Next
-			}
-			return p
+func search(nums []int, target int) int {
+	left, right := 0, len(nums)-1
+	for left <= right {
+		mid := left + (right-left)>>1
+		if nums[mid] == target {
+			return mid
+		} else if nums[mid] < target {
+			left = mid + 1
+		} else {
+			right = mid - 1
 		}
 	}
-	return nil
+	return -1
 }
 ```
+复杂度分析
+
+- 时间复杂度：O(logN)。
+- 空间复杂度：O(1)。
 
 
 
 
 
 
+[34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
+### 方法一：二分查找
 
+### 解题思路 
+- 给出一个有序数组 nums 和一个数 target，要求在数组中找到第一个和这个元素相等的元素下标，最后一个和这个元素相等的元素下标。
+
+- 这一题是经典的二分搜索变种题。二分搜索有 4 大基础变种题：
+
+	1. 查找第一个值等于给定值的元素
+	2. 查找最后一个值等于给定值的元素
+	3. 查找第一个大于等于给定值的元素
+	4. 查找最后一个小于等于给定值的元素
+这一题的解题思路可以分别利用变种 1 和变种 2 的解法就可以做出此题。或者用一次变种 1 的方法，然后循环往后找到最后一个与给定值相等的元素。不过后者这种方法可能会使时间复杂度下降到 O(n)，因为有可能数组中 n 个元素都和给定元素相同。(4 大基础变种的实现见代码)
+
+```go
+func searchRange(nums []int, target int) []int {
+	return []int{searchFirstEqualElement(nums, target), searchLastEqualElement(nums, target)}
+}
+
+// 二分查找第一个与 target 相等的元素，时间复杂度 O(logn)
+func searchFirstEqualElement(nums []int, target int) int {
+	left, right := 0, len(nums)-1
+	for left <= right {
+		mid := left + (right-left)>>1
+		if nums[mid] < target {
+			left = mid + 1
+		} else if nums[mid] > target {
+			right = mid - 1
+		} else {
+			if mid == 0 || nums[mid-1] != target { // 找到第一个与 target 相等的元素
+				return mid
+			}
+			right = mid - 1
+		}
+	}
+	return -1
+}
+
+// 二分查找最后一个与 target 相等的元素，时间复杂度 O(logn)
+func searchLastEqualElement(nums []int, target int) int {
+	left, right := 0, len(nums)-1
+	for left <= right {
+		mid := left + (right-left)>>1
+		if nums[mid] < target {
+			left = mid + 1
+		} else if nums[mid] > target {
+			right = mid - 1
+		} else {
+			if mid == len(nums)-1 || nums[mid+1] != target { // 找到最后一个与 target 相等的元素
+				return mid
+			}
+			left = mid + 1
+		}
+	}
+	return -1
+}
+
+// 二分查找第一个大于等于 target 的元素，时间复杂度 O(logn)
+func searchFirstGreaterElement(nums []int, target int) int {
+	left, right := 0, len(nums)-1
+	for left <= right {
+		mid := left + (right-left)>>1
+		if nums[mid] >= target {
+			if mid == 0 || nums[mid-1] < target { // 找到第一个大于等于 target 的元素
+				return mid
+			}
+			right = mid - 1
+		} else {
+			left = mid + 1
+		}
+	}
+	return -1
+}
+
+// 二分查找最后一个小于等于 target 的元素，时间复杂度 O(logn)
+func searchLastLessElement(nums []int, target int) int {
+	left, right := 0, len(nums)-1
+	for left <= right {
+		mid := left + (right-left)>>1
+		if nums[mid] <= target {
+			if mid == len(nums)-1 || nums[mid+1] > target { // 找到最后一个小于等于 target 的元素
+				return mid
+			}
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+	return -1
+}
+```
+### 方法二：二分查找
+
+```go
+func searchRange(nums []int, target int) []int {
+	leftmost := sort.SearchInts(nums, target)
+	if leftmost == len(nums) || nums[leftmost] != target {
+		return []int{-1, -1}
+	}
+	rightmost := sort.SearchInts(nums, target+1) - 1
+	return []int{leftmost, rightmost}
+}
+```
 
 
 

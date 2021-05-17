@@ -1,156 +1,41 @@
-[460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 
-[剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
+
+[460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 
 [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
-
-
 [补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+[补充题1. 排序奇升偶降链表](https://mp.weixin.qq.com/s/377FfqvpY8NwMInhpoDgsw)
+
+[145. 二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/)
+
+[22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
+
+[剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
+
+[198. 打家劫舍](https://leetcode-cn.com/problems/house-robber/)
+
+
+
+
+
+
+
+
+
+
+
 
 [328. 奇偶链表](https://leetcode-cn.com/problems/odd-even-linked-list/) 
 
 
+
+
+
 ------
-[剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
 
-```go
-func fib(n int) int {
-    if n < 2 { 
-        return n 
-    }
-    prev, curr := 0, 1
-    for i := 2; i <= n; i++ {
-        sum := prev + curr
-        prev = curr
-        curr = sum % 1000000007
-    }
-    return curr 
-}
-```
-
-
-[509. 斐波那契数](https://leetcode-cn.com/problems/fibonacci-number/)
-
-### 方法一：递归
-
-![截屏2021-04-22 11.34.30.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsd9a3yaxj317o0o0q7h.jpg)
-
-```go
-func fib(n int) int {
-	if n == 0 || n == 1 {
-		return n
-	}
-	return fib(n-1) + fib(n-2)
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(2^n)。
-- 空间复杂度：O(h)。
-
-### 方法二：带备忘录递归
-
-
-![截屏2021-04-23 20.07.36.png](http://ww1.sinaimg.cn/large/007daNw2ly1gptxon19akj319k0nw407.jpg)
-
-闭包写法：
-```go
-func fib(n int) int {
-	memo := make([]int, n+1)//从0开始
-	var helper func(int) int
-
-	helper = func(n int) int {
-		if n == 0 || n == 1 {
-			return n
-		}
-		if memo[n] != 0 {
-			return memo[n]
-		}
-		memo[n] = helper(n-1) + helper(n-2)
-		return memo[n]
-	}
-
-	return helper(n)
-}
-```
-
-```go
-func fib(n int) int {
-	memo := make([]int, n+1)
-	return helper(memo, n)
-}
-func helper(memo []int, n int) int {
-	if n < 2 {
-		return n
-	}
-	if memo[n] != 0 { //剪枝
-		return memo[n]
-	}
-	memo[n] = helper(memo, n-1) + helper(memo, n-2)
-	return memo[n]
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(n)。
-- 空间复杂度：O(n)。
-
-### 方法三：动态规划
-
-![截屏2021-04-22 11.35.07.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsda7wdjwj30zu0hwmyn.jpg)
-
-```go
-func fib(n int) int {
-	if n == 0 {
-		return 0
-	}
-	dp := make([]int, n+1)
-	dp[0], dp[1] = 0, 1       //base case
-	for i := 2; i <= n; i++ { //状态转移
-		dp[i] = dp[i-1] + dp[i-2]
-	}
-	return dp[n]
-}
-```
-复杂度分析
-
-- 时间复杂度：O(n)。
-- 空间复杂度：O(n)。
-
-### 方法四：滚动数组
-
-![截屏2021-04-22 11.42.22.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsdgjxvorj31520kgjsx.jpg)
-
-动态规划空间优化：只存储前2项
-
-```go
-func fib(n int) int {
-	if n == 0 || n == 1 { //base case
-		return n
-	} //递推关系
-	prev, curr := 0, 1
-	for i := 2; i <= n; i++ {
-		next := prev + curr
-		prev = curr
-		curr = next
-	}
-	return curr
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(n)。
-- 空间复杂度：O(1)。
-
-
-
-
-
-
+[460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 
 
 
@@ -308,6 +193,273 @@ func max(x, y int) int {
 
 
 
+
+
+
+
+[补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+```go
+func sortArray(nums []int) []int {
+	merge_sort(nums, 0, len(nums)-1)
+	return nums
+}
+func merge_sort(A []int, start, end int) {
+	if start < end {
+		mid := start + (end-start)>>1
+		merge_sort(A, start, mid)
+		merge_sort(A, mid+1, end)
+		merge(A, start, mid, end)
+	}
+}
+func merge(A []int, start, mid, end int) {
+	Arr := make([]int, end-start+1)
+	p, q, k := start, mid+1, 0
+	for i := start; i <= end; i++ {
+		if p > mid {
+			Arr[k] = A[q]
+			q++
+		} else if q > end {
+			Arr[k] = A[p]
+			p++
+		} else if A[p] < A[q] {
+			Arr[k] = A[p]
+			p++
+		} else {
+			Arr[k] = A[q]
+			q++
+		}
+		k++
+	}
+	for p := 0; p < k; p++ {
+		A[start] = Arr[p]
+		start++
+	}
+}
+```
+
+
+
+
+[补充题1. 排序奇升偶降链表](https://mp.weixin.qq.com/s/377FfqvpY8NwMInhpoDgsw)
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func sortOddEvenList(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+	odd, even := oddEven(head)
+	even = reverse(even)
+	return merge(odd, even)
+}
+func oddEven(head *ListNode) (*ListNode, *ListNode) {
+	evenHead := head.Next
+	odd, even := head, evenHead
+	for even != nil && even.Next != nil {
+		odd.Next = even.Next
+		odd = odd.Next
+		even.Next = odd.Next
+		even = even.Next
+	}
+	return odd, even
+}
+func reverse(head *ListNode) *ListNode {
+	var prev *ListNode
+	curr := head
+	for curr != nil {
+		next := curr.Next
+		curr.Next = prev
+		prev = curr
+		curr = next
+	}
+	return prev
+}
+func merge(l1, l2 *ListNode) *ListNode {
+	dummy := new(ListNode)
+	prev := dummy
+	for l1 != nil && l2 != nil {
+		if l1.Val < l2.Val {
+			prev.Next = l1
+			l1 = l1.Next
+		} else {
+			prev.Next = l2
+			l2 = l2.Next
+		}
+		prev = prev.Next
+	}
+	if l1 != nil {
+		prev.Next = l1
+	} else {
+		prev.Next = l2
+	}
+	return dummy.Next
+}
+```
+
+
+
+
+
+
+
+[145. 二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/)
+
+
+
+
+
+
+
+
+
+[22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
+
+
+
+
+
+
+
+[剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
+
+
+```go
+type CQueue struct {
+    inStack, outStack []int
+}
+
+func Constructor() CQueue {
+    return CQueue{}
+}
+
+func (this *CQueue) AppendTail(value int)  {
+    this.inStack = append(this.inStack, value)
+}
+
+func (this *CQueue) DeleteHead() int {
+    if len(this.outStack) == 0 {
+        if len(this.inStack) == 0 { return -1}
+        for len(this.inStack) > 0 {
+            top := this.inStack[len(this.inStack)-1]
+            this.inStack = this.inStack[:len(this.inStack)-1]
+            this.outStack = append(this.outStack, top)
+        }
+    }
+    top := this.outStack[len(this.outStack)-1]
+    this.outStack = this.outStack[:len(this.outStack)-1]
+    return top
+}
+
+/**
+ * Your CQueue object will be instantiated and called as such:
+ * obj := Constructor();
+ * obj.AppendTail(value);
+ * param_2 := obj.DeleteHead();
+ */
+```
+
+
+
+
+
+[198. 打家劫舍](https://leetcode-cn.com/problems/house-robber/)
+
+### 方法一：动态规划
+
+解题思路：
+
+
+状态定义：
+
+设动态规划列表 dp ，dp[i] 代表前 i 个房子在满足条件下的能偷窃到的最高金额。
+转移方程：
+
+设： 有 n 个房子，前 n 间能偷窃到的最高金额是 dp[n] ，前 n−1 间能偷窃到的最高金额是 dp[n−1] ，此时向这些房子后加一间房，此房间价值为 num ；
+
+加一间房间后： 由于不能抢相邻的房子，意味着抢第 n+1 间就不能抢第 n 间；那么前 n+1 间房能偷取到的最高金额 dp[n+1] 一定是以下两种情况的 较大值 ：
+
+不抢第 n+1 个房间，因此等于前 n 个房子的最高金额，即 dp[n+1] = dp[n] ；
+抢第 n+1 个房间，此时不能抢第 n 个房间；因此等于前 n−1 个房子的最高金额加上当前房间价值，即 dp[n+1]=dp[n−1]+num ；
+细心的我们发现： 难道在前 n 间的最高金额 dp[n] 情况下，第 n 间一定被偷了吗？假设没有被偷，那 n+1 间的最大值应该也可能是 dp[n+1] = dp[n] + num 吧？其实这种假设的情况可以被省略，这是因为：
+
+假设第 n 间没有被偷，那么此时 dp[n] = dp[n-1] ，此时 dp[n+1] = dp[n] + num = dp[n-1] + num ，即两种情况可以 合并为一种情况 考虑；
+假设第 n 间被偷，那么此时 dp[n+1] = dp[n] + num 不可取 ，因为偷了第 nn 间就不能偷第 n+1 间。
+最终的转移方程： dp[n+1] = max(dp[n],dp[n-1]+num)
+初始状态：
+
+前 0 间房子的最大偷窃价值为 0 ，即 dp[0] = 0。
+返回值：
+
+返回 dp 列表最后一个元素值，即所有房间的最大偷窃价值。
+简化空间复杂度：
+
+我们发现 dp[n] 只与 dp[n−1] 和 dp[n−2] 有关系，因此我们可以设两个变量 cur和 pre 交替记录，将空间复杂度降到 O(1) 。
+
+复杂度分析：
+- 时间复杂度 O(N) ： 遍历 nums 需要线性时间；
+- 空间复杂度 O(1) ： cur和 pre 使用常数大小的额外空间。
+
+
+```go
+func rob(nums []int) int {
+	cur, pre := 0, 0
+	for _, num := range nums {
+		cur, pre = max(pre+num, cur), cur
+	}
+	return cur
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n)，其中 n 是数组长度。只需要对数组遍历一次。
+
+- 空间复杂度：O(1)。使用滚动数组，可以只存储前两间房屋的最高总金额，而不需要存储整个数组的结果，因此空间复杂度是 O(1)。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 [328. 奇偶链表](https://leetcode-cn.com/problems/odd-even-linked-list/) 
 
 ![](https://pic.leetcode-cn.com/1605227711-BsDKjR-image.png)
@@ -353,52 +505,3 @@ func oddEvenList(head *ListNode) *ListNode {
 ```
 
 
-[7. 整数反转](https://leetcode-cn.com/problems/reverse-integer/)
-
-
-
-
-[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/)
-
-
-
-[补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
-
-```go
-func sortArray(nums []int) []int {
-	merge_sort(nums, 0, len(nums)-1)
-	return nums
-}
-func merge_sort(A []int, start, end int) {
-	if start < end {
-		mid := start + (end-start)>>1
-		merge_sort(A, start, mid)
-		merge_sort(A, mid+1, end)
-		merge(A, start, mid, end)
-	}
-}
-func merge(A []int, start, mid, end int) {
-	Arr := make([]int, end-start+1)
-	p, q, k := start, mid+1, 0
-	for i := start; i <= end; i++ {
-		if p > mid {
-			Arr[k] = A[q]
-			q++
-		} else if q > end {
-			Arr[k] = A[p]
-			p++
-		} else if A[p] < A[q] {
-			Arr[k] = A[p]
-			p++
-		} else {
-			Arr[k] = A[q]
-			q++
-		}
-		k++
-	}
-	for p := 0; p < k; p++ {
-		A[start] = Arr[p]
-		start++
-	}
-}
-```

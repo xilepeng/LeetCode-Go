@@ -1,16 +1,16 @@
 
 
-[718. 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
+[110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
 
 [144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
 
-[110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
+[718. 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
 
 [56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
 
-[105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
-
 [124. 二叉树中的最大路径和](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
+
+[105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 
 [113. 路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/)
 
@@ -18,7 +18,11 @@
 
 [1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
 
+[19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+
 [234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
+
+[169. 多数元素](https://leetcode-cn.com/problems/majority-element/)
 
 [876. 链表的中间结点](https://leetcode-cn.com/problems/middle-of-the-linked-list/) 补充
 
@@ -26,25 +30,241 @@
 
 [143. 重排链表](https://leetcode-cn.com/problems/reorder-list/)
 
+[226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
+
 [543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
-
-[169. 多数元素](https://leetcode-cn.com/problems/majority-element/)
-
-[19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
-
-[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/) 	
 
 [101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
 
-[31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
+[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/) 	
 
 [148. 排序链表](https://leetcode-cn.com/problems/sort-list/)
 
-[83. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+[31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
+
+
+
 
 
 
 ------
+
+
+
+
+
+[110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
+
+### 方法一：自顶向下的递归 (前序遍历)
+
+具体做法类似于二叉树的前序遍历，即对于当前遍历到的节点，首先计算左右子树的高度，如果左右子树的高度差是否不超过 11，再分别递归地遍历左右子节点，并判断左子树和右子树是否平衡。这是一个自顶向下的递归的过程。
+
+
+```go
+func isBalanced(root *TreeNode) bool {
+	if root == nil {
+		return true
+	}
+	leftHeight := depth(root.Left)
+	rightHeight := depth(root.Right)
+	return abs(rightHeight-leftHeight) <= 1 && isBalanced(root.Left) && isBalanced(root.Right)
+}
+func depth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	return max(depth(root.Left), depth(root.Right)) + 1
+}
+func abs(x int) int {
+	if x < 0 {
+		return -1 * x
+	}
+	return x
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n^2)，其中 nn 是二叉树中的节点个数。
+最坏情况下，二叉树是满二叉树，需要遍历二叉树中的所有节点，时间复杂度是 O(n)。
+对于节点 p，如果它的高度是 d，则 height(p) 最多会被调用 d 次（即遍历到它的每一个祖先节点时）。对于平均的情况，一棵树的高度 hh 满足 O(h)=O(logn)，因为 d≤h，所以总时间复杂度为 O(nlogn)。对于最坏的情况，二叉树形成链式结构，高度为 O(n)，此时总时间复杂度为 O(n^2)。
+
+- 空间复杂度：O(n)，其中 n 是二叉树中的节点个数。空间复杂度主要取决于递归调用的层数，递归调用的层数不会超过 n。
+
+
+### 方法二：自底向上的递归 (后序遍历)
+
+方法一由于是自顶向下递归，因此对于同一个节点，函数 height 会被重复调用，导致时间复杂度较高。如果使用自底向上的做法，则对于每个节点，函数 height 只会被调用一次。
+
+自底向上递归的做法类似于后序遍历，对于当前遍历到的节点，先递归地判断其左右子树是否平衡，再判断以当前节点为根的子树是否平衡。如果一棵子树是平衡的，则返回其高度（高度一定是非负整数），否则返回 −1。如果存在一棵子树不平衡，则整个二叉树一定不平衡。
+
+```go
+func isBalanced(root *TreeNode) bool {
+	return depth(root) >= 0
+}
+func depth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	leftHeight := depth(root.Left)
+	rightHeight := depth(root.Right)
+	if leftHeight == -1 || rightHeight == -1 || abs(rightHeight-leftHeight) > 1 {
+		return -1
+	}
+	return max(depth(root.Left), depth(root.Right)) + 1
+}
+func abs(x int) int {
+	if x < 0 {
+		return -1 * x
+	}
+	return x
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+
+
+
+
+
+
+[144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
+
+### 方法一：递归
+
+```go
+func preorderTraversal(root *TreeNode) (res []int) {
+	var preorder func(*TreeNode)
+	preorder = func(node *TreeNode) {
+		if node != nil {
+			res = append(res, node.Val)
+			preorder(node.Left)
+			preorder(node.Right)
+		}
+	}
+	preorder(root)
+	return
+}
+```
+
+```go
+func preorderTraversal(root *TreeNode) (res []int) {
+	if root != nil {
+		res = append(res, root.Val)
+		tmp := preorderTraversal(root.Left)
+		for _, t := range tmp {
+			res = append(res, t)
+		}
+		tmp = preorderTraversal(root.Right)
+		for _, t := range tmp {
+			res = append(res, t)
+		}
+	}
+	return
+}
+```
+
+```go
+var res []int
+
+func preorderTraversal(root *TreeNode) []int {
+	res = []int{}
+	preorder(root)
+	return res
+}
+func preorder(node *TreeNode) {
+	if node != nil {
+		res = append(res, node.Val)
+		preorder(node.Left)
+		preorder(node.Right)
+	}
+}
+```
+
+```go
+func preorderTraversal(root *TreeNode) []int {
+	res := []int{}
+	preorder(root, &res)
+	return res
+}
+func preorder(node *TreeNode, res *[]int) {
+	if node != nil {
+		*res = append(*res, node.Val)
+		preorder(node.Left, res)
+		preorder(node.Right, res)
+	}
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n)，其中 n 是二叉树的节点数。每一个节点恰好被遍历一次。
+- 空间复杂度：O(n)，为递归过程中栈的开销，平均情况下为 O(logn)，最坏情况下树呈现链状，为 O(n)。
+
+### 方法二：迭代
+
+
+```go
+func preorderTraversal(root *TreeNode) (res []int) {
+	stack, node := []*TreeNode{}, root
+	for node != nil || len(stack) > 0 {
+		for node != nil {
+			res = append(res, node.Val)
+			stack = append(stack, node)
+			node = node.Left
+		}
+		node = stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		node = node.Right
+	}
+	return
+}
+```
+
+```go
+func preorderTraversal(root *TreeNode) (res []int) {
+	if root == nil {
+		return []int{}
+	}
+	stack := []*TreeNode{root}
+	for len(stack) > 0 {
+		node := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		if node != nil {
+			res = append(res, node.Val)
+		}
+		if node.Right != nil {
+			stack = append(stack, node.Right)
+		}
+		if node.Left != nil {
+			stack = append(stack, node.Left)
+		}
+	}
+	return
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n)，其中 n 是二叉树的节点数。每一个节点恰好被遍历一次。
+
+- 空间复杂度：O(n)，为迭代过程中显式栈的开销，平均情况下为 O(logn)，最坏情况下树呈现链状，为 O(n)。
+
+
+
+
+
 
 
 
@@ -218,212 +438,6 @@ N 表示数组 A 的长度，M 表示数组 B 的长度。
 
 
 
-[144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
-
-### 方法一：递归
-
-```go
-func preorderTraversal(root *TreeNode) (res []int) {
-	var preorder func(*TreeNode)
-	preorder = func(node *TreeNode) {
-		if node != nil {
-			res = append(res, node.Val)
-			preorder(node.Left)
-			preorder(node.Right)
-		}
-	}
-	preorder(root)
-	return
-}
-```
-
-```go
-func preorderTraversal(root *TreeNode) (res []int) {
-	if root != nil {
-		res = append(res, root.Val)
-		tmp := preorderTraversal(root.Left)
-		for _, t := range tmp {
-			res = append(res, t)
-		}
-		tmp = preorderTraversal(root.Right)
-		for _, t := range tmp {
-			res = append(res, t)
-		}
-	}
-	return
-}
-```
-
-```go
-var res []int
-
-func preorderTraversal(root *TreeNode) []int {
-	res = []int{}
-	preorder(root)
-	return res
-}
-func preorder(node *TreeNode) {
-	if node != nil {
-		res = append(res, node.Val)
-		preorder(node.Left)
-		preorder(node.Right)
-	}
-}
-```
-
-```go
-func preorderTraversal(root *TreeNode) []int {
-	res := []int{}
-	preorder(root, &res)
-	return res
-}
-func preorder(node *TreeNode, res *[]int) {
-	if node != nil {
-		*res = append(*res, node.Val)
-		preorder(node.Left, res)
-		preorder(node.Right, res)
-	}
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(n)，其中 n 是二叉树的节点数。每一个节点恰好被遍历一次。
-- 空间复杂度：O(n)，为递归过程中栈的开销，平均情况下为 O(logn)，最坏情况下树呈现链状，为 O(n)。
-
-### 方法二：迭代
-
-
-```go
-func preorderTraversal(root *TreeNode) (res []int) {
-	stack, node := []*TreeNode{}, root
-	for node != nil || len(stack) > 0 {
-		for node != nil {
-			res = append(res, node.Val)
-			stack = append(stack, node)
-			node = node.Left
-		}
-		node = stack[len(stack)-1]
-		stack = stack[:len(stack)-1]
-		node = node.Right
-	}
-	return
-}
-```
-
-```go
-func preorderTraversal(root *TreeNode) (res []int) {
-	if root == nil {
-		return []int{}
-	}
-	stack := []*TreeNode{root}
-	for len(stack) > 0 {
-		node := stack[len(stack)-1]
-		stack = stack[:len(stack)-1]
-		if node != nil {
-			res = append(res, node.Val)
-		}
-		if node.Right != nil {
-			stack = append(stack, node.Right)
-		}
-		if node.Left != nil {
-			stack = append(stack, node.Left)
-		}
-	}
-	return
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(n)，其中 n 是二叉树的节点数。每一个节点恰好被遍历一次。
-
-- 空间复杂度：O(n)，为迭代过程中显式栈的开销，平均情况下为 O(logn)，最坏情况下树呈现链状，为 O(n)。
-
-
-
-
-[110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
-
-### 方法一：自顶向下的递归 (前序遍历)
-
-具体做法类似于二叉树的前序遍历，即对于当前遍历到的节点，首先计算左右子树的高度，如果左右子树的高度差是否不超过 11，再分别递归地遍历左右子节点，并判断左子树和右子树是否平衡。这是一个自顶向下的递归的过程。
-
-
-```go
-func isBalanced(root *TreeNode) bool {
-	if root == nil {
-		return true
-	}
-	leftHeight := depth(root.Left)
-	rightHeight := depth(root.Right)
-	return abs(rightHeight-leftHeight) <= 1 && isBalanced(root.Left) && isBalanced(root.Right)
-}
-func depth(root *TreeNode) int {
-	if root == nil {
-		return 0
-	}
-	return max(depth(root.Left), depth(root.Right)) + 1
-}
-func abs(x int) int {
-	if x < 0 {
-		return -1 * x
-	}
-	return x
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(n^2)，其中 nn 是二叉树中的节点个数。
-最坏情况下，二叉树是满二叉树，需要遍历二叉树中的所有节点，时间复杂度是 O(n)。
-对于节点 p，如果它的高度是 d，则 height(p) 最多会被调用 d 次（即遍历到它的每一个祖先节点时）。对于平均的情况，一棵树的高度 hh 满足 O(h)=O(logn)，因为 d≤h，所以总时间复杂度为 O(nlogn)。对于最坏的情况，二叉树形成链式结构，高度为 O(n)，此时总时间复杂度为 O(n^2)。
-
-- 空间复杂度：O(n)，其中 n 是二叉树中的节点个数。空间复杂度主要取决于递归调用的层数，递归调用的层数不会超过 n。
-
-
-### 方法二：自底向上的递归 (后序遍历)
-
-方法一由于是自顶向下递归，因此对于同一个节点，函数 height 会被重复调用，导致时间复杂度较高。如果使用自底向上的做法，则对于每个节点，函数 height 只会被调用一次。
-
-自底向上递归的做法类似于后序遍历，对于当前遍历到的节点，先递归地判断其左右子树是否平衡，再判断以当前节点为根的子树是否平衡。如果一棵子树是平衡的，则返回其高度（高度一定是非负整数），否则返回 −1。如果存在一棵子树不平衡，则整个二叉树一定不平衡。
-
-```go
-func isBalanced(root *TreeNode) bool {
-	return depth(root) >= 0
-}
-func depth(root *TreeNode) int {
-	if root == nil {
-		return 0
-	}
-	leftHeight := depth(root.Left)
-	rightHeight := depth(root.Right)
-	if leftHeight == -1 || rightHeight == -1 || abs(rightHeight-leftHeight) > 1 {
-		return -1
-	}
-	return max(depth(root.Left), depth(root.Right)) + 1
-}
-func abs(x int) int {
-	if x < 0 {
-		return -1 * x
-	}
-	return x
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
-
 
 
 [56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
@@ -535,34 +549,6 @@ func main(){
 
 
 
-[105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
-
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func buildTree(preorder []int, inorder []int) *TreeNode {
-	if len(preorder) == 0 {
-		return nil
-	}
-	root := &TreeNode{preorder[0], nil, nil}
-	i := 0
-	for ; i < len(inorder); i++ {
-		if inorder[i] == preorder[0] { //找到根结点在 inorder 中的位置索引 i
-			break
-		}
-	}
-	root.Left = buildTree(preorder[1:len(inorder[:i])+1], inorder[:i])
-	root.Right = buildTree(preorder[len(inorder[:i])+1:], inorder[i+1:])
-	return root
-}
-```
 
 
 
@@ -624,6 +610,34 @@ func max(x, y int) int {
 
 
 
+[105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func buildTree(preorder []int, inorder []int) *TreeNode {
+	if len(preorder) == 0 {
+		return nil
+	}
+	root := &TreeNode{preorder[0], nil, nil}
+	i := 0
+	for ; i < len(inorder); i++ {
+		if inorder[i] == preorder[0] { //找到根结点在 inorder 中的位置索引 i
+			break
+		}
+	}
+	root.Left = buildTree(preorder[1:len(inorder[:i])+1], inorder[:i])
+	root.Right = buildTree(preorder[len(inorder[:i])+1:], inorder[i+1:])
+	return root
+}
+```
 
 
 
@@ -848,6 +862,40 @@ func max(x, y int) int {
 
 
 
+
+[19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+
+### 方法一：双指针
+思路与算法
+
+使用两个指针 first 和 second 同时对链表进行遍历，并且 first 比 second 超前 nn 个节点。当 first 遍历到链表的末尾时，second 就恰好处于倒数第 nn 个节点。
+
+
+![](https://assets.leetcode-cn.com/solution-static/19/p3.png)
+
+```go
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	dummy := &ListNode{0, head}
+	first, second := head, dummy
+	for i := 0; i < n; i++ {
+		first = first.Next
+	}
+	for ; first != nil; first = first.Next {
+		second = second.Next
+	}
+	second.Next = second.Next.Next
+	return dummy.Next
+}
+```
+复杂度分析
+
+- 时间复杂度：O(L)，其中 L 是链表的长度。
+- 空间复杂度：O(1)。
+
+
+
+
+
 [234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
 
 ### 方法一：转成数组
@@ -948,6 +996,59 @@ func isPalindrome(head *ListNode) bool {
 
 
 
+[169. 多数元素](https://leetcode-cn.com/problems/majority-element/)
+
+### 方法五：Boyer-Moore 投票算法
+思路
+
+如果我们把众数记为 +1，把其他数记为 −1，将它们全部加起来，显然和大于 0，从结果本身我们可以看出众数比其他数多。
+
+不同元素相互抵消，最后剩余就是众数
+
+```go
+func majorityElement(nums []int) int {
+	res, count := 0, 0
+	for _, num := range nums {
+		if count == 0 {
+			res = num
+		}
+		if res == num {
+			count++
+		} else {
+			count--
+		}
+	}
+	return res
+}
+```
+
+```go
+func majorityElement(nums []int) int {
+	res, count := 0, 0
+	for _, num := range nums {
+		if count == 0 {
+			res, count = num, 1
+		} else {
+			if res == num {
+				count++
+			} else {
+				count--
+			}
+		}
+	}
+	return res
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n)。Boyer-Moore 算法只对数组进行了一次遍历。
+
+- 空间复杂度：O(1)。Boyer-Moore 算法只需要常数级别的额外空间。
+
+
+
+
 
 [470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
 
@@ -1017,6 +1118,112 @@ func reorderList(head *ListNode) {
 
 
 
+[226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
+
+### 方法一：dfs 递归
+
+#### 递归思路1
+
+我们从根节点开始，递归地对树进行遍历，并从叶子结点先开始翻转。如果当前遍历到的节点 root 的左右两棵子树都已经翻转，那么我们只需要交换两棵子树的位置，即可完成以 root 为根节点的整棵子树的翻转。
+
+*思路*
+一个二叉树，怎么才算翻转了？
+
+它的左右子树要交换，并且左右子树内部的所有子树，都要进行左右子树的交换。
+
+![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpmz43wk4yj31er0fw0w1.jpg)
+
+
+每个子树的根节点都说：先交换我的左右子树吧。那么递归就会先压栈压到底。然后才做交换。
+即，位于底部的、左右孩子都是 null 的子树，先被翻转。
+随着递归向上返回，子树一个个被翻转……整棵树翻转好了。
+问题是在递归出栈时解决的。
+
+```go
+func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	invertTree(root.Left)
+	invertTree(root.Right)
+	root.Left, root.Right = root.Right, root.Left
+	return root
+}
+```
+
+#### 递归思路 2
+
+![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpmz4kjl1jj31fu0gh77e.jpg)
+
+思路变了：先 “做事”——先交换左右子树，它们内部的子树还没翻转——丢给递归去做。
+把交换的操作，放在递归子树之前。
+问题是在递归压栈前被解决的。
+
+```go
+func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	root.Left, root.Right = root.Right, root.Left
+	invertTree(root.Left)
+	invertTree(root.Right)
+	return root
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(N)，其中 N 为二叉树节点的数目。我们会遍历二叉树中的每一个节点，对每个节点而言，我们在常数时间内交换其两棵子树。
+
+- 空间复杂度：O(N)。使用的空间由递归栈的深度决定，它等于当前节点在二叉树中的高度。在平均情况下，二叉树的高度与节点个数为对数关系，即 O(logN)。而在最坏情况下，树形成链状，空间复杂度为 O(N)。
+
+
+
+#### 总结
+两种分别是后序遍历和前序遍历。都是基于DFS，都是先遍历根节点、再遍历左子树、再右子树。
+唯一的区别是：
+前序遍历：将「处理当前节点」放到「递归左子树」之前。
+后序遍历：将「处理当前节点」放到「递归右子树」之后。
+
+这个「处理当前节点」，就是交换左右子树 ，就是解决问题的代码：
+
+```go
+root.Left, root.Right = root.Right, root.Left
+```
+
+递归只是帮你遍历这棵树，核心还是解决问题的代码，递归把它应用到每个子树上，解决每个子问题，最后解决整个问题。
+
+### 方法二：BFS 
+
+用层序遍历的方式去遍历二叉树。
+
+根节点先入列，然后出列，出列就 “做事”，交换它的左右子节点（左右子树）。
+并让左右子节点入列，往后，这些子节点出列，也被翻转。
+直到队列为空，就遍历完所有的节点，翻转了所有子树。
+
+解决问题的代码放在节点出列时。
+
+
+```go
+func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	q := []*TreeNode{root}
+	for len(q) > 0 {
+		cur := q[0]
+		q = q[1:len(q)]
+		cur.Left, cur.Right = cur.Right, cur.Left
+		if cur.Left != nil {
+			q = append(q, cur.Left)
+		}
+		if cur.Right != nil {
+			q = append(q, cur.Right)
+		}
+	}
+	return root
+}
+```
 
 
 [543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
@@ -1049,90 +1256,54 @@ func max(x, y int) int {
 
 
 
-[169. 多数元素](https://leetcode-cn.com/problems/majority-element/)
 
-### 方法五：Boyer-Moore 投票算法
-思路
 
-如果我们把众数记为 +1，把其他数记为 −1，将它们全部加起来，显然和大于 0，从结果本身我们可以看出众数比其他数多。
 
-不同元素相互抵消，最后剩余就是众数
 
+
+
+
+[101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
+### 方法一：递归
 ```go
-func majorityElement(nums []int) int {
-	res, count := 0, 0
-	for _, num := range nums {
-		if count == 0 {
-			res = num
-		}
-		if res == num {
-			count++
-		} else {
-			count--
-		}
+func isSymmetric(root *TreeNode) bool {
+	return check(root, root)
+}
+func check(p, q *TreeNode) bool {
+	if p == nil && q == nil {
+		return true
 	}
-	return res
+	if p == nil || q == nil {
+		return false
+	}
+	return p.Val == q.Val && check(p.Left, q.Right) && check(p.Right, q.Left)
 }
 ```
-
+### 方法二：迭代
 ```go
-func majorityElement(nums []int) int {
-	res, count := 0, 0
-	for _, num := range nums {
-		if count == 0 {
-			res, count = num, 1
-		} else {
-			if res == num {
-				count++
-			} else {
-				count--
-			}
+func isSymmetric(root *TreeNode) bool {
+	q := []*TreeNode{root, root}
+	for 0 < len(q) {
+		l, r := q[0], q[1]
+		q = q[2:]
+		if l == nil && r == nil {
+			continue
 		}
+		if l == nil || r == nil {
+			return false
+		}
+		if l.Val != r.Val {
+			return false
+		}
+		q = append(q, l.Left)
+		q = append(q, r.Right)
+
+		q = append(q, l.Right)
+		q = append(q, r.Left)
 	}
-	return res
+	return true
 }
 ```
-
-复杂度分析
-
-- 时间复杂度：O(n)。Boyer-Moore 算法只对数组进行了一次遍历。
-
-- 空间复杂度：O(1)。Boyer-Moore 算法只需要常数级别的额外空间。
-
-
-
-
-
-[19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
-
-### 方法一：双指针
-思路与算法
-
-使用两个指针 first 和 second 同时对链表进行遍历，并且 first 比 second 超前 nn 个节点。当 first 遍历到链表的末尾时，second 就恰好处于倒数第 nn 个节点。
-
-
-![](https://assets.leetcode-cn.com/solution-static/19/p3.png)
-
-```go
-func removeNthFromEnd(head *ListNode, n int) *ListNode {
-	dummy := &ListNode{0, head}
-	first, second := head, dummy
-	for i := 0; i < n; i++ {
-		first = first.Next
-	}
-	for ; first != nil; first = first.Next {
-		second = second.Next
-	}
-	second.Next = second.Next.Next
-	return dummy.Next
-}
-```
-复杂度分析
-
-- 时间复杂度：O(L)，其中 L 是链表的长度。
-- 空间复杂度：O(1)。
-
-
 
 
 
@@ -1239,107 +1410,6 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 
 
 
-
-
-
-[101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
-### 方法一：递归
-```go
-func isSymmetric(root *TreeNode) bool {
-	return check(root, root)
-}
-func check(p, q *TreeNode) bool {
-	if p == nil && q == nil {
-		return true
-	}
-	if p == nil || q == nil {
-		return false
-	}
-	return p.Val == q.Val && check(p.Left, q.Right) && check(p.Right, q.Left)
-}
-```
-### 方法二：迭代
-```go
-func isSymmetric(root *TreeNode) bool {
-	q := []*TreeNode{root, root}
-	for 0 < len(q) {
-		l, r := q[0], q[1]
-		q = q[2:]
-		if l == nil && r == nil {
-			continue
-		}
-		if l == nil || r == nil {
-			return false
-		}
-		if l.Val != r.Val {
-			return false
-		}
-		q = append(q, l.Left)
-		q = append(q, r.Right)
-
-		q = append(q, l.Right)
-		q = append(q, r.Left)
-	}
-	return true
-}
-```
-
-
-
-
-[31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
-
-### 思路
-
-1. 我们需要将一个左边的「较小数」与一个右边的「较大数」交换，以能够让当前排列变大，从而得到下一个排列。
-
-2. 同时我们要让这个「较小数」尽量靠右，而「较大数」尽可能小。当交换完成后，「较大数」右边的数需要按照升序重新排列。这样可以在保证新排列大于原来排列的情况下，使变大的幅度尽可能小。
-
-
-- 从低位挑一个大一点的数，换掉前面的小一点的一个数，实现变大。
-- 变大的幅度要尽量小。
-
-
-像 [3,2,1] 递减的，没有下一个排列，因为大的已经尽量往前排了，没法更大。
-
-像 [1,5,2,4,3,2] 这种，我们希望它稍微变大。
-
-从低位挑一个大一点的数，换掉前面的小一点的一个数。
-
-于是，从右往左，寻找第一个比右邻居小的数。（把它换到后面去）
-
-找到 1 5 (2) 4 3 2 中间这个 2，让它和它身后的一个数交换，轻微变大。
-
-还是从右往左，寻找第一个比这个 2 微大的数。15 (2) 4 (3) 2，交换，变成 15 (3) 4 (2) 2。
-
-这并未结束，变大的幅度可以再小一点，仟位变大了，后三位可以再小一点。
-
-后三位是递减的，翻转，变成[1,5,3,2,2,4]，即为所求。
-
-
-
-```go
-func nextPermutation(nums []int) {
-	i := len(nums) - 2                   // 向左遍历，i从倒数第二开始是为了nums[i+1]要存在
-	for i >= 0 && nums[i] >= nums[i+1] { // 寻找第一个小于右邻居的数
-		i--
-	}
-	if i >= 0 { // 这个数在数组中存在，从它身后挑一个数，和它换
-		j := len(nums) - 1                 // 从最后一项，向左遍历
-		for j >= 0 && nums[j] <= nums[i] { // 寻找第一个大于 nums[i] 的数
-			j--
-		}
-		nums[i], nums[j] = nums[j], nums[i] // 两数交换，实现变大
-	}
-	// 如果 i = -1，说明是递减排列，如 3 2 1，没有下一排列，直接翻转为最小排列：1 2 3
-	l, r := i+1, len(nums)-1
-	for l < r { // i 右边的数进行翻转，使得变大的幅度小一些
-		nums[l], nums[r] = nums[r], nums[l]
-		l++
-		r--
-	}
-}
-```
 
 
 
@@ -1650,29 +1720,58 @@ func mergeList(l1, l2 *ListNode) *ListNode {
 
 
 
-[83. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+[31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
+
+### 思路
+
+1. 我们需要将一个左边的「较小数」与一个右边的「较大数」交换，以能够让当前排列变大，从而得到下一个排列。
+
+2. 同时我们要让这个「较小数」尽量靠右，而「较大数」尽可能小。当交换完成后，「较大数」右边的数需要按照升序重新排列。这样可以在保证新排列大于原来排列的情况下，使变大的幅度尽可能小。
+
+
+- 从低位挑一个大一点的数，换掉前面的小一点的一个数，实现变大。
+- 变大的幅度要尽量小。
+
+
+像 [3,2,1] 递减的，没有下一个排列，因为大的已经尽量往前排了，没法更大。
+
+像 [1,5,2,4,3,2] 这种，我们希望它稍微变大。
+
+从低位挑一个大一点的数，换掉前面的小一点的一个数。
+
+于是，从右往左，寻找第一个比右邻居小的数。（把它换到后面去）
+
+找到 1 5 (2) 4 3 2 中间这个 2，让它和它身后的一个数交换，轻微变大。
+
+还是从右往左，寻找第一个比这个 2 微大的数。15 (2) 4 (3) 2，交换，变成 15 (3) 4 (2) 2。
+
+这并未结束，变大的幅度可以再小一点，仟位变大了，后三位可以再小一点。
+
+后三位是递减的，翻转，变成[1,5,3,2,2,4]，即为所求。
+
+
 
 ```go
-	/**
-	 * Definition for singly-linked list.
-	 * type ListNode struct {
-	 *     Val int
-	 *     Next *ListNode
-	 * }
-	 */
-	func deleteDuplicates(head *ListNode) *ListNode {
-		if head == nil {
-			return nil
-		}
-		curr := head
-		for curr.Next != nil {
-			if curr.Val == curr.Next.Val {
-				curr.Next = curr.Next.Next
-			} else {
-				curr = curr.Next
-			}
-		}
-		return head
+func nextPermutation(nums []int) {
+	i := len(nums) - 2                   // 向左遍历，i从倒数第二开始是为了nums[i+1]要存在
+	for i >= 0 && nums[i] >= nums[i+1] { // 寻找第一个小于右邻居的数
+		i--
 	}
+	if i >= 0 { // 这个数在数组中存在，从它身后挑一个数，和它换
+		j := len(nums) - 1                 // 从最后一项，向左遍历
+		for j >= 0 && nums[j] <= nums[i] { // 寻找第一个大于 nums[i] 的数
+			j--
+		}
+		nums[i], nums[j] = nums[j], nums[i] // 两数交换，实现变大
+	}
+	// 如果 i = -1，说明是递减排列，如 3 2 1，没有下一排列，直接翻转为最小排列：1 2 3
+	l, r := i+1, len(nums)-1
+	for l < r { // i 右边的数进行翻转，使得变大的幅度小一些
+		nums[l], nums[r] = nums[r], nums[l]
+		l++
+		r--
+	}
+}
 ```
+
 

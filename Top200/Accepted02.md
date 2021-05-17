@@ -1,51 +1,189 @@
 
+[142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+
+[94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+
+[232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
+
 [46. 全排列](https://leetcode-cn.com/problems/permutations/)
 
 [47. 全排列 II](https://leetcode-cn.com/problems/permutations-ii/)  补充
 
-[94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
-
-[704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
-
-[34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)  补充
-
 [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
 
-[232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
+[54. 螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)
 
 [5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
 
 [92. 反转链表 II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
 
-[54. 螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)
-
 [33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
 
-[300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+[剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
+
+
+
 
 [199. 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
-
-[剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
 
 [42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
 
 [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
 
+[300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+
 [2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
 
 [69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
+
+[23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
 
 [151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
 
 [8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 
 
-[23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
-
 [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
 
-
-
 ------
+
+
+
+
+[142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+
+方法一：快慢指针
+我们使用两个指针，fast 与 slow。它们起始都位于链表的头部。随后，slow 指针每次向后移动一个位置，而 fast 指针向后移动两个位置。如果链表中存在环，则 fast 指针最终将再次与 slow 指针在环中相遇。
+
+
+```go
+func detectCycle(head *ListNode) *ListNode {
+	slow, fast := head, head
+	for fast != nil {
+		slow = slow.Next
+		if fast.Next == nil {
+			return nil
+		}
+		fast = fast.Next.Next
+		if slow == fast { //第一次相遇
+			p := head
+			for p != slow {
+				p = p.Nextx
+				slow = slow.Next
+			}
+			return p
+		}
+	}
+	return nil
+}
+```
+
+
+[94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+
+```go
+func inorderTraversal(root *TreeNode) (res []int) {
+	var inorder func(node *TreeNode)
+	inorder = func(node *TreeNode) {
+		if node == nil {
+			return
+		}
+		inorder(node.Left)
+		res = append(res, node.Val)
+		inorder(node.Right)
+	}
+	inorder(root)
+	return
+}
+```
+
+```go
+func inorderTraversal(root *TreeNode) (res []int) {
+	stack := []*TreeNode{}
+	for root != nil || len(stack) > 0 {
+		for root != nil {
+			stack = append(stack, root)
+			root = root.Left
+		}
+		root = stack[len(stack)-1]   //取栈顶
+		stack = stack[:len(stack)-1] //出栈
+		res = append(res, root.Val)
+		root = root.Right
+	}
+	return
+}
+```
+
+
+
+
+[232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
+
+### 方法一：双栈
+
+
+![截屏2021-03-28 20.58.04.png](http://ww1.sinaimg.cn/large/007daNw2ly1gozx18b8ilj31740jsdhb.jpg)
+
+思路
+
+将一个栈当作输入栈，用于压入 push 传入的数据；另一个栈当作输出栈，用于 pop 和 peek 操作。
+
+每次 pop 或 peek 时，若输出栈为空则将输入栈的全部数据依次弹出并压入输出栈，这样输出栈从栈顶往栈底的顺序就是队列从队首往队尾的顺序。
+
+
+
+```go
+type MyQueue struct {
+	inStack, outStack []int
+}
+
+/** Initialize your data structure here. */
+func Constructor() MyQueue {
+	return MyQueue{}
+}
+
+/** Push element x to the back of queue. */
+func (q *MyQueue) Push(x int) {
+	q.inStack = append(q.inStack, x)
+}
+
+func (q *MyQueue) in2out() {
+	for len(q.inStack) > 0 {
+		q.outStack = append(q.outStack, q.inStack[len(q.inStack)-1])
+		q.inStack = q.inStack[:len(q.inStack)-1]
+	}
+}
+
+/** Removes the element from in front of queue and returns that element. */
+func (q *MyQueue) Pop() int {
+	if len(q.outStack) == 0 {
+		q.in2out()
+	}
+	x := q.outStack[len(q.outStack)-1]
+	q.outStack = q.outStack[:len(q.outStack)-1]
+	return x
+}
+
+/** Get the front element. */
+func (q *MyQueue) Peek() int {
+	if len(q.outStack) == 0 {
+		q.in2out()
+	}
+	return q.outStack[len(q.outStack)-1]
+}
+
+/** Returns whether the queue is empty. */
+func (q *MyQueue) Empty() bool {
+	return len(q.inStack) == 0 && len(q.outStack) == 0
+}
+```
+
+复杂度分析
+
+- 时间复杂度：push 和 empty 为 O(1)，pop 和 peek 为均摊 O(1)。对于每个元素，至多入栈和出栈各两次，故均摊复杂度为 O(1)。
+
+- 空间复杂度：O(n)。其中 n 是操作总数。对于有 n 次 push 操作的情况，队列中会有 n 个元素，故空间复杂度为 O(n)。
+
+
 
 
 [46. 全排列](https://leetcode-cn.com/problems/permutations/)
@@ -155,188 +293,6 @@ func permuteUnique(nums []int) (res [][]int) {
 ```
 
 
-[94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
-
-```go
-func inorderTraversal(root *TreeNode) (res []int) {
-	var inorder func(node *TreeNode)
-	inorder = func(node *TreeNode) {
-		if node == nil {
-			return
-		}
-		inorder(node.Left)
-		res = append(res, node.Val)
-		inorder(node.Right)
-	}
-	inorder(root)
-	return
-}
-```
-
-```go
-func inorderTraversal(root *TreeNode) (res []int) {
-	stack := []*TreeNode{}
-	for root != nil || len(stack) > 0 {
-		for root != nil {
-			stack = append(stack, root)
-			root = root.Left
-		}
-		root = stack[len(stack)-1]   //取栈顶
-		stack = stack[:len(stack)-1] //出栈
-		res = append(res, root.Val)
-		root = root.Right
-	}
-	return
-}
-```
-
-
-
-[704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
-
-1. 如果目标值等于中间元素，则找到目标值。
-2. 如果目标值较小，继续在左侧搜索。
-3. 如果目标值较大，则继续在右侧搜索。
-
-#### 算法：
-
-- 初始化指针 left = 0, right = n - 1。
-- 当 left <= right：
-比较中间元素 nums[mid] 和目标值 target 。
-	1. 如果 target = nums[mid]，返回 mid。
-	2. 如果 target < nums[mid]，则在左侧继续搜索 right = mid - 1。
-	3. 如果 target > nums[mid]，则在右侧继续搜索 left = mid + 1。
-
-
-```go
-func search(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] == target {
-			return mid
-		} else if nums[mid] < target {
-			left = mid + 1
-		} else {
-			right = mid - 1
-		}
-	}
-	return -1
-}
-```
-复杂度分析
-
-- 时间复杂度：O(logN)。
-- 空间复杂度：O(1)。
-
-
-
-[34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
-
-### 方法一：二分查找
-
-### 解题思路 
-- 给出一个有序数组 nums 和一个数 target，要求在数组中找到第一个和这个元素相等的元素下标，最后一个和这个元素相等的元素下标。
-
-- 这一题是经典的二分搜索变种题。二分搜索有 4 大基础变种题：
-
-	1. 查找第一个值等于给定值的元素
-	2. 查找最后一个值等于给定值的元素
-	3. 查找第一个大于等于给定值的元素
-	4. 查找最后一个小于等于给定值的元素
-这一题的解题思路可以分别利用变种 1 和变种 2 的解法就可以做出此题。或者用一次变种 1 的方法，然后循环往后找到最后一个与给定值相等的元素。不过后者这种方法可能会使时间复杂度下降到 O(n)，因为有可能数组中 n 个元素都和给定元素相同。(4 大基础变种的实现见代码)
-
-```go
-func searchRange(nums []int, target int) []int {
-	return []int{searchFirstEqualElement(nums, target), searchLastEqualElement(nums, target)}
-}
-
-// 二分查找第一个与 target 相等的元素，时间复杂度 O(logn)
-func searchFirstEqualElement(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] < target {
-			left = mid + 1
-		} else if nums[mid] > target {
-			right = mid - 1
-		} else {
-			if mid == 0 || nums[mid-1] != target { // 找到第一个与 target 相等的元素
-				return mid
-			}
-			right = mid - 1
-		}
-	}
-	return -1
-}
-
-// 二分查找最后一个与 target 相等的元素，时间复杂度 O(logn)
-func searchLastEqualElement(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] < target {
-			left = mid + 1
-		} else if nums[mid] > target {
-			right = mid - 1
-		} else {
-			if mid == len(nums)-1 || nums[mid+1] != target { // 找到最后一个与 target 相等的元素
-				return mid
-			}
-			left = mid + 1
-		}
-	}
-	return -1
-}
-
-// 二分查找第一个大于等于 target 的元素，时间复杂度 O(logn)
-func searchFirstGreaterElement(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] >= target {
-			if mid == 0 || nums[mid-1] < target { // 找到第一个大于等于 target 的元素
-				return mid
-			}
-			right = mid - 1
-		} else {
-			left = mid + 1
-		}
-	}
-	return -1
-}
-
-// 二分查找最后一个小于等于 target 的元素，时间复杂度 O(logn)
-func searchLastLessElement(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] <= target {
-			if mid == len(nums)-1 || nums[mid+1] > target { // 找到最后一个小于等于 target 的元素
-				return mid
-			}
-			left = mid + 1
-		} else {
-			right = mid - 1
-		}
-	}
-	return -1
-}
-```
-### 方法二：二分查找
-
-```go
-func searchRange(nums []int, target int) []int {
-	leftmost := sort.SearchInts(nums, target)
-	if leftmost == len(nums) || nums[leftmost] != target {
-		return []int{-1, -1}
-	}
-	rightmost := sort.SearchInts(nums, target+1) - 1
-	return []int{leftmost, rightmost}
-}
-```
-
-
 
 
 
@@ -414,72 +370,140 @@ func numIslands(grid [][]byte) int {
 
 
 
-[232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
+[54. 螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)
 
-### 方法一：双栈
+![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1goyc6zkdssj31ef0eiwjn.jpg)
 
+- 如果一条边从头遍历到底，则下一条边遍历的起点随之变化
 
-![截屏2021-03-28 20.58.04.png](http://ww1.sinaimg.cn/large/007daNw2ly1gozx18b8ilj31740jsdhb.jpg)
+- 选择不遍历到底，可以减小横向、竖向遍历之间的影响
 
-思路
+- 轮迭代结束时，4条边的两端同时收窄 1
 
-将一个栈当作输入栈，用于压入 push 传入的数据；另一个栈当作输出栈，用于 pop 和 peek 操作。
+- 轮迭代所做的事情很清晰：遍历一个“圈”，遍历的范围收缩为内圈
 
-每次 pop 或 peek 时，若输出栈为空则将输入栈的全部数据依次弹出并压入输出栈，这样输出栈从栈顶往栈底的顺序就是队列从队首往队尾的顺序。
+- 层层向里处理，按顺时针依次遍历：上、右、下、左。
 
+- 不再形成“环”了，就会剩下一行或一列，然后单独判断
 
+### 四个边界
+
+- 上边界 top : 0
+- 下边界 bottom : matrix.length - 1
+- 左边界 left : 0
+- 右边界 right : matrix[0].length - 1
+
+### 矩阵不一定是方阵
+- top < bottom && left < right 是循环的条件
+- 无法构成“环”了，就退出循环，退出时可能是这 3 种情况之一：
+- top == bottom && left < right —— 剩一行
+- top < bottom && left == right —— 剩一列
+- top == bottom && left == right —— 剩一项（也是一行/列）
+
+### 处理剩下的单行或单列
+- 因为是按顺时针推入结果数组的，所以
+- 剩下的一行，从左至右 依次推入结果数组
+- 剩下的一列，从上至下 依次推入结果数组
+
+### 代码
+
+每个元素访问一次，时间复杂度 O(m*n)，m、n 分别是矩阵的行数和列数
+空间复杂度 O(m*n)
 
 ```go
-type MyQueue struct {
-	inStack, outStack []int
-}
-
-/** Initialize your data structure here. */
-func Constructor() MyQueue {
-	return MyQueue{}
-}
-
-/** Push element x to the back of queue. */
-func (q *MyQueue) Push(x int) {
-	q.inStack = append(q.inStack, x)
-}
-
-func (q *MyQueue) in2out() {
-	for len(q.inStack) > 0 {
-		q.outStack = append(q.outStack, q.inStack[len(q.inStack)-1])
-		q.inStack = q.inStack[:len(q.inStack)-1]
-	}
-}
-
-/** Removes the element from in front of queue and returns that element. */
-func (q *MyQueue) Pop() int {
-	if len(q.outStack) == 0 {
-		q.in2out()
-	}
-	x := q.outStack[len(q.outStack)-1]
-	q.outStack = q.outStack[:len(q.outStack)-1]
-	return x
-}
-
-/** Get the front element. */
-func (q *MyQueue) Peek() int {
-	if len(q.outStack) == 0 {
-		q.in2out()
-	}
-	return q.outStack[len(q.outStack)-1]
-}
-
-/** Returns whether the queue is empty. */
-func (q *MyQueue) Empty() bool {
-	return len(q.inStack) == 0 && len(q.outStack) == 0
+func spiralOrder(matrix [][]int) []int {
+    if len(matrix) == 0 {
+        return []int{}
+    }
+    res := []int{}
+    top, bottom, left, right := 0, len(matrix)-1, 0, len(matrix[0])-1
+    
+    for top < bottom && left < right {
+        for i := left; i < right; i++ { res = append(res, matrix[top][i]) }
+        for i := top; i < bottom; i++ { res = append(res, matrix[i][right]) }
+        for i := right; i > left; i-- { res = append(res, matrix[bottom][i]) }
+        for i := bottom; i > top; i-- { res = append(res, matrix[i][left]) }
+        right--
+        top++
+        bottom--
+        left++ 
+    }
+    if top == bottom {
+        for i := left; i <= right; i++ { res = append(res, matrix[top][i]) }
+    } else if left == right {
+        for i := top; i <= bottom; i++ { res = append(res, matrix[i][left]) }
+    } 
+    return res
 }
 ```
 
-复杂度分析
+## 换一种遍历的策略：遍历到底
 
-- 时间复杂度：push 和 empty 为 O(1)，pop 和 peek 为均摊 O(1)。对于每个元素，至多入栈和出栈各两次，故均摊复杂度为 O(1)。
+![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1goyc7ez0y4j31l00fswk5.jpg)
 
-- 空间复杂度：O(n)。其中 n 是操作总数。对于有 n 次 push 操作的情况，队列中会有 n 个元素，故空间复杂度为 O(n)。
+
+- 循环的条件改为： top <= bottom && left <= right
+- 每遍历一条边，下一条边遍历的起点被“挤占”，要更新相应的边界
+- 值得注意的是，可能出现 在循环中途，不再满足循环的条件 ，即出现 top > bottom || left > right ，其中一对边界彼此交错了
+- 这意味着此时所有项都遍历完了，如果没有及时 break ，就会重复遍历
+
+### 解决办法
+
+- 每遍历完一条边，更新完相应的边界后，都加一条判断 if (top > bottom || left > right) break，避免遍历完成时没有及时退出，导致重复遍历。
+- 但你发现，遍历完成要么发生在遍历完“上边”，要么发生在遍历完“右边”
+- 所以只需在这两步操作之后，加 if (top > bottom || left > right) break 即可
+
+```go
+func spiralOrder(matrix [][]int) []int {
+	if len(matrix) == 0 {
+		return []int{}
+	}
+	res := []int{}
+	top, bottom, left, right := 0, len(matrix)-1, 0, len(matrix[0])-1
+	for top <= bottom && left <= right {
+		for i := left; i <= right; i++ { res = append(res, matrix[top][i]) }
+		top++ 
+		for i := top; i <= bottom; i++ { res = append(res, matrix[i][right]) }
+		right--
+		if top > bottom || left > right { break}
+		for i := right; i >= left; i-- { res = append(res, matrix[bottom][i]) }
+        bottom--
+		for i := bottom; i >= top; i-- { res = append(res, matrix[i][left]) }
+        left++
+	}
+	return res
+}
+```
+
+### 换一种循环的条件，也是可以的
+- 遍历完所有项时，res 数组构建完毕。我们可以用 res 数组的长度 等于 矩阵的项的个数，作为循环的结束条件
+- 不等于就继续遍历，等于就 break
+
+```go
+func spiralOrder(matrix [][]int) []int {
+    if len(matrix) == 0 {
+        return []int{}
+    }
+    res := []int{}
+    top, bottom, left, right := 0, len(matrix)-1, 0, len(matrix[0])-1
+    size := len(matrix) * len(matrix[0])
+    
+    for len(res) != size {
+        for i := left; i <= right; i++ { res = append(res, matrix[top][i]) }
+        top++
+        for i := top; i <= bottom; i++ { res = append(res, matrix[i][right]) }
+        right--
+        if len(res) == size { break } 
+        for i := right; i >= left; i-- { res = append(res, matrix[bottom][i]) }
+        bottom--
+        for i := bottom; i >= top; i-- { res = append(res, matrix[i][left]) }
+        left++ 
+    }
+
+    return res
+}
+
+```
 
 
 
@@ -674,142 +698,6 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 
 
 
-[54. 螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)
-
-![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1goyc6zkdssj31ef0eiwjn.jpg)
-
-- 如果一条边从头遍历到底，则下一条边遍历的起点随之变化
-
-- 选择不遍历到底，可以减小横向、竖向遍历之间的影响
-
-- 轮迭代结束时，4条边的两端同时收窄 1
-
-- 轮迭代所做的事情很清晰：遍历一个“圈”，遍历的范围收缩为内圈
-
-- 层层向里处理，按顺时针依次遍历：上、右、下、左。
-
-- 不再形成“环”了，就会剩下一行或一列，然后单独判断
-
-### 四个边界
-
-- 上边界 top : 0
-- 下边界 bottom : matrix.length - 1
-- 左边界 left : 0
-- 右边界 right : matrix[0].length - 1
-
-### 矩阵不一定是方阵
-- top < bottom && left < right 是循环的条件
-- 无法构成“环”了，就退出循环，退出时可能是这 3 种情况之一：
-- top == bottom && left < right —— 剩一行
-- top < bottom && left == right —— 剩一列
-- top == bottom && left == right —— 剩一项（也是一行/列）
-
-### 处理剩下的单行或单列
-- 因为是按顺时针推入结果数组的，所以
-- 剩下的一行，从左至右 依次推入结果数组
-- 剩下的一列，从上至下 依次推入结果数组
-
-### 代码
-
-每个元素访问一次，时间复杂度 O(m*n)，m、n 分别是矩阵的行数和列数
-空间复杂度 O(m*n)
-
-```go
-func spiralOrder(matrix [][]int) []int {
-    if len(matrix) == 0 {
-        return []int{}
-    }
-    res := []int{}
-    top, bottom, left, right := 0, len(matrix)-1, 0, len(matrix[0])-1
-    
-    for top < bottom && left < right {
-        for i := left; i < right; i++ { res = append(res, matrix[top][i]) }
-        for i := top; i < bottom; i++ { res = append(res, matrix[i][right]) }
-        for i := right; i > left; i-- { res = append(res, matrix[bottom][i]) }
-        for i := bottom; i > top; i-- { res = append(res, matrix[i][left]) }
-        right--
-        top++
-        bottom--
-        left++ 
-    }
-    if top == bottom {
-        for i := left; i <= right; i++ { res = append(res, matrix[top][i]) }
-    } else if left == right {
-        for i := top; i <= bottom; i++ { res = append(res, matrix[i][left]) }
-    } 
-    return res
-}
-```
-
-## 换一种遍历的策略：遍历到底
-
-![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1goyc7ez0y4j31l00fswk5.jpg)
-
-
-- 循环的条件改为： top <= bottom && left <= right
-- 每遍历一条边，下一条边遍历的起点被“挤占”，要更新相应的边界
-- 值得注意的是，可能出现 在循环中途，不再满足循环的条件 ，即出现 top > bottom || left > right ，其中一对边界彼此交错了
-- 这意味着此时所有项都遍历完了，如果没有及时 break ，就会重复遍历
-
-### 解决办法
-
-- 每遍历完一条边，更新完相应的边界后，都加一条判断 if (top > bottom || left > right) break，避免遍历完成时没有及时退出，导致重复遍历。
-- 但你发现，遍历完成要么发生在遍历完“上边”，要么发生在遍历完“右边”
-- 所以只需在这两步操作之后，加 if (top > bottom || left > right) break 即可
-
-```go
-func spiralOrder(matrix [][]int) []int {
-	if len(matrix) == 0 {
-		return []int{}
-	}
-	res := []int{}
-	top, bottom, left, right := 0, len(matrix)-1, 0, len(matrix[0])-1
-	for top <= bottom && left <= right {
-		for i := left; i <= right; i++ { res = append(res, matrix[top][i]) }
-		top++ 
-		for i := top; i <= bottom; i++ { res = append(res, matrix[i][right]) }
-		right--
-		if top > bottom || left > right { break}
-		for i := right; i >= left; i-- { res = append(res, matrix[bottom][i]) }
-        bottom--
-		for i := bottom; i >= top; i-- { res = append(res, matrix[i][left]) }
-        left++
-	}
-	return res
-}
-```
-
-### 换一种循环的条件，也是可以的
-- 遍历完所有项时，res 数组构建完毕。我们可以用 res 数组的长度 等于 矩阵的项的个数，作为循环的结束条件
-- 不等于就继续遍历，等于就 break
-
-```go
-func spiralOrder(matrix [][]int) []int {
-    if len(matrix) == 0 {
-        return []int{}
-    }
-    res := []int{}
-    top, bottom, left, right := 0, len(matrix)-1, 0, len(matrix[0])-1
-    size := len(matrix) * len(matrix[0])
-    
-    for len(res) != size {
-        for i := left; i <= right; i++ { res = append(res, matrix[top][i]) }
-        top++
-        for i := top; i <= bottom; i++ { res = append(res, matrix[i][right]) }
-        right--
-        if len(res) == size { break } 
-        for i := right; i >= left; i-- { res = append(res, matrix[bottom][i]) }
-        bottom--
-        for i := bottom; i >= top; i-- { res = append(res, matrix[i][left]) }
-        left++ 
-    }
-
-    return res
-}
-
-```
-
-
 
 [33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
 
@@ -847,101 +735,20 @@ func search(nums []int, target int) int {
 
 
 
-
-
-[300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
-
-### 方法一： nlogn 动态规划 
+[剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
 
 ```go
-func lengthOfLIS(nums []int) int {
-	dp := []int{}
-	for _, num := range nums {
-		i := sort.SearchInts(dp, num) //min_index
-		if i == len(dp) {
-			dp = append(dp, num)
-		} else {
-			dp[i] = num
-		}
-	}
-	return len(dp)
+func getKthFromEnd(head *ListNode, k int) *ListNode {
+     slow, fast := head, head 
+     for ; k>0; k-- {
+         fast = fast.Next
+     }
+     for fast != nil {
+         slow, fast = slow.Next, fast.Next
+     }
+     return slow
 }
 ```
-复杂度分析
-
-- 时间复杂度：O(nlogn)。数组 nums 的长度为 n，我们依次用数组中的元素去更新 dp 数组，而更新 dp 数组时需要进行 O(logn) 的二分搜索，所以总时间复杂度为 O(nlogn)。
-
-- 空间复杂度：O(n)，需要额外使用长度为 n 的 dp 数组。
-
-#### func SearchInts
-- func SearchInts(a []int, x int) int
-- SearchInts在递增顺序的a中搜索x，返回x的索引。如果查找不到，返回值是x应该插入a的位置（以保证a的递增顺序），返回值可以是len(a)。
-
-### 方法二：贪心 + 二分查找
-
-![贪心 + 二分查找](http://ww1.sinaimg.cn/large/007daNw2ly1gpbeyy69rdj31ag0lmtb8.jpg)
-
-```go
-func lengthOfLIS(nums []int) int {
-	d := []int{}
-	for _, num := range nums {
-		if len(d) == 0 || d[len(d)-1] < num {
-			d = append(d, num)
-		} else { //二分查找
-			l, r := 0, len(d)-1
-			pos := r
-			for l <= r {
-				mid := (l + r) >> 1
-				if d[mid] >= num {
-					pos = mid
-					r = mid - 1
-				} else {
-					l = mid + 1
-				}
-			}
-			d[pos] = num
-		}
-	}
-	return len(d)
-}
-```
-复杂度分析
-
-- 时间复杂度：O(nlogn)。数组 nums 的长度为 n，我们依次用数组中的元素去更新 d 数组，而更新 d 数组时需要进行 O(logn) 的二分搜索，所以总时间复杂度为 O(nlogn)。
-
-- 空间复杂度：O(n)，需要额外使用长度为 n 的 d 数组。
-
-### 方法三：动态规划
-
-```go
-func lengthOfLIS(nums []int) int {
-	n := len(nums)
-	if n == 0 {
-		return 0
-	}
-	dp, res := make([]int, n), 0
-	for i := 0; i < n; i++ {
-		dp[i] = 1
-		for j := 0; j < i; j++ {
-			if nums[j] < nums[i] {
-				dp[i] = max(dp[i], dp[j]+1)
-			}
-		}
-		res = max(res, dp[i])
-	}
-	return res
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-复杂度分析：
-
-- 时间复杂度 O(N^2)： 遍历计算 dp 列表需 O(N)，计算每个 dp[i] 需 O(N)。
-- 空间复杂度 O(N) ： dp 列表占用线性大小额外空间。
 
 
 
@@ -1024,22 +831,6 @@ func dfs(root *TreeNode, depth int) {
 
 
 
-
-
-[剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
-
-```go
-func getKthFromEnd(head *ListNode, k int) *ListNode {
-     slow, fast := head, head 
-     for ; k>0; k-- {
-         fast = fast.Next
-     }
-     for fast != nil {
-         slow, fast = slow.Next, fast.Next
-     }
-     return slow
-}
-```
 
 
 
@@ -1257,6 +1048,101 @@ func climbStairs(n int) int {
 
 
 
+[300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+
+### 方法一： nlogn 动态规划 
+
+```go
+func lengthOfLIS(nums []int) int {
+	dp := []int{}
+	for _, num := range nums {
+		i := sort.SearchInts(dp, num) //min_index
+		if i == len(dp) {
+			dp = append(dp, num)
+		} else {
+			dp[i] = num
+		}
+	}
+	return len(dp)
+}
+```
+复杂度分析
+
+- 时间复杂度：O(nlogn)。数组 nums 的长度为 n，我们依次用数组中的元素去更新 dp 数组，而更新 dp 数组时需要进行 O(logn) 的二分搜索，所以总时间复杂度为 O(nlogn)。
+
+- 空间复杂度：O(n)，需要额外使用长度为 n 的 dp 数组。
+
+#### func SearchInts
+- func SearchInts(a []int, x int) int
+- SearchInts在递增顺序的a中搜索x，返回x的索引。如果查找不到，返回值是x应该插入a的位置（以保证a的递增顺序），返回值可以是len(a)。
+
+### 方法二：贪心 + 二分查找
+
+![贪心 + 二分查找](http://ww1.sinaimg.cn/large/007daNw2ly1gpbeyy69rdj31ag0lmtb8.jpg)
+
+```go
+func lengthOfLIS(nums []int) int {
+	d := []int{}
+	for _, num := range nums {
+		if len(d) == 0 || d[len(d)-1] < num {
+			d = append(d, num)
+		} else { //二分查找
+			l, r := 0, len(d)-1
+			pos := r
+			for l <= r {
+				mid := (l + r) >> 1
+				if d[mid] >= num {
+					pos = mid
+					r = mid - 1
+				} else {
+					l = mid + 1
+				}
+			}
+			d[pos] = num
+		}
+	}
+	return len(d)
+}
+```
+复杂度分析
+
+- 时间复杂度：O(nlogn)。数组 nums 的长度为 n，我们依次用数组中的元素去更新 d 数组，而更新 d 数组时需要进行 O(logn) 的二分搜索，所以总时间复杂度为 O(nlogn)。
+
+- 空间复杂度：O(n)，需要额外使用长度为 n 的 d 数组。
+
+### 方法三：动态规划
+
+```go
+func lengthOfLIS(nums []int) int {
+	n := len(nums)
+	if n == 0 {
+		return 0
+	}
+	dp, res := make([]int, n), 0
+	for i := 0; i < n; i++ {
+		dp[i] = 1
+		for j := 0; j < i; j++ {
+			if nums[j] < nums[i] {
+				dp[i] = max(dp[i], dp[j]+1)
+			}
+		}
+		res = max(res, dp[i])
+	}
+	return res
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+复杂度分析：
+
+- 时间复杂度 O(N^2)： 遍历计算 dp 列表需 O(N)，计算每个 dp[i] 需 O(N)。
+- 空间复杂度 O(N) ： dp 列表占用线性大小额外空间。
+
+
 
 [2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
 
@@ -1327,6 +1213,41 @@ func mySqrt(x int) int {
 
 
 
+
+
+[23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
+
+
+```go
+func mergeKLists(lists []*ListNode) *ListNode {
+	length := len(lists)
+	if length < 1 {
+		return nil
+	}
+	if length == 1 {
+		return lists[0]
+	}
+	num := length / 2
+	left := mergeKLists(lists[:num])
+	right := mergeKLists(lists[num:])
+	return mergeTwoLists1(left, right)
+}
+func mergeTwoLists1(l1 *ListNode, l2 *ListNode) *ListNode {
+	if l1 == nil {
+		return l2
+	}
+	if l2 == nil {
+		return l1
+	}
+	if l1.Val < l2.Val {
+		l1.Next = mergeTwoLists1(l1.Next, l2)
+		return l1
+	} else {
+		l2.Next = mergeTwoLists1(l1, l2.Next)
+		return l2
+	}
+}
+```
 
 
 
@@ -1437,41 +1358,6 @@ func myAtoi(s string) int {
 - 空间复杂度：O(1)，只需要常数空间存储。
 
 
-
-
-[23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
-
-
-```go
-func mergeKLists(lists []*ListNode) *ListNode {
-	length := len(lists)
-	if length < 1 {
-		return nil
-	}
-	if length == 1 {
-		return lists[0]
-	}
-	num := length / 2
-	left := mergeKLists(lists[:num])
-	right := mergeKLists(lists[num:])
-	return mergeTwoLists1(left, right)
-}
-func mergeTwoLists1(l1 *ListNode, l2 *ListNode) *ListNode {
-	if l1 == nil {
-		return l2
-	}
-	if l2 == nil {
-		return l1
-	}
-	if l1.Val < l2.Val {
-		l1.Next = mergeTwoLists1(l1.Next, l2)
-		return l1
-	} else {
-		l2.Next = mergeTwoLists1(l1, l2.Next)
-		return l2
-	}
-}
-```
 
 
 

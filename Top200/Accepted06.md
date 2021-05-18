@@ -38,6 +38,117 @@
 [460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 
 ```go
+type LFUCache struct {
+	cache               map[int]*Node       // 存储缓存的内容
+	freq                map[int]*DoubleList // 存储每个频次对应的双向链表
+	ncap, size, minFreq int                 // minFreq存储当前最小频次
+}
+
+func Constructor(capacity int) LFUCache {
+	return LFUCache{
+		cache: make(map[int]*Node),
+		freq:  make(map[int]*DoubleList),
+		ncap:  capacity,
+	}
+}
+
+func (this *LFUCache) Get(key int) int {
+	if node, ok := this.cache[key]; ok {
+		this.IncFreq(node)
+		return node.val
+	}
+	return -1
+}
+
+func (this *LFUCache) Put(key, value int) {
+	if this.ncap == 0 {
+		return
+	}
+	if node, ok := this.cache[key]; ok {
+		node.val = value
+		this.IncFreq(node)
+	} else {
+		if this.size >= this.ncap { // 缓存已满，需要进行删除操作
+			// 通过 minFreq 拿到 freq_table[minFreq] 链表的末尾节点
+			node := this.freq[this.minFreq].RemoveLast()
+			delete(this.cache, node.key)
+			this.size--
+		} // 与 get 操作基本一致，除了需要更新缓存的值
+		x := &Node{key: key, val: value, freq: 1}
+		this.cache[key] = x
+		if this.freq[1] == nil {
+			this.freq[1] = CreateDL()
+		}
+		this.freq[1].AddFirst(x)
+		this.minFreq = 1
+		this.size++
+	}
+}
+
+func (this *LFUCache) IncFreq(node *Node) {
+	// 从原freq对应的链表里移除, 并更新 minFreq
+	_freq := node.freq
+	this.freq[_freq].Remove(node)
+	// 如果当前链表为空，我们需要在哈希表中删除，且更新 minFreq
+	if this.minFreq == _freq && this.freq[_freq].IsEmpty() {
+		this.minFreq++
+		delete(this.freq, _freq)
+	}
+	node.freq++ // 插入到 freq + 1 对应的链表中
+	if this.freq[node.freq] == nil {
+		this.freq[node.freq] = CreateDL()
+	}
+	this.freq[node.freq].AddFirst(node)
+}
+
+type DoubleList struct {
+	head, tail *Node
+}
+
+type Node struct {
+	prev, next     *Node
+	key, val, freq int
+}
+
+func CreateDL() *DoubleList {
+	head, tail := &Node{}, &Node{}
+	head.next, tail.prev = tail, head
+	return &DoubleList{
+		head: head,
+		tail: tail,
+	}
+}
+
+func (this *DoubleList) AddFirst(node *Node) {
+	node.next = this.head.next
+	node.prev = this.head
+
+	this.head.next.prev = node
+	this.head.next = node
+}
+
+func (this *DoubleList) Remove(node *Node) {
+	node.prev.next = node.next
+	node.next.prev = node.prev
+
+	node.next = nil
+	node.prev = nil
+}
+
+func (this *DoubleList) RemoveLast() *Node {
+	if this.IsEmpty() {
+		return nil
+	}
+
+	last := this.tail.prev
+	this.Remove(last)
+
+	return last
+}
+
+func (this *DoubleList) IsEmpty() bool {
+	return this.head.next == this.tail
+}
 
 ```
 

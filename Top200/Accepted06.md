@@ -433,11 +433,64 @@ func merge(l1, l2 *ListNode) *ListNode {
 
 [145. 二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/)
 
+![Binary Tree Traversal Iteration Implementation.png](http://ww1.sinaimg.cn/large/007daNw2ly1gqnx5to70yj30pd2bie81.jpg)
 
 
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func postorderTraversal(root *TreeNode) []int {
+	res := []int{}
+	var postorder func(*TreeNode)
 
+	postorder = func(root *TreeNode) {
+		if root != nil {
+			postorder(root.Left)
+			postorder(root.Right)
+			res = append(res, root.Val)
+		}
+	}
 
+	postorder(root)
+	return res
+}
+```
 
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func postorderTraversal(root *TreeNode) []int {
+	if root == nil {
+		return []int{}
+	}
+	stack, res := []*TreeNode{root}, []int{}
+	for len(stack) != 0 {
+		curr := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		res = append(append([]int{}, curr.Val), res...)
+		if curr.Left != nil {
+			stack = append(stack, curr.Left)
+		}
+		if curr.Right != nil {
+			stack = append(stack, curr.Right)
+		}
+
+	}
+	return res
+}
+```
 
 
 

@@ -481,7 +481,6 @@ func merge(l1, l2 *ListNode) *ListNode {
 
 [145. 二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/)
 
-![Binary Tree Traversal Iteration Implementation.png](http://ww1.sinaimg.cn/large/007daNw2ly1gqnx5to70yj30pd2bie81.jpg)
 
 
 ```go

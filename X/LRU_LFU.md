@@ -124,6 +124,13 @@ func (this *LRUCache) removeTail() *DLinkedNode {
 	this.removeNode(node)
 	return node
 }
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * obj := Constructor(capacity);
+ * param_1 := obj.Get(key);
+ * obj.Put(key,value);
+ */
 ```
 
 复杂度分析

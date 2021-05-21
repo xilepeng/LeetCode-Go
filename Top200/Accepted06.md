@@ -1,10 +1,10 @@
-
+[补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
 [460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 
-[122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
+[剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
 
-[补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+[122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
 [补充题1. 排序奇升偶降链表](https://mp.weixin.qq.com/s/377FfqvpY8NwMInhpoDgsw)
 
@@ -12,28 +12,78 @@
 
 [22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
 
-[剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
-
 [198. 打家劫舍](https://leetcode-cn.com/problems/house-robber/)
 
+[剑指 Offer 51. 数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
 
+[138. 复制带随机指针的链表](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
 
+[695. 岛屿的最大面积](https://leetcode-cn.com/problems/max-area-of-island/)
 
+[394. 字符串解码](https://leetcode-cn.com/problems/decode-string/)
 
+[209. 长度最小的子数组](https://leetcode-cn.com/problems/minimum-size-subarray-sum/)
 
+[518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/)
 
-
-
-
-
+[剑指 Offer 40. 最小的k个数](https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/)
 
 [328. 奇偶链表](https://leetcode-cn.com/problems/odd-even-linked-list/) 
 
+[125. 验证回文串](https://leetcode-cn.com/problems/valid-palindrome/)
 
+[189. 旋转数组](https://leetcode-cn.com/problems/rotate-array/)
+
+[384. 打乱数组](https://leetcode-cn.com/problems/shuffle-an-array/)
+
+[225. 用队列实现栈](https://leetcode-cn.com/problems/implement-stack-using-queues/)
 
 
 
 ------
+
+
+
+[补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+```go
+func sortArray(nums []int) []int {
+	merge_sort(nums, 0, len(nums)-1)
+	return nums
+}
+func merge_sort(A []int, start, end int) {
+	if start < end {
+		mid := start + (end-start)>>1
+		merge_sort(A, start, mid)
+		merge_sort(A, mid+1, end)
+		merge(A, start, mid, end)
+	}
+}
+func merge(A []int, start, mid, end int) {
+	Arr := make([]int, end-start+1)
+	p, q, k := start, mid+1, 0
+	for i := start; i <= end; i++ {
+		if p > mid {
+			Arr[k] = A[q]
+			q++
+		} else if q > end {
+			Arr[k] = A[p]
+			p++
+		} else if A[p] < A[q] {
+			Arr[k] = A[p]
+			p++
+		} else {
+			Arr[k] = A[q]
+			q++
+		}
+		k++
+	}
+	for p := 0; p < k; p++ {
+		A[start] = Arr[p]
+		start++
+	}
+}
+```
 
 [460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 
@@ -157,6 +207,43 @@ func (this *DoubleList) IsEmpty() bool {
 
 
 
+[剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
+
+
+```go
+type CQueue struct {
+    inStack, outStack []int
+}
+
+func Constructor() CQueue {
+    return CQueue{}
+}
+
+func (this *CQueue) AppendTail(value int)  {
+    this.inStack = append(this.inStack, value)
+}
+
+func (this *CQueue) DeleteHead() int {
+    if len(this.outStack) == 0 {
+        if len(this.inStack) == 0 { return -1}
+        for len(this.inStack) > 0 {
+            top := this.inStack[len(this.inStack)-1]
+            this.inStack = this.inStack[:len(this.inStack)-1]
+            this.outStack = append(this.outStack, top)
+        }
+    }
+    top := this.outStack[len(this.outStack)-1]
+    this.outStack = this.outStack[:len(this.outStack)-1]
+    return top
+}
+
+/**
+ * Your CQueue object will be instantiated and called as such:
+ * obj := Constructor();
+ * obj.AppendTail(value);
+ * param_2 := obj.DeleteHead();
+ */
+```
 
 
 
@@ -319,47 +406,6 @@ func max(x, y int) int {
 
 
 
-[补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
-
-```go
-func sortArray(nums []int) []int {
-	merge_sort(nums, 0, len(nums)-1)
-	return nums
-}
-func merge_sort(A []int, start, end int) {
-	if start < end {
-		mid := start + (end-start)>>1
-		merge_sort(A, start, mid)
-		merge_sort(A, mid+1, end)
-		merge(A, start, mid, end)
-	}
-}
-func merge(A []int, start, mid, end int) {
-	Arr := make([]int, end-start+1)
-	p, q, k := start, mid+1, 0
-	for i := start; i <= end; i++ {
-		if p > mid {
-			Arr[k] = A[q]
-			q++
-		} else if q > end {
-			Arr[k] = A[p]
-			p++
-		} else if A[p] < A[q] {
-			Arr[k] = A[p]
-			p++
-		} else {
-			Arr[k] = A[q]
-			q++
-		}
-		k++
-	}
-	for p := 0; p < k; p++ {
-		A[start] = Arr[p]
-		start++
-	}
-}
-```
-
 
 
 
@@ -472,21 +518,18 @@ func postorderTraversal(root *TreeNode) []int {
  * }
  */
 func postorderTraversal(root *TreeNode) []int {
-	if root == nil {
-		return []int{}
-	}
-	stack, res := []*TreeNode{root}, []int{}
-	for len(stack) != 0 {
-		curr := stack[len(stack)-1]
-		stack = stack[:len(stack)-1]
-		res = append(append([]int{}, curr.Val), res...)
-		if curr.Left != nil {
-			stack = append(stack, curr.Left)
+	res, stack := []int{}, []*TreeNode{}
+	p := root
+	for len(stack) > 0 || p != nil {
+		if p != nil {
+			stack = append(stack, p)
+			res = append(append([]int{}, p.Val), res...) //反转先序遍历
+			p = p.Right                                  //反转先序遍历
+		} else {
+			node := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			p = node.Left //反转先序遍历
 		}
-		if curr.Right != nil {
-			stack = append(stack, curr.Right)
-		}
-
 	}
 	return res
 }
@@ -494,51 +537,65 @@ func postorderTraversal(root *TreeNode) []int {
 
 
 
+
 [22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
 
+思路
+就是不停选括号啊~，要么选左括号，要么选右括号。
 
+并且，是有约束的：
 
+- 只要(有剩，就可以选(。 (((((这么选，都还不能判定为非法。
+- 当剩下的)比(多时，才可以选)，否则，)不能选，选了就非法了（见下图）。
+描述节点的状态有：当前构建的字符串，和左右括号所剩的数量。
 
+![](https://pic.leetcode-cn.com/1600428729-tjBQsP-image.png)
 
+### 回溯，死抓三个要点
+- 选择
+	在这里，每次最多两个选择，选左括号，或右括号，“选择”会展开出一棵解的空间树。
+	用 DFS 的方式遍历这棵树，找出所有的解，这个过程叫回溯。
+- 约束条件
+	即，什么情况下可以选左括号，什么情况下可以选右括号。
+	利用约束做“剪枝”，即，去掉不会产生解的选项，即，剪去不会通往合法解的分支。
+	- 比如()，现在左右括号各剩一个，再选)就成了())，这是错的选择，不能让它成为选项（不落入递归）：
+```go
+if (right > left) { // 右括号剩的比较多，才能选右括号
+    dfs(str + ')', left, right - 1);
+}
+```
+- 目标
+	构建出一个用尽 n 对括号的合法括号串。
+	意味着，当构建的长度达到 2*n，就可以结束递归（不用继续选了）。
 
+### 充分剪枝的好处
+经过充分的剪枝，所有不会通往合法解的选项，都被干掉，只要往下递归，就都通向合法解。
+即，只要递归到：当构建的字符串的长度为 2*n 时，一个合法解就生成了，加入解集即可。
 
-[剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
 
 
 ```go
-type CQueue struct {
-    inStack, outStack []int
+func generateParenthesis(n int) []string {
+	res := []string{}
+	var dfs func(int, int, string)
+	dfs = func(lRemain, rRemain int, path string) {
+		if len(path) == 2*n {
+			res = append(res, path)
+			return
+		}
+		if lRemain > 0 {
+			dfs(lRemain-1, rRemain, path+"(")
+		}
+		if lRemain < rRemain {
+			dfs(lRemain, rRemain-1, path+")")
+		}
+	}
+	dfs(n, n, "")
+	return res
 }
-
-func Constructor() CQueue {
-    return CQueue{}
-}
-
-func (this *CQueue) AppendTail(value int)  {
-    this.inStack = append(this.inStack, value)
-}
-
-func (this *CQueue) DeleteHead() int {
-    if len(this.outStack) == 0 {
-        if len(this.inStack) == 0 { return -1}
-        for len(this.inStack) > 0 {
-            top := this.inStack[len(this.inStack)-1]
-            this.inStack = this.inStack[:len(this.inStack)-1]
-            this.outStack = append(this.outStack, top)
-        }
-    }
-    top := this.outStack[len(this.outStack)-1]
-    this.outStack = this.outStack[:len(this.outStack)-1]
-    return top
-}
-
-/**
- * Your CQueue object will be instantiated and called as such:
- * obj := Constructor();
- * obj.AppendTail(value);
- * param_2 := obj.DeleteHead();
- */
 ```
+
+
 
 
 
@@ -610,22 +667,149 @@ func max(x, y int) int {
 
 
 
+[剑指 Offer 51. 数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
+
+```go
+func reversePairs(nums []int) int {
+	return merge_sort(nums, 0, len(nums)-1)
+}
+
+func merge_sort(A []int, start, end int) int {
+	if start >= end {
+		return 0
+	}
+	mid := start + (end-start)>>1
+	left := merge_sort(A, start, mid)
+	right := merge_sort(A, mid+1, end)
+	cross := merge(A, start, mid, end)
+	return left + right + cross
+}
+func merge(A []int, start, mid, end int) int {
+	Arr := make([]int, end-start+1)
+	p, q, k, count := start, mid+1, 0, 0
+	for i := start; i <= end; i++ {
+		if p > mid {
+			Arr[k] = A[q]
+			q++
+		} else if q > end {
+			Arr[k] = A[p]
+			p++
+		} else if A[p] <= A[q] {
+			Arr[k] = A[p]
+			p++
+		} else {
+			count += mid - p + 1
+			Arr[k] = A[q]
+			q++
+		}
+		k++
+	}
+	copy(A[start:end+1], Arr)
+	return count
+}
+```
 
 
 
 
+[138. 复制带随机指针的链表](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
+
+![](https://pic.leetcode-cn.com/1789e6dd9bbe41223cab82b2e0a7615cd1a8ed16a3c992462d4e1eaec3b82fb1-image.png)
+
+```go
+/**
+ * Definition for a Node.
+ * type Node struct {
+ *     Val int
+ *     Next *Node
+ *     Random *Node
+ * }
+ */
+
+func copyRandomList(head *Node) *Node {
+	if head == nil {
+		return nil
+	}
+	// 1. 复制每个结点,并放在原结点后
+	curr := head
+	for curr != nil {
+		newNode := &Node{
+			Val:    curr.Val,
+			Next:   curr.Next,
+			Random: curr.Random,
+		}
+		curr.Next = newNode
+		curr = newNode.Next
+	}
+	// 2.使复制的节点指向正确的随机数。
+	curr = head
+	for curr != nil {
+		curr = curr.Next
+		if curr.Random != nil {
+			curr.Random = curr.Random.Next
+		}
+		curr = curr.Next
+	}
+	// 3. 提取复制的节点并恢复原始列表。
+	curr = head
+	newHead := head.Next
+	for curr.Next != nil {
+		temp := curr.Next
+		curr.Next = temp.Next //跳过复制节点
+		curr = temp
+	}
+	return newHead
+}
+```
+
+[695. 岛屿的最大面积](https://leetcode-cn.com/problems/max-area-of-island/)
+
+```go
+func maxAreaOfIsland(grid [][]int) int {
+	max_area := 0
+	for i := 0; i < len(grid); i++ {
+		for j := 0; j < len(grid[0]); j++ {
+			if grid[i][j] == 1 {
+				max_area = max(max_area, dfs(grid, i, j))
+			}
+		}
+	}
+	return max_area
+}
+func dfs(grid [][]int, i, j int) int {
+	if i < 0 || j < 0 || i >= len(grid) || j >= len(grid[0]) || grid[i][j] == 0 {
+		return 0
+	}
+	area := 1
+	grid[i][j] = 0
+	area += dfs(grid, i+1, j)
+	area += dfs(grid, i-1, j)
+	area += dfs(grid, i, j+1)
+	area += dfs(grid, i, j-1)
+	return area
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+[394. 字符串解码](https://leetcode-cn.com/problems/decode-string/)
+
+
+
+[209. 长度最小的子数组](https://leetcode-cn.com/problems/minimum-size-subarray-sum/)
 
 
 
 
+[518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/)
 
 
 
-
-
-
-
-
+[剑指 Offer 40. 最小的k个数](https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/)
 
 
 
@@ -679,4 +863,12 @@ func oddEvenList(head *ListNode) *ListNode {
 }
 ```
 
+
+[125. 验证回文串](https://leetcode-cn.com/problems/valid-palindrome/)
+
+[189. 旋转数组](https://leetcode-cn.com/problems/rotate-array/)
+
+[384. 打乱数组](https://leetcode-cn.com/problems/shuffle-an-array/)
+
+[225. 用队列实现栈](https://leetcode-cn.com/problems/implement-stack-using-queues/)
 

@@ -24,6 +24,8 @@
 
 [209. 长度最小的子数组](https://leetcode-cn.com/problems/minimum-size-subarray-sum/)
 
+[322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/) 补充
+
 [518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/)
 
 [剑指 Offer 40. 最小的k个数](https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/)
@@ -798,14 +800,147 @@ func max(x, y int) int {
 
 [394. 字符串解码](https://leetcode-cn.com/problems/decode-string/)
 
-
+```go
+func decodeString(s string) string {
+	numStack := []int{}      // 存倍数的栈
+	strStack := []string{}   // 存待拼接的str的栈
+	num := 0                 // 倍数的“搬运工”
+	res := ""                // 字符串的“搬运工”
+	for _, char := range s { // 逐字符扫描
+		if char >= '0' && char <= '9' { // 遇到数字
+			n, _ := strconv.Atoi(string(char))
+			num = num*10 + n // 算出倍数
+		} else if char == '[' { // 遇到 [
+			strStack = append(strStack, res) // res串入栈
+			res = ""                         // 入栈后清零
+			numStack = append(numStack, num) // 倍数num进入栈等待
+			num = 0                          // 入栈后清零
+		} else if char == ']' { // 遇到 ]，两个栈的栈顶出栈
+			count := numStack[len(numStack)-1] // 获取拷贝次数
+			numStack = numStack[:len(numStack)-1]
+			str := strStack[len(strStack)-1]
+			strStack = strStack[:len(strStack)-1]
+			res = string(str) + strings.Repeat(res, count) // 构建子串
+		} else {
+			res += string(char) // 遇到字母，追加给res串
+		}
+	}
+	return res
+}
+```
 
 [209. 长度最小的子数组](https://leetcode-cn.com/problems/minimum-size-subarray-sum/)
 
 
+### 方法一：滑动窗口
+
+```go
+func minSubArrayLen(target int, nums []int) int {
+	n := len(nums)
+	if n == 0 {
+		return 0
+	}
+	res, sum := math.MaxInt64, 0
+	start, end := 0, 0
+	for end < n {
+		sum += nums[end]
+		for sum >= target {
+			res = min(res, end-start+1)
+			sum -= nums[start]
+			start++
+		}
+		end++
+	}
+	if res == math.MaxInt64 {
+		return 0
+	}
+	return res
+}
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+```
+
+
+
+
+复杂度分析
+
+- 时间复杂度：O(n)，其中 n 是数组的长度。指针 start 和 end 最多各移动 n 次。
+
+- 空间复杂度：O(1)。
+
+
+
+
+
+[322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/) 补充
+
+
+![322. Coin Change and 518. Coin Change 2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gps6k2bgrtj31kg3tub29.jpg)
+
+![截屏2021-04-23 16.55.43.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpts6iwvafj319i0o042z.jpg)
+
+![截屏2021-04-23 13.16.57.png](http://ww1.sinaimg.cn/large/007daNw2ly1gptltwipl8j319q0p2go8.jpg)
+
+
+#### iterate amount
+
+```go
+func coinChange(coins []int, amount int) int {
+	dp := make([]int, amount+1)
+	dp[0] = 0 //base case
+	for i := 1; i < len(dp); i++ {
+		dp[i] = amount + 1
+	}
+	for i := 1; i <= amount; i++ { //遍历所有状态的所有值
+		for _, coin := range coins { //求所有选择的最小值 min(dp[4],dp[3],dp[0])+1
+			if i-coin >= 0 {
+				dp[i] = min(dp[i], dp[i-coin]+1)
+			}
+		}
+	}
+	if amount-dp[amount] < 0 {
+		return -1
+	}
+	return dp[amount]
+}
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+```
+
 
 
 [518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/)
+
+![截屏2021-04-23 16.57.11.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpts6y27nhj319a0n8gpb.jpg)
+
+#### iterate coins
+
+```go
+func change(amount int, coins []int) int {
+	dp := make([]int, amount+1)
+	dp[0] = 1
+	for _, coin := range coins {
+		for i := coin; i <= amount; i++ {
+			dp[i] += dp[i-coin]
+		}
+	}
+	return dp[amount]
+}
+```
+
+
+
+
+
 
 
 

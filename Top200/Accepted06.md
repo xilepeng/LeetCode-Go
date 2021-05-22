@@ -895,7 +895,7 @@ func coinChange(coins []int, amount int) int {
 	for i := 1; i < len(dp); i++ {
 		dp[i] = amount + 1
 	}
-	for i := 1; i <= amount; i++ { //遍历所有状态的所有值
+	for i := 1; i <= amount; i++ { //遍历所有(面额)状态的所有值
 		for _, coin := range coins { //求所有选择的最小值 min(dp[4],dp[3],dp[0])+1
 			if i-coin >= 0 {
 				dp[i] = min(dp[i], dp[i-coin]+1)
@@ -923,11 +923,12 @@ func min(x, y int) int {
 
 #### iterate coins
 
+
 ```go
 func change(amount int, coins []int) int {
 	dp := make([]int, amount+1)
 	dp[0] = 1
-	for _, coin := range coins {
+	for _, coin := range coins { //遍历所有硬币
 		for i := coin; i <= amount; i++ {
 			dp[i] += dp[i-coin]
 		}
@@ -943,14 +944,107 @@ func change(amount int, coins []int) int {
 
 
 
+
+
 [剑指 Offer 40. 最小的k个数](https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/)
 
+### 方法一：快速选择
+
+```go
+func getLeastNumbers(arr []int, k int) []int {
+    rand.Seed(time.Now().Unix())
+    quickSelect(arr, 0, len(arr)-1, k)
+    return arr[:k]
+}
+
+func quickSelect(A []int, start, end, k int) {
+    if start < end {
+        piv_pos := randomPartition(A, start, end)
+        if piv_pos == k {
+            return
+        } else if piv_pos < k {
+            quickSelect(A, piv_pos+1, end, k)
+        } else {
+            quickSelect(A, start, piv_pos-1, k)
+        }
+    }
+}
+
+func partition(A []int, start, end int) int {
+    piv, i := A[start], start+1
+    for j := start+1; j <= end; j++ {
+        if A[j] < piv {
+            A[i], A[j] = A[j], A[i]
+            i++
+        }
+    }
+    A[start], A[i-1] = A[i-1], A[start]
+    return i-1
+}
+
+func randomPartition(A []int, start, end int) int {
+    random := start + rand.Int()%(end-start+1)
+    A[start], A[random] = A[random], A[start]
+    return partition(A, start, end)
+}
+
+```
+
+复杂度分析
+
+- 时间复杂度：期望为 O(n) ，由于证明过程很繁琐，所以不再这里展开讲。具体证明可以参考《算法导论》第 9 章第 2 小节。
+
+最坏情况下的时间复杂度为 O(n^2)。情况最差时，每次的划分点都是最大值或最小值，一共需要划分 n−1 次，而一次划分需要线性的时间复杂度，所以最坏情况下时间复杂度为 O(n^2)。
+
+- 空间复杂度：期望为 O(logn)，递归调用的期望深度为 O(logn)，每层需要的空间为 O(1)，只有常数个变量。
+
+最坏情况下的空间复杂度为 O(n)。最坏情况下需要划分 n 次，即 randomized_selected 函数递归调用最深 n−1 层，而每层由于需要 O(1) 的空间，所以一共需要 O(n) 的空间复杂度。
 
 
 
+### 小根堆
 
+有错
 
+```go
+func getLeastNumbers(arr []int, k int) []int {
+    if k == 0 {
+        return []int{}
+    }
+    heap_sort(arr, k)
+    return arr[len(arr)-k:]
+}
 
+func heap_sort(A []int, k int) {
+    heap_size := len(A)
+    build_minheap(A, heap_size)
+    for i := heap_size-1; i >= k-1; i-- {
+        A[0], A[i] = A[i], A[0]
+        heap_size--
+        min_heapify(A, 0, heap_size)
+    }
+}
+
+func build_minheap(A []int, heap_size int) {
+    for i := heap_size>>1; i >= 0; i-- {
+        min_heapify(A, i, heap_size)
+    }
+}
+
+func min_heapify(A []int, i, heap_size int) {
+    lson, rson, least := i<<1+1, i<<1+2, i
+    for lson < heap_size && A[lson] < A[least] {
+        least = lson
+    }
+    for rson < heap_size && A[rson] < A[least] {
+        least = rson
+    }
+    if least != i {
+        A[i], A[least] = A[least], A[i]
+        min_heapify(A, least, heap_size)
+    }
+}
+```
 
 
 [328. 奇偶链表](https://leetcode-cn.com/problems/odd-even-linked-list/) 
@@ -999,6 +1093,54 @@ func oddEvenList(head *ListNode) *ListNode {
 
 
 [125. 验证回文串](https://leetcode-cn.com/problems/valid-palindrome/)
+
+```go
+func isPalindrome(s string) bool {
+	s = strings.ToLower(s)
+	left, right := 0, len(s)-1
+	for left < right {
+		if !isValid(s[left]) {
+			left++
+		} else if !isValid(s[right]) {
+			right--
+		} else {
+			if s[left] != s[right] {
+				return false
+			}
+			left++
+			right--
+		}
+	}
+	return true
+}
+func isValid(c byte) bool {
+	if (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') {
+		return true
+	}
+	return false
+}
+```
+
+
+```go
+func isPalindrome(s string) bool {
+	left, right := 0, len(s)-1
+	for left < right {
+		if !unicode.IsLetter(rune(s[left])) && !unicode.IsNumber(rune(s[left])) {
+			left++
+		} else if !unicode.IsLetter(rune(s[right])) && !unicode.IsNumber(rune(s[right])) {
+			right--
+		} else {
+			if unicode.ToLower(rune(s[left])) != unicode.ToLower(rune(s[right])) {
+				return false
+			}
+			left++
+			right--
+		}
+	}
+	return true
+}
+```
 
 [189. 旋转数组](https://leetcode-cn.com/problems/rotate-array/)
 

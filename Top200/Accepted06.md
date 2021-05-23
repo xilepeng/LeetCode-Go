@@ -1114,7 +1114,7 @@ func isPalindrome(s string) bool {
 	return true
 }
 func isValid(c byte) bool {
-	if (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') {
+	if (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') {
 		return true
 	}
 	return false
@@ -1143,6 +1143,23 @@ func isPalindrome(s string) bool {
 ```
 
 [189. 旋转数组](https://leetcode-cn.com/problems/rotate-array/)
+
+```go
+func rotate(nums []int, k int) {
+	k %= len(nums)
+	reverse(nums)
+	reverse(nums[:k])
+	reverse(nums[k:])
+}
+func reverse(nums []int) {
+	n := len(nums)
+	for i := 0; i < n/2; i++ {
+		nums[i], nums[n-1-i] = nums[n-1-i], nums[i]
+	}
+}
+```
+
+
 
 [384. 打乱数组](https://leetcode-cn.com/problems/shuffle-an-array/)
 

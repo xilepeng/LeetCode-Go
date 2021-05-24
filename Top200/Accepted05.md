@@ -780,6 +780,35 @@ func validIPv6Address(IP string) bool {
 
 [227. 基本计算器 II](https://leetcode-cn.com/problems/basic-calculator-ii/)
 
+```go
+func calculate(s string) int {
+	stack, sign, num, res := []int{}, byte('+'), 0, 0
+	for i := 0; i < len(s); i++ {
+		isDigit := s[i] <= '9' && s[i] >= '0'
+		if isDigit {
+			num = num*10 + int(s[i]-'0')
+		}
+		if !isDigit && s[i] != ' ' || i == len(s)-1 {
+			if sign == '+' {
+				stack = append(stack, num)
+			} else if sign == '-' {
+				stack = append(stack, -num)
+			} else if sign == '*' {
+				stack[len(stack)-1] *= num
+			} else if sign == '/' {
+				stack[len(stack)-1] /= num
+			}
+			sign = s[i]
+			num = 0
+		}
+	}
+	for _, i := range stack {
+		res += i
+	}
+	return res
+}
+```
+
 - 加号：将数字压入栈；
 - 减号：将数字的相反数压入栈；
 - 乘除号：计算数字与栈顶元素，并将栈顶元素替换为计算结果。

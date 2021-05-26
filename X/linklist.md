@@ -161,3 +161,23 @@ func reverse(head *ListNode) *ListNode {
 - 时间复杂度：O(n)，其中 n 为链表的长度。head 指针会在 O(⌊k/n⌋) 个节点上停留，每次停留需要进行一次 O(k) 的翻转操作。
 
 - 空间复杂度：O(1)，我们只需要建立常数个变量。
+
+
+
+
+
+
+[237. Delete Node in a Linked List](https://leetcode.com/problems/delete-node-in-a-linked-list/)
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func deleteNode(node *ListNode) {
+	*node = *node.Next
+}
+```

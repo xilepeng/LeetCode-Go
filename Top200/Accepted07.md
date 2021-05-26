@@ -304,6 +304,36 @@ func (this *Codec) buildTree(nodes *[]string) *TreeNode {
 
 [221. 最大正方形](https://leetcode-cn.com/problems/maximal-square/)
 
+```go
+func maximalSquare(matrix [][]byte) int {
+	if len(matrix) == 0 || len(matrix[0]) == 0 {
+		return 0
+	}
+	m, n, max := len(matrix), len(matrix[0]), 0
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+	for i := 1; i <= m; i++ {
+		for j := 1; j <= n; j++ {
+			if matrix[i-1][j-1] == '1' {
+				dp[i][j] = min(dp[i-1][j-1], min(dp[i-1][j], dp[i][j-1])) + 1
+			}
+			if dp[i][j] > max {
+				max = dp[i][j]
+			}
+		}
+	}
+	return max * max
+}
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+```
+
 [79. 单词搜索](https://leetcode-cn.com/problems/word-search/)
 
 [9. 回文数](https://leetcode-cn.com/problems/palindrome-number/)

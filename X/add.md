@@ -19,15 +19,21 @@
 
 [补充题8. 计算数组的小和](https://mp.weixin.qq.com/s/0ih4W6nawzFUPSj3GOnYTQ)
 
+[补充题22. IP地址与整数的转换](https://mp.weixin.qq.com/s/u-RahFTB3JIqND41HqtotQ)
+
 [补充题3. 求区间最小数乘区](https://mp.weixin.qq.com/s/ABNN4lJpvttulwWaUTgYZQ)
 
 [补充题7. 木头切割问题](https://mp.weixin.qq.com/s/o-1VJO2TQZjC5ROmV7CReA)
+
+[补充题24. 双栈排序](https://mp.weixin.qq.com/s/6mgvQ4PhN6psEwklZHsn6w)
 
 [补充题21. 字符串相减](https://mp.weixin.qq.com/s/kCue4c0gnLSw0HosFl_t7w)
 
 [补充题19. 判断一个点是否在三角形内](https://mp.weixin.qq.com/s/qnVUJq4lmnLsXJgyHCXngA)
 
 [补充题12. 二叉树的下一个节点](https://mp.weixin.qq.com/s/ug9KoqbrVFMPBTqX-ZaKbA)
+
+[补充题20. 立方根]()
 
 [补充题11. 翻转URL字符串里的单词]()
 
@@ -39,11 +45,13 @@
 
 [补充题18. 反转双向链表]()
 
-[补充题20. 立方根]()
+
 
 [字节跳动某面试官的压箱题——灯泡开关](https://mp.weixin.qq.com/s/GPQ3EqmBLU_kCeKn1Ggyvg)
 
 [319. 灯泡开关](https://leetcode-cn.com/problems/bulb-switcher/)
+
+
 
 ------
 

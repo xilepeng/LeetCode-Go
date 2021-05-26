@@ -118,11 +118,133 @@ func max(x, y int) int {
 
 [349. 两个数组的交集](https://leetcode-cn.com/problems/intersection-of-two-arrays/)
 
-
+```go
+func intersection(nums1 []int, nums2 []int) []int {
+	m := map[int]bool{}
+	res := []int{}
+	for _, num1 := range nums1 {
+		m[num1] = true
+	}
+	for _, num2 := range nums2 {
+		if m[num2] {
+			m[num2] = false
+			res = append(res, num2)
+		}
+	}
+	return res
+}
+```
 
 [230. 二叉搜索树中第K小的元素](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
 
+## 方法一：迭代
+
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+
+func kthSmallest(root *TreeNode, k int) int {
+	stack := []*TreeNode{}
+	for root != nil || len(stack) > 0 {
+		if root != nil {
+			stack = append(stack, root)
+			root = root.Left
+		} else {
+			node := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			k--
+			if k == 0 {
+				return node.Val
+			}
+			root = node.Right
+		}
+	}
+	return 0
+}
+```
+复杂度分析
+
+- 时间复杂度：O(H+k)，其中 H 指的是树的高度，由于我们开始遍历之前，要先向下达到叶，当树是一个平衡树时：复杂度为 O(logN+k)。当树是一个不平衡树时：复杂度为 O(N+k)，此时所有的节点都在左子树。
+
+- 空间复杂度：O(H+k)。当树是一个平衡树时：O(logN+k)。当树是一个非平衡树时：O(N+k)
+
+
+
+### 方法二：递归
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func kthSmallest(root *TreeNode, k int) int {
+	res := 0
+	var inorder func(root *TreeNode)
+
+	inorder = func(root *TreeNode) {
+		if root != nil {
+			inorder(root.Left)
+			k--
+			if k == 0 {
+				res = root.Val
+				return
+			}
+			inorder(root.Right)
+		}
+	}
+	inorder(root)
+	return res
+}
+```
+
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func kthSmallest(root *TreeNode, k int) int {
+	sorted := []int{}
+	var inorder func(root *TreeNode)
+
+	inorder = func(root *TreeNode) {
+		if root != nil {
+			inorder(root.Left)
+			sorted = append(sorted, root.Val)
+			inorder(root.Right)
+		}
+	}
+	inorder(root)
+	return sorted[k-1]
+}
+```
+复杂度分析
+
+- 时间复杂度：O(N)，遍历了整个树。
+- 空间复杂度：O(N)，用了一个数组存储中序序列。
+
+
+
 [297. 二叉树的序列化与反序列化](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)
+
+```go
+
+```
 
 [221. 最大正方形](https://leetcode-cn.com/problems/maximal-square/)
 
@@ -153,3 +275,12 @@ func max(x, y int) int {
 [50. Pow(x, n)](https://leetcode-cn.com/problems/powx-n/)
 
 [补充题2. 圆环回原点问题](https://mp.weixin.qq.com/s/VnGFEWHeD3nh1n9JSDkVUg)
+
+
+
+
+
+
+
+
+

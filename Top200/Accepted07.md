@@ -243,7 +243,63 @@ func kthSmallest(root *TreeNode, k int) int {
 [297. 二叉树的序列化与反序列化](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)
 
 ```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
 
+type Codec struct {
+}
+
+func Constructor() Codec {
+	return Codec{}
+}
+
+// Serializes a tree to a single string.
+func (this *Codec) serialize(root *TreeNode) string {
+	if root == nil {
+		return "X,"
+	}
+	left := this.serialize(root.Left)
+	right := this.serialize(root.Right)
+
+	return strconv.Itoa(root.Val) + "," + left + right
+}
+
+// Deserializes your encoded data to tree.
+func (this *Codec) deserialize(data string) *TreeNode {
+	nodes := strings.Split(data, ",")
+	return this.buildTree(&nodes)
+}
+
+func (this *Codec) buildTree(nodes *[]string) *TreeNode {
+	nodeVal := "X"
+	if len(*nodes) > 0 {
+		nodeVal = (*nodes)[0]
+		*nodes = (*nodes)[1:]
+	}
+	if nodeVal == "X" {
+		return nil
+	} else {
+		val, _ := strconv.Atoi(nodeVal)
+		node := &TreeNode{Val: val}
+		node.Left = this.buildTree(nodes)
+		node.Right = this.buildTree(nodes)
+		return node
+	}
+}
+
+/**
+ * Your Codec object will be instantiated and called as such:
+ * ser := Constructor();
+ * deser := Constructor();
+ * data := ser.serialize(root);
+ * ans := deser.deserialize(data);
+ */
 ```
 
 [221. 最大正方形](https://leetcode-cn.com/problems/maximal-square/)

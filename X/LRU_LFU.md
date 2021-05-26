@@ -7,6 +7,92 @@
 ------
 
 
+
+### LRUCache
+
+```go
+type LRUCache struct {
+	cache          map[int]*DLinkedNode
+	head, tail     *DLinkedNode
+	size, capacity int
+}
+
+type DLinkedNode struct {
+	key, value int
+	prev, next *DLinkedNode
+}
+
+func initDLinkedNode(key, value int) *DLinkedNode {
+	return &DLinkedNode{
+		key:   key,
+		value: value,
+	}
+}
+
+func Constructor(capacity int) LRUCache {
+	l := LRUCache{
+		cache:    map[int]*DLinkedNode{},
+		head:     initDLinkedNode(0, 0),
+		tail:     initDLinkedNode(0, 0),
+		capacity: capacity,
+	}
+	l.head.next = l.tail
+	l.tail.prev = l.head
+	return l
+}
+
+func (this *LRUCache) Get(key int) int {
+	if _, ok := this.cache[key]; !ok {
+		return -1
+	}
+	node := this.cache[key] // 如果 key 存在，先通过哈希表定位，再移到头部
+	this.moveToHead(node)
+	return node.value
+}
+
+func (this *LRUCache) Put(key int, value int) {
+	if _, ok := this.cache[key]; !ok { // 如果 key 不存在，创建一个新的节点
+		node := initDLinkedNode(key, value)
+		this.cache[key] = node // 添加进哈希表
+		this.addToHead(node)   // 添加至双向链表的头部
+		this.size++
+		if this.size > this.capacity {
+			removed := this.removeTail()    // 如果超出容量，删除双向链表的尾部节点
+			delete(this.cache, removed.key) // 删除哈希表中对应的项
+			this.size--
+		}
+	} else { // 如果 key 存在，先通过哈希表定位，再修改 value，并移到头部
+		node := this.cache[key]
+		node.value = value
+		this.moveToHead(node)
+	}
+}
+
+func (this *LRUCache) addToHead(node *DLinkedNode) {
+	node.prev = this.head
+	node.next = this.head.next
+	this.head.next.prev = node
+	this.head.next = node
+}
+
+func (this *LRUCache) removeNode(node *DLinkedNode) {
+	node.prev.next = node.next
+	node.next.prev = node.prev
+}
+
+func (this *LRUCache) moveToHead(node *DLinkedNode) {
+	this.removeNode(node)
+	this.addToHead(node)
+}
+
+func (this *LRUCache) removeTail() *DLinkedNode {
+	node := this.tail.prev
+	this.removeNode(node)
+	return node
+}
+```
+
+
 [146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
 
 ![截屏2021-03-03 21.39.46.png](http://ww1.sinaimg.cn/large/007daNw2ly1go71rbbeg4j31qy0z8gui.jpg)

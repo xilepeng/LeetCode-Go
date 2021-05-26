@@ -1,10 +1,4 @@
 
-欢迎大家加入  go早起刷题打卡群 
-
-
-![群二维码地址](http://ww1.sinaimg.cn/large/007daNw2ly1gqvm542i7oj30fo0luwhf.jpg)
-
-![过期点我](http://ww1.sinaimg.cn/large/007daNw2ly1gqvm5w0rjvj30fo0lu41c.jpg)
 
 
 
@@ -267,3 +261,11 @@ func selection_sort(A []int, n int) {
 	}
 }
 ```
+
+
+欢迎大家加入  go早起刷题打卡群 
+
+
+![群二维码地址](http://ww1.sinaimg.cn/large/007daNw2ly1gqvm542i7oj30fo0luwhf.jpg)
+
+![过期点我](http://ww1.sinaimg.cn/large/007daNw2ly1gqvm5w0rjvj30fo0lu41c.jpg)

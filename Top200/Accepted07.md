@@ -336,6 +336,66 @@ func min(x, y int) int {
 
 [79. 单词搜索](https://leetcode-cn.com/problems/word-search/)
 
+```go
+func exist(board [][]byte, word string) bool {
+	var dfs func(int, int, int) bool
+
+	dfs = func(y, x, i int) bool {
+		if i == len(word) {
+			return true
+		}
+		if y < 0 || x < 0 || y == len(board) || x == len(board[y]) {
+			return false
+		}
+		if board[y][x] != word[i] {
+			return false
+		}
+		board[y][x] ^= 255
+		exist := dfs(y, x+1, i+1) || dfs(y, x-1, i+1) || dfs(y+1, x, i+1) || dfs(y-1, x, i+1)
+		board[y][x] ^= 255
+		return exist
+	}
+
+	for y := 0; y < len(board); y++ {
+		for x := 0; x < len(board[y]); x++ {
+			if dfs(y, x, 0) {
+				return true
+			}
+		}
+	}
+	return false
+}
+```
+
+```go
+func exist(board [][]byte, word string) bool {
+	for y := 0; y < len(board); y++ {
+		for x := 0; x < len(board[y]); x++ {
+			if dfs(board, y, x, word, 0) {
+				return true
+			}
+		}
+	}
+	return false
+}
+func dfs(board [][]byte, y int, x int, word string, i int) bool {
+	if i == len(word) {
+		return true
+	}
+	if y < 0 || x < 0 || y == len(board) || x == len(board[y]) {
+		return false
+	}
+	if board[y][x] != word[i] {
+		return false
+	}
+	board[y][x] ^= 255
+	exist := dfs(board, y, x+1, word, i+1) || dfs(board, y, x-1, word, i+1) ||
+		dfs(board, y+1, x, word, i+1) || dfs(board, y-1, x, word, i+1)
+	board[y][x] ^= 255
+	return exist
+}
+```
+
 [9. 回文数](https://leetcode-cn.com/problems/palindrome-number/)
 
 [剑指 Offer 10- II. 青蛙跳台阶问题](https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/)

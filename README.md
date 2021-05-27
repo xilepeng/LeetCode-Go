@@ -232,7 +232,33 @@ func climbStairs(n int) int {
 [26. 删除有序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
 
 ```go
+func removeDuplicates(A []int) int {
+	if len(A) == 0 {
+		return 0
+	}
+	slow := 1
+	for fast := 1; fast < len(A); fast++ {
+		if A[fast] != A[fast-1] {
+			A[slow] = A[fast]
+			slow++
+		}
+	}
+	return slow
+}
+```
 
+```go
+func removeDuplicates(A []int) int {
+	count, n := 0, len(A)
+	for i := 1; i < n; i++ {
+		if A[i] == A[i-1] {
+			count++
+		} else {
+			A[i-count] = A[i]
+		}
+	}
+	return n - count
+}
 ```
 
 [287. 寻找重复数](https://leetcode-cn.com/problems/find-the-duplicate-number/)
@@ -287,6 +313,27 @@ func findDuplicate(nums []int) int {
 	return res
 }
 ```
+
+```go
+func findDuplicate(nums []int) int {
+	low, high := 0, len(nums)-1
+	for low < high {
+		mid, count := low+(high-low)>>1, 0
+		for _, num := range nums {
+			if num <= mid {
+				count++
+			}
+		}
+		if count <= mid {
+			low = mid + 1
+		} else {
+			high = mid
+		}
+	}
+	return low
+}
+```
+
 复杂度分析
 
 - 时间复杂度：O(nlogn)，其中 n 为 nums 数组的长度。二分查找最多需要二分 O(logn) 次，每次判断的时候需要 O(n) 遍历 nums 数组求解小于等于 mid 的数的个数，因此总时间复杂度为 O(nlogn)。

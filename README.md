@@ -221,6 +221,8 @@ func climbStairs(n int) int {
 
 [剑指 Offer 62. 圆圈中最后剩下的数字](https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
 
+
+
 [剑指 Offer 27. 二叉树的镜像](https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/)
 
 [补充题23. 检测循环依赖](https://mp.weixin.qq.com/s/q6AhBt6MX2RL_HNZc8cYKQ)
@@ -229,7 +231,111 @@ func climbStairs(n int) int {
 
 [26. 删除有序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
 
+```go
+
+```
+
 [287. 寻找重复数](https://leetcode-cn.com/problems/find-the-duplicate-number/)
+
+### 方法一：快慢指针
+
+```go
+func findDuplicate(nums []int) int {
+	slow := nums[0]
+	fast := nums[nums[0]]
+	for slow != fast {
+		slow = nums[slow]
+		fast = nums[nums[fast]]
+	}
+	fast = 0
+	for fast != slow {
+		fast = nums[fast]
+		slow = nums[slow]
+	}
+	return slow
+}
+```
+复杂度分析
+
+- 时间复杂度：O(n)，其中 n 为 nums 数组的长度。
+
+- 空间复杂度：O(1)。
+
+
+
+### 方法二：二分查找
+
+```go
+func findDuplicate(nums []int) int {
+	res, n := -1, len(nums)
+	low, high := 0, n-1
+	for low <= high {
+		mid := low + (high-low)>>1
+		cnt := 0
+		for i := 0; i < n; i++ {
+			if nums[i] <= mid {
+				cnt++
+			}
+		}
+		if cnt <= mid {
+			low = mid + 1
+		} else {
+			high = mid - 1
+			res = mid
+		}
+	}
+	return res
+}
+```
+复杂度分析
+
+- 时间复杂度：O(nlogn)，其中 n 为 nums 数组的长度。二分查找最多需要二分 O(logn) 次，每次判断的时候需要 O(n) 遍历 nums 数组求解小于等于 mid 的数的个数，因此总时间复杂度为 O(nlogn)。
+
+- 空间复杂度：O(1)。我们只需要常数空间存放若干变量。
+
+
+### 方法三：排序
+
+```go
+func findDuplicate(nums []int) int {
+	sort.Ints(nums)
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == nums[i+1] {
+			return nums[i]
+		}
+	}
+	return -1
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(nlogn)，其中 n 为 nums 数组的长度。
+
+- 空间复杂度：O(1)。我们只需要常数空间存放若干变量。
+
+
+### 方法四：哈希
+
+```go
+func findDuplicate(nums []int) int {
+	hash := make(map[int]bool, len(nums))
+	for _, num := range nums {
+		if hash[num] {
+			return num
+		}
+		hash[num] = true
+	}
+	return -1
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n)，其中 n 为 nums 数组的长度。
+
+- 空间复杂度：O(n)。
+
 
 [11. 盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/)
 

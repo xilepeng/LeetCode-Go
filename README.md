@@ -340,6 +340,52 @@ func invertTree(root *TreeNode) *TreeNode {
 
 [补充题23. 检测循环依赖](https://mp.weixin.qq.com/s/q6AhBt6MX2RL_HNZc8cYKQ)
 
+
+```go
+
+```
+
+[207. 课程表](https://leetcode-cn.com/problems/course-schedule/)
+
+```go
+func canFinish(numCourses int, prerequisites [][]int) bool {
+	T := make([][]int, numCourses)       // 存储有向图
+	in_degree := make([]int, numCourses) // 存储每个节点的入度
+	res := make([]int, 0, numCourses)    // 存储答案
+
+	for _, v := range prerequisites {
+		T[v[1]] = append(T[v[1]], v[0])
+		in_degree[v[0]]++
+	}
+
+	q := []int{}
+	for i := 0; i < numCourses; i++ {
+		if in_degree[i] == 0 { // 将所有入度为 0 的节点放入队列中
+			q = append(q, i)
+		}
+	}
+
+	for len(q) > 0 {
+		u := q[0] // 从队首取出一个节点
+		q = q[1:]
+		res = append(res, u) // 放入答案中
+		for _, v := range T[u] {
+			in_degree[v]--
+			if in_degree[v] == 0 { // 如果相邻节点 v 的入度为 0
+				q = append(q, v) // 可以选 v 对应的课程了
+			}
+		}
+	}
+	return len(res) == numCourses
+}
+```
+
+[210. 课程表 II](https://leetcode-cn.com/problems/course-schedule-ii/)
+
+
+
+
+
 [739. 每日温度](https://leetcode-cn.com/problems/daily-temperatures/)
 
 [26. 删除有序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)

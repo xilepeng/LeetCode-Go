@@ -311,16 +311,16 @@ func invertTree(root *TreeNode) *TreeNode {
 	if root == nil {
 		return nil
 	}
-	stack := []*TreeNode{root}
-	for len(stack) != 0 {
-		node := stack[len(stack)-1]
-		stack = stack[:len(stack)-1]
+	queue := []*TreeNode{root}
+	for len(queue) != 0 {
+		node := queue[0]
+		queue = queue[1:]
 		node.Left, node.Right = node.Right, node.Left //交换左右子树
 		if node.Left != nil {
-			stack = append(stack, node.Left)
+			queue = append(queue, node.Left)
 		}
 		if node.Right != nil {
-			stack = append(stack, node.Right)
+			queue = append(queue, node.Right)
 		}
 	}
 	return root
@@ -428,7 +428,87 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
 
 [210. 课程表 II](https://leetcode-cn.com/problems/course-schedule-ii/)
 
+```go
+func findOrder(numCourses int, prerequisites [][]int) []int {
+	graph := make([][]int, numCourses)
+	in_degree := make([]int, numCourses)
+	res := []int{}
+	for _, pre := range prerequisites {
+		graph[pre[1]] = append(graph[pre[1]], pre[0]) // pre[0] <- pre[1]
+		in_degree[pre[0]]++
+	}
 
+	queue := []int{}
+	for i := 0; i < numCourses; i++ {
+		if in_degree[i] == 0 {
+			queue = append(queue, i)
+		}
+	}
+
+	for len(queue) != 0 {
+		u := queue[0]
+		queue = queue[1:]
+		res = append(res, u)
+		for _, v := range graph[u] {
+			in_degree[v]--
+			if in_degree[v] == 0 {
+				queue = append(queue, v)
+			}
+		}
+	}
+
+	if len(res) != numCourses {
+		return []int{}
+	}
+	return res
+}
+```
+
+```go
+func findOrder(numCourses int, prerequisites [][]int) []int {
+	graph := make([][]int, numCourses)
+	in_degree := make([]int, numCourses)
+	visited := make([]int, numCourses)
+	res := []int{}
+	var findCircle func(int) bool
+
+	findCircle = func(node int) bool {
+		if visited[node] == 1 {
+			return true
+		}
+		if visited[node] == 2 {
+			return false
+		}
+		visited[node] = 1
+		for _, next := range graph[node] {
+			if findCircle(next) {
+				return true
+			}
+		}
+		visited[node] = 2
+		res = append(res, node)
+		return false
+	}
+
+	for _, pre := range prerequisites {
+		graph[pre[1]] = append(graph[pre[1]], pre[0]) // pre[0] <- pre[1]
+		in_degree[pre[0]]++
+	}
+	for i := 0; i < numCourses; i++ {
+		if visited[i] == 0 {
+			if findCircle(i) {
+				return []int{}
+			}
+		}
+	}
+
+	for i := 0; i < numCourses/2; i++ {
+		res[i], res[numCourses-i-1] = res[numCourses-i-1], res[i] //反转
+	}
+
+	return res
+}
+```
 
 
 

@@ -347,38 +347,84 @@ func invertTree(root *TreeNode) *TreeNode {
 
 [207. 课程表](https://leetcode-cn.com/problems/course-schedule/)
 
+
+### 方法一: 广度优先搜索
+
 ```go
 func canFinish(numCourses int, prerequisites [][]int) bool {
 	T := make([][]int, numCourses)       // 存储有向图
 	in_degree := make([]int, numCourses) // 存储每个节点的入度
 	res := make([]int, 0, numCourses)    // 存储答案
 
-	for _, v := range prerequisites {
-		T[v[1]] = append(T[v[1]], v[0])
+	for _, v := range prerequisites { // 获取每门课程的入度和邻接
+		T[v[1]] = append(T[v[1]], v[0]) // v[1] -> v[0] 学 v[0] 前要学 v[1]
 		in_degree[v[0]]++
 	}
 
-	q := []int{}
+	q := []int{} // 将所有入度为 0 的节点放入队列中
 	for i := 0; i < numCourses; i++ {
-		if in_degree[i] == 0 { // 将所有入度为 0 的节点放入队列中
+		if in_degree[i] == 0 {
 			q = append(q, i)
 		}
 	}
 
-	for len(q) > 0 {
+	for len(q) > 0 { // BFS Topological Sort 拓扑排序
 		u := q[0] // 从队首取出一个节点
 		q = q[1:]
 		res = append(res, u) // 放入答案中
 		for _, v := range T[u] {
 			in_degree[v]--
-			if in_degree[v] == 0 { // 如果相邻节点 v 的入度为 0
-				q = append(q, v) // 可以选 v 对应的课程了
+			if in_degree[v] == 0 { // 如果相邻节点 v 的入度为 0，可以选 v 对应的课程了
+				q = append(q, v)
 			}
 		}
 	}
 	return len(res) == numCourses
 }
 ```
+
+### 方法二：深度优先搜索
+
+```go
+func canFinish(numCourses int, prerequisites [][]int) bool {
+	T := make([][]int, numCourses)       // 存储有向图
+	in_degree := make([]int, numCourses) // 存储每个节点的入度
+	visited := make([]int, numCourses)
+	var findCircle func(int) bool
+
+	findCircle = func(node int) bool { // DFS Topological Sort 拓扑排序
+		if visited[node] == 1 {
+			return true //有环
+		}
+		if visited[node] == 2 {
+			return false
+		}
+		visited[node] = 1
+		for _, next := range T[node] {
+			if findCircle(next) {
+				return true
+			}
+		}
+		visited[node] = 2 //已访问
+		return false
+	}
+
+	for _, v := range prerequisites { // 获取每门课程的入度和邻接
+		T[v[1]] = append(T[v[1]], v[0]) // v[1] -> v[0] 学 v[0] 前要学 v[1]
+		in_degree[v[0]]++
+	}
+	for i := 0; i < numCourses; i++ {
+		if findCircle(i) {
+			return false
+		}
+	}
+	return true
+}
+```
+
+
+
+
 
 [210. 课程表 II](https://leetcode-cn.com/problems/course-schedule-ii/)
 

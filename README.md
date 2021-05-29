@@ -393,8 +393,9 @@ func findOrder(n int, prerequisites [][]int) []int {
 
 	if len(res) != n { //有循环依赖
 		return []int{}
-	}
+	} 
 	return res
+
 }
 ```
 
@@ -434,7 +435,7 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
 			}
 		}
 	}
-	return len(res) == numCourses
+	return len(res) == numCourses // 无环
 }
 ```
 
@@ -512,10 +513,11 @@ func findOrder(numCourses int, prerequisites [][]int) []int {
 		}
 	}
 
-	if len(res) != numCourses {
-		return []int{}
+	if len(res) == numCourses {// 无环
+		return res
+	} else {
+		return []int{} //有环
 	}
-	return res
 }
 ```
 
@@ -729,6 +731,10 @@ func findDuplicate(nums []int) int {
 [560. 和为K的子数组](https://leetcode-cn.com/problems/subarray-sum-equals-k/)
 
 [443. 压缩字符串](https://leetcode-cn.com/problems/string-compression/)
+
+
+
+
 
 [50. Pow(x, n)](https://leetcode-cn.com/problems/powx-n/)
 

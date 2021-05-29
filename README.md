@@ -341,9 +341,64 @@ func invertTree(root *TreeNode) *TreeNode {
 [补充题23. 检测循环依赖](https://mp.weixin.qq.com/s/q6AhBt6MX2RL_HNZc8cYKQ)
 
 
-```go
+### 拓扑排序算法过程：
 
+1. 选择图中一个入度为0的点，记录下来
+2. 在图中删除该点和所有以它为起点的边
+3. 重复1和2，直到图为空或没有入度为0的点。
+
+
+```go
+/*
+ * @lc app=leetcode.cn id=210 lang=golang
+ *
+ * [补充题]：检测循环依赖
+ */
+
+// @lc code=start
+
+func findOrder(n int, prerequisites [][]int) []int {
+	g := make([][]int, n)       //邻接表存储图结构
+	in_degree := make([]int, n) //每个点的入度
+	res := []int{}
+	// 获取每个点的入度和邻接
+	for _, pre := range prerequisites {
+		g[pre[0]] = append(g[pre[0]], pre[1]) // pre[0] -> pre[1]
+		in_degree[pre[1]]++
+	}
+
+	// for _, pre := range prerequisites {
+	// 	g[pre[1]] = append(g[pre[1]], pre[0]) // pre[0] <- pre[1]
+	// 	in_degree[pre[0]]++
+	// }
+
+	q := []int{}
+	for i := 0; i < n; i++ {
+		if in_degree[i] == 0 { // 将所有入度为 0 的节点放入队列中
+			q = append(q, i)
+		}
+	}
+
+	for len(q) != 0 {
+		u := q[0]
+		q = q[1:]
+		res = append(res, u)
+		for _, v := range g[u] {
+			in_degree[v]-- //在图中删除该点和所有以它为起点的边
+			if in_degree[v] == 0 {
+				q = append(q, v)
+			}
+		}
+	}
+
+	if len(res) != n { //有循环依赖
+		return []int{}
+	}
+	return res
+}
 ```
+
+
 
 [207. 课程表](https://leetcode-cn.com/problems/course-schedule/)
 

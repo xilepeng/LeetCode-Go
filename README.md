@@ -581,6 +581,24 @@ func findOrder(numCourses int, prerequisites [][]int) []int {
 
 [739. 每日温度](https://leetcode-cn.com/problems/daily-temperatures/)
 
+```go
+func dailyTemperatures(T []int) []int {
+	n := len(T)
+	res := make([]int, n)
+	stack := []int{}
+	for i := 0; i < n; i++ {
+		t := T[i]
+		for len(stack) > 0 && T[stack[len(stack)-1]] < t {
+			prev_index := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			res[prev_index] = i - prev_index
+		}
+		stack = append(stack, i)
+	}
+	return res
+}
+```
+
 [26. 删除有序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
 
 ```go

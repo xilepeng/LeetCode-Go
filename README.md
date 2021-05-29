@@ -732,6 +732,82 @@ func findDuplicate(nums []int) int {
 
 [50. Pow(x, n)](https://leetcode-cn.com/problems/powx-n/)
 
+
+
+```go
+func myPow(x float64, n int) float64 {
+	if n >= 0 {
+		return quickMul(x, n)
+	}
+	return 1.0 / quickMul(x, -n)
+}
+func quickMul(x float64, n int) float64 {
+	res := 1.0
+	for n > 0 {
+		if n%2 == 1 {
+			res *= x
+		}
+		x *= x
+		n /= 2
+	}
+	return res
+}
+```
+
+```go
+func myPow(x float64, n int) float64 {
+	if x == 0.0 {
+		return 0.0
+	}
+	res := 1.0
+	if n < 0 {
+		x, n = 1/x, -n
+	}
+	for n != 0 {
+		if n&1 == 1 { // 奇数: n%2 == 1 判断 n 二进制最右一位是否为 1
+			res *= x
+		}
+		x *= x
+		n >>= 1 // n = n/2
+	}
+	return res
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(logn)，即为对 n 进行二进制拆分的时间复杂度。
+
+- 空间复杂度：O(1)。
+
+
+```go
+func myPow(x float64, n int) float64 {
+	if n >= 0 {
+		return quickMul(x, n)
+	}
+	return 1.0 / quickMul(x, -n)
+}
+func quickMul(x float64, n int) float64 {
+	if n == 0 {
+		return 1.0
+	}
+	y := quickMul(x, n/2)
+	if n%2 == 1 {
+		return x * y * y
+	}
+	return y * y
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(logn)，即为递归的层数。
+
+- 空间复杂度：O(logn)，即为递归的层数。这是由于递归的函数调用会使用栈空间。
+
+
+
 [补充题2. 圆环回原点问题](https://mp.weixin.qq.com/s/VnGFEWHeD3nh1n9JSDkVUg)
 
 
@@ -741,3 +817,6 @@ func findDuplicate(nums []int) int {
 
 
 ![过期点我](http://ww1.sinaimg.cn/large/007daNw2ly1gqvm5w0rjvj30fo0lu41c.jpg)
+
+
+

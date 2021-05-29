@@ -756,12 +756,46 @@ func findDuplicate(nums []int) int {
 
 [11. 盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/)
 
+```go
+func maxArea(height []int) int {
+	max_area := 0
+	l, r := 0, len(height)-1
+	for l < r {
+		max_area = max(max_area, min(height[l], height[r])*(r-l))
+		if height[l] < height[r] { //移动较小指针
+			l++
+		} else {
+			r--
+		}
+	}
+	return max_area
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+```
+
 [560. 和为K的子数组](https://leetcode-cn.com/problems/subarray-sum-equals-k/)
+
+```go
+
+```
 
 [443. 压缩字符串](https://leetcode-cn.com/problems/string-compression/)
 
 
+```go
 
+```
 
 
 [50. Pow(x, n)](https://leetcode-cn.com/problems/powx-n/)

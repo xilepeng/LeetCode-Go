@@ -222,6 +222,16 @@ func climbStairs(n int) int {
 [剑指 Offer 62. 圆圈中最后剩下的数字](https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
 
 
+```go
+func lastRemaining(n int, m int) int {
+    f := 0
+    for i := 2; i <= n; i++ {
+        f = (f+m)%i
+    }
+    return f
+}
+```
+
 
 [剑指 Offer 27. 二叉树的镜像](https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/)
 
@@ -819,7 +829,13 @@ func quickMul(x float64, n int) float64 {
 
 
 
-![群二维码地址](http://ww1.sinaimg.cn/large/007daNw2ly1gqvw912ofij60fo0ludit02.jpg)
+
+
+
+
+
+![每天刷10题！欢迎来挑战](http://ww1.sinaimg.cn/large/007daNw2ly1gqyz24t43tj30fo0luq4n.jpg)
+
 
 
 ![过期点我](http://ww1.sinaimg.cn/large/007daNw2ly1gqvm5w0rjvj30fo0lu41c.jpg)

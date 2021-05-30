@@ -786,8 +786,21 @@ func min(x, y int) int {
 
 [560. 和为K的子数组](https://leetcode-cn.com/problems/subarray-sum-equals-k/)
 
-```go
+![截屏2021-05-30 15.45.51.png](http://ww1.sinaimg.cn/large/007daNw2ly1gr0i1voj83j31fm0oggqk.jpg)
 
+```go
+func subarraySum(nums []int, k int) int {
+	pre, count := 0, 0
+	m := map[int]int{0: 1}
+	for i := 0; i < len(nums); i++ {
+		pre += nums[i]
+		if _, ok := m[pre-k]; ok {
+			count += m[pre-k]
+		}
+		m[pre]++
+	}
+	return count
+}
 ```
 
 ```go

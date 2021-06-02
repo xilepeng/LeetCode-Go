@@ -1,941 +1,264 @@
 
 
-[79. 单词搜索](https://leetcode-cn.com/problems/word-search/)
-
-[9. 回文数](https://leetcode-cn.com/problems/palindrome-number/)
-
-[剑指 Offer 10- II. 青蛙跳台阶问题](https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/)
-
-[剑指 Offer 62. 圆圈中最后剩下的数字](https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
-
-[剑指 Offer 27. 二叉树的镜像](https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/)
-
-[补充题23. 检测循环依赖](https://mp.weixin.qq.com/s/q6AhBt6MX2RL_HNZc8cYKQ)
-
-[739. 每日温度](https://leetcode-cn.com/problems/daily-temperatures/)
-
-[26. 删除有序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
-
-[287. 寻找重复数](https://leetcode-cn.com/problems/find-the-duplicate-number/)
-
-[11. 盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/)
-
-[560. 和为K的子数组](https://leetcode-cn.com/problems/subarray-sum-equals-k/)
-
-[443. 压缩字符串](https://leetcode-cn.com/problems/string-compression/)
-
-[50. Pow(x, n)](https://leetcode-cn.com/problems/powx-n/)
-
-[补充题2. 圆环回原点问题](https://mp.weixin.qq.com/s/VnGFEWHeD3nh1n9JSDkVUg)
 
 
+## Sorting
 
-------
+### 1. [Quick Sort](https://www.hackerearth.com/practice/algorithms/sorting/quick-sort/tutorial/)
 
-[79. 单词搜索](https://leetcode-cn.com/problems/word-search/)
+
+快速排序基于分而治之的方法，随机选择枢轴元素划分数组，左边小于枢轴、右边大于枢轴，递归处理左右两边
 
 ```go
-func exist(board [][]byte, word string) bool {
-	var dfs func(int, int, int) bool
-
-	dfs = func(y, x, i int) bool {
-		if i == len(word) {
-			return true
-		}
-		if y < 0 || x < 0 || y == len(board) || x == len(board[y]) {
-			return false
-		}
-		if board[y][x] != word[i] {
-			return false
-		}
-		board[y][x] ^= 255
-		exist := dfs(y, x+1, i+1) || dfs(y, x-1, i+1) || dfs(y+1, x, i+1) || dfs(y-1, x, i+1)
-		board[y][x] ^= 255
-		return exist
+func quick_sort(A []int, start, end int) {
+	if start < end {
+		piv_pos := random_partition(A, start, end)
+		quick_sort(A, start, piv_pos-1)
+		quick_sort(A, piv_pos+1, end)
 	}
-
-	for y := 0; y < len(board); y++ {
-		for x := 0; x < len(board[y]); x++ {
-			if dfs(y, x, 0) {
-				return true
-			}
+}
+func partition(A []int, start, end int) int {
+	piv, i := A[start], start+1//第一个元素作为枢轴
+	for j := start + 1; j <= end; j++ {
+		if A[j] < piv {//小于枢轴的放一边、大于枢轴的放另一边
+			A[i], A[j] = A[j], A[i]
+			i++
 		}
 	}
-	return false
+	A[start], A[i-1] = A[i-1], A[start] //放置枢轴到正确的位置
+	return i - 1 						//返回枢轴的位置
 }
-```
-
-```go
-func exist(board [][]byte, word string) bool {
-	for y := 0; y < len(board); y++ {
-		for x := 0; x < len(board[y]); x++ {
-			if dfs(board, y, x, word, 0) {
-				return true
-			}
-		}
-	}
-	return false
-}
-func dfs(board [][]byte, y int, x int, word string, i int) bool {
-	if i == len(word) {
-		return true
-	}
-	if y < 0 || x < 0 || y == len(board) || x == len(board[y]) {
-		return false
-	}
-	if board[y][x] != word[i] {
-		return false
-	}
-	board[y][x] ^= 255
-	exist := dfs(board, y, x+1, word, i+1) || dfs(board, y, x-1, word, i+1) ||
-		dfs(board, y+1, x, word, i+1) || dfs(board, y-1, x, word, i+1)
-	board[y][x] ^= 255
-	return exist
-}
-```
-
-[9. 回文数](https://leetcode-cn.com/problems/palindrome-number/)
-
-
-
-```go
-func isPalindrome(x int) bool {
-	if x < 0 || (x%10 == 0 && x != 0) { //第1位不是0，最后一位是0
-		return false
-	}
-	rev := 0
-	for x > rev {
-		rev = rev*10 + x%10
-		x /= 10
-	}
-	return x == rev || x == rev/10 //奇数去除处于中位的数字
-}
-
-```
-
-复杂度分析
-
-时间复杂度：O(logn)，对于每次迭代，我们会将输入除以 10，因此时间复杂度为 O(logn)。
-空间复杂度：O(1)。我们只需要常数空间存放若干变量。
-
-
-
-```go
-func isPalindrome(x int) bool {
-	if x < 0 {
-		return false
-	}
-	s := strconv.Itoa(x)
-	left, right := 0, len(s)-1
-	for left < right {
-		if s[left] != s[right] {
-			return false
-		}
-		left++
-		right--
-	}
-	return true
-}
-```
-
-
-[剑指 Offer 10- II. 青蛙跳台阶问题](https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/)
-
-```go
-func numWays(n int) int {
-    prev, curr := 1, 1
-    for i := 2; i <= n; i++ {
-        next := (prev+curr)%1000000007
-        prev = curr
-        curr = next
-    }
-    return curr
-}
-```
-
-
-```go
-func numWays(n int) int {
-	a, b := 1, 1
-	for i := 0; i < n; i++ {
-		a, b = b, (a+b)%1000000007
-	}
-	return a
-}
-```
-
-[剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
-
-```go
-func fib(n int) int {
-    if n == 0 || n == 1 {
-        return n 
-    }
-    prev, curr := 0, 1
-    for i := 2; i <= n; i++ {
-        next := (prev + curr)%1000000007
-        prev = curr
-        curr = next
-    }
-    return curr
-}
-```
-
-```go
-func fib(n int) int {
-    a, b := 0, 1
-    for i := 0; i < n; i++ {
-        a, b = b, (a+b)%1000000007
-    }
-    return a
+func random_partition(A []int, start, end int) int {
+	rand.Seed(time.Now().Unix())
+	random := start + rand.Int()%(end-start+1)
+	A[start], A[random] = A[random], A[start]
+	return partition(A, start, end)
 }
 ```
 
 
 
 
-[70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+### 2. [Heap Sort](https://www.hackerearth.com/practice/algorithms/sorting/heap-sort/tutorial/)
+
+在大根堆中、最大元素总在根上，堆排序使用堆的这个属性进行排序
 
 ```go
-func climbStairs(n int) int {
-	prev, curr := 1, 1
-	for i := 2; i <= n; i++ {
-		next := prev + curr
-		prev = curr
-		curr = next
+func heap_sort(A []int) {
+	heap_size := len(A)
+	build_maxheap(A, heap_size)
+	for i := heap_size - 1; i >= 0; i-- {
+		A[0], A[i] = A[i], A[0]      //交换堆顶与堆底元素，最大值放置在数组末尾
+		heap_size--                  //剩余待排序元素整理成堆
+		max_heapify(A, 0, heap_size) //堆顶 root 向下调整
 	}
-	return curr
 }
-```
-
-```go
-func climbStairs(n int) int {
-	a, b := 1, 1
-	for i := 0; i < n; i++ {
-		a, b = b, a+b
+func build_maxheap(A []int, heap_size int) {
+	for i := heap_size >> 1; i >= 0; i-- { // heap_size / 2 后面都是叶子节点，不需要向下调整
+		max_heapify(A, i, heap_size)
 	}
-	return a
 }
-```
-
-
-[剑指 Offer 62. 圆圈中最后剩下的数字](https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
-
-
-```go
-func lastRemaining(n int, m int) int {
-    f := 0
-    for i := 2; i <= n; i++ {
-        f = (f+m)%i
-    }
-    return f
-}
-```
-
-
-[剑指 Offer 27. 二叉树的镜像](https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/)
-
-
-[226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
-
-### 方法一：dfs 递归
-它的左右子树要交换，并且左右子树内部的所有子树，都要进行左右子树的交换。
-
-![undefined](http://ww1.sinaimg.cn/large/007daNw2ly1gqxsqrjnjmj61er0fw0w102.jpg)
-
-每个子树的根节点都说：先交换我的左右子树吧。那么递归就会先压栈压到底。然后才做交换。
-即，位于底部的、左右孩子都是 null 的子树，先被翻转。
-随着递归向上返回，子树一个个被翻转……整棵树翻转好了。
-问题是在递归出栈时解决的。
-
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func invertTree(root *TreeNode) *TreeNode {
-	if root == nil {
-		return nil
+func max_heapify(A []int, i, heap_size int) {
+	lson, rson, largest := i<<1+1, i<<1+2, i
+	for lson < heap_size && A[largest] < A[lson] { //左儿子存在并大于根
+		largest = lson
 	}
-	invertTree(root.Left)                         //递归左子树 (压栈压到底部)
-	invertTree(root.Right)                        //递归右子树
-	root.Left, root.Right = root.Right, root.Left //自底向上交换左右子树
-	return root
-}
-```
-
-### 方法一：dfs 递归
-
-![undefined](http://ww1.sinaimg.cn/large/007daNw2ly1gqxszzqq13j31fu0gh77e.jpg)
-
-思路变了：先 “做事”——先交换左右子树，它们内部的子树还没翻转——丢给递归去做。
-把交换的操作，放在递归子树之前。
-问题是在递归压栈前被解决的。
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func invertTree(root *TreeNode) *TreeNode {
-	if root == nil {
-		return nil
+	for rson < heap_size && A[largest] < A[rson] { //右儿子存在并大于根
+		largest = rson
 	}
-	root.Left, root.Right = root.Right, root.Left //交换左右子树
-	invertTree(root.Left)                         //递归左子树 (压栈压到底部)
-	invertTree(root.Right)                        //递归右子树
-	return root
-}
-```
-
-
-### 方法二: BFS 
-用层序遍历的方式去遍历二叉树。
-
-根节点先入列，然后出列，出列就 “做事”，交换它的左右子节点（左右子树）。
-并让左右子节点入列，往后，这些子节点出列，也被翻转。
-直到队列为空，就遍历完所有的节点，翻转了所有子树。
-
-解决问题的代码放在节点出列时。
-
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func invertTree(root *TreeNode) *TreeNode {
-	if root == nil {
-		return nil
+	if i != largest { //找到左右儿子的最大值
+		A[i], A[largest] = A[largest], A[i] //堆顶调整为最大值
+		max_heapify(A, largest, heap_size)  //递归调整子树
 	}
-	queue := []*TreeNode{root}
-	for len(queue) != 0 {
-		node := queue[0]
-		queue = queue[1:]
-		node.Left, node.Right = node.Right, node.Left //交换左右子树
-		if node.Left != nil {
-			queue = append(queue, node.Left)
-		}
-		if node.Right != nil {
-			queue = append(queue, node.Right)
-		}
-	}
-	return root
 }
 ```
 
 
 
+### 3. [Merge Sort](https://www.hackerearth.com/practice/algorithms/sorting/merge-sort/tutorial/)
 
-
-
-
-
-
-
-
-
-[补充题23. 检测循环依赖](https://mp.weixin.qq.com/s/q6AhBt6MX2RL_HNZc8cYKQ)
-
-
-### 拓扑排序算法过程：
-
-1. 选择图中一个入度为0的点，记录下来
-2. 在图中删除该点和所有以它为起点的边
-3. 重复1和2，直到图为空或没有入度为0的点。
-
+归并排序是一种分而治之的算法，其思想是将一个列表分解为几个子列表，直到每个子列表由一个元素组成，然后将这些子列表合并为排序后的列表。
 
 ```go
-/*
- * @lc app=leetcode.cn id=210 lang=golang
- *
- * [补充题]：检测循环依赖
- */
-
-// @lc code=start
-
-func findOrder(n int, prerequisites [][]int) []int {
-	g := make([][]int, n)       //邻接表存储图结构
-	in_degree := make([]int, n) //每个点的入度
-	res := []int{}
-	// 获取每个点的入度和邻接
-	for _, pre := range prerequisites {
-		g[pre[0]] = append(g[pre[0]], pre[1]) // pre[0] -> pre[1]
-		in_degree[pre[1]]++
-	}
-
-	// for _, pre := range prerequisites {
-	// 	g[pre[1]] = append(g[pre[1]], pre[0]) // pre[0] <- pre[1]
-	// 	in_degree[pre[0]]++
-	// }
-
-	q := []int{}
-	for i := 0; i < n; i++ {
-		if in_degree[i] == 0 { // 将所有入度为 0 的节点放入队列中
-			q = append(q, i)
-		}
-	}
-
-	for len(q) != 0 {
-		u := q[0]
-		q = q[1:]
-		res = append(res, u)
-		for _, v := range g[u] {
-			in_degree[v]-- //在图中删除该点和所有以它为起点的边
-			if in_degree[v] == 0 {
-				q = append(q, v)
-			}
-		}
-	}
-
-	if len(res) != n { //有循环依赖
-		return []int{}
-	} 
-	return res
-
-}
-```
-
-
-
-[207. 课程表](https://leetcode-cn.com/problems/course-schedule/)
-
-
-### 方法一: 广度优先搜索
-
-```go
-func canFinish(numCourses int, prerequisites [][]int) bool {
-	T := make([][]int, numCourses)       // 存储有向图
-	in_degree := make([]int, numCourses) // 存储每个节点的入度
-	res := make([]int, 0, numCourses)    // 存储答案
-
-	for _, v := range prerequisites { // 获取每门课程的入度和邻接
-		T[v[1]] = append(T[v[1]], v[0]) // v[1] -> v[0] 学 v[0] 前要学 v[1]
-		in_degree[v[0]]++
-	}
-
-	q := []int{} // 将所有入度为 0 的节点放入队列中
-	for i := 0; i < numCourses; i++ {
-		if in_degree[i] == 0 {
-			q = append(q, i)
-		}
-	}
-
-	for len(q) > 0 { // BFS Topological Sort 拓扑排序
-		u := q[0] // 从队首取出一个节点
-		q = q[1:]
-		res = append(res, u) // 放入答案中
-		for _, v := range T[u] {
-			in_degree[v]--
-			if in_degree[v] == 0 { // 如果相邻节点 v 的入度为 0，可以选 v 对应的课程了
-				q = append(q, v)
-			}
-		}
-	}
-	return len(res) == numCourses // 无环
-}
-```
-
-### 方法二：深度优先搜索
-
-```go
-func canFinish(numCourses int, prerequisites [][]int) bool {
-	T := make([][]int, numCourses)       // 存储有向图
-	in_degree := make([]int, numCourses) // 存储每个节点的入度
-	visited := make([]int, numCourses)
-	var findCircle func(int) bool
-
-	findCircle = func(node int) bool { // DFS Topological Sort 拓扑排序
-		if visited[node] == 1 {
-			return true //有环
-		}
-		if visited[node] == 2 {
-			return false
-		}
-		visited[node] = 1
-		for _, next := range T[node] {
-			if findCircle(next) {
-				return true
-			}
-		}
-		visited[node] = 2 //已访问
-		return false
-	}
-
-	for _, v := range prerequisites { // 获取每门课程的入度和邻接
-		T[v[1]] = append(T[v[1]], v[0]) // v[1] -> v[0] 学 v[0] 前要学 v[1]
-		in_degree[v[0]]++
-	}
-	for i := 0; i < numCourses; i++ {
-		if findCircle(i) {
-			return false
-		}
-	}
-	return true
-}
-```
-
-
-
-
-
-[210. 课程表 II](https://leetcode-cn.com/problems/course-schedule-ii/)
-
-```go
-func findOrder(numCourses int, prerequisites [][]int) []int {
-	graph := make([][]int, numCourses)
-	in_degree := make([]int, numCourses)
-	res := []int{}
-	for _, pre := range prerequisites {
-		graph[pre[1]] = append(graph[pre[1]], pre[0]) // pre[0] <- pre[1]
-		in_degree[pre[0]]++
-	}
-
-	queue := []int{}
-	for i := 0; i < numCourses; i++ {
-		if in_degree[i] == 0 {
-			queue = append(queue, i)
-		}
-	}
-
-	for len(queue) != 0 {
-		u := queue[0]
-		queue = queue[1:]
-		res = append(res, u)
-		for _, v := range graph[u] {
-			in_degree[v]--
-			if in_degree[v] == 0 {
-				queue = append(queue, v)
-			}
-		}
-	}
-
-	if len(res) == numCourses {// 无环
-		return res
-	} else {
-		return []int{} //有环
+func merge_sort(A []int, start, end int) {
+	if start < end {
+		mid := start + (end-start)>>1 //分2部分定义当前数组
+		merge_sort(A, start, mid)     //排序数组的第1部分
+		merge_sort(A, mid+1, end)     //排序数组的第2部分
+		merge(A, start, mid, end)     //通过比较2个部分的元素来合并2个部分
 	}
 }
-```
-
-```go
-func findOrder(numCourses int, prerequisites [][]int) []int {
-	graph := make([][]int, numCourses)
-	in_degree := make([]int, numCourses)
-	visited := make([]int, numCourses)
-	res := []int{}
-	var findCircle func(int) bool
-
-	findCircle = func(node int) bool {
-		if visited[node] == 1 {
-			return true
-		}
-		if visited[node] == 2 {
-			return false
-		}
-		visited[node] = 1
-		for _, next := range graph[node] {
-			if findCircle(next) {
-				return true
-			}
-		}
-		visited[node] = 2
-		res = append(res, node)
-		return false
-	}
-
-	for _, pre := range prerequisites {
-		graph[pre[1]] = append(graph[pre[1]], pre[0]) // pre[0] <- pre[1]
-		in_degree[pre[0]]++
-	}
-	for i := 0; i < numCourses; i++ {
-		if visited[i] == 0 {
-			if findCircle(i) {
-				return []int{}
-			}
-		}
-	}
-
-	for i := 0; i < numCourses/2; i++ {
-		res[i], res[numCourses-i-1] = res[numCourses-i-1], res[i] //反转
-	}
-
-	return res
-}
-```
-
-
-
-[739. 每日温度](https://leetcode-cn.com/problems/daily-temperatures/)
-
-```go
-func dailyTemperatures(T []int) []int {
-	n := len(T)
-	res := make([]int, n)
-	stack := []int{}
-	for i := 0; i < n; i++ {
-		t := T[i]
-		for len(stack) > 0 && T[stack[len(stack)-1]] < t {
-			prev_index := stack[len(stack)-1]
-			stack = stack[:len(stack)-1]
-			res[prev_index] = i - prev_index
-		}
-		stack = append(stack, i)
-	}
-	return res
-}
-```
-
-[26. 删除有序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
-
-```go
-func removeDuplicates(A []int) int {
-	if len(A) == 0 {
-		return 0
-	}
-	slow := 1
-	for fast := 1; fast < len(A); fast++ {
-		if A[fast] != A[fast-1] {
-			A[slow] = A[fast]
-			slow++
-		}
-	}
-	return slow
-}
-```
-
-```go
-func removeDuplicates(A []int) int {
-	count, n := 0, len(A)
-	for i := 1; i < n; i++ {
-		if A[i] == A[i-1] {
-			count++
+func merge(A []int, start, mid, end int) {
+	Arr := make([]int, end-start+1)
+	p, q, k := start, mid+1, 0
+	for i := start; i <= end; i++ {
+		if p > mid { //检查第一部分是否到达末尾
+			Arr[k] = A[q]
+			q++
+		} else if q > end { //检查第二部分是否到达末尾
+			Arr[k] = A[p]
+			p++
+		} else if A[p] <= A[q] { //检查哪一部分有更小的元素
+			Arr[k] = A[p]
+			p++
 		} else {
-			A[i-count] = A[i]
+			Arr[k] = A[q]
+			q++
 		}
+		k++
 	}
-	return n - count
-}
-```
-
-[287. 寻找重复数](https://leetcode-cn.com/problems/find-the-duplicate-number/)
-
-### 方法一：快慢指针
-
-```go
-func findDuplicate(nums []int) int {
-	slow := nums[0]
-	fast := nums[nums[0]]
-	for slow != fast {
-		slow = nums[slow]
-		fast = nums[nums[fast]]
+	// copy(A[start:end+1], Arr)
+	for p := 0; p < k; p++ {
+		A[start] = Arr[p]
+		start++
 	}
-	fast = 0
-	for fast != slow {
-		fast = nums[fast]
-		slow = nums[slow]
-	}
-	return slow
-}
-```
-复杂度分析
-
-- 时间复杂度：O(n)，其中 n 为 nums 数组的长度。
-
-- 空间复杂度：O(1)。
-
-
-
-### 方法二：二分查找
-
-```go
-func findDuplicate(nums []int) int {
-	res, n := -1, len(nums)
-	low, high := 0, n-1
-	for low <= high {
-		mid := low + (high-low)>>1
-		cnt := 0
-		for i := 0; i < n; i++ {
-			if nums[i] <= mid {
-				cnt++
-			}
-		}
-		if cnt <= mid {
-			low = mid + 1
-		} else {
-			high = mid - 1
-			res = mid
-		}
-	}
-	return res
-}
-```
-
-```go
-func findDuplicate(nums []int) int {
-	low, high := 0, len(nums)-1
-	for low < high {
-		mid, count := low+(high-low)>>1, 0
-		for _, num := range nums {
-			if num <= mid {
-				count++
-			}
-		}
-		if count <= mid {
-			low = mid + 1
-		} else {
-			high = mid
-		}
-	}
-	return low
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(nlogn)，其中 n 为 nums 数组的长度。二分查找最多需要二分 O(logn) 次，每次判断的时候需要 O(n) 遍历 nums 数组求解小于等于 mid 的数的个数，因此总时间复杂度为 O(nlogn)。
-
-- 空间复杂度：O(1)。我们只需要常数空间存放若干变量。
-
-
-### 方法三：排序
-
-```go
-func findDuplicate(nums []int) int {
-	sort.Ints(nums)
-	for i := 0; i < len(nums); i++ {
-		if nums[i] == nums[i+1] {
-			return nums[i]
-		}
-	}
-	return -1
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(nlogn)，其中 n 为 nums 数组的长度。
-
-- 空间复杂度：O(1)。我们只需要常数空间存放若干变量。
-
-
-### 方法四：哈希
-
-```go
-func findDuplicate(nums []int) int {
-	hash := make(map[int]bool, len(nums))
-	for _, num := range nums {
-		if hash[num] {
-			return num
-		}
-		hash[num] = true
-	}
-	return -1
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(n)，其中 n 为 nums 数组的长度。
-
-- 空间复杂度：O(n)。
-
-
-[11. 盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/)
-
-```go
-func maxArea(height []int) int {
-	max_area := 0
-	l, r := 0, len(height)-1
-	for l < r {
-		max_area = max(max_area, min(height[l], height[r])*(r-l))
-		if height[l] < height[r] { //移动较小指针
-			l++
-		} else {
-			r--
-		}
-	}
-	return max_area
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-func min(x, y int) int {
-	if x < y {
-		return x
-	}
-	return y
-}
-```
-
-[560. 和为K的子数组](https://leetcode-cn.com/problems/subarray-sum-equals-k/)
-
-![截屏2021-05-30 15.45.51.png](http://ww1.sinaimg.cn/large/007daNw2ly1gr0i1voj83j31fm0oggqk.jpg)
-
-```go
-func subarraySum(nums []int, k int) int {
-	pre, count := 0, 0
-	m := map[int]int{0: 1}
-	for i := 0; i < len(nums); i++ {
-		pre += nums[i]
-		if _, ok := m[pre-k]; ok {
-			count += m[pre-k]
-		}
-		m[pre]++
-	}
-	return count
-}
-```
-
-```go
-func subarraySum(nums []int, k int) int {
-	preSum, count := 0, 0
-	hash := map[int]int{0: 1}
-	for i := 0; i < len(nums); i++ {
-		preSum += nums[i]
-		if hash[preSum-k] > 0 {
-			count += hash[preSum-k]
-		}
-		hash[preSum] += 1
-	}
-	return count
 }
 ```
 
 
+
+
+### 4. [Insertion Sort](https://www.hackerearth.com/practice/algorithms/sorting/insertion-sort/tutorial/#c252800)
+
+插入排序基于这样的想法：每次迭代都会消耗输入元素中的一个元素，以找到其正确位置，即该元素在排序数组中的位置。
+
+通过在每次迭代时增加排序后的数组来迭代输入元素。它将当前元素与已排序数组中的最大值进行比较。如果当前元素更大，则它将元素留在其位置，然后移至下一个元素，否则它将在已排序数组中找到其正确位置，并将其移至该位置。这是通过将已排序数组中所有大于当前元素的元素移动到前面的一个位置来完成的
+
 ```go
-func subarraySum(nums []int, k int) int {
-	count := 0
-	for i := 0; i < len(nums); i++ {
-		sum := 0
-		for j := i; j < len(nums); j++ {
-			sum += nums[j]
-			if sum == k {
-				count++
+func insertion_sort(A []int, n int) {
+	for i := 0; i < n; i++ {
+		temp, j := A[i], i
+		for j > 0 && temp < A[j-1] { //当前元素小于左边元素
+			A[j] = A[j-1] //向前移动左边元素->
+			j--
+		}
+		A[j] = temp //移动当前元素到正确的位置
+	}
+}
+```
+
+
+
+
+
+### 5. [Bubble Sort](https://www.hackerearth.com/practice/algorithms/sorting/bubble-sort/tutorial/)
+
+
+反复比较成对的相邻元素，交换它们的位置如果他们在无序区。（最大元素冒泡到最后）
+
+```go
+func bubble_sort(A []int, n int) {
+	for k := 0; k < n-1; k++ {  // (n-k-1) 是忽略比较的元素，这些元素已比较完成在简单的迭代中
+		for i := 0; i < n-k-1; i++ {
+			if A[i] > A[i+1] {
+				A[i], A[i+1] = A[i+1], A[i] //交换
 			}
 		}
 	}
-	return count
 }
 ```
 
-[443. 压缩字符串](https://leetcode-cn.com/problems/string-compression/)
 
+### 6. [Selection Sort](https://www.hackerearth.com/practice/algorithms/sorting/selection-sort/tutorial/)
 
-```go
-
-```
-
-
-[50. Pow(x, n)](https://leetcode-cn.com/problems/powx-n/)
-
-
+在未排序的数组中找到最小或最大元素，然后将其放在已排序的数组中的正确位置。
 
 ```go
-func myPow(x float64, n int) float64 {
-	if n >= 0 {
-		return quickMul(x, n)
-	}
-	return 1.0 / quickMul(x, -n)
-}
-func quickMul(x float64, n int) float64 {
-	res := 1.0
-	for n > 0 {
-		if n%2 == 1 {
-			res *= x
+func selection_sort(A []int, n int) {
+	for i := 0; i < n-1; i++ {		 //在每次迭代中将数组的有效大小减少1
+		min := i                     //假设第一个元素是未排序数组的最小值
+		for j := i + 1; j < n; j++ { //给出未排序数组的有效大小
+			if A[j] < A[min] { //找到最小的元素
+				min = j
+			}
 		}
-		x *= x
-		n /= 2
+		A[i], A[min] = A[min], A[i] //将最小元素放在适当的位置
 	}
-	return res
 }
 ```
 
+
+
+### LRUCache
+
 ```go
-func myPow(x float64, n int) float64 {
-	if x == 0.0 {
-		return 0.0
+type LRUCache struct {
+	cache          map[int]*DLinkedNode
+	head, tail     *DLinkedNode
+	size, capacity int
+}
+
+type DLinkedNode struct {
+	key, value int
+	prev, next *DLinkedNode
+}
+
+func initDLinkedNode(key, value int) *DLinkedNode {
+	return &DLinkedNode{
+		key:   key,
+		value: value,
 	}
-	res := 1.0
-	if n < 0 {
-		x, n = 1/x, -n
+}
+
+func Constructor(capacity int) LRUCache {
+	l := LRUCache{
+		cache:    map[int]*DLinkedNode{},
+		head:     initDLinkedNode(0, 0),
+		tail:     initDLinkedNode(0, 0),
+		capacity: capacity,
 	}
-	for n != 0 {
-		if n&1 == 1 { // 奇数: n%2 == 1 判断 n 二进制最右一位是否为 1
-			res *= x
+	l.head.next = l.tail
+	l.tail.prev = l.head
+	return l
+}
+
+func (this *LRUCache) Get(key int) int {
+	if _, ok := this.cache[key]; !ok {
+		return -1
+	}
+	node := this.cache[key] // 如果 key 存在，先通过哈希表定位，再移到头部
+	this.moveToHead(node)
+	return node.value
+}
+
+func (this *LRUCache) Put(key int, value int) {
+	if _, ok := this.cache[key]; !ok { // 如果 key 不存在，创建一个新的节点
+		node := initDLinkedNode(key, value)
+		this.cache[key] = node // 添加进哈希表
+		this.addToHead(node)   // 添加至双向链表的头部
+		this.size++
+		if this.size > this.capacity {
+			removed := this.removeTail()    // 如果超出容量，删除双向链表的尾部节点
+			delete(this.cache, removed.key) // 删除哈希表中对应的项
+			this.size--
 		}
-		x *= x
-		n >>= 1 // n = n/2
+	} else { // 如果 key 存在，先通过哈希表定位，再修改 value，并移到头部
+		node := this.cache[key]
+		node.value = value
+		this.moveToHead(node)
 	}
-	return res
+}
+
+func (this *LRUCache) addToHead(node *DLinkedNode) {
+	node.prev = this.head
+	node.next = this.head.next
+	this.head.next.prev = node
+	this.head.next = node
+}
+
+func (this *LRUCache) removeNode(node *DLinkedNode) {
+	node.prev.next = node.next
+	node.next.prev = node.prev
+}
+
+func (this *LRUCache) moveToHead(node *DLinkedNode) {
+	this.removeNode(node)
+	this.addToHead(node)
+}
+
+func (this *LRUCache) removeTail() *DLinkedNode {
+	node := this.tail.prev
+	this.removeNode(node)
+	return node
 }
 ```
-
-复杂度分析
-
-- 时间复杂度：O(logn)，即为对 n 进行二进制拆分的时间复杂度。
-
-- 空间复杂度：O(1)。
-
-
-```go
-func myPow(x float64, n int) float64 {
-	if n >= 0 {
-		return quickMul(x, n)
-	}
-	return 1.0 / quickMul(x, -n)
-}
-func quickMul(x float64, n int) float64 {
-	if n == 0 {
-		return 1.0
-	}
-	y := quickMul(x, n/2)
-	if n%2 == 1 {
-		return x * y * y
-	}
-	return y * y
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(logn)，即为递归的层数。
-
-- 空间复杂度：O(logn)，即为递归的层数。这是由于递归的函数调用会使用栈空间。
-
-
-
-[补充题2. 圆环回原点问题](https://mp.weixin.qq.com/s/VnGFEWHeD3nh1n9JSDkVUg)
-
-
-
-
-
-
-
-
-
-![每天刷10题！欢迎来挑战](http://ww1.sinaimg.cn/large/007daNw2ly1gqyz24t43tj30fo0luq4n.jpg)
-
-
-
-![过期点我](http://ww1.sinaimg.cn/large/007daNw2ly1gqvm5w0rjvj30fo0lu41c.jpg)
-
-
-

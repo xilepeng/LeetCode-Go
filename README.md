@@ -1,15 +1,11 @@
 
 Done is better than perfect.
 
-Code wins arguments.
-
-Move fast and break things.
-
-Stay focused and keep shipping.
-
 Talk is cheap. Show me the code.
 
-go big or go home
+go big or go home.
+
+Move fast and break things.
 
 
 ## Sorting

@@ -4,7 +4,7 @@
 
 ## Sorting
 
-### 1. [Quick Sort](https://www.hackerearth.com/practice/algorithms/sorting/quick-sort/tutorial/)
+### [1. Quick Sort](https://www.hackerearth.com/practice/algorithms/sorting/quick-sort/tutorial/)
 
 
 快速排序基于分而治之的方法，随机选择枢轴元素划分数组，左边小于枢轴、右边大于枢轴，递归处理左右两边

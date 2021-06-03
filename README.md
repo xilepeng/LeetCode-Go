@@ -1,12 +1,4 @@
 
-Done is better than perfect.
-
-Talk is cheap. Show me the code.
-
-go big or go home.
-
-Move fast and break things.
-
 
 ## Sorting
 

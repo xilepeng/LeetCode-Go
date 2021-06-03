@@ -11,8 +11,6 @@ Talk is cheap. Show me the code.
 
 go big or go home
 
-每天刷10题，每天努力到极限状态，这就是天赋, 这将是我一生的热爱~
-
 
 ## Sorting
 

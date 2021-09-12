@@ -1,4 +1,32 @@
 
+
+1. [142. 环形链表 II](#142-环形链表-ii)
+1. [94. 二叉树的中序遍历](#94-二叉树的中序遍历)
+1. [232. 用栈实现队列](#232-用栈实现队列)
+1. [46. 全排列](#46-全排列)
+1. [47. 全排列 II 补充](#47-全排列-ii-补充)
+1. [200. 岛屿数量](#200-岛屿数量)
+1. [54. 螺旋矩阵](#54-螺旋矩阵)
+1. [5. 最长回文子串](#5-最长回文子串)
+1. [92. 反转链表 II](#92-反转链表-ii)
+1. [33. 搜索旋转排序数组](#33-搜索旋转排序数组)
+1. [剑指 Offer 22. 链表中倒数第k个节点](#剑指-offer-22-链表中倒数第k个节点)
+1. [199. 二叉树的右视图](#199-二叉树的右视图)
+1. [42. 接雨水](#42-接雨水)
+1. [70. 爬楼梯](#70-爬楼梯)
+1. [300. 最长递增子序列](#300-最长递增子序列)
+1. [2. 两数相加](#2-两数相加)
+1. [69. x 的平方根](#69-x-的平方根)
+1. [23. 合并K个升序链表](#23-合并k个升序链表)
+1. [151. 翻转字符串里的单词](#151-翻转字符串里的单词)
+1. [8. 字符串转换整数 (atoi)](#8-字符串转换整数-atoi)
+1. [104. 二叉树的最大深度](#104-二叉树的最大深度)
+
+
+
+
+------
+
 [142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
 
 [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
@@ -23,7 +51,6 @@
 
 
 
-
 [199. 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
 
 [42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
@@ -44,12 +71,14 @@
 
 [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
 
+
 ------
 
 
 
 
-[142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+
+## [142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
 
 方法一：快慢指针
 我们使用两个指针，fast 与 slow。它们起始都位于链表的头部。随后，slow 指针每次向后移动一个位置，而 fast 指针向后移动两个位置。如果链表中存在环，则 fast 指针最终将再次与 slow 指针在环中相遇。
@@ -78,7 +107,7 @@ func detectCycle(head *ListNode) *ListNode {
 ```
 
 
-[94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+## [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
 
 ```go
 func inorderTraversal(root *TreeNode) (res []int) {
@@ -116,14 +145,14 @@ func inorderTraversal(root *TreeNode) (res []int) {
 
 
 
-[232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
+## [232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
 
-### 方法一：双栈
+**方法一：双栈**
 
 
 ![截屏2021-03-28 20.58.04.png](http://ww1.sinaimg.cn/large/007daNw2ly1gozx18b8ilj31740jsdhb.jpg)
 
-思路
+**思路**
 
 将一个栈当作输入栈，用于压入 push 传入的数据；另一个栈当作输出栈，用于 pop 和 peek 操作。
 
@@ -186,10 +215,10 @@ func (q *MyQueue) Empty() bool {
 
 
 
-[46. 全排列](https://leetcode-cn.com/problems/permutations/)
+## [46. 全排列](https://leetcode-cn.com/problems/permutations/)
 
 
-### 方法一：枚举每个位置放哪个数 (回溯)
+**方法一：枚举每个位置放哪个数 (回溯)**
 
 ![截屏2021-04-04 19.05.15.png](http://ww1.sinaimg.cn/large/007daNw2ly1gp7x3wg42ij30zk0kwtb0.jpg)
 
@@ -197,7 +226,7 @@ func (q *MyQueue) Empty() bool {
 选好之后，将该数的状态改成“已被使用”，同时将该数记录在相应位置上，然后递归。
 递归返回时，不要忘记将该数的状态改成“未被使用”，并将该数从相应位置上删除。
 
-#### 闭包实现：
+**闭包实现**：
 
 ```go
 func permute(nums []int) (res [][]int) {
@@ -250,21 +279,22 @@ func permute(nums []int) [][]int {
 - 时间复杂度：O(n×n!)，其中 nn 为序列的长度。
 - 空间复杂度：O(n)，其中 n 为序列的长度。除答案数组以外，递归函数在递归过程中需要为每一层递归函数分配栈空间，所以这里需要额外的空间且该空间取决于递归的深度，这里可知递归调用深度为 O(n)。
 
-#### 为什么加入解集时，要将数组（在go中是切片）内容拷贝到一个新的数组里，再加入解集。
+**为什么加入解集时，要将数组（在go中是切片）内容拷贝到一个新的数组里，再加入解集。**
 
 这个 path 变量是一个地址引用，结束当前递归，将它加入 res，后续的递归分支还要继续进行搜索，还要继续传递这个 path，这个地址引用所指向的内存空间还要继续被操作，所以 res 中的 path 所引用的内容会被改变，这就不对，所以要拷贝一份内容，到一份新的数组里，然后放入 res，这样后续对 path 的操作，就不会影响已经放入 res 的内容。
 
 
-[47. 全排列 II](https://leetcode-cn.com/problems/permutations-ii/) 补充
+## [47. 全排列 II](https://leetcode-cn.com/problems/permutations-ii/) 补充
 
-### 方法一：枚举每个位置放哪个数 (回溯)
+**方法一：枚举每个位置放哪个数 (回溯)**
+
 ![截屏2021-04-04 19.05.15.png](http://ww1.sinaimg.cn/large/007daNw2ly1gp7x3wg42ij30zk0kwtb0.jpg)
 
 假设我们有 3 个重复数排完序后相邻，那么我们一定保证每次都是拿从左往右第一个未被填过的数字，即整个数组的状态其实是保证了 
 [未填入，未填入，未填入] 到 [填入，未填入，未填入]，再到 [填入，填入，未填入]，最后到 [填入，填入，填入] 的过程的，因此可以达到去重的目标。
 
 
-dfs 闭包实现：
+**dfs 闭包实现：**
 
 ```go
 func permuteUnique(nums []int) (res [][]int) {
@@ -296,9 +326,9 @@ func permuteUnique(nums []int) (res [][]int) {
 
 
 
-[200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
+## [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
 
-### 思路一：深度优先遍历DFS
+**思路一：深度优先遍历DFS**
 
 - 目标是找到矩阵中 “岛屿的数量” ，上下左右相连的 1 都被认为是连续岛屿。
 - dfs方法： 设目前指针指向一个岛屿中的某一点 (i, j)，寻找包括此点的岛屿边界。
@@ -308,7 +338,7 @@ func permuteUnique(nums []int) (res [][]int) {
 		- grid[i][j] == 0，代表此分支已越过岛屿边界。
 	3. 搜索岛屿的同时，执行 grid[i][j] = '0'，即将岛屿所有节点删除，以免之后重复搜索相同岛屿。
 
-#### 主循环：
+**主循环：**
 
 遍历整个矩阵，当遇到 grid[i][j] == '1' 时，从此点开始做深度优先搜索 dfs，岛屿数 count + 1 且在深度优先搜索中删除此岛屿。
 
@@ -339,7 +369,8 @@ func dfs(grid [][]byte, i, j int) {
 	dfs(grid, i, j+1)
 }
 ```
-#### 闭包
+
+**闭包**
 
 ```go
 func numIslands(grid [][]byte) int {
@@ -370,7 +401,7 @@ func numIslands(grid [][]byte) int {
 
 
 
-[54. 螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)
+## [54. 螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)
 
 ![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1goyc6zkdssj31ef0eiwjn.jpg)
 
@@ -386,26 +417,26 @@ func numIslands(grid [][]byte) int {
 
 - 不再形成“环”了，就会剩下一行或一列，然后单独判断
 
-### 四个边界
+**四个边界**
 
 - 上边界 top : 0
 - 下边界 bottom : matrix.length - 1
 - 左边界 left : 0
 - 右边界 right : matrix[0].length - 1
 
-### 矩阵不一定是方阵
+**矩阵不一定是方阵**
 - top < bottom && left < right 是循环的条件
 - 无法构成“环”了，就退出循环，退出时可能是这 3 种情况之一：
 - top == bottom && left < right —— 剩一行
 - top < bottom && left == right —— 剩一列
 - top == bottom && left == right —— 剩一项（也是一行/列）
 
-### 处理剩下的单行或单列
+**处理剩下的单行或单列**
 - 因为是按顺时针推入结果数组的，所以
 - 剩下的一行，从左至右 依次推入结果数组
 - 剩下的一列，从上至下 依次推入结果数组
 
-### 代码
+**代码**
 
 每个元素访问一次，时间复杂度 O(m*n)，m、n 分别是矩阵的行数和列数
 空间复杂度 O(m*n)
@@ -437,7 +468,7 @@ func spiralOrder(matrix [][]int) []int {
 }
 ```
 
-## 换一种遍历的策略：遍历到底
+**换一种遍历的策略：遍历到底**
 
 ![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1goyc7ez0y4j31l00fswk5.jpg)
 
@@ -447,7 +478,7 @@ func spiralOrder(matrix [][]int) []int {
 - 值得注意的是，可能出现 在循环中途，不再满足循环的条件 ，即出现 top > bottom || left > right ，其中一对边界彼此交错了
 - 这意味着此时所有项都遍历完了，如果没有及时 break ，就会重复遍历
 
-### 解决办法
+**解决办法**
 
 - 每遍历完一条边，更新完相应的边界后，都加一条判断 if (top > bottom || left > right) break，避免遍历完成时没有及时退出，导致重复遍历。
 - 但你发现，遍历完成要么发生在遍历完“上边”，要么发生在遍历完“右边”
@@ -475,7 +506,8 @@ func spiralOrder(matrix [][]int) []int {
 }
 ```
 
-### 换一种循环的条件，也是可以的
+**换一种循环的条件，也是可以的**
+
 - 遍历完所有项时，res 数组构建完毕。我们可以用 res 数组的长度 等于 矩阵的项的个数，作为循环的结束条件
 - 不等于就继续遍历，等于就 break
 
@@ -508,9 +540,9 @@ func spiralOrder(matrix [][]int) []int {
 
 
 
-[5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
+## [5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
 
-### 方法一：（暴力枚举） O(n^2)
+**方法一：（暴力枚举） O(n^2)**
 
 由于字符串长度小于1000，因此我们可以用 O(n^2)的算法枚举所有可能的情况。
 首先枚举回文串的中心 i，然后分两种情况向两边扩展边界，直到遇到不同字符为止:
@@ -542,7 +574,7 @@ func longestPalindrome(s string) string {
 ```
 
 
-### 方法二：中心扩展算法
+**方法二：中心扩展算法**
 
 ![截屏2021-04-02 11.43.48.png](http://ww1.sinaimg.cn/large/007daNw2ly1gp59403adbj31kc0i0762.jpg)
 
@@ -598,9 +630,9 @@ func expand(s string, l, r int) (int, int) {
 
 
 
-[92. 反转链表 II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
+## [92. 反转链表 II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
 
-### 方法一：双指针 
+**方法一：双指针** 
 
 ```go
 /**
@@ -632,8 +664,7 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 ```
 
 
-
-### 方法二：头插法 
+**方法二：头插法** 
 
 ![](https://pic.leetcode-cn.com/1615105232-cvTINs-image.png)
 
@@ -699,7 +730,7 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 
 
 
-[33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
+## [33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
 
 ![](https://assets.leetcode-cn.com/solution-static/33/33_fig1.png)
 
@@ -735,7 +766,7 @@ func search(nums []int, target int) int {
 
 
 
-[剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
+## [剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
 
 ```go
 func getKthFromEnd(head *ListNode, k int) *ListNode {
@@ -755,9 +786,9 @@ func getKthFromEnd(head *ListNode, k int) *ListNode {
 
 
 
-[199. 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+## [199. 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
 
-方法一：BFS
+**方法一：BFS**
 
 思路： 利用 BFS 进行层次遍历，记录下每层的最后一个元素。
 
@@ -793,7 +824,7 @@ func rightSideView(root *TreeNode) []int {
 ```
 
 
-方法二：DFS 
+**方法二：DFS**
 
 思路： 我们按照 「根结点 -> 右子树 -> 左子树」 的顺序访问，就可以保证每层都是最先访问最右边的节点的。
 
@@ -834,9 +865,9 @@ func dfs(root *TreeNode, depth int) {
 
 
 
-[42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
+## [42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
 
-### 方法一：双指针
+**方法一：双指针**
 
 ![截屏2021-04-06 18.24.23.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpa760w1vwj31440gy77h.jpg)
 
@@ -865,7 +896,8 @@ func max(x, y int) int {
 }
 ```
 
-### 方法二：单调栈
+**方法二：单调栈**
+
 ```go
 func trap(height []int) (res int) {
 	stack := []int{}
@@ -893,17 +925,17 @@ func min(x, y int) int {
 }
 ```
 
-单调栈：查找每个数左侧第一个比它小的数
-单调队列：滑动窗口中的最值
+- 单调栈：查找每个数左侧第一个比它小的数
+- 单调队列：滑动窗口中的最值
 
 
 
 
 
-[70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+## [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
 
 
-### 方法一：滚动数组 (斐波那契数列)
+**方法一：滚动数组 (斐波那契数列)**
 
 ![截屏2021-04-09 11.50.02.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdcsbx511j31940gu756.jpg)
 
@@ -934,7 +966,7 @@ func climbStairs(n int) int {
 
 
 
-### 方法二：动态规划
+**方法二：动态规划**
 
 解题思路 
 - 简单的 DP，经典的爬楼梯问题。一个楼梯可以由 n-1 和 n-2 的楼梯爬上来。
@@ -956,8 +988,10 @@ func climbStairs(n int) int {
 - 时间复杂度：循环执行 n 次，每次花费常数的时间代价，故渐进时间复杂度为 O(n)。
 - 空间复杂度： O(n)。
 
-### 解题思路 
-#### 假设 n = 5，有 5 级楼梯要爬
+**解题思路** 
+
+**假设 n = 5，有 5 级楼梯要爬**
+
 - 题意说，每次有2种选择：爬1级，或爬2级。
 	如果爬1级，则剩下4级要爬。
 	如果爬2级，则剩下3级要爬。
@@ -965,7 +999,9 @@ func climbStairs(n int) int {
 	爬4级楼梯有几种方式？
 	爬3级楼梯有几种方式？
 - 于是，爬 5 级楼梯的方式数 = 爬 4 级楼梯的方式数 + 爬 3 级楼梯的方式数。
-#### 画出递归树
+
+**画出递归树**
+
 - 用「剩下要爬的楼梯数」描述一个节点。
 ![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdsdqld5ij317207674g.jpg)
 
@@ -982,7 +1018,8 @@ func climbStairs(n int) int {
 
 - 调用栈的深度是楼梯数 n，空间复杂度是O(n)O(n)，时间复杂度最坏是O(2^n)，所有节点都遍历到。
 
-### 存在重复的子问题
+**存在重复的子问题**
+
 - 如下图，黄色阴影部分，蓝色阴影部分，是相同的子树，即相同的子问题。
 
 ![5.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdsh8p300j30zr0i7jtk.jpg)
@@ -993,7 +1030,8 @@ func climbStairs(n int) int {
 
 ![6.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdsiibb52j30sp0fpabc.jpg)
 
-## 动态规划，自底而上思考
+**动态规划，自底而上思考**
+
 - 我们发现，爬 i 层楼梯的方式数 = 爬 i-2 层楼梯的方式数 + 爬 i-1 层楼梯的方式数。
 - 我们有两个 base case，结合上面的递推式，就能递推出爬 i 层楼梯的方式数。
 - 用一个数组 dp 存放中间子问题的结果。
@@ -1014,7 +1052,8 @@ func climbStairs(n int) int {
 
 ```
 
-## 压缩空间，优化
+**压缩空间，优化**
+
 dp[i] 只与过去的两项：dp[i-1] 和 dp[i-2] 有关，没有必要存下所有计算过的 dp 项。用两个变量去存这两个过去的状态就好。
 
 ```go
@@ -1032,13 +1071,15 @@ func climbStairs(n int) int {
 
 ```
 
-### 可以用动态规划的问题都能用递归
+**可以用动态规划的问题都能用递归**
+
 - 从子问题入手，解决原问题，分两种做法：自顶向下和自底向上
 - 前者对应递归，借助函数调用自己，是程序解决问题的方式，它不会记忆解
 - 后者对应动态规划，利用迭代将子问题的解存在数组里，从数组0位开始顺序往后计算
 - 递归的缺点在于包含重复的子问题（没有加记忆化的情况下），动态规划的效率更高
 
-### DP也有局限性
+**DP也有局限性**
+
 - DP 相比于 递归，有时候不太好理解，或者边界情况比较难确定
 - 而且必须是一步步邻接的，连续地计算
 - 加入了记忆化的递归，就灵活很多，它在递归基础上稍作修改，往往更好理解，也少了局限性，不好用DP时一定能用它
@@ -1048,9 +1089,9 @@ func climbStairs(n int) int {
 
 
 
-[300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+## [300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 
-### 方法一： nlogn 动态规划 
+**方法一： nlogn 动态规划** 
 
 ```go
 func lengthOfLIS(nums []int) int {
@@ -1072,11 +1113,12 @@ func lengthOfLIS(nums []int) int {
 
 - 空间复杂度：O(n)，需要额外使用长度为 n 的 dp 数组。
 
-#### func SearchInts
+**func SearchInts**
+
 - func SearchInts(a []int, x int) int
 - SearchInts在递增顺序的a中搜索x，返回x的索引。如果查找不到，返回值是x应该插入a的位置（以保证a的递增顺序），返回值可以是len(a)。
 
-### 方法二：贪心 + 二分查找
+**方法二：贪心 + 二分查找**
 
 ![贪心 + 二分查找](http://ww1.sinaimg.cn/large/007daNw2ly1gpbeyy69rdj31ag0lmtb8.jpg)
 
@@ -1110,7 +1152,7 @@ func lengthOfLIS(nums []int) int {
 
 - 空间复杂度：O(n)，需要额外使用长度为 n 的 d 数组。
 
-### 方法三：动态规划
+**方法三：动态规划**
 
 ```go
 func lengthOfLIS(nums []int) int {
@@ -1144,7 +1186,7 @@ func max(x, y int) int {
 
 
 
-[2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
+## [2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
 
 ```go
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
@@ -1170,9 +1212,9 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 
 
 
-[69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
+## [69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
 
-### 方法一：二分查找
+**方法一：二分查找**
 
 ```go
 func mySqrt(x int) (res int) {
@@ -1194,7 +1236,7 @@ func mySqrt(x int) (res int) {
 - 时间复杂度：O(logx)，即为二分查找需要的次数。
 - 空间复杂度：O(1)。
 
-### 方法二：牛顿迭代
+**方法二：牛顿迭代**
 
 ```go
 func mySqrt(x int) int {
@@ -1215,7 +1257,7 @@ func mySqrt(x int) int {
 
 
 
-[23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
+## [23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
 
 
 ```go
@@ -1253,9 +1295,10 @@ func mergeTwoLists1(l1 *ListNode, l2 *ListNode) *ListNode {
 
 
 
-[151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
+## [151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
 
-解题思路 
+**解题思路** 
+
 - 给出一个中间有空格分隔的字符串，要求把这个字符串按照单词的维度前后翻转。
 - 依照题意，先把字符串按照空格分隔成每个小单词，然后把单词前后翻转，最后再把每个单词中间添加空格。
 
@@ -1290,7 +1333,8 @@ func reverseWords(s string) string {
 }
 ```
 
-### func Fields
+**func Fields**
+
 ```go
 func Fields(s string) []string
 ```
@@ -1304,7 +1348,8 @@ Output:
 Fields are: ["foo" "bar" "baz"]
 ```
 
-### func Join
+**func Join**
+
 ```go
 func Join(a []string, sep string) string
 ```
@@ -1320,7 +1365,7 @@ foo, bar, baz
 ```
 
 
-[8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 
+## [8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 
 
 ```go
 func myAtoi(s string) int {
@@ -1363,10 +1408,11 @@ func myAtoi(s string) int {
 
 
 
-[104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
+## [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
 
-### 方法一：深度优先搜索
-#### 思路与算法
+**方法一：深度优先搜索**
+
+思路与算法
 
 如果我们知道了左子树和右子树的最大深度 ll 和 rr，那么该二叉树的最大深度即为
 

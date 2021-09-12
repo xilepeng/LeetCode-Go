@@ -1,4 +1,32 @@
 
+
+1. [206. 反转链表](#206-反转链表)
+1. [215. 数组中的第K个最大元素](#215-数组中的第k个最大元素)
+1. [3. 无重复字符的最长子串](#3-无重复字符的最长子串)
+1. [146. LRU 缓存机制](#146-lru-缓存机制)
+1. [补充题4. 手撕快速排序 912. 排序数组 ](#补充题4-手撕快速排序-912-排序数组-)
+1. [25. K 个一组翻转链表](#25-k-个一组翻转链表)
+1. [1. 两数之和](#1-两数之和)
+1. [53. 最大子序和](#53-最大子序和)
+1. [21. 合并两个有序链表](#21-合并两个有序链表)
+1. [160. 相交链表](#160-相交链表)
+1. [15. 三数之和](#15-三数之和)
+1. [141. 环形链表](#141-环形链表)
+1. [102. 二叉树的层序遍历](#102-二叉树的层序遍历)
+1. [121. 买卖股票的最佳时机](#121-买卖股票的最佳时机)
+1. [415. 字符串相加](#415-字符串相加)
+1. [103. 二叉树的锯齿形层序遍历](#103-二叉树的锯齿形层序遍历)
+1. [88. 合并两个有序数组](#88-合并两个有序数组)
+1. [236. 二叉树的最近公共祖先](#236-二叉树的最近公共祖先)
+1. [20. 有效的括号](#20-有效的括号)
+1. [704. 二分查找](#704-二分查找)
+1. [34. 在排序数组中查找元素的第一个和最后一个位置](#34-在排序数组中查找元素的第一个和最后一个位置)
+
+
+
+------
+
+
 [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
 
 [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
@@ -43,14 +71,17 @@
 
 [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)  补充
 
+
 ------
 
 
 
-[206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
 
 
-### 方法一：双指针（迭代）
+## [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
+
+
+**方法一：双指针（迭代）**
 
 ![截屏2021-04-13 14.14.02.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpi39qgmnoj311w0o6n2k.jpg)
 
@@ -79,7 +110,7 @@ func reverseList(head *ListNode) *ListNode {
 
 
 
-### 方法二：头插法
+**方法二：头插法**
 
 ![截屏2021-04-21 12.11.01.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr8ocoatoj316s0o844c.jpg)
 
@@ -110,7 +141,7 @@ func reverseList(head *ListNode) *ListNode {
 ```
 
 
-### 方法三：递归
+**方法三：递归**
 
 ![截屏2021-04-13 14.08.51.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpi34y26nwj312u0lejug.jpg)
 
@@ -130,7 +161,7 @@ n1 → … → nk−1 → nk → nk+1 ← … ← nm
 
 
 
-#### 思路
+**思路**
 
 首先我们先考虑 reverseList 函数能做什么，它可以翻转一个链表，并返回新链表的头节点，也就是原链表的尾节点。
 所以我们可以先递归处理 reverseList(head->next)，这样我们可以将以 head->next 为头节点的链表翻转，并得到原链表的尾节 tail，此时 head->next 是新链表的尾节点，我们令它的 next 指针指向 head，并将 head->next 指向空即可将整个链表翻转，且新链表的头节点是tail。
@@ -158,9 +189,9 @@ func reverseList(head *ListNode) *ListNode {
 
 
 
-[215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
+## [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
 
-## 方法一：基于快速排序的选择方法
+**方法一：基于快速排序的选择方法**
 
 快速选择算法思路：
 
@@ -211,7 +242,7 @@ func random_partition(A []int, start, end int) int {
 
 
 
-## 方法二：基于堆排序的选择方法
+**方法二：基于堆排序的选择方法**
 
 思路和算法
 
@@ -257,7 +288,7 @@ func max_heapify(A []int, i, heap_size int) {
 
 
 
-[3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
+## [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
 
 ```go
 func lengthOfLongestSubstring(s string) int {
@@ -308,10 +339,10 @@ func max(x, y int) int {
 
 
 
-[146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
+## [146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
 
 
-### 方法一：哈希表 + 双向链表
+**方法一：哈希表 + 双向链表**
 算法
 
 LRU 缓存机制可以通过哈希表辅以双向链表实现，我们用一个哈希表和一个双向链表维护所有在缓存中的键值对。
@@ -443,13 +474,13 @@ func (this *LRUCache) removeTail() *DLinkedNode {
 
 
 
-[补充题4. 手撕快速排序 912. 排序数组 ](https://leetcode-cn.com/problems/sort-an-array/)
+## [补充题4. 手撕快速排序 912. 排序数组 ](https://leetcode-cn.com/problems/sort-an-array/)
 
 * 考点1：能否实现解法的优化
 * 考点2：是否了解快速选择算法
 * 考点3：能否说明堆算法和快速选择算法的适用场景
 
-### 方法一：快速排序
+**方法一：快速排序**
 
 思路和算法
 
@@ -556,7 +587,7 @@ func partition(a []int, l, r int) int {
 
 
 
-[25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
+## [25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
 
 ![截屏2021-04-21 11.31.37.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7jmcf05j315g0pen05.jpg)
 
@@ -613,10 +644,11 @@ func reverse(head *ListNode) *ListNode {
 
 
 
-[1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
+## [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
 
 
-方法一：暴力枚举
+**方法一：暴力枚举**
+
 思路及算法
 
 最容易想到的方法是枚举数组中的每一个数 x，寻找数组中是否存在 target - x。
@@ -633,13 +665,13 @@ func twoSum(nums []int, target int) []int {
 	return nil
 }
 ```
-方法二：哈希表
+**方法二：哈希表**
 
 思路及算法
 
 使用哈希表，可以将寻找 target - x 的时间复杂度降低到从 O(N) 降低到 O(1)。
 
-## 查找表法
+**查找表法**
 
 - 在遍历的同时，记录一些信息，以省去一层循环，这是以空间换时间的想法
 - 需要记录已经遍历过的数值和他所对应的下标，可以借鉴查找表实现
@@ -668,7 +700,8 @@ func twoSum(nums []int, target int) []int {
 *Data Structure:*
 - HashMap:<num, the index of the num>
 
-## Algorithm:
+**Algorithm:**
+
 从头开始遍历数组：
 1. 在map里找到当前这个数的另一半，返回
 2. 没找到，存入map, key为数， value为index
@@ -684,9 +717,9 @@ Any Detial?
 
 
 
-[53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+## [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
 
-方法一：贪心
+**方法一：贪心**
 
 - 若当前指针所指元素之前的和小于0， 则丢弃当前元素之前的数列
 - 将当前值与最大值比较，取最大
@@ -710,7 +743,7 @@ func max(x, y int) int {
 }
 ```
 
-方法二：动态规划
+**方法二：动态规划**
 
 - 若前一个元素大于0，将其加到当前元素上
 
@@ -737,7 +770,7 @@ func maxSubArray(nums []int) int {
 
 
 
-[21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+## [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
 
 
 
@@ -798,9 +831,9 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 ```
 
 
-[160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
+## [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
 
-### 方法一：双指针法
+**方法一：双指针法**
 
 ![截屏2021-04-21 11.23.18.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7bhprljj31ck0p6do3.jpg)
 
@@ -842,32 +875,25 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
 
 
 
+## [15. 三数之和](https://leetcode-cn.com/problems/3sum/)
 
+**思路**
 
-
-
-
-
-
-
-
-
-[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
-
-### 思路
 外层循环：指针 i 遍历数组。
 内层循环：用双指针，去寻找满足三数之和 == 0 的元素
 
-### 先排序的意义
+**先排序的意义**
 便于跳过重复元素，如果当前元素和前一个元素相同，跳过。
 
-### 双指针的移动时，避免出现重复解
+**双指针的移动时，避免出现重复解**
+
 找到一个解后，左右指针同时向内收缩，为了避免指向重复的元素，需要：
 
 - 左指针在保证left < right的前提下，一直右移，直到指向不重复的元素
 - 右指针在保证left < right的前提下，一直左移，直到指向不重复的元素
 
-### 小优化
+**小优化**
+
 排序后，如果外层遍历的数已经大于0，则另外两个数一定大于0，sum不会等于0，直接break。
 
 
@@ -916,7 +942,7 @@ func threeSum(nums []int) [][]int {
 
 
 
-[141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
+## [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
 
 ![截屏2021-04-21 12.13.52.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr8r3r6ijj31780mcq9j.jpg)
 
@@ -945,9 +971,9 @@ func hasCycle(head *ListNode) bool {
 
 
 
-[102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+## [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
 
-方法一：DFS递归
+**方法一：DFS递归**
 
 ```go
 var res [][]int
@@ -968,7 +994,7 @@ func dfs(root *TreeNode, level int) {
 	}
 ```
 
-方法二：BFS(queue)迭代
+**方法二：BFS(queue)迭代**
 
 ```go
 func levelOrder(root *TreeNode) [][]int {
@@ -1002,7 +1028,7 @@ func levelOrder(root *TreeNode) [][]int {
 
 
 
-[121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+## [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
 ```go
 func maxProfit(prices []int) int {
@@ -1083,7 +1109,7 @@ Time Limit Exceeded
 
 
 
-[415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
+## [415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
 
 ```go
 func addStrings(num1 string, num2 string) string {
@@ -1111,9 +1137,10 @@ func addStrings(num1 string, num2 string) string {
 
 
 
-[103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+## [103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
 
-方法一：深度优先遍历
+**方法一：深度优先遍历**
+
 ```go
 var res [][]int
 
@@ -1171,7 +1198,7 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 }
 ```
 
-方法二：广度优先遍历
+**方法二：广度优先遍历**
 
 ```go
 /**
@@ -1214,7 +1241,7 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 
 
 
-[88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
+## [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
 
 ```go
 func merge(nums1 []int, m int, nums2 []int, n int) {
@@ -1232,7 +1259,7 @@ func merge(nums1 []int, m int, nums2 []int, n int) {
 ```
 
 
-[236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+## [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
 
 ```go
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
@@ -1255,7 +1282,7 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 ```
 
 
-[20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
+## [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
 
 ```go
 func isValid(s string) bool {
@@ -1280,13 +1307,13 @@ func isValid(s string) bool {
 
 
 
-[704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
+## [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
 
 1. 如果目标值等于中间元素，则找到目标值。
 2. 如果目标值较小，继续在左侧搜索。
 3. 如果目标值较大，则继续在右侧搜索。
 
-#### 算法：
+**算法：**
 
 - 初始化指针 left = 0, right = n - 1。
 - 当 left <= right：
@@ -1322,11 +1349,12 @@ func search(nums []int, target int) int {
 
 
 
-[34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+## [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
-### 方法一：二分查找
+**方法一：二分查找**
 
-### 解题思路 
+**解题思路**
+
 - 给出一个有序数组 nums 和一个数 target，要求在数组中找到第一个和这个元素相等的元素下标，最后一个和这个元素相等的元素下标。
 
 - 这一题是经典的二分搜索变种题。二分搜索有 4 大基础变种题：
@@ -1414,7 +1442,8 @@ func searchLastLessElement(nums []int, target int) int {
 	return -1
 }
 ```
-### 方法二：二分查找
+
+**方法二：二分查找**
 
 ```go
 func searchRange(nums []int, target int) []int {

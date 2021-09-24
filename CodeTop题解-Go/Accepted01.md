@@ -1,6 +1,6 @@
 1. [✅ 206. 反转链表](#-206-反转链表)
+1. [✅ 3. 无重复字符的最长子串](#-3-无重复字符的最长子串)
 1. [215. 数组中的第K个最大元素](#215-数组中的第k个最大元素)
-1. [3. 无重复字符的最长子串](#3-无重复字符的最长子串)
 1. [146. LRU 缓存机制](#146-lru-缓存机制)
 1. [补充题4. 手撕快速排序 912. 排序数组 ](#补充题4-手撕快速排序-912-排序数组-)
 1. [25. K 个一组翻转链表](#25-k-个一组翻转链表)
@@ -26,9 +26,10 @@
 
 [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
 
+[3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
+
 [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
 
-[3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
 
 [146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
 
@@ -191,6 +192,129 @@ func reverseList(head *ListNode) *ListNode {
 
 
 
+
+## ✅ [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
+
+
+```go
+func lengthOfLongestSubstring(s string) int {
+	start, res := 0, 0
+	m := map[byte]int{}
+	for i := 0; i < len(s); i++ {
+		if _, exists := m[s[i]]; exists {
+			start = max(start, m[s[i]]+1)
+		}
+		m[s[i]] = i
+		res = max(res, i-start+1)
+	}
+	return res
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+**方法二：(双指针扫描)**  O(n)
+
+定义两个指针 i,j(i<=j)，表示当前扫描到的子串是 [i,j] (闭区间)。扫描过程中维护一个哈希表 m := map[byte]int{}，表示 [i,j] 中每个字符出现的次数。
+线性扫描时，每次循环的流程如下：
+
+指针 j
+ 向后移一位, 同时将哈希表中 s[j]
+ 的计数加一: m[s[j]]++;
+假设 j
+ 移动前的区间 [i,j]
+ 中没有重复字符，则 j
+ 移动后，只有 s[j]
+ 可能出现2次。因此我们不断向后移动 i
+，直至区间 [i,j]
+中 s[j]
+ 的个数等于1为止；
+复杂度分析：由于 i,j
+ 均最多增加n次，且哈希表的插入和更新操作的复杂度都是 O(1)
+，因此，总时间复杂度 O(n)
+.
+
+```go
+func lengthOfLongestSubstring(s string) int {
+	m := map[byte]int{}
+	res := 0
+	for i, j := 0, 0; j < len(s); j++ {
+		m[s[j]]++
+		for m[s[j]] > 1 {
+			m[s[i]]--
+			i++
+		}
+		res = max(res, j-i+1)
+	}
+	return res
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+```go
+func lengthOfLongestSubstring(s string) int {
+	m := map[byte]int{}
+	res, start := 0, 0
+	for i := 0; i < len(s); i++ {
+		m[s[i]]++
+		for m[s[i]] > 1 {
+			m[s[start]]--
+			start++
+		}
+		res = max(res, i-start+1)
+	}
+	return res
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+
+
+
+复杂度分析
+
+- 时间复杂度：O(N)，其中 N 是字符串的长度。左指针和右指针分别会遍历整个字符串一次。
+
+- 空间复杂度：O(∣Σ∣)，其中 Σ 表示字符集（即字符串中可以出现的字符），∣Σ∣ 表示字符集的大小。在本题中没有明确说明字符集，因此可以默认为所有 ASCII 码在 [0, 128)[0,128) 内的字符，即∣Σ∣=128。我们需要用到哈希集合来存储出现过的字符，而字符最多有 ∣Σ∣ 个，因此空间复杂度为O(∣Σ∣)。
+
+
+模拟：
+
+ 输入: s = "abcabcbb"
+ 输出: 3
+
+ i = 0 m[a] = 1 res = 1 
+ [a]bcabcbb
+
+ i = 1 m[b] = 1 res = 1 - 0 + 1 = 2
+ [ab]cabcbb
+ 
+ i = 2 m[c] = 1 res = 2 - 0 + 1 = 3
+ [abc]abcbb
+ 
+ i = 3 m[a] = 2
+ 	{m[a] = 2-1 = 1 j = 1  res = 3 - 1 + 1 = 3}
+ a[bca]bcbb
+
+
+
+
+
+
 ## [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
 
 **方法一：基于快速排序的选择方法**
@@ -288,56 +412,6 @@ func max_heapify(A []int, i, heap_size int) {
 - 空间复杂度：O(logn)，即递归使用栈空间的空间代价。
 
 
-
-
-## [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
-
-```go
-func lengthOfLongestSubstring(s string) int {
-	m := map[byte]int{}
-	res := 0
-	for i, j := 0, 0; i < len(s); i++ {
-		m[s[i]]++
-		for m[s[i]] > 1 {
-			m[s[j]]--
-			j++
-		}
-		res = max(res, i-j+1)
-	}
-	return res
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(N)，其中 N 是字符串的长度。左指针和右指针分别会遍历整个字符串一次。
-
-- 空间复杂度：O(∣Σ∣)，其中 Σ 表示字符集（即字符串中可以出现的字符），∣Σ∣ 表示字符集的大小。在本题中没有明确说明字符集，因此可以默认为所有 ASCII 码在 [0, 128)[0,128) 内的字符，即∣Σ∣=128。我们需要用到哈希集合来存储出现过的字符，而字符最多有 ∣Σ∣ 个，因此空间复杂度为O(∣Σ∣)。
-
-
-模拟：
-
- 输入: s = "abcabcbb"
- 输出: 3
-
- i = 0 m[a] = 1 res = 1 
- [a]bcabcbb
-
- i = 1 m[b] = 1 res = 1 - 0 + 1 = 2
- [ab]cabcbb
- 
- i = 2 m[c] = 1 res = 2 - 0 + 1 = 3
- [abc]abcbb
- 
- i = 3 m[a] = 2
- 	{m[a] = 2-1 = 1 j = 1  res = 3 - 1 + 1 = 3}
- a[bca]bcbb
 
 
 

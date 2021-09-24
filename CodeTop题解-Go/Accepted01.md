@@ -1,6 +1,4 @@
-
-
-1. [206. 反转链表](#206-反转链表)
+1. [✅ 206. 反转链表](#-206-反转链表)
 1. [215. 数组中的第K个最大元素](#215-数组中的第k个最大元素)
 1. [3. 无重复字符的最长子串](#3-无重复字符的最长子串)
 1. [146. LRU 缓存机制](#146-lru-缓存机制)
@@ -20,7 +18,6 @@
 1. [236. 二叉树的最近公共祖先](#236-二叉树的最近公共祖先)
 1. [20. 有效的括号](#20-有效的括号)
 1. [704. 二分查找](#704-二分查找)
-1. [34. 在排序数组中查找元素的第一个和最后一个位置](#34-在排序数组中查找元素的第一个和最后一个位置)
 
 
 
@@ -69,32 +66,37 @@
 
 [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
 
-[34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)  补充
+
 
 
 ------
 
 
+## ✅ [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
 
 
-
-## [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
-
-
-**方法一：双指针（迭代）**
+**方法一：迭代（双指针）**
 
 ![截屏2021-04-13 14.14.02.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpi39qgmnoj311w0o6n2k.jpg)
 
 
-思路：将当前节点的 next 指针改为指向前一个节点。
+思路：在遍历链表时，将当前节点的 next 指针改为指向前一个节点。由于节点没有引用其前一个节点，因此必须事先存储其前一个节点。在更改引用之前，还需要存储后一个节点。最后返回新的头引用。
+
 
 ```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func reverseList(head *ListNode) *ListNode {
-	var prev *ListNode
+	var prev *ListNode //prev -> nil
 	curr := head
 	for curr != nil {
 		next := curr.Next //1.存储下一个节点
-		curr.Next = prev  //2.反转
+		curr.Next = prev  //2.当前节点的next指针指向前一个节点
 		prev = curr       //3.移动双指针
 		curr = next
 	}
@@ -1348,113 +1350,6 @@ func search(nums []int, target int) int {
 
 
 
-
-## [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
-
-**方法一：二分查找**
-
-**解题思路**
-
-- 给出一个有序数组 nums 和一个数 target，要求在数组中找到第一个和这个元素相等的元素下标，最后一个和这个元素相等的元素下标。
-
-- 这一题是经典的二分搜索变种题。二分搜索有 4 大基础变种题：
-
-	1. 查找第一个值等于给定值的元素
-	2. 查找最后一个值等于给定值的元素
-	3. 查找第一个大于等于给定值的元素
-	4. 查找最后一个小于等于给定值的元素
-这一题的解题思路可以分别利用变种 1 和变种 2 的解法就可以做出此题。或者用一次变种 1 的方法，然后循环往后找到最后一个与给定值相等的元素。不过后者这种方法可能会使时间复杂度下降到 O(n)，因为有可能数组中 n 个元素都和给定元素相同。(4 大基础变种的实现见代码)
-
-```go
-func searchRange(nums []int, target int) []int {
-	return []int{searchFirstEqualElement(nums, target), searchLastEqualElement(nums, target)}
-}
-
-// 二分查找第一个与 target 相等的元素，时间复杂度 O(logn)
-func searchFirstEqualElement(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] < target {
-			left = mid + 1
-		} else if nums[mid] > target {
-			right = mid - 1
-		} else {
-			if mid == 0 || nums[mid-1] != target { // 找到第一个与 target 相等的元素
-				return mid
-			}
-			right = mid - 1
-		}
-	}
-	return -1
-}
-
-// 二分查找最后一个与 target 相等的元素，时间复杂度 O(logn)
-func searchLastEqualElement(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] < target {
-			left = mid + 1
-		} else if nums[mid] > target {
-			right = mid - 1
-		} else {
-			if mid == len(nums)-1 || nums[mid+1] != target { // 找到最后一个与 target 相等的元素
-				return mid
-			}
-			left = mid + 1
-		}
-	}
-	return -1
-}
-
-// 二分查找第一个大于等于 target 的元素，时间复杂度 O(logn)
-func searchFirstGreaterElement(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] >= target {
-			if mid == 0 || nums[mid-1] < target { // 找到第一个大于等于 target 的元素
-				return mid
-			}
-			right = mid - 1
-		} else {
-			left = mid + 1
-		}
-	}
-	return -1
-}
-
-// 二分查找最后一个小于等于 target 的元素，时间复杂度 O(logn)
-func searchLastLessElement(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] <= target {
-			if mid == len(nums)-1 || nums[mid+1] > target { // 找到最后一个小于等于 target 的元素
-				return mid
-			}
-			left = mid + 1
-		} else {
-			right = mid - 1
-		}
-	}
-	return -1
-}
-```
-
-**方法二：二分查找**
-
-```go
-func searchRange(nums []int, target int) []int {
-	leftmost := sort.SearchInts(nums, target)
-	if leftmost == len(nums) || nums[leftmost] != target {
-		return []int{-1, -1}
-	}
-	rightmost := sort.SearchInts(nums, target+1) - 1
-	return []int{leftmost, rightmost}
-}
-```
 
 
 

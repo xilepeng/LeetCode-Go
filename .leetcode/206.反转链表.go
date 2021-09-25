@@ -13,13 +13,15 @@
  * }
  */
 func reverseList(head *ListNode) *ListNode {
-	if head == nil || head.Next == nil {
-		return head
+	var prev *ListNode //prev -> nil
+	curr := head
+	for curr != nil {
+		next := curr.Next //1.存储下一个节点
+		curr.Next = prev  //2.当前节点的next指针指向前一个节点
+		prev = curr       //3.移动双指针
+		curr = next
 	}
-	newHead := reverseList(head.Next)
-	head.Next.Next = head
-	head.Next = nil
-	return newHead
+	return prev
 }
 
 // @lc code=end

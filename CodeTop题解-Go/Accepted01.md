@@ -78,8 +78,8 @@
 
 **方法一：迭代（双指针）**
 
-![截屏2021-04-13 14.14.02.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpi39qgmnoj311w0o6n2k.jpg)
 
+![](images/206-1.jpg)
 
 思路：在遍历链表时，将当前节点的 next 指针改为指向前一个节点。由于节点没有引用其前一个节点，因此必须事先存储其前一个节点。在更改引用之前，还需要存储后一个节点。最后返回新的头引用。
 
@@ -115,10 +115,8 @@ func reverseList(head *ListNode) *ListNode {
 
 **方法二：头插法**
 
-![截屏2021-04-21 12.11.01.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr8ocoatoj316s0o844c.jpg)
-
-![截屏2021-04-21 12.11.12.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr8otljdfj315c0oy42w.jpg)
-
+![](images/206-2.png)
+![](images/206-2-1.png)
 
 ```go
 /**
@@ -146,7 +144,7 @@ func reverseList(head *ListNode) *ListNode {
 
 **方法三：递归**
 
-![截屏2021-04-13 14.08.51.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpi34y26nwj312u0lejug.jpg)
+![](images/206-3.png))
 
 递归版本稍微复杂一些，其关键在于反向工作。假设链表的其余部分已经被反转，现在应该如何反转它前面的部分？
 
@@ -195,6 +193,7 @@ func reverseList(head *ListNode) *ListNode {
 
 ## ✅ [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
 
+![](images/3.png)
 
 ```go
 func lengthOfLongestSubstring(s string) int {

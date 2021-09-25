@@ -1,7 +1,7 @@
 1. [✅ 206. 反转链表](#-206-反转链表)
 1. [✅ 3. 无重复字符的最长子串](#-3-无重复字符的最长子串)
-1. [215. 数组中的第K个最大元素](#215-数组中的第k个最大元素)
 1. [146. LRU 缓存机制](#146-lru-缓存机制)
+1. [215. 数组中的第K个最大元素](#215-数组中的第k个最大元素)
 1. [补充题4. 手撕快速排序 912. 排序数组 ](#补充题4-手撕快速排序-912-排序数组-)
 1. [25. K 个一组翻转链表](#25-k-个一组翻转链表)
 1. [1. 两数之和](#1-两数之和)
@@ -216,6 +216,9 @@ func max(x, y int) int {
 }
 ```
 
+T(n) = O(n)
+S(n) = O(|Σ|) 其中 Σ 表示字符集（即字符串中可以出现的字符），∣Σ∣ 表示字符集的大小。
+
 **方法二：(双指针扫描)**  O(n)
 
 定义两个指针 i,j(i<=j)，表示当前扫描到的子串是 [i,j] (闭区间)。扫描过程中维护一个哈希表 m := map[byte]int{}，表示 [i,j] 中每个字符出现的次数。
@@ -308,107 +311,6 @@ func max(x, y int) int {
  i = 3 m[a] = 2
  	{m[a] = 2-1 = 1 j = 1  res = 3 - 1 + 1 = 3}
  a[bca]bcbb
-
-
-
-
-
-
-## [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
-
-**方法一：基于快速排序的选择方法**
-
-快速选择算法思路：
-
-只要某次划分的 q 为倒数第 k 个下标的时候，我们就已经找到了答案。
-如果划分得到的 q 正好就是我们需要的下标，就直接返回 a[q]；
-否则，如果 q 比目标下标小，就递归右子区间，否则递归左子区间。
-
-```go
-func findKthLargest(nums []int, k int) int {
-	rand.Seed(time.Now().Unix())
-	n := len(nums)
-	return quick_select(nums, 0, n-1, n-k)
-}
-func quick_select(A []int, start, end, i int) int {
-	piv_pos := random_partition(A, start, end)
-	if piv_pos == i {
-		return A[i]
-	} else if piv_pos > i {
-		return quick_select(A, start, piv_pos-1, i)
-	} else {
-		return quick_select(A, piv_pos+1, end, i)
-	}
-
-}
-func partition(A []int, start, end int) int {
-	piv, i := A[start], start+1
-	for j := start + 1; j <= end; j++ {
-		if A[j] < piv {
-			A[i], A[j] = A[j], A[i]
-			i++
-		}
-	}
-	A[start], A[i-1] = A[i-1], A[start]
-	return i - 1
-}
-func random_partition(A []int, start, end int) int {
-	random := start + rand.Int()%(end-start+1)>>1
-	A[start], A[random] = A[random], A[start]
-	return partition(A, start, end)
-}
-```
-
-
-复杂度分析
-
-- 时间复杂度：O(n)，如上文所述，证明过程可以参考「《算法导论》9.2：期望为线性的选择算法」。
-- 空间复杂度：O(logn)，递归使用栈空间的空间代价的期望为 O(logn)。
-
-
-
-**方法二：基于堆排序的选择方法**
-
-思路和算法
-
-建立一个大根堆，做 k - 1 次删除操作后堆顶元素就是我们要找的答案。
-
-```go
-func findKthLargest(A []int, k int) int {
-	heap_size, n := len(A), len(A)
-	build_maxheap(A, heap_size)
-	for i := heap_size - 1; i >= n-k+1; i-- {
-		A[0], A[i] = A[i], A[0]
-		heap_size--
-		max_heapify(A, 0, heap_size)
-	}
-	return A[0]
-}
-func build_maxheap(A []int, heap_size int) {
-	for i := heap_size >> 1; i >= 0; i-- {
-		max_heapify(A, i, heap_size)
-	}
-}
-func max_heapify(A []int, i, heap_size int) {
-	lson, rson, largest := i<<1+1, i<<1+2, i
-	for lson < heap_size && A[largest] < A[lson] {
-		largest = lson
-	}
-	for rson < heap_size && A[largest] < A[rson] {
-		largest = rson
-	}
-	if i != largest {
-		A[i], A[largest] = A[largest], A[i]
-		max_heapify(A, largest, heap_size)
-	}
-}
-
-```
-
-复杂度分析
-
-- 时间复杂度：O(nlogn)，建堆的时间代价是 O(n)，删除的总代价是 O(klogn)，因为 k < n，故渐进时间复杂为 O(n+klogn)=O(nlogn)。
-- 空间复杂度：O(logn)，即递归使用栈空间的空间代价。
 
 
 
@@ -544,6 +446,109 @@ func (this *LRUCache) removeTail() *DLinkedNode {
 时间复杂度：对于 put 和 get 都是 O(1)。
 
 空间复杂度：O(capacity)，因为哈希表和双向链表最多存储 capacity+1 个元素。
+
+
+
+
+## [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
+
+**方法一：基于快速排序的选择方法**
+
+快速选择算法思路：
+
+只要某次划分的 q 为倒数第 k 个下标的时候，我们就已经找到了答案。
+如果划分得到的 q 正好就是我们需要的下标，就直接返回 a[q]；
+否则，如果 q 比目标下标小，就递归右子区间，否则递归左子区间。
+
+```go
+func findKthLargest(nums []int, k int) int {
+	rand.Seed(time.Now().Unix())
+	n := len(nums)
+	return quick_select(nums, 0, n-1, n-k)
+}
+func quick_select(A []int, start, end, i int) int {
+	piv_pos := random_partition(A, start, end)
+	if piv_pos == i {
+		return A[i]
+	} else if piv_pos > i {
+		return quick_select(A, start, piv_pos-1, i)
+	} else {
+		return quick_select(A, piv_pos+1, end, i)
+	}
+
+}
+func partition(A []int, start, end int) int {
+	piv, i := A[start], start+1
+	for j := start + 1; j <= end; j++ {
+		if A[j] < piv {
+			A[i], A[j] = A[j], A[i]
+			i++
+		}
+	}
+	A[start], A[i-1] = A[i-1], A[start]
+	return i - 1
+}
+func random_partition(A []int, start, end int) int {
+	random := start + rand.Int()%(end-start+1)>>1
+	A[start], A[random] = A[random], A[start]
+	return partition(A, start, end)
+}
+```
+
+
+复杂度分析
+
+- 时间复杂度：O(n)，如上文所述，证明过程可以参考「《算法导论》9.2：期望为线性的选择算法」。
+- 空间复杂度：O(logn)，递归使用栈空间的空间代价的期望为 O(logn)。
+
+
+
+**方法二：基于堆排序的选择方法**
+
+思路和算法
+
+建立一个大根堆，做 k - 1 次删除操作后堆顶元素就是我们要找的答案。
+
+```go
+func findKthLargest(A []int, k int) int {
+	heap_size, n := len(A), len(A)
+	build_maxheap(A, heap_size)
+	for i := heap_size - 1; i >= n-k+1; i-- {
+		A[0], A[i] = A[i], A[0]
+		heap_size--
+		max_heapify(A, 0, heap_size)
+	}
+	return A[0]
+}
+func build_maxheap(A []int, heap_size int) {
+	for i := heap_size >> 1; i >= 0; i-- {
+		max_heapify(A, i, heap_size)
+	}
+}
+func max_heapify(A []int, i, heap_size int) {
+	lson, rson, largest := i<<1+1, i<<1+2, i
+	for lson < heap_size && A[largest] < A[lson] {
+		largest = lson
+	}
+	for rson < heap_size && A[largest] < A[rson] {
+		largest = rson
+	}
+	if i != largest {
+		A[i], A[largest] = A[largest], A[i]
+		max_heapify(A, largest, heap_size)
+	}
+}
+
+```
+
+复杂度分析
+
+- 时间复杂度：O(nlogn)，建堆的时间代价是 O(n)，删除的总代价是 O(klogn)，因为 k < n，故渐进时间复杂为 O(n+klogn)=O(nlogn)。
+- 空间复杂度：O(logn)，即递归使用栈空间的空间代价。
+
+
+
+
 
 
 

@@ -453,6 +453,43 @@ func (this *LRUCache) removeTail() *DLinkedNode {
 
 ## [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
 
+
+* 考点1：能否实现解法的优化
+* 考点2：是否了解快速选择算法
+* 考点3：能否说明堆算法和快速选择算法的适用场景
+
+**核心思路**
+
+```go
+func findKthLargest(nums []int, k int) int {
+	n := len(nums)
+	return quick_select(nums, 0, n-1, n-k)
+}
+
+func quick_select(A []int, start, end, i int) int {
+	if piv_pos := partition(A, start, end); i == piv_pos {
+		return A[i]
+	} else if i < piv_pos {
+		return quick_select(A, start, piv_pos-1, i)
+	} else {
+		return quick_select(A, piv_pos+1, end, i)
+	}
+}
+
+func partition(A []int, start, end int) int {
+	piv, i := A[start], start+1
+	for j := start + 1; j <= end; j++ {
+		if A[j] < piv {
+			A[i], A[j] = A[j], A[i]
+			i++
+		}
+	}
+	A[start], A[i-1] = A[i-1], A[start]
+	return i - 1
+}
+```
+
+
 **方法一：基于快速排序的选择方法**
 
 快速选择算法思路：
@@ -467,17 +504,17 @@ func findKthLargest(nums []int, k int) int {
 	n := len(nums)
 	return quick_select(nums, 0, n-1, n-k)
 }
+
 func quick_select(A []int, start, end, i int) int {
-	piv_pos := random_partition(A, start, end)
-	if piv_pos == i {
+	if piv_pos := partition(A, start, end); i == piv_pos {
 		return A[i]
-	} else if piv_pos > i {
+	} else if i < piv_pos {
 		return quick_select(A, start, piv_pos-1, i)
 	} else {
 		return quick_select(A, piv_pos+1, end, i)
 	}
-
 }
+
 func partition(A []int, start, end int) int {
 	piv, i := A[start], start+1
 	for j := start + 1; j <= end; j++ {
@@ -489,12 +526,14 @@ func partition(A []int, start, end int) int {
 	A[start], A[i-1] = A[i-1], A[start]
 	return i - 1
 }
+
 func random_partition(A []int, start, end int) int {
-	random := start + rand.Int()%(end-start+1)>>1
+	random := start + rand.Int()%(end-start+1)
 	A[start], A[random] = A[random], A[start]
 	return partition(A, start, end)
 }
 ```
+
 
 
 复杂度分析
@@ -539,7 +578,6 @@ func max_heapify(A []int, i, heap_size int) {
 		max_heapify(A, largest, heap_size)
 	}
 }
-
 ```
 
 复杂度分析
@@ -557,9 +595,7 @@ func max_heapify(A []int, i, heap_size int) {
 
 ## [补充题4. 手撕快速排序 912. 排序数组 ](https://leetcode-cn.com/problems/sort-an-array/)
 
-* 考点1：能否实现解法的优化
-* 考点2：是否了解快速选择算法
-* 考点3：能否说明堆算法和快速选择算法的适用场景
+
 
 **方法一：快速排序**
 

@@ -10,6 +10,7 @@ type LRUCache struct {
 	head, tail     *DLinkedNode
 	size, capacity int
 }
+
 type DLinkedNode struct {
 	key, value int
 	prev, next *DLinkedNode
@@ -21,6 +22,7 @@ func initDLinkedNode(key, value int) *DLinkedNode {
 		value: value,
 	}
 }
+
 func Constructor(capacity int) LRUCache {
 	l := LRUCache{
 		cache:    map[int]*DLinkedNode{},
@@ -68,8 +70,8 @@ func (this *LRUCache) addToHead(node *DLinkedNode) {
 }
 
 func (this *LRUCache) removeNode(node *DLinkedNode) {
-	node.next.prev = node.prev
 	node.prev.next = node.next
+	node.next.prev = node.prev
 }
 
 func (this *LRUCache) moveToHead(node *DLinkedNode) {

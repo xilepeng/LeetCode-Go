@@ -27,7 +27,7 @@ func partition(A []int, start, end int) int {
 	return i - 1 						//返回枢轴的位置
 }
 func random_partition(A []int, start, end int) int {
-	rand.Seed(time.Now().Unix())
+	rand.Seed(time.Now().UnixNano())
 	random := start + rand.Int()%(end-start+1)
 	A[start], A[random] = A[random], A[start]
 	return partition(A, start, end)

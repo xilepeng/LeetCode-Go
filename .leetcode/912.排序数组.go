@@ -1,23 +1,21 @@
 /*
- * @lc app=leetcode.cn id=215 lang=golang
+ * @lc app=leetcode.cn id=912 lang=golang
  *
- * [215] 数组中的第K个最大元素
+ * [912] 排序数组
  */
 
 // @lc code=start
-func findKthLargest(nums []int, k int) int {
+func sortArray(nums []int) []int {
 	rand.Seed(time.Now().UnixNano())
-	n := len(nums)
-	return quick_select(nums, 0, n-1, n-k)
+	quick_sort(nums, 0, len(nums)-1)
+	return nums
 }
 
-func quick_select(A []int, start, end, i int) int {
-	if piv_pos := random_partition(A, start, end); i == piv_pos {
-		return A[i]
-	} else if i < piv_pos {
-		return quick_select(A, start, piv_pos-1, i)
-	} else {
-		return quick_select(A, piv_pos+1, end, i)
+func quick_sort(A []int, start, end int) {
+	if start < end {
+		piv_pos := random_partition(A, start, end)
+		quick_sort(A, start, piv_pos-1)
+		quick_sort(A, piv_pos+1, end)
 	}
 }
 

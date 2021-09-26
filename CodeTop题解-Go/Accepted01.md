@@ -2,7 +2,7 @@
 1. [✅ 3. 无重复字符的最长子串](#-3-无重复字符的最长子串)
 1. [✅ 146. LRU 缓存机制](#-146-lru-缓存机制)
 1. [✅ 215. 数组中的第K个最大元素](#-215-数组中的第k个最大元素)
-1. [补充题4. 手撕快速排序 912. 排序数组 ](#补充题4-手撕快速排序-912-排序数组-)
+1. [✅ 补充题4. 手撕快速排序 912. 排序数组 ](#-补充题4-手撕快速排序-912-排序数组-)
 1. [25. K 个一组翻转链表](#25-k-个一组翻转链表)
 1. [1. 两数之和](#1-两数之和)
 1. [53. 最大子序和](#53-最大子序和)
@@ -18,54 +18,6 @@
 1. [236. 二叉树的最近公共祖先](#236-二叉树的最近公共祖先)
 1. [20. 有效的括号](#20-有效的括号)
 1. [704. 二分查找](#704-二分查找)
-
-
-
-------
-
-
-[206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
-
-[3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
-
-[215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
-
-
-[146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
-
-[补充题4. 手撕快速排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
-
-[25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
-
-[1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
-
-[53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
-
-[21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
-
-[160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
-
-
-
-[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
-
-[141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
-
-[102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
-
-[121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
-
-[415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
-
-[103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
-
-[88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
-
-[236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
-
-[20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
-
-[704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
 
 
 
@@ -500,13 +452,13 @@ func partition(A []int, start, end int) int {
 
 ```go
 func findKthLargest(nums []int, k int) int {
-	rand.Seed(time.Now().Unix())
+	rand.Seed(time.Now().UnixNano())
 	n := len(nums)
 	return quick_select(nums, 0, n-1, n-k)
 }
 
 func quick_select(A []int, start, end, i int) int {
-	if piv_pos := partition(A, start, end); i == piv_pos {
+	if piv_pos := random_partition(A, start, end); i == piv_pos {
 		return A[i]
 	} else if i < piv_pos {
 		return quick_select(A, start, piv_pos-1, i)
@@ -528,7 +480,7 @@ func partition(A []int, start, end int) int {
 }
 
 func random_partition(A []int, start, end int) int {
-	random := start + rand.Int()%(end-start+1)
+	random := rand.Int()%(end-start+1) + start
 	A[start], A[random] = A[random], A[start]
 	return partition(A, start, end)
 }
@@ -593,7 +545,7 @@ func max_heapify(A []int, i, heap_size int) {
 
 
 
-## [补充题4. 手撕快速排序 912. 排序数组 ](https://leetcode-cn.com/problems/sort-an-array/)
+## ✅ [补充题4. 手撕快速排序 912. 排序数组 ](https://leetcode-cn.com/problems/sort-an-array/)
 
 
 
@@ -612,88 +564,38 @@ func max_heapify(A []int, i, heap_size int) {
 - 时间复杂度： O(nlog(n)) 
 - 空间复杂度： O(log(n)), 递归使用栈空间的空间代价为O(logn)。
 
-
-```go
-func sortArray(nums []int) []int {
-	quickSort(nums, 0, len(nums)-1)
-	return nums
-}
-func quickSort(a []int, l, r int) {
-	if l < r {
-		pos := partition(a, l, r)
-		quickSort(a, l, pos-1)
-		quickSort(a, pos+1, r)
-	}
-}
-func partition(a []int, l, r int) int {
-	a[r], a[(l+r)>>1] = a[(l+r)>>1], a[r]
-	x, i := a[r], l-1
-	for j := l; j < r; j++ {
-		if a[j] <= x { //逆序 交换
-			i++
-			a[i], a[j] = a[j], a[i]
-		}
-	}
-	a[i+1], a[r] = a[r], a[i+1]
-	return i + 1
-}
-```
-
-
-```go
-func sortArray(nums []int) []int {
-	quickSort(nums, 0, len(nums)-1)
-	return nums
-}
-func quickSort(a []int, l, r int) {
-	if l < r {
-		a[(l+r)>>1], a[r] = a[r], a[(l+r)>>1]
-		i := l - 1
-		for j := l; j < r; j++ {
-			if a[j] <= a[r] { //逆序交换
-				i++
-				a[i], a[j] = a[j], a[i]
-			}
-		}
-		i++
-		a[i], a[r] = a[r], a[i]
-		quickSort(a, l, i-1)
-		quickSort(a, i+1, r)
-	}
-}
-```
-
-
 ```go
 func sortArray(nums []int) []int {
 	rand.Seed(time.Now().UnixNano())
-	quickSort(nums, 0, len(nums)-1)
+	quick_sort(nums, 0, len(nums)-1)
 	return nums
 }
-func quickSort(a []int, l, r int) {
-	if l < r {
-		pos := randomPartition(a, l, r)
-		quickSort(a, l, pos-1)
-		quickSort(a, pos+1, r)
+
+func quick_sort(A []int, start, end int) {
+	if start < end {
+		piv_pos := random_partition(A, start, end)
+		quick_sort(A, start, piv_pos-1)
+		quick_sort(A, piv_pos+1, end)
 	}
-}
-func randomPartition(a []int, l, r int) int {
-	i := rand.Int()%(r-l+1) + l
-	a[r], a[i] = a[i], a[r]
-	return partition(a, l, r)
-}
-func partition(a []int, l, r int) int {
-	x, i := a[r], l-1
-	for j := l; j < r; j++ {
-		if a[j] <= x { //逆序 交换
-			i++
-			a[i], a[j] = a[j], a[i]
-		}
-	}
-	a[i+1], a[r] = a[r], a[i+1]
-	return i + 1
 }
 
+func partition(A []int, start, end int) int {
+	piv, i := A[start], start+1
+	for j := start + 1; j <= end; j++ {
+		if A[j] < piv {
+			A[i], A[j] = A[j], A[i]
+			i++
+		}
+	}
+	A[start], A[i-1] = A[i-1], A[start]
+	return i - 1
+}
+
+func random_partition(A []int, start, end int) int {
+	random := rand.Int()%(end-start+1) + start
+	A[start], A[random] = A[random], A[start]
+	return partition(A, start, end)
+}
 ```
 
 复杂度分析
@@ -1477,3 +1379,49 @@ func search(nums []int, target int) int {
 
 
 
+
+------
+<!-- 
+
+[206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
+
+[3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
+
+[215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
+
+
+[146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
+
+[补充题4. 手撕快速排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+[25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
+
+[1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
+
+[53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+
+[21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+
+[160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
+
+
+
+[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
+
+[141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
+
+[102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+[121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+
+[415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
+
+[103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+
+[88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
+
+[236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+
+[20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
+
+[704. 二分查找](https://leetcode-cn.com/problems/binary-search/) -->

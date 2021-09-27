@@ -2,8 +2,8 @@
 1. [✅ 3. 无重复字符的最长子串](#-3-无重复字符的最长子串)
 1. [✅ 146. LRU 缓存机制](#-146-lru-缓存机制)
 1. [✅ 215. 数组中的第K个最大元素](#-215-数组中的第k个最大元素)
+1. [✅ 25. K 个一组翻转链表](#-25-k-个一组翻转链表)
 1. [✅ 补充题4. 手撕快速排序 912. 排序数组 ](#-补充题4-手撕快速排序-912-排序数组-)
-1. [25. K 个一组翻转链表](#25-k-个一组翻转链表)
 1. [1. 两数之和](#1-两数之和)
 1. [53. 最大子序和](#53-最大子序和)
 1. [21. 合并两个有序链表](#21-合并两个有序链表)
@@ -541,7 +541,61 @@ func max_heapify(A []int, i, heap_size int) {
 
 
 
+## ✅ [25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
 
+![截屏2021-04-21 11.31.37.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7jmcf05j315g0pen05.jpg)
+
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func reverseKGroup(head *ListNode, k int) *ListNode {
+	dummy := &ListNode{Next: head}
+	prev := dummy
+	for head != nil {
+		tail := prev
+		for i := 0; i < k; i++ {
+			tail = tail.Next
+			if tail == nil {
+				return dummy.Next
+			}
+		}
+		next := tail.Next
+		tail.Next = nil
+		prev.Next = reverse(head)
+		head.Next = next
+		prev = head
+		head = next
+	}
+	return dummy.Next
+}
+
+func reverse(head *ListNode) *ListNode {
+	var prev *ListNode
+	curr := head
+	for curr != nil {
+		next := curr.Next
+		curr.Next = prev
+		prev = curr
+		curr = next
+	}
+	return prev
+}
+```
+
+
+
+
+复杂度分析
+
+- 时间复杂度：O(n)，其中 n 为链表的长度。head 指针会在 O(⌊k/n⌋) 个节点上停留，每次停留需要进行一次 O(k) 的翻转操作。
+
+- 空间复杂度：O(1)，我们只需要建立常数个变量。
 
 
 
@@ -606,59 +660,7 @@ func random_partition(A []int, start, end int) int {
 
 
 
-## [25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
 
-![截屏2021-04-21 11.31.37.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7jmcf05j315g0pen05.jpg)
-
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func reverseKGroup(head *ListNode, k int) *ListNode {
-	dummy := &ListNode{Next: head}
-	prev := dummy
-	for head != nil {
-		for i := 0; i < k-1 && head != nil; i++ {
-			head = head.Next
-		}
-		if head == nil {
-			break
-		}
-		first := prev.Next         //待翻转链表头
-		next := head.Next          //存储下一个待翻转链表头
-		head.Next = nil            //断开
-		prev.Next = reverse(first) //翻转
-		first.Next = next          //连接
-		prev = first
-		head = next
-	}
-	return dummy.Next
-}
-func reverse(head *ListNode) *ListNode {
-	var prev *ListNode
-	curr := head
-	for curr != nil {
-		next := curr.Next
-		curr.Next = prev //翻转
-		prev = curr
-		curr = next
-	}
-	return prev
-}
-```
-
-
-
-复杂度分析
-
-- 时间复杂度：O(n)，其中 n 为链表的长度。head 指针会在 O(⌊k/n⌋) 个节点上停留，每次停留需要进行一次 O(k) 的翻转操作。
-
-- 空间复杂度：O(1)，我们只需要建立常数个变量。
 
 
 

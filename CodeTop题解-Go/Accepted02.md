@@ -252,6 +252,8 @@ func permute(nums []int) (res [][]int) {
 }
 ```
 
+**方法二：枚举每个数放哪个位置 (回溯)**
+
 ![截屏2021-04-04 12.47.06.png](http://ww1.sinaimg.cn/large/007daNw2ly1gp7m6z5viej30tw0ly0v8.jpg)
 
 ```go

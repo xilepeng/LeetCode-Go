@@ -254,6 +254,10 @@ func permute(nums []int) (res [][]int) {
 
 **方法二：枚举每个数放哪个位置 (回溯)**
 
+这个问题可以看作有 nn 个排列成一行的空格，我们需要从左往右依此填入题目给定的 nn 个数，每个数只能使用一次。那么很直接的可以想到一种穷举的算法，即从左往右每一个位置都依此尝试填入一个数，看能不能填完这 nn 个空格，在程序中我们可以用「回溯法」来模拟这个过程。
+
+假设我们已经填到第 pos 个位置
+
 ![截屏2021-04-04 12.47.06.png](http://ww1.sinaimg.cn/large/007daNw2ly1gp7m6z5viej30tw0ly0v8.jpg)
 
 ```go
@@ -261,13 +265,13 @@ func permute(nums []int) [][]int {
 	res, n := [][]int{}, len(nums)
 	var dfs func(int)
 	dfs = func(pos int) {
-		if pos == len(nums) {
+		if pos == n { // 所有数都填完了
 			res = append(res, append([]int{}, nums...))
 		}
 		for i := pos; i < n; i++ {
-			nums[i], nums[pos] = nums[pos], nums[i]
-			dfs(pos + 1)
-			nums[i], nums[pos] = nums[pos], nums[i]
+			nums[i], nums[pos] = nums[pos], nums[i] // 动态维护数组
+			dfs(pos + 1)                            // 继续递归填下一个数
+			nums[i], nums[pos] = nums[pos], nums[i] // 撤销操作
 		}
 	}
 	dfs(0)

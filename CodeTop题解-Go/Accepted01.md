@@ -79,16 +79,17 @@ func reverseList(head *ListNode) *ListNode {
  * }
  */
 func reverseList(head *ListNode) *ListNode {
-    if head == nil || head.Next == nil {
-        return head
-    }
+	//没有节点或只有一个节点
+	if head == nil || head.Next == nil {
+		return head
+	} //dummy->curr->next	 nil->1->2	->3
 	dummy, curr := &ListNode{Next: head}, head
 	for curr.Next != nil {
 		next := curr.Next
-		curr.Next = next.Next
-		next.Next = dummy.Next //插入链表头
-		dummy.Next = next
-	}
+		curr.Next = next.Next  //找到后继节点 1->3
+		next.Next = dummy.Next //头插/反转 2->1
+		dummy.Next = next      //通知哨兵 dummy->2->1->3
+	} 
 	return dummy.Next
 }
 ```

@@ -47,7 +47,7 @@
 func reverseList(head *ListNode) *ListNode {
 	var prev *ListNode //prev -> nil
 	curr := head
-	for curr != nil {
+	for curr != nil {	  //当前节点不为空
 		next := curr.Next //1.存储下一个节点
 		curr.Next = prev  //2.当前节点的next指针指向前一个节点
 		prev = curr       //3.移动双指针
@@ -88,7 +88,7 @@ func reverseList(head *ListNode) *ListNode {
 		next := curr.Next
 		curr.Next = next.Next  //找到后继节点 1->3
 		next.Next = dummy.Next //头插/反转 2->1
-		dummy.Next = next      //通知哨兵 dummy->2->1->3
+		dummy.Next = next      //通知哨兵 dummy-> 2->1->3
 	} 
 	return dummy.Next
 }

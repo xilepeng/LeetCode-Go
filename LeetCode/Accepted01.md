@@ -1,23 +1,23 @@
 1. [✅ 206. 反转链表](#-206-反转链表)
-1. [✅ 3. 无重复字符的最长子串](#-3-无重复字符的最长子串)
-1. [✅ 146. LRU 缓存机制](#-146-lru-缓存机制)
-1. [✅ 215. 数组中的第K个最大元素](#-215-数组中的第k个最大元素)
-1. [✅ 25. K 个一组翻转链表](#-25-k-个一组翻转链表)
-1. [✅ 补充题4. 手撕快速排序 912. 排序数组 ](#-补充题4-手撕快速排序-912-排序数组-)
-1. [1. 两数之和](#1-两数之和)
-1. [53. 最大子序和](#53-最大子序和)
-1. [21. 合并两个有序链表](#21-合并两个有序链表)
-1. [160. 相交链表](#160-相交链表)
-1. [15. 三数之和](#15-三数之和)
-1. [141. 环形链表](#141-环形链表)
-1. [102. 二叉树的层序遍历](#102-二叉树的层序遍历)
-1. [121. 买卖股票的最佳时机](#121-买卖股票的最佳时机)
-1. [415. 字符串相加](#415-字符串相加)
-1. [103. 二叉树的锯齿形层序遍历](#103-二叉树的锯齿形层序遍历)
-1. [88. 合并两个有序数组](#88-合并两个有序数组)
-1. [236. 二叉树的最近公共祖先](#236-二叉树的最近公共祖先)
-1. [20. 有效的括号](#20-有效的括号)
-1. [704. 二分查找](#704-二分查找)
+2. [✅ 146. LRU 缓存机制](#-146-lru-缓存机制)
+3. [✅ 3. 无重复字符的最长子串](#-3-无重复字符的最长子串)
+4. [✅ 215. 数组中的第K个最大元素](#-215-数组中的第k个最大元素)
+5. [✅ 25. K 个一组翻转链表](#-25-k-个一组翻转链表)
+6. [✅ 补充题4. 手撕快速排序 912. 排序数组 ](#-补充题4-手撕快速排序-912-排序数组-)
+7. [1. 两数之和](#1-两数之和)
+8. [53. 最大子序和](#53-最大子序和)
+9. [21. 合并两个有序链表](#21-合并两个有序链表)
+10. [160. 相交链表](#160-相交链表)
+11. [15. 三数之和](#15-三数之和)
+12. [141. 环形链表](#141-环形链表)
+13. [102. 二叉树的层序遍历](#102-二叉树的层序遍历)
+14. [121. 买卖股票的最佳时机](#121-买卖股票的最佳时机)
+15. [415. 字符串相加](#415-字符串相加)
+16. [103. 二叉树的锯齿形层序遍历](#103-二叉树的锯齿形层序遍历)
+17. [88. 合并两个有序数组](#88-合并两个有序数组)
+18. [236. 二叉树的最近公共祖先](#236-二叉树的最近公共祖先)
+19. [20. 有效的括号](#20-有效的括号)
+20. [704. 二分查找](#704-二分查找)
 
 
 
@@ -31,7 +31,7 @@
 **方法一：迭代（双指针）**
 
 
-![](images/206-1.jpg)
+![](images/206-1.png)
 
 思路：在遍历链表时，将当前节点的 next 指针改为指向前一个节点。由于节点没有引用其前一个节点，因此必须事先存储其前一个节点。在更改引用之前，还需要存储后一个节点。最后返回新的头引用。
 
@@ -67,8 +67,8 @@ func reverseList(head *ListNode) *ListNode {
 
 **方法二：头插法**
 
-![](images/206-2.png)
 ![](images/206-2-1.png)
+![](images/206-2-2.png)
 
 ```go
 /**
@@ -97,13 +97,17 @@ func reverseList(head *ListNode) *ListNode {
 
 **方法三：递归**
 
-![](images/206-3.png))
+![](images/206-3-1.png))
+![](images/206-3-2.png))
 
 
 **思路**
 
-首先我们先考虑 reverseList 函数能做什么，它可以翻转一个链表，并返回新链表的头节点，也就是原链表的尾节点。
-所以我们可以先递归处理 reverseList(head->next)，这样我们可以将以 head->next 为头节点的链表翻转，并得到原链表的尾节 tail，此时 head->next 是新链表的尾节点，我们令它的 next 指针指向 head，并将 head->next 指向空即可将整个链表翻转，且新链表的头节点是tail。
+1. 大问题拆解成2个子问题：
+2. 子问题的求解方式和大问题一样
+3. 存在最小子问题：只有一个节点，反转没有意义，直接返回
+
+
 
 - 空间复杂度分析：总共递归 n 层，系统栈的空间复杂度是 O(n)，所以总共需要额外 O(n) 的空间。
 - 时间复杂度分析：链表中每个节点只被遍历一次，所以时间复杂度是 O(n)。
@@ -132,6 +136,147 @@ func reverseList(head *ListNode) *ListNode {
 - 时间复杂度：O(n)，其中 n 是链表的长度。需要对链表的每个节点进行反转操作。
 
 - 空间复杂度：O(n)，其中 n 是链表的长度。空间复杂度主要取决于递归调用的栈空间，最多为 n 层。
+
+
+
+
+
+
+
+
+
+## ✅ [146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
+
+![](images/146.png)
+
+**方法一：哈希表 + 双向链表**
+算法
+
+LRU 缓存机制可以通过哈希表辅以双向链表实现，我们用一个哈希表和一个双向链表维护所有在缓存中的键值对。
+
+- 双向链表按照被使用的顺序存储了这些键值对，靠近头部的键值对是最近使用的，而靠近尾部的键值对是最久未使用的。
+
+- 哈希表即为普通的哈希映射（HashMap），通过缓存数据的键映射到其在双向链表中的位置。
+
+这样以来，我们首先使用哈希表进行定位，找出缓存项在双向链表中的位置，随后将其移动到双向链表的头部，即可在 O(1) 的时间内完成 get 或者 put 操作。具体的方法如下：
+
+- 对于 get 操作，首先判断 key 是否存在：
+
+    如果 key 不存在，则返回 −1；
+
+    如果 key 存在，则 key 对应的节点是最近被使用的节点。通过哈希表定位到该节点在双向链表中的位置，并将其移动到双向链表的头部，最后返回该节点的值。
+
+- 对于 put 操作，首先判断 key 是否存在：
+
+    如果 key 不存在，使用 key 和 value 创建一个新的节点，在双向链表的头部添加该节点，并将 key 和该节点添加进哈希表中。然后判断双向链表的节点数是否超出容量，如果超出容量，则删除双向链表的尾部节点，并删除哈希表中对应的项；
+
+    如果 key 存在，则与 get 操作类似，先通过哈希表定位，再将对应的节点的值更新为 value，并将该节点移到双向链表的头部。
+
+上述各项操作中，访问哈希表的时间复杂度为 (1)，在双向链表的头部添加节点、在双向链表的尾部删除节点的复杂度也为 O(1)。而将一个节点移到双向链表的头部，可以分成「删除该节点」和「在双向链表的头部添加节点」两步操作，都可以在 O(1) 时间内完成。
+
+小贴士
+
+在双向链表的实现中，使用一个伪头部（dummy head）和伪尾部（dummy tail）标记界限，这样在添加节点和删除节点的时候就不需要检查相邻的节点是否存在。
+
+![截屏2021-05-19 12.46.17.png](http://ww1.sinaimg.cn/large/007daNw2ly1gqnn2m3y0hj318y0owq9l.jpg)
+
+
+
+```go
+type LRUCache struct {
+	cache          map[int]*DLinkedNode
+	head, tail     *DLinkedNode
+	size, capacity int
+}
+
+type DLinkedNode struct {
+	key, value int
+	prev, next *DLinkedNode
+}
+
+func initDLinkedNode(key, value int) *DLinkedNode {
+	return &DLinkedNode{
+		key:   key,
+		value: value,
+	}
+}
+
+func Constructor(capacity int) LRUCache {
+	l := LRUCache{
+		cache:    map[int]*DLinkedNode{},
+		head:     initDLinkedNode(0, 0),
+		tail:     initDLinkedNode(0, 0),
+		capacity: capacity,
+	}
+	l.head.next = l.tail
+	l.tail.prev = l.head
+	return l
+}
+
+func (this *LRUCache) Get(key int) int {
+	if _, ok := this.cache[key]; !ok {
+		return -1
+	}
+	node := this.cache[key] // 如果 key 存在，先通过哈希表定位，再移到头部
+	this.moveToHead(node)
+	return node.value
+}
+
+func (this *LRUCache) Put(key int, value int) {
+	if _, ok := this.cache[key]; !ok { // 如果 key 不存在，创建一个新的节点
+		node := initDLinkedNode(key, value)
+		this.cache[key] = node // 添加进哈希表
+		this.addToHead(node)   // 添加至双向链表的头部
+		this.size++
+		if this.size > this.capacity {
+			removed := this.removeTail()    // 如果超出容量，删除双向链表的尾部节点
+			delete(this.cache, removed.key) // 删除哈希表中对应的项
+			this.size--
+		}
+	} else { // 如果 key 存在，先通过哈希表定位，再修改 value，并移到头部
+		node := this.cache[key]
+		node.value = value
+		this.moveToHead(node)
+	}
+}
+
+func (this *LRUCache) addToHead(node *DLinkedNode) {
+	node.prev = this.head
+	node.next = this.head.next
+	this.head.next.prev = node
+	this.head.next = node
+}
+
+func (this *LRUCache) removeNode(node *DLinkedNode) {
+	node.prev.next = node.next
+	node.next.prev = node.prev
+}
+
+func (this *LRUCache) moveToHead(node *DLinkedNode) {
+	this.removeNode(node)
+	this.addToHead(node)
+}
+
+func (this *LRUCache) removeTail() *DLinkedNode {
+	node := this.tail.prev
+	this.removeNode(node)
+	return node
+}
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * obj := Constructor(capacity);
+ * param_1 := obj.Get(key);
+ * obj.Put(key,value);
+ */
+```
+
+复杂度分析
+
+时间复杂度：对于 put 和 get 都是 O(1)。
+
+空间复杂度：O(capacity)，因为哈希表和双向链表最多存储 capacity+1 个元素。
+
 
 
 
@@ -256,142 +401,6 @@ func max(x, y int) int {
  i = 3 m[a] = 2
  	{m[a] = 2-1 = 1 j = 1  res = 3 - 1 + 1 = 3}
  a[bca]bcbb
-
-
-
-
-
-## ✅ [146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
-
-![](images/146.png)
-
-**方法一：哈希表 + 双向链表**
-算法
-
-LRU 缓存机制可以通过哈希表辅以双向链表实现，我们用一个哈希表和一个双向链表维护所有在缓存中的键值对。
-
-- 双向链表按照被使用的顺序存储了这些键值对，靠近头部的键值对是最近使用的，而靠近尾部的键值对是最久未使用的。
-
-- 哈希表即为普通的哈希映射（HashMap），通过缓存数据的键映射到其在双向链表中的位置。
-
-这样以来，我们首先使用哈希表进行定位，找出缓存项在双向链表中的位置，随后将其移动到双向链表的头部，即可在 O(1)O(1) 的时间内完成 get 或者 put 操作。具体的方法如下：
-
-- 对于 get 操作，首先判断 key 是否存在：
-
-    如果 key 不存在，则返回 −1；
-
-    如果 key 存在，则 key 对应的节点是最近被使用的节点。通过哈希表定位到该节点在双向链表中的位置，并将其移动到双向链表的头部，最后返回该节点的值。
-
-- 对于 put 操作，首先判断 key 是否存在：
-
-    如果 key 不存在，使用 key 和 value 创建一个新的节点，在双向链表的头部添加该节点，并将 key 和该节点添加进哈希表中。然后判断双向链表的节点数是否超出容量，如果超出容量，则删除双向链表的尾部节点，并删除哈希表中对应的项；
-
-    如果 key 存在，则与 get 操作类似，先通过哈希表定位，再将对应的节点的值更新为 value，并将该节点移到双向链表的头部。
-
-上述各项操作中，访问哈希表的时间复杂度为 (1)，在双向链表的头部添加节点、在双向链表的尾部删除节点的复杂度也为 O(1)。而将一个节点移到双向链表的头部，可以分成「删除该节点」和「在双向链表的头部添加节点」两步操作，都可以在 O(1) 时间内完成。
-
-小贴士
-
-在双向链表的实现中，使用一个伪头部（dummy head）和伪尾部（dummy tail）标记界限，这样在添加节点和删除节点的时候就不需要检查相邻的节点是否存在。
-
-![截屏2021-05-19 12.46.17.png](http://ww1.sinaimg.cn/large/007daNw2ly1gqnn2m3y0hj318y0owq9l.jpg)
-
-
-
-```go
-type LRUCache struct {
-	cache          map[int]*DLinkedNode
-	head, tail     *DLinkedNode
-	size, capacity int
-}
-
-type DLinkedNode struct {
-	key, value int
-	prev, next *DLinkedNode
-}
-
-func initDLinkedNode(key, value int) *DLinkedNode {
-	return &DLinkedNode{
-		key:   key,
-		value: value,
-	}
-}
-
-func Constructor(capacity int) LRUCache {
-	l := LRUCache{
-		cache:    map[int]*DLinkedNode{},
-		head:     initDLinkedNode(0, 0),
-		tail:     initDLinkedNode(0, 0),
-		capacity: capacity,
-	}
-	l.head.next = l.tail
-	l.tail.prev = l.head
-	return l
-}
-
-func (this *LRUCache) Get(key int) int {
-	if _, ok := this.cache[key]; !ok {
-		return -1
-	}
-	node := this.cache[key] // 如果 key 存在，先通过哈希表定位，再移到头部
-	this.moveToHead(node)
-	return node.value
-}
-
-func (this *LRUCache) Put(key int, value int) {
-	if _, ok := this.cache[key]; !ok { // 如果 key 不存在，创建一个新的节点
-		node := initDLinkedNode(key, value)
-		this.cache[key] = node // 添加进哈希表
-		this.addToHead(node)   // 添加至双向链表的头部
-		this.size++
-		if this.size > this.capacity {
-			removed := this.removeTail()    // 如果超出容量，删除双向链表的尾部节点
-			delete(this.cache, removed.key) // 删除哈希表中对应的项
-			this.size--
-		}
-	} else { // 如果 key 存在，先通过哈希表定位，再修改 value，并移到头部
-		node := this.cache[key]
-		node.value = value
-		this.moveToHead(node)
-	}
-}
-
-func (this *LRUCache) addToHead(node *DLinkedNode) {
-	node.prev = this.head
-	node.next = this.head.next
-	this.head.next.prev = node
-	this.head.next = node
-}
-
-func (this *LRUCache) removeNode(node *DLinkedNode) {
-	node.prev.next = node.next
-	node.next.prev = node.prev
-}
-
-func (this *LRUCache) moveToHead(node *DLinkedNode) {
-	this.removeNode(node)
-	this.addToHead(node)
-}
-
-func (this *LRUCache) removeTail() *DLinkedNode {
-	node := this.tail.prev
-	this.removeNode(node)
-	return node
-}
-
-/**
- * Your LRUCache object will be instantiated and called as such:
- * obj := Constructor(capacity);
- * param_1 := obj.Get(key);
- * obj.Put(key,value);
- */
-```
-
-复杂度分析
-
-时间复杂度：对于 put 和 get 都是 O(1)。
-
-空间复杂度：O(capacity)，因为哈希表和双向链表最多存储 capacity+1 个元素。
 
 
 

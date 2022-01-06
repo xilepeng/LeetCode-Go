@@ -315,40 +315,6 @@ S(n) = O(|Σ|) 其中 Σ 表示字符集（即字符串中可以出现的字符�
 ## ✅ [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
 
 
-* 考点1：能否实现解法的优化
-* 考点2：是否了解快速选择算法
-* 考点3：能否说明堆算法和快速选择算法的适用场景
-
-**核心思路**
-
-```go
-func findKthLargest(nums []int, k int) int {
-	n := len(nums)
-	return quick_select(nums, 0, n-1, n-k)
-}
-
-func quick_select(A []int, start, end, i int) int {
-	if piv_pos := partition(A, start, end); i == piv_pos {
-		return A[i]
-	} else if i < piv_pos {
-		return quick_select(A, start, piv_pos-1, i)
-	} else {
-		return quick_select(A, piv_pos+1, end, i)
-	}
-}
-
-func partition(A []int, start, end int) int {
-	piv, i := A[start], start+1
-	for j := start + 1; j <= end; j++ {
-		if A[j] < piv {
-			A[i], A[j] = A[j], A[i]
-			i++
-		}
-	}
-	A[start], A[i-1] = A[i-1], A[start]
-	return i - 1
-}
-```
 
 
 **方法一：基于快速排序的选择方法**
@@ -362,45 +328,47 @@ func partition(A []int, start, end int) int {
 ```go
 func findKthLargest(nums []int, k int) int {
 	rand.Seed(time.Now().UnixNano())
-	n := len(nums)
-	return quick_select(nums, 0, n-1, n-k)
+	return quick_select(nums, 0, len(nums)-1, len(nums)-k)
 }
-
 func quick_select(A []int, start, end, i int) int {
-	if piv_pos := random_partition(A, start, end); i == piv_pos {
-		return A[i]
-	} else if i < piv_pos {
-		return quick_select(A, start, piv_pos-1, i)
+	
+	if q := random_partition(A, start, end); q == i {
+		return A[q]
+	} else if q < i {
+		return quick_select(A, q+1, end, i)
 	} else {
-		return quick_select(A, piv_pos+1, end, i)
+		return quick_select(A,start, q-1, i)
 	}
 }
-
-func partition(A []int, start, end int) int {
+func random_partition(A []int, start, end int) int {
+	random := rand.Int()%(end-start+1) + start
+	A[random], A[start] = A[start], A[random]
+	return partiton(A, start, end)
+}
+func partiton(A []int, start, end int) int{
 	piv, i := A[start], start+1
-	for j := start + 1; j <= end; j++ {
+	for j := start+1; j <= end; j ++ {
 		if A[j] < piv {
 			A[i], A[j] = A[j], A[i]
 			i++
 		}
 	}
 	A[start], A[i-1] = A[i-1], A[start]
-	return i - 1
-}
-
-func random_partition(A []int, start, end int) int {
-	random := rand.Int()%(end-start+1) + start
-	A[start], A[random] = A[random], A[start]
-	return partition(A, start, end)
+	return i-1
 }
 ```
-
-
 
 复杂度分析
 
 - 时间复杂度：O(n)，如上文所述，证明过程可以参考「《算法导论》9.2：期望为线性的选择算法」。
 - 空间复杂度：O(logn)，递归使用栈空间的空间代价的期望为 O(logn)。
+
+
+
+
+* 考点1：能否实现解法的优化
+* 考点2：是否了解快速选择算法
+* 考点3：能否说明堆算法和快速选择算法的适用场景
 
 
 

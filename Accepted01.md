@@ -109,10 +109,6 @@ func reverseList(head *ListNode) *ListNode {
 
 
 
-- 空间复杂度分析：总共递归 n 层，系统栈的空间复杂度是 O(n)，所以总共需要额外 O(n) 的空间。
-- 时间复杂度分析：链表中每个节点只被遍历一次，所以时间复杂度是 O(n)。
-
-
 ```go
 /**
  * Definition for singly-linked list.
@@ -133,9 +129,11 @@ func reverseList(head *ListNode) *ListNode {
 ```
 
 复杂度分析
+
 - 时间复杂度：O(n)，其中 n 是链表的长度。需要对链表的每个节点进行反转操作。
 
 - 空间复杂度：O(n)，其中 n 是链表的长度。空间复杂度主要取决于递归调用的栈空间，最多为 n 层。
+
 
 
 
@@ -420,7 +418,7 @@ func max_heapify(A []int, i, heap_size int) {
 
 ## ✅ [25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
 
-![截屏2021-04-21 11.31.37.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7jmcf05j315g0pen05.jpg)
+![](images/25.png)
 
 
 ```go

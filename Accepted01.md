@@ -4,8 +4,8 @@
 4. [✅ 215. 数组中的第K个最大元素](#-215-数组中的第k个最大元素)
 5. [✅ 25. K 个一组翻转链表](#-25-k-个一组翻转链表)
 6. [✅ 补充题4. 手撕快速排序 912. 排序数组 ](#-补充题4-手撕快速排序-912-排序数组-)
-7. [53. 最大子序和](#53-最大子序和)
-8. [15. 三数之和](#15-三数之和)
+7. [15. 三数之和](#15-三数之和)
+8. [53. 最大子序和](#53-最大子序和)
 9. [1. 两数之和](#1-两数之和)
 10. [21. 合并两个有序链表](#21-合并两个有序链表)
 11. [160. 相交链表](#160-相交链表)
@@ -540,60 +540,6 @@ func random_partition(A []int, start, end int) int {
 
 
 
-
-
-
-## [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
-
-**方法一：贪心**
-
-- 若当前指针所指元素之前的和小于0， 则丢弃当前元素之前的数列
-- 将当前值与最大值比较，取最大
-
-![截屏2021-03-12 15.20.16.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh5cv919kj30vk0e4wfn.jpg)
-
-```go
-func maxSubArray(nums []int) int {
-	curSum, maxSum := nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		curSum = max(nums[i], curSum+nums[i])
-		maxSum = max(maxSum, curSum)
-	}
-	return maxSum
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
-**方法二：动态规划**
-
-- 若前一个元素大于0，将其加到当前元素上
-
-![截屏2021-03-12 16.53.25.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh9sg1mb9j31780dw3ze.jpg)
-
-```go
-func maxSubArray(nums []int) int {
-	max := nums[0]
-	for i := 1; i < len(nums); i++ {
-		if nums[i-1] > 0 {
-			nums[i] += nums[i-1]
-		}
-		if max < nums[i] {
-			max = nums[i]
-		}
-	}
-	return max
-}
-```
-
-
-
-
-
 ## [15. 三数之和](https://leetcode-cn.com/problems/3sum/)
 
 **思路**
@@ -656,6 +602,63 @@ func threeSum(nums []int) [][]int {
 - 时间复杂度：O(N^2)，其中 N 是数组 nums 的长度。
 
 - 空间复杂度：O(logN)。我们忽略存储答案的空间，额外的排序的空间复杂度为 O(logN)。然而我们修改了输入的数组 nums，在实际情况下不一定允许，因此也可以看成使用了一个额外的数组存储了 nums 的副本并进行排序，空间复杂度为 O(N)。
+
+
+
+
+
+
+
+
+## [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+
+**方法一：贪心**
+
+- 若当前指针所指元素之前的和小于0， 则丢弃当前元素之前的数列
+- 将当前值与最大值比较，取最大
+
+![截屏2021-03-12 15.20.16.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh5cv919kj30vk0e4wfn.jpg)
+
+```go
+func maxSubArray(nums []int) int {
+	curSum, maxSum := nums[0], nums[0]
+	for i := 1; i < len(nums); i++ {
+		curSum = max(nums[i], curSum+nums[i])
+		maxSum = max(maxSum, curSum)
+	}
+	return maxSum
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+**方法二：动态规划**
+
+- 若前一个元素大于0，将其加到当前元素上
+
+![截屏2021-03-12 16.53.25.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh9sg1mb9j31780dw3ze.jpg)
+
+```go
+func maxSubArray(nums []int) int {
+	max := nums[0]
+	for i := 1; i < len(nums); i++ {
+		if nums[i-1] > 0 {
+			nums[i] += nums[i-1]
+		}
+		if max < nums[i] {
+			max = nums[i]
+		}
+	}
+	return max
+}
+```
+
+
+
 
 
 

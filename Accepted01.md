@@ -418,8 +418,8 @@ func max_heapify(A []int, i, heap_size int) {
 
 ## ✅ [25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
 
-![](images/25.png)
-
+![](images/25-1.png)
+![](images/25-2.png)
 
 ```go
 /**

@@ -617,7 +617,7 @@ func threeSum(nums []int) [][]int {
 - 若当前指针所指元素之前的和小于0， 则丢弃当前元素之前的数列
 - 将当前值与最大值比较，取最大
 
-![截屏2021-03-12 15.20.16.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh5cv919kj30vk0e4wfn.jpg)
+![](images/53-1.png)
 
 ```go
 func maxSubArray(nums []int) int {
@@ -640,7 +640,7 @@ func max(x, y int) int {
 
 - 若前一个元素大于0，将其加到当前元素上
 
-![截屏2021-03-12 16.53.25.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh9sg1mb9j31780dw3ze.jpg)
+![](images/53-2.png)
 
 ```go
 func maxSubArray(nums []int) int {

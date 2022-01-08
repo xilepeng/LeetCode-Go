@@ -646,7 +646,7 @@ func max(x, y int) int {
 func maxSubArray(nums []int) int {
 	max := nums[0]
 	for i := 1; i < len(nums); i++ {
-		if nums[i-1] > 0 {
+		if nums[i-1] > 0 {	// nums[i]+nums[i-1] > nums[i]
 			nums[i] += nums[i-1]
 		}
 		if max < nums[i] {
@@ -656,6 +656,11 @@ func maxSubArray(nums []int) int {
 	return max
 }
 ```
+
+*复杂度*
+
+- 时间复杂度：O(n)，其中 n 为 nums 数组的长度。我们只需要遍历一遍数组即可求得答案。
+- 空间复杂度：O(1)。我们只需要常数空间存放若干变量。
 
 
 

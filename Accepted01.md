@@ -4,11 +4,11 @@
 4. [✅ 215. 数组中的第K个最大元素](#-215-数组中的第k个最大元素)
 5. [✅ 25. K 个一组翻转链表](#-25-k-个一组翻转链表)
 6. [✅ 补充题4. 手撕快速排序 912. 排序数组 ](#-补充题4-手撕快速排序-912-排序数组-)
-7. [1. 两数之和](#1-两数之和)
-8. [53. 最大子序和](#53-最大子序和)
-9. [21. 合并两个有序链表](#21-合并两个有序链表)
-10. [160. 相交链表](#160-相交链表)
-11. [15. 三数之和](#15-三数之和)
+7. [53. 最大子序和](#53-最大子序和)
+8. [15. 三数之和](#15-三数之和)
+9. [1. 两数之和](#1-两数之和)
+10. [21. 合并两个有序链表](#21-合并两个有序链表)
+11. [160. 相交链表](#160-相交链表)
 12. [141. 环形链表](#141-环形链表)
 13. [102. 二叉树的层序遍历](#102-二叉树的层序遍历)
 14. [121. 买卖股票的最佳时机](#121-买卖股票的最佳时机)
@@ -540,6 +540,127 @@ func random_partition(A []int, start, end int) int {
 
 
 
+
+
+
+## [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+
+**方法一：贪心**
+
+- 若当前指针所指元素之前的和小于0， 则丢弃当前元素之前的数列
+- 将当前值与最大值比较，取最大
+
+![截屏2021-03-12 15.20.16.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh5cv919kj30vk0e4wfn.jpg)
+
+```go
+func maxSubArray(nums []int) int {
+	curSum, maxSum := nums[0], nums[0]
+	for i := 1; i < len(nums); i++ {
+		curSum = max(nums[i], curSum+nums[i])
+		maxSum = max(maxSum, curSum)
+	}
+	return maxSum
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+**方法二：动态规划**
+
+- 若前一个元素大于0，将其加到当前元素上
+
+![截屏2021-03-12 16.53.25.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh9sg1mb9j31780dw3ze.jpg)
+
+```go
+func maxSubArray(nums []int) int {
+	max := nums[0]
+	for i := 1; i < len(nums); i++ {
+		if nums[i-1] > 0 {
+			nums[i] += nums[i-1]
+		}
+		if max < nums[i] {
+			max = nums[i]
+		}
+	}
+	return max
+}
+```
+
+
+
+
+
+## [15. 三数之和](https://leetcode-cn.com/problems/3sum/)
+
+**思路**
+
+外层循环：指针 i 遍历数组。
+内层循环：用双指针，去寻找满足三数之和 == 0 的元素
+
+**先排序的意义**
+便于跳过重复元素，如果当前元素和前一个元素相同，跳过。
+
+**双指针的移动时，避免出现重复解**
+
+找到一个解后，左右指针同时向内收缩，为了避免指向重复的元素，需要：
+
+- 左指针在保证left < right的前提下，一直右移，直到指向不重复的元素
+- 右指针在保证left < right的前提下，一直左移，直到指向不重复的元素
+
+**小优化**
+
+排序后，如果外层遍历的数已经大于0，则另外两个数一定大于0，sum不会等于0，直接break。
+
+
+
+```go
+func threeSum(nums []int) [][]int {
+	sort.Ints(nums)
+	res := [][]int{}
+	for i := 0; i < len(nums)-2; i++ {
+		n1 := nums[i]
+		if n1 > 0 { //如果最小的数大于0，break
+			break
+		}
+		if i > 0 && n1 == nums[i-1] { //如果和前一个相同，跳过
+			continue
+		} //转换为两数之和，双指针解法
+		l, r := i+1, len(nums)-1
+		for l < r {
+			n2, n3 := nums[l], nums[r]
+			if n1+n2+n3 == 0 {
+				res = append(res, []int{n1, n2, n3})
+				for l < r && nums[l] == n2 { //去重移位
+					l++
+				}
+				for l < r && nums[r] == n3 {
+					r--
+				}
+			} else if n1+n2+n3 < 0 {
+				l++
+			} else {
+				r--
+			}
+		}
+	}
+	return res
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(N^2)，其中 N 是数组 nums 的长度。
+
+- 空间复杂度：O(logN)。我们忽略存储答案的空间，额外的排序的空间复杂度为 O(logN)。然而我们修改了输入的数组 nums，在实际情况下不一定允许，因此也可以看成使用了一个额外的数组存储了 nums 的副本并进行排序，空间复杂度为 O(N)。
+
+
+
+
+
 ## [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
 
 
@@ -613,52 +734,6 @@ Any Detial?
 
 
 
-## [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
-
-**方法一：贪心**
-
-- 若当前指针所指元素之前的和小于0， 则丢弃当前元素之前的数列
-- 将当前值与最大值比较，取最大
-
-![截屏2021-03-12 15.20.16.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh5cv919kj30vk0e4wfn.jpg)
-
-```go
-func maxSubArray(nums []int) int {
-	curSum, maxSum := nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		curSum = max(nums[i], curSum+nums[i])
-		maxSum = max(maxSum, curSum)
-	}
-	return maxSum
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
-**方法二：动态规划**
-
-- 若前一个元素大于0，将其加到当前元素上
-
-![截屏2021-03-12 16.53.25.png](http://ww1.sinaimg.cn/large/007daNw2ly1goh9sg1mb9j31780dw3ze.jpg)
-
-```go
-func maxSubArray(nums []int) int {
-	max := nums[0]
-	for i := 1; i < len(nums); i++ {
-		if nums[i-1] > 0 {
-			nums[i] += nums[i-1]
-		}
-		if max < nums[i] {
-			max = nums[i]
-		}
-	}
-	return max
-}
-```
 
 
 
@@ -768,71 +843,6 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
 
 
 
-
-
-
-## [15. 三数之和](https://leetcode-cn.com/problems/3sum/)
-
-**思路**
-
-外层循环：指针 i 遍历数组。
-内层循环：用双指针，去寻找满足三数之和 == 0 的元素
-
-**先排序的意义**
-便于跳过重复元素，如果当前元素和前一个元素相同，跳过。
-
-**双指针的移动时，避免出现重复解**
-
-找到一个解后，左右指针同时向内收缩，为了避免指向重复的元素，需要：
-
-- 左指针在保证left < right的前提下，一直右移，直到指向不重复的元素
-- 右指针在保证left < right的前提下，一直左移，直到指向不重复的元素
-
-**小优化**
-
-排序后，如果外层遍历的数已经大于0，则另外两个数一定大于0，sum不会等于0，直接break。
-
-
-
-```go
-func threeSum(nums []int) [][]int {
-	sort.Ints(nums)
-	res := [][]int{}
-	for i := 0; i < len(nums)-2; i++ {
-		n1 := nums[i]
-		if n1 > 0 { //如果最小的数大于0，break
-			break
-		}
-		if i > 0 && n1 == nums[i-1] { //如果和前一个相同，跳过
-			continue
-		} //转换为两数之和，双指针解法
-		l, r := i+1, len(nums)-1
-		for l < r {
-			n2, n3 := nums[l], nums[r]
-			if n1+n2+n3 == 0 {
-				res = append(res, []int{n1, n2, n3})
-				for l < r && nums[l] == n2 { //去重移位
-					l++
-				}
-				for l < r && nums[r] == n3 {
-					r--
-				}
-			} else if n1+n2+n3 < 0 {
-				l++
-			} else {
-				r--
-			}
-		}
-	}
-	return res
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(N^2)，其中 N 是数组 nums 的长度。
-
-- 空间复杂度：O(logN)。我们忽略存储答案的空间，额外的排序的空间复杂度为 O(logN)。然而我们修改了输入的数组 nums，在实际情况下不一定允许，因此也可以看成使用了一个额外的数组存储了 nums 的副本并进行排序，空间复杂度为 O(N)。
 
 
 

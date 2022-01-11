@@ -891,6 +891,9 @@ func dfs(root *TreeNode, level int) {
 	}
 ```
 
+
+
+
 **方法二：BFS(queue)迭代**
 
 ```go
@@ -919,6 +922,13 @@ func levelOrder(root *TreeNode) [][]int {
 }
 ```
 
+
+复杂度分析
+
+记树上所有节点的个数为 n。
+
+- 时间复杂度：每个点进队出队各一次，故渐进时间复杂度为 O(n)。
+- 空间复杂度：队列中元素的个数不超过 n 个，故渐进空间复杂度为 O(n)。
 
 
 

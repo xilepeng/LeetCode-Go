@@ -1,25 +1,9 @@
-2022年1月9日 
+2022年1月11日 
 
-## 5:00 ~ 07:00 Algorithm + 2
+## 每天刷10题
 
-[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
+## [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
 
-[53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
-
-
-
-## 08:00 ~ 12:00 Go + 4 
-
- [Map]() 
-
-## 14:00 ~ 18:00 Cloud Native + 4
-
-[CICD]()
-
-## 19:00 ~ 20:30 默写算法 + 3
-
-[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
-
-[53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+## [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
 
 

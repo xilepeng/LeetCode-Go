@@ -8,9 +8,9 @@
 8. [53. 最大子序和](#53-最大子序和)
 9. [1. 两数之和](#1-两数之和)
 10. [21. 合并两个有序链表](#21-合并两个有序链表)
-11. [160. 相交链表](#160-相交链表)
-12. [141. 环形链表](#141-环形链表)
-13. [102. 二叉树的层序遍历](#102-二叉树的层序遍历)
+11. [141. 环形链表](#141-环形链表)
+12. [102. 二叉树的层序遍历](#102-二叉树的层序遍历)
+13. [160. 相交链表](#160-相交链表)
 14. [121. 买卖股票的最佳时机](#121-买卖股票的最佳时机)
 15. [415. 字符串相加](#415-字符串相加)
 16. [103. 二叉树的锯齿形层序遍历](#103-二叉树的锯齿形层序遍历)
@@ -835,55 +835,13 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 
 
 
-## [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
-
-**方法一：双指针法**
-
-![截屏2021-04-21 11.23.18.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7bhprljj31ck0p6do3.jpg)
-
-![截屏2021-04-21 11.23.31.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7brsn7wj31c60m0793.jpg)
-
-```go
-func getIntersectionNode(headA, headB *ListNode) *ListNode {
-	A, B := headA, headB
-	for A != B {
-		if A != nil {
-			A = A.Next
-		} else {
-			A = headB
-		}
-		if B != nil {
-			B = B.Next
-		} else {
-			B = headA
-		}
-	}
-	return A
-}
-```
-
-复杂度分析
-
-- 时间复杂度 : O(m+n)。
-- 空间复杂度 : O(1)。
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 
 ## [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
 
-![截屏2021-04-21 12.13.52.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr8r3r6ijj31780mcq9j.jpg)
+![](images/141.png)
 
 ```go
 func hasCycle(head *ListNode) bool {
@@ -960,6 +918,57 @@ func levelOrder(root *TreeNode) [][]int {
 	return res
 }
 ```
+
+
+
+
+
+
+
+## [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
+
+**方法一：双指针法**
+
+![截屏2021-04-21 11.23.18.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7bhprljj31ck0p6do3.jpg)
+
+![截屏2021-04-21 11.23.31.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7brsn7wj31c60m0793.jpg)
+
+```go
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+	A, B := headA, headB
+	for A != B {
+		if A != nil {
+			A = A.Next
+		} else {
+			A = headB
+		}
+		if B != nil {
+			B = B.Next
+		} else {
+			B = headA
+		}
+	}
+	return A
+}
+```
+
+复杂度分析
+
+- 时间复杂度 : O(m+n)。
+- 空间复杂度 : O(1)。
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

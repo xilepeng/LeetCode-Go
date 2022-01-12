@@ -4,13 +4,13 @@
 4. [✅ 215. 数组中的第K个最大元素](#-215-数组中的第k个最大元素)
 5. [✅ 25. K 个一组翻转链表](#-25-k-个一组翻转链表)
 6. [✅ 补充题4. 手撕快速排序 912. 排序数组 ](#-补充题4-手撕快速排序-912-排序数组-)
-7. [15. 三数之和](#15-三数之和)
-8. [53. 最大子序和](#53-最大子序和)
-9. [1. 两数之和](#1-两数之和)
-10. [21. 合并两个有序链表](#21-合并两个有序链表)
-11. [141. 环形链表](#141-环形链表)
-12. [102. 二叉树的层序遍历](#102-二叉树的层序遍历)
-13. [121. 买卖股票的最佳时机](#121-买卖股票的最佳时机)
+7. [✅ 15. 三数之和](#-15-三数之和)
+8. [✅ 53. 最大子序和](#-53-最大子序和)
+9. [✅ 1. 两数之和](#-1-两数之和)
+10. [✅ 21. 合并两个有序链表](#-21-合并两个有序链表)
+11. [✅ 141. 环形链表](#-141-环形链表)
+12. [✅ 102. 二叉树的层序遍历](#-102-二叉树的层序遍历)
+13. [✅ 121. 买卖股票的最佳时机](#-121-买卖股票的最佳时机)
 14. [160. 相交链表](#160-相交链表)
 15. [415. 字符串相加](#415-字符串相加)
 16. [103. 二叉树的锯齿形层序遍历](#103-二叉树的锯齿形层序遍历)
@@ -540,7 +540,7 @@ func random_partition(A []int, start, end int) int {
 
 
 
-## [15. 三数之和](https://leetcode-cn.com/problems/3sum/)
+## ✅ [15. 三数之和](https://leetcode-cn.com/problems/3sum/)
 
 **思路**
 
@@ -610,7 +610,7 @@ func threeSum(nums []int) [][]int {
 
 
 
-## [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+## ✅ [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
 
 **方法一：贪心**
 
@@ -669,7 +669,7 @@ func maxSubArray(nums []int) int {
 
 
 
-## [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
+## ✅ [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
 
 
 **方法一：暴力枚举**
@@ -749,7 +749,7 @@ Any Detial?
 
 
 
-## [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+## ✅ [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
 
 
 
@@ -839,7 +839,7 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 
 
 
-## [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
+## ✅ [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
 
 ![](images/141.png)
 
@@ -868,7 +868,7 @@ func hasCycle(head *ListNode) bool {
 
 
 
-## [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+## ✅ [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
 
 **方法一：DFS递归**
 
@@ -934,7 +934,7 @@ func levelOrder(root *TreeNode) [][]int {
 
 
 
-## [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+## ✅ [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
 
 ```go
@@ -1292,7 +1292,23 @@ func search(nums []int, target int) int {
 
 [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
 
+
 [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
+
+[88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
+
+[103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+
+[20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
+
+[236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+
+[415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
+
+[5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
+
+
+
 
 
 
@@ -1304,14 +1320,5 @@ func search(nums []int, target int) int {
 
 [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
-[415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
-
-[103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
-
-[88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
-
-[236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
-
-[20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
 
 [704. 二分查找](https://leetcode-cn.com/problems/binary-search/) -->

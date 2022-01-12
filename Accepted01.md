@@ -11,13 +11,13 @@
 11. [✅ 141. 环形链表](#-141-环形链表)
 12. [✅ 102. 二叉树的层序遍历](#-102-二叉树的层序遍历)
 13. [✅ 121. 买卖股票的最佳时机](#-121-买卖股票的最佳时机)
-14. [160. 相交链表](#160-相交链表)
-15. [415. 字符串相加](#415-字符串相加)
+14. [✅ 160. 相交链表](#-160-相交链表)
+15. [88. 合并两个有序数组](#88-合并两个有序数组)
 16. [103. 二叉树的锯齿形层序遍历](#103-二叉树的锯齿形层序遍历)
-17. [88. 合并两个有序数组](#88-合并两个有序数组)
+17. [20. 有效的括号](#20-有效的括号)
 18. [236. 二叉树的最近公共祖先](#236-二叉树的最近公共祖先)
-19. [20. 有效的括号](#20-有效的括号)
-20. [704. 二分查找](#704-二分查找)
+19. [5. 最长回文子串](#5-最长回文子串)
+20. [415. 字符串相加](#415-字符串相加)
 
 
 
@@ -982,16 +982,24 @@ func max(x, y int) int {
 
 
 
-## [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
+## ✅ [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
 
 **方法一：双指针法**
 
-![截屏2021-04-21 11.23.18.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7bhprljj31ck0p6do3.jpg)
 
-![截屏2021-04-21 11.23.31.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7brsn7wj31c60m0793.jpg)
 
 ```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func getIntersectionNode(headA, headB *ListNode) *ListNode {
+	if headA == nil || headB == nil {
+		return nil
+	}
 	A, B := headA, headB
 	for A != B {
 		if A != nil {
@@ -1014,29 +1022,25 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
 - 时间复杂度 : O(m+n)。
 - 空间复杂度 : O(1)。
 
+[参考](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/solution/intersection-of-two-linked-lists-shuang-zhi-zhen-l/)
 
 
 
 
-## [415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
+## [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
 
 ```go
-func addStrings(num1 string, num2 string) string {
-	carry := 0
-	res := ""
-	for i, j := len(num1)-1, len(num2)-1; i >= 0 || j >= 0 || carry != 0; i, j = i-1, j-1 {
-		var x, y int
-		if i >= 0 {
-			x = int(num1[i] - '0')
+func merge(nums1 []int, m int, nums2 []int, n int) {
+	i, j := m-1, n-1
+	for k := m + n - 1; k >= 0; k-- {
+		if j < 0 || (i >= 0 && nums1[i] > nums2[j]) {
+			nums1[k] = nums1[i]
+			i--
+		} else {
+			nums1[k] = nums2[j]
+			j--
 		}
-		if j >= 0 {
-			y = int(num2[j] - '0')
-		}
-		tmp := x + y + carry
-		res = strconv.Itoa(tmp%10) + res
-		carry = tmp / 10
 	}
-	return res
 }
 ```
 
@@ -1150,45 +1154,7 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 
 
 
-## [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
 
-```go
-func merge(nums1 []int, m int, nums2 []int, n int) {
-	i, j := m-1, n-1
-	for k := m + n - 1; k >= 0; k-- {
-		if j < 0 || (i >= 0 && nums1[i] > nums2[j]) {
-			nums1[k] = nums1[i]
-			i--
-		} else {
-			nums1[k] = nums2[j]
-			j--
-		}
-	}
-}
-```
-
-
-## [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
-
-```go
-func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
-	if root == nil {
-		return nil
-	}
-	if root.Val == p.Val || root.Val == q.Val {
-		return root
-	}
-	left := lowestCommonAncestor(root.Left, p, q)
-	right := lowestCommonAncestor(root.Right, p, q)
-	if left != nil && right != nil {
-		return root
-	}
-	if left == nil {
-		return right
-	}
-	return left
-}
-```
 
 
 ## [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
@@ -1216,50 +1182,162 @@ func isValid(s string) bool {
 
 
 
-## [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
 
-1. 如果目标值等于中间元素，则找到目标值。
-2. 如果目标值较小，继续在左侧搜索。
-3. 如果目标值较大，则继续在右侧搜索。
 
-**算法：**
 
-- 初始化指针 left = 0, right = n - 1。
-- 当 left <= right：
-比较中间元素 nums[mid] 和目标值 target 。
-	1. 如果 target = nums[mid]，返回 mid。
-	2. 如果 target < nums[mid]，则在左侧继续搜索 right = mid - 1。
-	3. 如果 target > nums[mid]，则在右侧继续搜索 left = mid + 1。
+
+
+
+
+
+
+
+
+
+## [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+
+```go
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	if root.Val == p.Val || root.Val == q.Val {
+		return root
+	}
+	left := lowestCommonAncestor(root.Left, p, q)
+	right := lowestCommonAncestor(root.Right, p, q)
+	if left != nil && right != nil {
+		return root
+	}
+	if left == nil {
+		return right
+	}
+	return left
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+## [5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
+
+**方法一：（暴力枚举） O(n^2)**
+
+由于字符串长度小于1000，因此我们可以用 O(n^2)的算法枚举所有可能的情况。
+首先枚举回文串的中心 i，然后分两种情况向两边扩展边界，直到遇到不同字符为止:
+
+回文串长度是奇数，则依次判断 s[i−k]==s[i+k],k=1,2,3,…
+回文串长度是偶数，则依次判断 s[i−k]==s[i+k−1],k=1,2,3,…
+如果遇到不同字符，则我们就找到了以 i 为中心的回文串边界。
+
+时间复杂度分析：一共两重循环，所以时间复杂度是 O(n^2)
 
 
 ```go
-func search(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		if nums[mid] == target {
-			return mid
-		} else if nums[mid] < target {
-			left = mid + 1
-		} else {
-			right = mid - 1
+func longestPalindrome(s string) string {
+	res := ""
+	for i := 0; i < len(s); i++ {
+		for l, r := i, i; l >= 0 && r < len(s) && s[l] == s[r]; l, r = l-1, r+1 {
+			if len(res) < r-l+1 {
+				res = s[l : r+1]
+			}
+		}
+		for l, r := i, i+1; l >= 0 && r < len(s) && s[l] == s[r]; l, r = l-1, r+1 {
+			if len(res) < r-l+1 {
+				res = s[l : r+1]
+			}
 		}
 	}
-	return -1
+	return res
+}
+```
+
+
+**方法二：中心扩展算法**
+
+![截屏2021-04-02 11.43.48.png](http://ww1.sinaimg.cn/large/007daNw2ly1gp59403adbj31kc0i0762.jpg)
+
+```go
+func longestPalindrome(s string) string {
+	low, maxLen := 0, 0
+	for i := range s {
+		expand(s, i, i, &low, &maxLen)
+		expand(s, i, i+1, &low, &maxLen)
+	}
+	return s[low : low+maxLen]
+}
+func expand(s string, l, r int, low, maxLen *int) {
+	for ; l >= 0 && r < len(s) && s[l] == s[r]; l, r = l-1, r+1 {
+	}
+	if *maxLen < r-l-1 {
+		*low = l + 1
+		*maxLen = r - l - 1
+	}
 }
 ```
 复杂度分析
 
-- 时间复杂度：O(logN)。
+- 时间复杂度：O(n^2)，其中 n 是字符串的长度。长度为 1 和 2 的回文中心分别有 n 和 n−1 个，每个回文中心最多会向外扩展 O(n) 次。
 - 空间复杂度：O(1)。
 
 
 
 
+```go
+func longestPalindrome(s string) string {
+	start, end := 0, 0
+	for i := range s {
+		l, r := expand(s, i, i)
+		if end-start < r-l {
+			start, end = l, r
+		}
+		l, r = expand(s, i, i+1)
+		if end-start < r-l {
+			start, end = l, r
+		}
+	}
+	return s[start : end+1]
+}
+func expand(s string, l, r int) (int, int) {
+	for ; l >= 0 && r < len(s) && s[l] == s[r]; l, r = l-1, r+1 {
+	}
+	return l + 1, r - 1
+}
+```
 
 
 
 
+
+
+## [415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
+
+```go
+func addStrings(num1 string, num2 string) string {
+	carry := 0
+	res := ""
+	for i, j := len(num1)-1, len(num2)-1; i >= 0 || j >= 0 || carry != 0; i, j = i-1, j-1 {
+		var x, y int
+		if i >= 0 {
+			x = int(num1[i] - '0')
+		}
+		if j >= 0 {
+			y = int(num2[j] - '0')
+		}
+		tmp := x + y + carry
+		res = strconv.Itoa(tmp%10) + res
+		carry = tmp / 10
+	}
+	return res
+}
+```
 
 
 
@@ -1275,23 +1353,32 @@ func search(nums []int, target int) int {
 
 [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
 
+[146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
+
 [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
 
 [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
 
-
-[146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
+[25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
 
 [补充题4. 手撕快速排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
-[25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
-
-[1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
+[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
 
 [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
 
+[1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
+
 [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
 
+
+
+
+[141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
+
+[102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+[121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
 [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
 
@@ -1303,22 +1390,8 @@ func search(nums []int, target int) int {
 
 [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
 
-[415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
-
 [5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
 
+[415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
 
-
-
-
-
-[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
-
-[141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
-
-[102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
-
-[121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
-
-
-[704. 二分查找](https://leetcode-cn.com/problems/binary-search/) -->
+-->

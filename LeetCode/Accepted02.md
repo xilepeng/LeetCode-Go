@@ -1,13 +1,13 @@
 
 
-1. [142. 环形链表 II](#142-环形链表-ii)
-2. [94. 二叉树的中序遍历](#94-二叉树的中序遍历)
-3. [232. 用栈实现队列](#232-用栈实现队列)
-4. [46. 全排列](#46-全排列)
-5. [47. 全排列 II 补充](#47-全排列-ii-补充)
-6. [200. 岛屿数量](#200-岛屿数量)
-7. [54. 螺旋矩阵](#54-螺旋矩阵)
-8. [5. 最长回文子串](#5-最长回文子串)
+1. [704. 二分查找](#704-二分查找)
+2. [142. 环形链表 II](#142-环形链表-ii)
+3. [94. 二叉树的中序遍历](#94-二叉树的中序遍历)
+4. [232. 用栈实现队列](#232-用栈实现队列)
+5. [46. 全排列](#46-全排列)
+6. [47. 全排列 II 补充](#47-全排列-ii-补充)
+7. [200. 岛屿数量](#200-岛屿数量)
+8. [54. 螺旋矩阵](#54-螺旋矩阵)
 9. [92. 反转链表 II](#92-反转链表-ii)
 10. [33. 搜索旋转排序数组](#33-搜索旋转排序数组)
 11. [剑指 Offer 22. 链表中倒数第k个节点](#剑指-offer-22-链表中倒数第k个节点)
@@ -25,7 +25,9 @@
 
 
 
-------
+
+<!-- 
+[704. 二分查找](https://leetcode-cn.com/problems/binary-search/) 
 
 [142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
 
@@ -69,10 +71,57 @@
 
 [8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 
 
-[104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
+[104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/) -->
 
 
-------
+
+
+
+
+
+
+## [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
+
+1. 如果目标值等于中间元素，则找到目标值。
+2. 如果目标值较小，继续在左侧搜索。
+3. 如果目标值较大，则继续在右侧搜索。
+
+**算法：**
+
+- 初始化指针 left = 0, right = n - 1。
+- 当 left <= right：
+比较中间元素 nums[mid] 和目标值 target 。
+	1. 如果 target = nums[mid]，返回 mid。
+	2. 如果 target < nums[mid]，则在左侧继续搜索 right = mid - 1。
+	3. 如果 target > nums[mid]，则在右侧继续搜索 left = mid + 1。
+
+
+```go
+func search(nums []int, target int) int {
+	left, right := 0, len(nums)-1
+	for left <= right {
+		mid := left + (right-left)>>1
+		if nums[mid] == target {
+			return mid
+		} else if nums[mid] < target {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+	return -1
+}
+```
+复杂度分析
+
+- 时间复杂度：O(logN)。
+- 空间复杂度：O(1)。
+
+
+
+
+
+
 
 
 
@@ -541,95 +590,6 @@ func spiralOrder(matrix [][]int) []int {
     return res
 }
 
-```
-
-
-
-
-## [5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
-
-**方法一：（暴力枚举） O(n^2)**
-
-由于字符串长度小于1000，因此我们可以用 O(n^2)的算法枚举所有可能的情况。
-首先枚举回文串的中心 i，然后分两种情况向两边扩展边界，直到遇到不同字符为止:
-
-回文串长度是奇数，则依次判断 s[i−k]==s[i+k],k=1,2,3,…
-回文串长度是偶数，则依次判断 s[i−k]==s[i+k−1],k=1,2,3,…
-如果遇到不同字符，则我们就找到了以 i 为中心的回文串边界。
-
-时间复杂度分析：一共两重循环，所以时间复杂度是 O(n^2)
-
-
-```go
-func longestPalindrome(s string) string {
-	res := ""
-	for i := 0; i < len(s); i++ {
-		for l, r := i, i; l >= 0 && r < len(s) && s[l] == s[r]; l, r = l-1, r+1 {
-			if len(res) < r-l+1 {
-				res = s[l : r+1]
-			}
-		}
-		for l, r := i, i+1; l >= 0 && r < len(s) && s[l] == s[r]; l, r = l-1, r+1 {
-			if len(res) < r-l+1 {
-				res = s[l : r+1]
-			}
-		}
-	}
-	return res
-}
-```
-
-
-**方法二：中心扩展算法**
-
-![截屏2021-04-02 11.43.48.png](http://ww1.sinaimg.cn/large/007daNw2ly1gp59403adbj31kc0i0762.jpg)
-
-```go
-func longestPalindrome(s string) string {
-	low, maxLen := 0, 0
-	for i := range s {
-		expand(s, i, i, &low, &maxLen)
-		expand(s, i, i+1, &low, &maxLen)
-	}
-	return s[low : low+maxLen]
-}
-func expand(s string, l, r int, low, maxLen *int) {
-	for ; l >= 0 && r < len(s) && s[l] == s[r]; l, r = l-1, r+1 {
-	}
-	if *maxLen < r-l-1 {
-		*low = l + 1
-		*maxLen = r - l - 1
-	}
-}
-```
-复杂度分析
-
-- 时间复杂度：O(n^2)，其中 n 是字符串的长度。长度为 1 和 2 的回文中心分别有 n 和 n−1 个，每个回文中心最多会向外扩展 O(n) 次。
-- 空间复杂度：O(1)。
-
-
-
-
-```go
-func longestPalindrome(s string) string {
-	start, end := 0, 0
-	for i := range s {
-		l, r := expand(s, i, i)
-		if end-start < r-l {
-			start, end = l, r
-		}
-		l, r = expand(s, i, i+1)
-		if end-start < r-l {
-			start, end = l, r
-		}
-	}
-	return s[start : end+1]
-}
-func expand(s string, l, r int) (int, int) {
-	for ; l >= 0 && r < len(s) && s[l] == s[r]; l, r = l-1, r+1 {
-	}
-	return l + 1, r - 1
-}
 ```
 
 

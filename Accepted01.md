@@ -10,8 +10,8 @@
 10. [21. 合并两个有序链表](#21-合并两个有序链表)
 11. [141. 环形链表](#141-环形链表)
 12. [102. 二叉树的层序遍历](#102-二叉树的层序遍历)
-13. [160. 相交链表](#160-相交链表)
-14. [121. 买卖股票的最佳时机](#121-买卖股票的最佳时机)
+13. [121. 买卖股票的最佳时机](#121-买卖股票的最佳时机)
+14. [160. 相交链表](#160-相交链表)
 15. [415. 字符串相加](#415-字符串相加)
 16. [103. 二叉树的锯齿形层序遍历](#103-二叉树的锯齿形层序遍历)
 17. [88. 合并两个有序数组](#88-合并两个有序数组)
@@ -934,6 +934,53 @@ func levelOrder(root *TreeNode) [][]int {
 
 
 
+## [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+
+
+```go
+func maxProfit(prices []int) int {
+	min_price, max_profit := math.MaxInt64, 0
+	for _, price := range prices {
+		if price < min_price { 
+			min_price = price
+		} else if max_profit < price-min_price {
+			max_profit = price - min_price 
+		}
+	}
+	return max_profit
+}
+```
+
+
+```go
+func maxProfit(prices []int) int {
+	min_price, max_profit := 1<<63-1, 0
+	for _,price := range prices {
+		min_price = min(min_price, price)
+		max_profit = max(max_profit, price - min_price)
+	}
+	return max_profit
+}
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+
+
+
+
+
+
 
 ## [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
 
@@ -966,102 +1013,6 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
 
 - 时间复杂度 : O(m+n)。
 - 空间复杂度 : O(1)。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
-
-```go
-func maxProfit(prices []int) int {
-	minprice := math.MaxInt32
-	maxprofit := 0
-	for _, price := range prices {
-		if price < minprice {
-			minprice = price
-		} else if maxprofit < price-minprice {
-			maxprofit = price - minprice
-		}
-	}
-	return maxprofit
-}
-```
-
-```go
-func maxProfit(prices []int) int {
-	minprice := math.MaxInt32
-	maxprofit := 0
-	for _, price := range prices {
-		maxprofit = Max(price-minprice, maxprofit)
-		minprice = Min(price, minprice)
-	}
-	return maxprofit
-}
-func Max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-func Min(x, y int) int {
-	if x < y {
-		return x
-	}
-	return y
-}
-```
-
-```go
-func maxProfit(prices []int) int {
-	if prices == nil || len(prices) == 0 {
-		return 0
-	}
-	minprice := prices[0]
-	maxprofit := 0
-	for i := 1; i < len(prices); i++ {
-		if prices[i] < minprice {
-			minprice = prices[i]
-		}
-		if maxprofit < prices[i]-minprice {
-			maxprofit = prices[i] - minprice
-		}
-	}
-	return maxprofit
-}
-```
-
-```go
-func maxProfit(prices []int) int {
-	maxprofit := 0
-	for i := 0; i < len(prices)-1; i++ {
-		for j := i + 1; j < len(prices); j++ {
-			profit := prices[j] - prices[i]
-			if maxprofit < profit {
-				maxprofit = profit
-			}
-		}
-	}
-	return maxprofit
-}
-```
-Time Limit Exceeded
-
 
 
 

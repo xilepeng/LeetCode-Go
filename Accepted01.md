@@ -15,7 +15,7 @@
 15. [✅ 88. 合并两个有序数组](#-88-合并两个有序数组)
 16. [✅ 103. 二叉树的锯齿形层序遍历](#-103-二叉树的锯齿形层序遍历)
 17. [✅ 20. 有效的括号](#-20-有效的括号)
-18. [236. 二叉树的最近公共祖先](#236-二叉树的最近公共祖先)
+18. [✅ 236. 二叉树的最近公共祖先](#-236-二叉树的最近公共祖先)
 19. [5. 最长回文子串](#5-最长回文子串)
 20. [415. 字符串相加](#415-字符串相加)
 
@@ -891,6 +891,10 @@ func dfs(root *TreeNode, level int) {
 	}
 ```
 
+复杂度分析
+
+- 时间复杂度：O(N)，其中 N 是二叉树的节点数。二叉树的所有节点有且只会被访问一次，因此时间复杂度为 O(N)。
+- 空间复杂度：O(N) ，其中 N 是二叉树的节点数。递归调用的栈深度取决于二叉树的高度，二叉树最坏情况下为一条链，此时高度为 N，因此空间复杂度为 O(N)。
 
 
 
@@ -1200,21 +1204,25 @@ func isValid(s string) bool {
 
 
 
+## ✅ [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
 
-
-
-
-
-## [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
 
 ```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 	if root == nil {
 		return nil
 	}
-	if root.Val == p.Val || root.Val == q.Val {
+	if root.Val == p.Val || root.Val == q.Val { //递归出口
 		return root
-	}
+	} //判断左子树、右子树是否包含 p、q
 	left := lowestCommonAncestor(root.Left, p, q)
 	right := lowestCommonAncestor(root.Right, p, q)
 	if left != nil && right != nil {
@@ -1222,11 +1230,21 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 	}
 	if left == nil {
 		return right
+	} else {
+		return left
 	}
-	return left
 }
 ```
 
+
+复杂度分析
+
+- 时间复杂度：O(N)，其中 N 是二叉树的节点数。二叉树的所有节点有且只会被访问一次，因此时间复杂度为 O(N)。
+- 空间复杂度：O(N) ，其中 N 是二叉树的节点数。递归调用的栈深度取决于二叉树的高度，二叉树最坏情况下为一条链，此时高度为 N，因此空间复杂度为 O(N)。
+
+
+
+[参考](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/solution/er-cha-shu-de-zui-jin-gong-gong-zu-xian-by-leetc-2/)
 
 
 

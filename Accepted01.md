@@ -14,7 +14,7 @@
 14. [✅ 160. 相交链表](#-160-相交链表)
 15. [✅ 88. 合并两个有序数组](#-88-合并两个有序数组)
 16. [✅ 103. 二叉树的锯齿形层序遍历](#-103-二叉树的锯齿形层序遍历)
-17. [20. 有效的括号](#20-有效的括号)
+17. [✅ 20. 有效的括号](#-20-有效的括号)
 18. [236. 二叉树的最近公共祖先](#236-二叉树的最近公共祖先)
 19. [5. 最长回文子串](#5-最长回文子串)
 20. [415. 字符串相加](#415-字符串相加)
@@ -1168,7 +1168,7 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 
 
 
-## [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
+## ✅ [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
 
 ```go
 func isValid(s string) bool {
@@ -1178,11 +1178,11 @@ func isValid(s string) bool {
 	stack := make([]rune, 0)
 	for _, v := range s {
 		if v == '(' || v == '{' || v == '[' {
-			stack = append(stack, v)
-		} else if v == ')' && len(stack) > 0 && stack[len(stack)-1] == '(' ||
-			v == '}' && len(stack) > 0 && stack[len(stack)-1] == '{' ||
-			v == ']' && len(stack) > 0 && stack[len(stack)-1] == '[' {
-			stack = stack[:len(stack)-1]
+			stack = append(stack, v) //入栈
+		} else if len(stack) > 0 && stack[len(stack)-1] == '(' && v == ')' ||
+			len(stack) > 0 && stack[len(stack)-1] == '{' && v == '}' ||
+			len(stack) > 0 && stack[len(stack)-1] == '[' && v == ']' {
+			stack = stack[:len(stack)-1] //出栈
 		} else {
 			return false
 		}

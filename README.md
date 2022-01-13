@@ -7,9 +7,9 @@
 
 ✅ [103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
 
-[20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
+✅ [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
 
-[236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+✅ [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
 
 [415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
 

@@ -13,7 +13,7 @@
 13. [✅ 121. 买卖股票的最佳时机](#-121-买卖股票的最佳时机)
 14. [✅ 160. 相交链表](#-160-相交链表)
 15. [✅ 88. 合并两个有序数组](#-88-合并两个有序数组)
-16. [103. 二叉树的锯齿形层序遍历](#103-二叉树的锯齿形层序遍历)
+16. [✅ 103. 二叉树的锯齿形层序遍历](#-103-二叉树的锯齿形层序遍历)
 17. [20. 有效的括号](#20-有效的括号)
 18. [236. 二叉树的最近公共祖先](#236-二叉树的最近公共祖先)
 19. [5. 最长回文子串](#5-最长回文子串)
@@ -1061,7 +1061,7 @@ func merge(nums1 []int, m int, nums2 []int, n int) {
 
 
 
-## [103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+## ✅ [103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
 
 **方法一：深度优先遍历**
 
@@ -1080,7 +1080,7 @@ func dfs(root *TreeNode, level int) {
 		}
 		if level%2 == 0 {//偶数层，从左往右
 			res[level] = append(res[level], root.Val)
-		} else {//奇数层，从右往左,翻转
+		} else {//奇数层，从右往左
 			res[level] = append([]int{root.Val}, res[level]...)
 		}
 		dfs(root.Left, level+1)
@@ -1088,6 +1088,8 @@ func dfs(root *TreeNode, level int) {
 	}
 }
 ```
+
+**闭包**
 
 ```go
 /**
@@ -1100,8 +1102,7 @@ func dfs(root *TreeNode, level int) {
  */
 func zigzagLevelOrder(root *TreeNode) [][]int {
 	res := [][]int{}
-	var dfs func(*TreeNode, int)
-
+	var dfs func(*TreeNode, int)// 闭包
 	dfs = func(root *TreeNode, level int) {
 		if root != nil {
 			if len(res) == level {
@@ -1116,7 +1117,6 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 			dfs(root.Right, level+1)
 		}
 	}
-
 	dfs(root, 0)
 	return res
 }

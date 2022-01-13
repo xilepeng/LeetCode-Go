@@ -1,20 +1,24 @@
-**2022年1月13日** 
+**2022年1月14日** 
 
+[33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
 
-✅ [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
+[200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
 
-✅ [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
+[46. 全排列](https://leetcode-cn.com/problems/permutations/)
 
-✅ [103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+[47. 全排列 II](https://leetcode-cn.com/problems/permutations-ii/)  补充
 
-✅ [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
+[92. 反转链表 II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
 
-✅ [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+[142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
 
-[415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
+[23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
 
-[5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
+[54. 螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)
 
----
+[704. 二分查找](https://leetcode-cn.com/problems/binary-search/) 
 
- [Map]() 
+[300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+
+[42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
+

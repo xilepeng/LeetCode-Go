@@ -6,9 +6,7 @@
 
 [718. 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
 
-[56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
 
-[124. 二叉树中的最大路径和](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
 
 [105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 
@@ -28,7 +26,7 @@
 
 [470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
 
-[143. 重排链表](https://leetcode-cn.com/problems/reorder-list/)
+
 
 [226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
 
@@ -439,173 +437,6 @@ N 表示数组 A 的长度，M 表示数组 B 的长度。
 
 
 
-
-[56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
-
-
-### 方法一：排序
-
-#### 思路
-
-如果我们按照区间的左端点排序，那么在排完序的列表中，可以合并的区间一定是连续的。如下图所示，标记为蓝色、黄色和绿色的区间分别可以合并成一个大区间，它们在排完序的列表中是连续的：
-
-![0.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfnnsrl94j30qo07a0t1.jpg)
-
-
-#### 算法
-
-我们用数组 merged 存储最终的答案。
-
-首先，我们将列表中的区间按照左端点升序排序。然后我们将第一个区间加入 merged 数组中，并按顺序依次考虑之后的每个区间：
-
-- 如果当前区间的左端点在数组 merged 中最后一个区间的右端点之后，那么它们不会重合，我们可以直接将这个区间加入数组 merged 的末尾；
-
-- 否则，它们重合，我们需要用当前区间的右端点更新数组 merged 中最后一个区间的右端点，将其置为二者的较大值。
-
-
-#### 思路
-prev 初始为第一个区间，cur 表示当前的区间，res 表示结果数组
-
-- 开启遍历，尝试合并 prev 和 cur，合并后更新到 prev 上
-- 因为合并后的新区间还可能和后面的区间重合，继续尝试合并新的 cur，更新给 prev
-- 直到不能合并 —— prev[1] < cur[0]，此时将 prev 区间推入 res 数组
-
-#### 合并的策略
-- 原则上要更新prev[0]和prev[1]，即左右端:
-prev[0] = min(prev[0], cur[0])
-prev[1] = max(prev[1], cur[1])
-- 但如果先按区间的左端排升序，就能保证 prev[0] < cur[0]
-- 所以合并只需这条：prev[1] = max(prev[1], cur[1])
-#### 易错点
-我们是先合并，遇到不重合再推入 prev。
-当考察完最后一个区间，后面没区间了，遇不到不重合区间，最后的 prev 没推入 res。
-要单独补上。
-
-
-![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfnod6g2lj318c0ff760.jpg)
-
-```go
-func merge(intervals [][]int) [][]int {
-	sort.Slice(intervals, func(i, j int) bool {
-		return intervals[i][0] < intervals[j][0]
-	})
-	res := [][]int{}
-	prev := intervals[0]
-	for i := 1; i < len(intervals); i++ {
-		curr := intervals[i]
-		if prev[1] < curr[0] { //没有一点重合
-			res = append(res, prev)
-			prev = curr
-		} else { //有重合
-			prev[1] = max(prev[1], curr[1])
-		}
-	}
-	res = append(res, prev)
-	return res
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(nlogn)，其中 nn 为区间的数量。除去排序的开销，我们只需要一次线性扫描，所以主要的时间开销是排序的 O(nlogn)。
-
-- 空间复杂度：O(logn)，其中 nn 为区间的数量。这里计算的是存储答案之外，使用的额外空间。O(logn) 即为排序所需要的空间复杂度。
-
-
-### sort.Slice()介绍
-
-```go
-
-import (
-    "fmt"
-)
-func findRelativeRanks(nums []int){
-    index := []int{}
-    for i := 0; i < len(nums);i++ {
-        index=append(index,i)
-    }
-    // index
-    // {0,1,2,3,4}
-    sort.Slice(index, func (i,j int)bool{
-        return nums[i]<nums[j]
-    })
-    fmt.Println(index)
-    // actually get [1 0 2 4 3], not [1, 4, 2, 3, 0] as expected
-    // can't use sort.Slice between two slices
-}
- 
-func main(){
-    nums := []int{10,3,8,9,4}
-    findRelativeRanks(nums)
-```
-
-
-
-
-
-
-
-
-[124. 二叉树中的最大路径和](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
-
-
-
-```go
-func maxPathSum(root *TreeNode) int {
-	maxSum := math.MinInt32
-	var dfs func(*TreeNode) int
-	dfs = func(root *TreeNode) int {
-		if root == nil {
-			return 0
-		}
-		left := dfs(root.Left)
-		right := dfs(root.Right)
-		innerMaxSum := left + root.Val + right
-		maxSum = max(maxSum, innerMaxSum)
-		outputMaxSum := root.Val + max(left, right)
-		return max(outputMaxSum, 0)
-	}
-	dfs(root)
-	return maxSum
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
-```go
-func maxPathSum(root *TreeNode) int {
-	maxSum := math.MinInt32
-	var dfs func(*TreeNode) int
-	dfs = func(root *TreeNode) int {
-		if root == nil {
-			return 0
-		}
-		left := max(dfs(root.Left), 0)
-		right := max(dfs(root.Right), 0)
-		innerMaxSum := left + root.Val + right
-		maxSum = max(maxSum, innerMaxSum)
-		return root.Val + max(left, right) 
-	}
-	dfs(root)
-	return maxSum
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
 
 
 
@@ -1075,46 +906,6 @@ func rand10() int {
 ```
 
 
-
-
-
-[143. 重排链表](https://leetcode-cn.com/problems/reorder-list/)
-
-```go
-func reorderList(head *ListNode) {
-	if head == nil || head.Next == nil {
-		return
-	}
-
-	// 寻找中间结点
-	p1 := head
-	p2 := head
-	for p2.Next != nil && p2.Next.Next != nil {
-		p1 = p1.Next
-		p2 = p2.Next.Next
-	}
-	// 反转链表后半部分  1->2->3->4->5->6 to 1->2->3->6->5->4
-	preMiddle := p1
-	curr := p1.Next
-	for curr.Next != nil {
-		next := curr.Next
-		curr.Next = next.Next
-		next.Next = preMiddle.Next
-		preMiddle.Next = next
-	}
-
-	// 重新拼接链表  1->2->3->6->5->4 to 1->6->2->5->3->4
-	p1 = head
-	p2 = preMiddle.Next
-	for p1 != preMiddle {
-		preMiddle.Next = p2.Next
-		p2.Next = p1.Next
-		p1.Next = p2
-		p1 = p2.Next
-		p2 = preMiddle.Next
-	}
-}
-```
 
 
 

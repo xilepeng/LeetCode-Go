@@ -8,7 +8,7 @@
 
 [165. 比较版本号](https://leetcode-cn.com/problems/compare-version-numbers/)
 
-[82. 删除排序链表中的重复元素 II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
+
 
 [93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/) 
 
@@ -388,30 +388,6 @@ func Itoa(i int) string
 
 
 
-[82. 删除排序链表中的重复元素 II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
-
-![截屏2021-04-19 12.05.24.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpox9o0ps6j30wg0di75x.jpg)
-
-```go
-func deleteDuplicates(head *ListNode) *ListNode {
-	if head == nil {
-		return nil
-	}
-	dummy := &ListNode{0, head}
-	cur := dummy
-	for cur.Next != nil && cur.Next.Next != nil {
-		if cur.Next.Val == cur.Next.Next.Val {
-			x := cur.Next.Val
-			for cur.Next != nil && cur.Next.Val == x {
-				cur.Next = cur.Next.Next
-			}
-		} else {
-			cur = cur.Next
-		}
-	}
-	return dummy.Next
-}
-```
 
 
 

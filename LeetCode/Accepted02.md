@@ -21,57 +21,75 @@
 19. [151. 翻转字符串里的单词](#151-翻转字符串里的单词)
 20. [8. 字符串转换整数 (atoi)](#8-字符串转换整数-atoi)
 21. [104. 二叉树的最大深度](#104-二叉树的最大深度)
+22. [143. 重排链表](#143-重排链表)
+23. [82. 删除排序链表中的重复元素 II](#82-删除排序链表中的重复元素-ii)
 
 
 
 
 
 <!-- 
-[704. 二分查找](https://leetcode-cn.com/problems/binary-search/) 
 
-[142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+[33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
 
-[94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
-
-[232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
+[200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
 
 [46. 全排列](https://leetcode-cn.com/problems/permutations/)
 
 [47. 全排列 II](https://leetcode-cn.com/problems/permutations-ii/)  补充
 
-[200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
+[92. 反转链表 II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
+
+[142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+
+[23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
 
 [54. 螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)
 
-
-
-[92. 反转链表 II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
-
-[33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
-
-[剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
-
-
-
-[199. 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
-
-[42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
-
-[70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+[704. 二分查找](https://leetcode-cn.com/problems/binary-search/) 
 
 [300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 
-[2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
+[42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
+
+
+
+
+
+
+[232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
+
+[94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+
+[199. 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+
+[143. 重排链表](https://leetcode-cn.com/problems/reorder-list/)
+
+[70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+
+[剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
+
+[124. 二叉树中的最大路径和](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
+
+[56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
 
 [69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
 
-[23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
+[82. 删除排序链表中的重复元素 II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
+
+
+
+
+
 
 [151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
 
 [8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 
 
-[104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/) -->
+[2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
+
+[104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/) 
+-->
 
 
 
@@ -1413,3 +1431,241 @@ func max(x, y int) int {
 
 
 
+
+
+## [143. 重排链表](https://leetcode-cn.com/problems/reorder-list/)
+
+```go
+func reorderList(head *ListNode) {
+	if head == nil || head.Next == nil {
+		return
+	}
+
+	// 寻找中间结点
+	p1 := head
+	p2 := head
+	for p2.Next != nil && p2.Next.Next != nil {
+		p1 = p1.Next
+		p2 = p2.Next.Next
+	}
+	// 反转链表后半部分  1->2->3->4->5->6 to 1->2->3->6->5->4
+	preMiddle := p1
+	curr := p1.Next
+	for curr.Next != nil {
+		next := curr.Next
+		curr.Next = next.Next
+		next.Next = preMiddle.Next
+		preMiddle.Next = next
+	}
+
+	// 重新拼接链表  1->2->3->6->5->4 to 1->6->2->5->3->4
+	p1 = head
+	p2 = preMiddle.Next
+	for p1 != preMiddle {
+		preMiddle.Next = p2.Next
+		p2.Next = p1.Next
+		p1.Next = p2
+		p1 = p2.Next
+		p2 = preMiddle.Next
+	}
+}
+```
+
+
+
+
+
+
+[56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
+
+**方法一：排序**
+
+**思路**
+
+如果我们按照区间的左端点排序，那么在排完序的列表中，可以合并的区间一定是连续的。如下图所示，标记为蓝色、黄色和绿色的区间分别可以合并成一个大区间，它们在排完序的列表中是连续的：
+
+![0.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfnnsrl94j30qo07a0t1.jpg)
+
+
+**算法**
+
+我们用数组 merged 存储最终的答案。
+
+首先，我们将列表中的区间按照左端点升序排序。然后我们将第一个区间加入 merged 数组中，并按顺序依次考虑之后的每个区间：
+
+- 如果当前区间的左端点在数组 merged 中最后一个区间的右端点之后，那么它们不会重合，我们可以直接将这个区间加入数组 merged 的末尾；
+
+- 否则，它们重合，我们需要用当前区间的右端点更新数组 merged 中最后一个区间的右端点，将其置为二者的较大值。
+
+
+**思路**
+prev 初始为第一个区间，cur 表示当前的区间，res 表示结果数组
+
+- 开启遍历，尝试合并 prev 和 cur，合并后更新到 prev 上
+- 因为合并后的新区间还可能和后面的区间重合，继续尝试合并新的 cur，更新给 prev
+- 直到不能合并 —— prev[1] < cur[0]，此时将 prev 区间推入 res 数组
+
+**合并的策略**
+- 原则上要更新prev[0]和prev[1]，即左右端:
+prev[0] = min(prev[0], cur[0])
+prev[1] = max(prev[1], cur[1])
+- 但如果先按区间的左端排升序，就能保证 prev[0] < cur[0]
+- 所以合并只需这条：prev[1] = max(prev[1], cur[1])
+**易错点**
+我们是先合并，遇到不重合再推入 prev。
+当考察完最后一个区间，后面没区间了，遇不到不重合区间，最后的 prev 没推入 res。
+要单独补上。
+
+
+![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfnod6g2lj318c0ff760.jpg)
+
+```go
+func merge(intervals [][]int) [][]int {
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+	res := [][]int{}
+	prev := intervals[0]
+	for i := 1; i < len(intervals); i++ {
+		curr := intervals[i]
+		if prev[1] < curr[0] { //没有一点重合
+			res = append(res, prev)
+			prev = curr
+		} else { //有重合
+			prev[1] = max(prev[1], curr[1])
+		}
+	}
+	res = append(res, prev)
+	return res
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(nlogn)，其中 nn 为区间的数量。除去排序的开销，我们只需要一次线性扫描，所以主要的时间开销是排序的 O(nlogn)。
+
+- 空间复杂度：O(logn)，其中 nn 为区间的数量。这里计算的是存储答案之外，使用的额外空间。O(logn) 即为排序所需要的空间复杂度。
+
+
+**sort.Slice()介绍**
+
+```go
+
+import (
+    "fmt"
+)
+func findRelativeRanks(nums []int){
+    index := []int{}
+    for i := 0; i < len(nums);i++ {
+        index=append(index,i)
+    }
+    // index
+    // {0,1,2,3,4}
+    sort.Slice(index, func (i,j int)bool{
+        return nums[i]<nums[j]
+    })
+    fmt.Println(index)
+    // actually get [1 0 2 4 3], not [1, 4, 2, 3, 0] as expected
+    // can't use sort.Slice between two slices
+}
+ 
+func main(){
+    nums := []int{10,3,8,9,4}
+    findRelativeRanks(nums)
+```
+
+
+
+
+
+
+
+
+[124. 二叉树中的最大路径和](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
+
+
+
+```go
+func maxPathSum(root *TreeNode) int {
+	maxSum := math.MinInt32
+	var dfs func(*TreeNode) int
+	dfs = func(root *TreeNode) int {
+		if root == nil {
+			return 0
+		}
+		left := dfs(root.Left)
+		right := dfs(root.Right)
+		innerMaxSum := left + root.Val + right
+		maxSum = max(maxSum, innerMaxSum)
+		outputMaxSum := root.Val + max(left, right)
+		return max(outputMaxSum, 0)
+	}
+	dfs(root)
+	return maxSum
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+```go
+func maxPathSum(root *TreeNode) int {
+	maxSum := math.MinInt32
+	var dfs func(*TreeNode) int
+	dfs = func(root *TreeNode) int {
+		if root == nil {
+			return 0
+		}
+		left := max(dfs(root.Left), 0)
+		right := max(dfs(root.Right), 0)
+		innerMaxSum := left + root.Val + right
+		maxSum = max(maxSum, innerMaxSum)
+		return root.Val + max(left, right) 
+	}
+	dfs(root)
+	return maxSum
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+
+
+
+## [82. 删除排序链表中的重复元素 II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
+
+![截屏2021-04-19 12.05.24.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpox9o0ps6j30wg0di75x.jpg)
+
+```go
+func deleteDuplicates(head *ListNode) *ListNode {
+	if head == nil {
+		return nil
+	}
+	dummy := &ListNode{0, head}
+	cur := dummy
+	for cur.Next != nil && cur.Next.Next != nil {
+		if cur.Next.Val == cur.Next.Next.Val {
+			x := cur.Next.Val
+			for cur.Next != nil && cur.Next.Val == x {
+				cur.Next = cur.Next.Next
+			}
+		} else {
+			cur = cur.Next
+		}
+	}
+	return dummy.Next
+}
+```

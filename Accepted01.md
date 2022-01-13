@@ -12,7 +12,7 @@
 12. [✅ 102. 二叉树的层序遍历](#-102-二叉树的层序遍历)
 13. [✅ 121. 买卖股票的最佳时机](#-121-买卖股票的最佳时机)
 14. [✅ 160. 相交链表](#-160-相交链表)
-15. [88. 合并两个有序数组](#88-合并两个有序数组)
+15. [✅ 88. 合并两个有序数组](#-88-合并两个有序数组)
 16. [103. 二叉树的锯齿形层序遍历](#103-二叉树的锯齿形层序遍历)
 17. [20. 有效的括号](#20-有效的括号)
 18. [236. 二叉树的最近公共祖先](#236-二叉树的最近公共祖先)
@@ -841,7 +841,7 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 
 ## ✅ [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
 
-![](images/141.png)
+
 
 ```go
 func hasCycle(head *ListNode) bool {
@@ -861,7 +861,7 @@ func hasCycle(head *ListNode) bool {
 ```
 
 
-
+[参考](https://leetcode-cn.com/problems/linked-list-cycle/solution/huan-xing-lian-biao-by-leetcode-solution/)
 
 
 
@@ -1027,22 +1027,33 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
 
 
 
-## [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
+## ✅ [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
+
+**方法一：逆向双指针**
 
 ```go
 func merge(nums1 []int, m int, nums2 []int, n int) {
 	i, j := m-1, n-1
-	for k := m + n - 1; k >= 0; k-- {
+	for tail := m + n - 1; tail >= 0; tail-- {
 		if j < 0 || (i >= 0 && nums1[i] > nums2[j]) {
-			nums1[k] = nums1[i]
+			nums1[tail] = nums1[i]
 			i--
 		} else {
-			nums1[k] = nums2[j]
+			nums1[tail] = nums2[j]
 			j--
 		}
 	}
 }
 ```
+
+复杂度分析
+
+- 时间复杂度：O(m+n)。
+  指针移动单调递减，最多移动 m+n 次，因此时间复杂度为 O(m+n)。
+- 空间复杂度：O(1)。 
+  直接对数组 nums 1 原地修改，不需要额外空间。
+
+
 
 
 
@@ -1348,7 +1359,7 @@ func addStrings(num1 string, num2 string) string {
 
 
 
-------
+
 <!-- 
 
 [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 

@@ -214,7 +214,7 @@ func numIslands(grid [][]byte) int {
 ## [46. 全排列](https://leetcode-cn.com/problems/permutations/)
 
 
-**方法一：枚举每个位置放哪个数 (回溯)**
+**方法一：枚举每个位置放每个数 (回溯)**
 
 ![](images/46-1.png)
 
@@ -243,20 +243,22 @@ func permute(nums []int) [][]int {
 			}
 		}
 	}
-	dfs(0) //枚举每个位置放哪个数
+	dfs(0) //枚举每个位置放每个数
 	return res
 }
 ```
 
 
 
-**方法二：枚举每个数放哪个位置 (回溯)**
+**方法二：枚举每个数放在每个位置 (回溯)**
 
-这个问题可以看作有 nn 个排列成一行的空格，我们需要从左往右依此填入题目给定的 nn 个数，每个数只能使用一次。那么很直接的可以想到一种穷举的算法，即从左往右每一个位置都依此尝试填入一个数，看能不能填完这 nn 个空格，在程序中我们可以用「回溯法」来模拟这个过程。
+这个问题可以看作有 n 个排列成一行的空格，我们需要从左往右依此填入题目给定的 n 个数，每个数只能使用一次。那么很直接的可以想到一种穷举的算法，即从左往右每一个位置都依此尝试填入一个数，看能不能填完这 n 个空格，在程序中我们可以用「回溯法」来模拟这个过程。
 
 假设我们已经填到第 pos 个位置
 
-![截屏2021-04-04 12.47.06.png](http://ww1.sinaimg.cn/large/007daNw2ly1gp7m6z5viej30tw0ly0v8.jpg)
+![](images/46-2.png)
+
+![](images/46-2-1.png)
 
 ```go
 func permute(nums []int) [][]int {
@@ -265,9 +267,10 @@ func permute(nums []int) [][]int {
 	dfs = func(pos int) {
 		if pos == n { // 所有数都填完了
 			res = append(res, append([]int{}, nums...))
+			return
 		}
 		for i := pos; i < n; i++ {
-			nums[i], nums[pos] = nums[pos], nums[i] // 动态维护数组
+			nums[i], nums[pos] = nums[pos], nums[i] // 枚举每个数放在每个位置
 			dfs(pos + 1)                            // 继续递归填下一个数
 			nums[i], nums[pos] = nums[pos], nums[i] // 撤销操作
 		}
@@ -280,8 +283,11 @@ func permute(nums []int) [][]int {
 
 复杂度分析
 
-- 时间复杂度：O(n×n!)，其中 nn 为序列的长度。
+- 时间复杂度：O(n×n!)，其中 n 为序列的长度。
 - 空间复杂度：O(n)，其中 n 为序列的长度。除答案数组以外，递归函数在递归过程中需要为每一层递归函数分配栈空间，所以这里需要额外的空间且该空间取决于递归的深度，这里可知递归调用深度为 O(n)。
+
+[参考](https://leetcode-cn.com/problems/permutations/solution/quan-pai-lie-by-leetcode-solution-2/)
+
 
 **为什么加入解集时，要将数组（在go中是切片）内容拷贝到一个新的数组里，再加入解集。**
 

@@ -216,37 +216,39 @@ func numIslands(grid [][]byte) int {
 
 **方法一：枚举每个位置放哪个数 (回溯)**
 
-![截屏2021-04-04 19.05.15.png](http://ww1.sinaimg.cn/large/007daNw2ly1gp7x3wg42ij30zk0kwtb0.jpg)
+![](images/46-1.png)
 
 我们从前往后，一位一位枚举，每次选择一个没有被使用过的数。
 选好之后，将该数的状态改成“已被使用”，同时将该数记录在相应位置上，然后递归。
 递归返回时，不要忘记将该数的状态改成“未被使用”，并将该数从相应位置上删除。
 
-**闭包实现**：
+**闭包**：
 
 ```go
-func permute(nums []int) (res [][]int) {
-	used, path, n := make([]bool, len(nums)), []int{}, len(nums)
+func permute(nums []int) [][]int {
+	used, path, res, n := make(map[int]bool, len(nums)), []int{}, [][]int{}, len(nums)
 	var dfs func(int)
 	dfs = func(pos int) {
 		if pos == n {
 			res = append(res, append([]int{}, path...))
 			return
 		}
-		for i := range nums {
-			if !used[i] {
-				used[i] = true
-				path = append(path, nums[i])
-				dfs(pos + 1)
-				used[i] = false
-				path = path[:len(path)-1]
+		for i := 0; i < n; i++ {
+			if !used[i] { //如果第i个位置未使用
+				used[i] = true               //第i个位置已使用
+				path = append(path, nums[i]) //存储第i个数
+				dfs(pos + 1)                 //枚举下一个位置
+				used[i] = false              //回溯（状态重置)
+				path = path[:len(path)-1]    //撤销
 			}
 		}
 	}
-	dfs(0)
-	return
+	dfs(0) //枚举每个位置放哪个数
+	return res
 }
 ```
+
+
 
 **方法二：枚举每个数放哪个位置 (回溯)**
 

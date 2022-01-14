@@ -140,7 +140,7 @@ func search(nums []int, target int) int {
 
 - 目标是找到矩阵中 “岛屿的数量” ，上下左右相连的 1 都被认为是连续岛屿。
 - dfs方法： 设目前指针指向一个岛屿中的某一点 (i, j)，寻找包括此点的岛屿边界。
-	1. 从 (i, j) 向此点的上下左右 (i+1,j),(i-1,j),(i,j+1),(i,j-1) 做深度搜索。
+	1. 从 (i, j) 向此点的上下左右 (i,j+1),(i,j-1),(i-1,j),(i+1,j) 做深度搜索。
 	2. 终止条件：
 		- (i, j) 越过矩阵边界;
 		- grid[i][j] == 0，代表此分支已越过岛屿边界。
@@ -156,25 +156,24 @@ func search(nums []int, target int) int {
 ```go
 func numIslands(grid [][]byte) int {
 	count := 0
-	for i := 0; i < len(grid); i++ {
-		for j := 0; j < len(grid[0]); j++ {
+	for i := 0; i < len(grid); i++ { //行
+		for j := 0; j < len(grid[0]); j++ { //列
 			if grid[i][j] == '1' {
-				dfs(grid, i, j)
-				count++
+				count++         //岛屿数量加1
+				dfs(grid, i, j) //使用dfs将此岛屿所有元素变为0
 			}
 		}
 	}
 	return count
 }
 func dfs(grid [][]byte, i, j int) {
-	if (i < 0 || j < 0) || i >= len(grid) || j >= len(grid[0]) || grid[i][j] == '0' {
-		return
+	if 0 <= i && i < len(grid) && 0 <= j && j < len(grid[0]) && grid[i][j] == '1' {
+		grid[i][j] = '0'  //已遍历
+		dfs(grid, i+1, j) //右
+		dfs(grid, i-1, j) //左
+		dfs(grid, i, j+1) //上
+		dfs(grid, i, j-1) //下
 	}
-	grid[i][j] = '0'
-	dfs(grid, i+1, j)
-	dfs(grid, i-1, j)
-	dfs(grid, i, j-1)
-	dfs(grid, i, j+1)
 }
 ```
 

@@ -1,23 +1,23 @@
 
 
-1. [704. 二分查找](#704-二分查找)
-2. [142. 环形链表 II](#142-环形链表-ii)
-3. [94. 二叉树的中序遍历](#94-二叉树的中序遍历)
-4. [232. 用栈实现队列](#232-用栈实现队列)
-5. [46. 全排列](#46-全排列)
-6. [47. 全排列 II 补充](#47-全排列-ii-补充)
-7. [200. 岛屿数量](#200-岛屿数量)
+1. [33. 搜索旋转排序数组](#33-搜索旋转排序数组)
+2. [200. 岛屿数量](#200-岛屿数量)
+3. [46. 全排列](#46-全排列)
+4. [47. 全排列 II 补充](#47-全排列-ii-补充)
+5. [92. 反转链表 II](#92-反转链表-ii)
+6. [142. 环形链表 II](#142-环形链表-ii)
+7. [23. 合并K个升序链表](#23-合并k个升序链表)
 8. [54. 螺旋矩阵](#54-螺旋矩阵)
-9. [92. 反转链表 II](#92-反转链表-ii)
-10. [33. 搜索旋转排序数组](#33-搜索旋转排序数组)
-11. [剑指 Offer 22. 链表中倒数第k个节点](#剑指-offer-22-链表中倒数第k个节点)
-12. [199. 二叉树的右视图](#199-二叉树的右视图)
-13. [42. 接雨水](#42-接雨水)
-14. [70. 爬楼梯](#70-爬楼梯)
-15. [300. 最长递增子序列](#300-最长递增子序列)
-16. [2. 两数相加](#2-两数相加)
-17. [69. x 的平方根](#69-x-的平方根)
-18. [23. 合并K个升序链表](#23-合并k个升序链表)
+9. [704. 二分查找](#704-二分查找)
+10. [300. 最长递增子序列](#300-最长递增子序列)
+11. [42. 接雨水](#42-接雨水)
+12. [94. 二叉树的中序遍历](#94-二叉树的中序遍历)
+13. [232. 用栈实现队列](#232-用栈实现队列)
+14. [剑指 Offer 22. 链表中倒数第k个节点](#剑指-offer-22-链表中倒数第k个节点)
+15. [199. 二叉树的右视图](#199-二叉树的右视图)
+16. [70. 爬楼梯](#70-爬楼梯)
+17. [2. 两数相加](#2-两数相加)
+18. [69. x 的平方根](#69-x-的平方根)
 19. [151. 翻转字符串里的单词](#151-翻转字符串里的单词)
 20. [8. 字符串转换整数 (atoi)](#8-字符串转换整数-atoi)
 21. [104. 二叉树的最大深度](#104-二叉树的最大深度)
@@ -96,188 +96,118 @@
 
 
 
+## [33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
 
-
-## [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
-
-1. 如果目标值等于中间元素，则找到目标值。
-2. 如果目标值较小，继续在左侧搜索。
-3. 如果目标值较大，则继续在右侧搜索。
-
-**算法：**
-
-- 初始化指针 left = 0, right = n - 1。
-- 当 left <= right：
-比较中间元素 nums[mid] 和目标值 target 。
-	1. 如果 target = nums[mid]，返回 mid。
-	2. 如果 target < nums[mid]，则在左侧继续搜索 right = mid - 1。
-	3. 如果 target > nums[mid]，则在右侧继续搜索 left = mid + 1。
-
+![](https://assets.leetcode-cn.com/solution-static/33/33_fig1.png)
 
 ```go
 func search(nums []int, target int) int {
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)>>1
+	if len(nums) == 0 {
+		return -1
+	}
+	l, r := 0, len(nums)-1
+	for l <= r {
+		mid := (l + r) >> 1
 		if nums[mid] == target {
 			return mid
-		} else if nums[mid] < target {
-			left = mid + 1
+		}
+		if nums[l] <= nums[mid] { //左边有序
+			if nums[l] <= target && target < nums[mid] {
+				r = mid - 1
+			} else {
+				l = mid + 1
+			}
 		} else {
-			right = mid - 1
+			if nums[mid] < target && target <= nums[r] {
+				l = mid + 1
+			} else {
+				r = mid - 1
+			}
 		}
 	}
 	return -1
 }
 ```
-复杂度分析
-
-- 时间复杂度：O(logN)。
-- 空间复杂度：O(1)。
 
 
 
 
 
 
+## [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
 
+**思路一：深度优先遍历DFS**
 
+- 目标是找到矩阵中 “岛屿的数量” ，上下左右相连的 1 都被认为是连续岛屿。
+- dfs方法： 设目前指针指向一个岛屿中的某一点 (i, j)，寻找包括此点的岛屿边界。
+	1. 从 (i, j) 向此点的上下左右 (i+1,j),(i-1,j),(i,j+1),(i,j-1) 做深度搜索。
+	2. 终止条件：
+		- (i, j) 越过矩阵边界;
+		- grid[i][j] == 0，代表此分支已越过岛屿边界。
+	3. 搜索岛屿的同时，执行 grid[i][j] = '0'，即将岛屿所有节点删除，以免之后重复搜索相同岛屿。
 
+**主循环：**
 
+遍历整个矩阵，当遇到 grid[i][j] == '1' 时，从此点开始做深度优先搜索 dfs，岛屿数 count + 1 且在深度优先搜索中删除此岛屿。
 
-## [142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
-
-方法一：快慢指针
-我们使用两个指针，fast 与 slow。它们起始都位于链表的头部。随后，slow 指针每次向后移动一个位置，而 fast 指针向后移动两个位置。如果链表中存在环，则 fast 指针最终将再次与 slow 指针在环中相遇。
+- 最终返回岛屿数 count 即可。
 
 
 ```go
-func detectCycle(head *ListNode) *ListNode {
-	slow, fast := head, head
-	for fast != nil {
-		slow = slow.Next
-		if fast.Next == nil {
-			return nil
-		}
-		fast = fast.Next.Next
-		if slow == fast { //第一次相遇
-			p := head
-			for p != slow {
-				p = p.Nextx
-				slow = slow.Next
+func numIslands(grid [][]byte) int {
+	count := 0
+	for i := 0; i < len(grid); i++ {
+		for j := 0; j < len(grid[0]); j++ {
+			if grid[i][j] == '1' {
+				dfs(grid, i, j)
+				count++
 			}
-			return p
 		}
 	}
-	return nil
+	return count
+}
+func dfs(grid [][]byte, i, j int) {
+	if (i < 0 || j < 0) || i >= len(grid) || j >= len(grid[0]) || grid[i][j] == '0' {
+		return
+	}
+	grid[i][j] = '0'
+	dfs(grid, i+1, j)
+	dfs(grid, i-1, j)
+	dfs(grid, i, j-1)
+	dfs(grid, i, j+1)
 }
 ```
 
-
-## [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+**闭包**
 
 ```go
-func inorderTraversal(root *TreeNode) (res []int) {
-	var inorder func(node *TreeNode)
-	inorder = func(node *TreeNode) {
-		if node == nil {
+func numIslands(grid [][]byte) int {
+	var dfs func(grid [][]byte, i, j int)
+	dfs = func(grid [][]byte, i, j int) {
+		if (i < 0 || j < 0) || i >= len(grid) || j >= len(grid[0]) || grid[i][j] == '0' {
 			return
 		}
-		inorder(node.Left)
-		res = append(res, node.Val)
-		inorder(node.Right)
+		grid[i][j] = '0'
+		dfs(grid, i+1, j)
+		dfs(grid, i-1, j)
+		dfs(grid, i, j-1)
+		dfs(grid, i, j+1)
 	}
-	inorder(root)
-	return
-}
-```
-
-```go
-func inorderTraversal(root *TreeNode) (res []int) {
-	stack := []*TreeNode{}
-	for root != nil || len(stack) > 0 {
-		for root != nil {
-			stack = append(stack, root)
-			root = root.Left
+	count := 0
+	for i := 0; i < len(grid); i++ {
+		for j := 0; j < len(grid[0]); j++ {
+			if grid[i][j] == '1' {
+				dfs(grid, i, j)
+				count++
+			}
 		}
-		root = stack[len(stack)-1]   //取栈顶
-		stack = stack[:len(stack)-1] //出栈
-		res = append(res, root.Val)
-		root = root.Right
 	}
-	return
+	return count
 }
 ```
 
 
 
-
-## [232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
-
-**方法一：双栈**
-
-
-![截屏2021-03-28 20.58.04.png](http://ww1.sinaimg.cn/large/007daNw2ly1gozx18b8ilj31740jsdhb.jpg)
-
-**思路**
-
-将一个栈当作输入栈，用于压入 push 传入的数据；另一个栈当作输出栈，用于 pop 和 peek 操作。
-
-每次 pop 或 peek 时，若输出栈为空则将输入栈的全部数据依次弹出并压入输出栈，这样输出栈从栈顶往栈底的顺序就是队列从队首往队尾的顺序。
-
-
-
-```go
-type MyQueue struct {
-	inStack, outStack []int
-}
-
-/** Initialize your data structure here. */
-func Constructor() MyQueue {
-	return MyQueue{}
-}
-
-/** Push element x to the back of queue. */
-func (q *MyQueue) Push(x int) {
-	q.inStack = append(q.inStack, x)
-}
-
-func (q *MyQueue) in2out() {
-	for len(q.inStack) > 0 {
-		q.outStack = append(q.outStack, q.inStack[len(q.inStack)-1])
-		q.inStack = q.inStack[:len(q.inStack)-1]
-	}
-}
-
-/** Removes the element from in front of queue and returns that element. */
-func (q *MyQueue) Pop() int {
-	if len(q.outStack) == 0 {
-		q.in2out()
-	}
-	x := q.outStack[len(q.outStack)-1]
-	q.outStack = q.outStack[:len(q.outStack)-1]
-	return x
-}
-
-/** Get the front element. */
-func (q *MyQueue) Peek() int {
-	if len(q.outStack) == 0 {
-		q.in2out()
-	}
-	return q.outStack[len(q.outStack)-1]
-}
-
-/** Returns whether the queue is empty. */
-func (q *MyQueue) Empty() bool {
-	return len(q.inStack) == 0 && len(q.outStack) == 0
-}
-```
-
-复杂度分析
-
-- 时间复杂度：push 和 empty 为 O(1)，pop 和 peek 为均摊 O(1)。对于每个元素，至多入栈和出栈各两次，故均摊复杂度为 O(1)。
-
-- 空间复杂度：O(n)。其中 n 是操作总数。对于有 n 次 push 操作的情况，队列中会有 n 个元素，故空间复杂度为 O(n)。
 
 
 
@@ -399,77 +329,187 @@ func permuteUnique(nums []int) (res [][]int) {
 
 
 
-## [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
 
-**思路一：深度优先遍历DFS**
 
-- 目标是找到矩阵中 “岛屿的数量” ，上下左右相连的 1 都被认为是连续岛屿。
-- dfs方法： 设目前指针指向一个岛屿中的某一点 (i, j)，寻找包括此点的岛屿边界。
-	1. 从 (i, j) 向此点的上下左右 (i+1,j),(i-1,j),(i,j+1),(i,j-1) 做深度搜索。
-	2. 终止条件：
-		- (i, j) 越过矩阵边界;
-		- grid[i][j] == 0，代表此分支已越过岛屿边界。
-	3. 搜索岛屿的同时，执行 grid[i][j] = '0'，即将岛屿所有节点删除，以免之后重复搜索相同岛屿。
 
-**主循环：**
+## [92. 反转链表 II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
 
-遍历整个矩阵，当遇到 grid[i][j] == '1' 时，从此点开始做深度优先搜索 dfs，岛屿数 count + 1 且在深度优先搜索中删除此岛屿。
-
-- 最终返回岛屿数 count 即可。
-
+**方法一：双指针** 
 
 ```go
-func numIslands(grid [][]byte) int {
-	count := 0
-	for i := 0; i < len(grid); i++ {
-		for j := 0; j < len(grid[0]); j++ {
-			if grid[i][j] == '1' {
-				dfs(grid, i, j)
-				count++
-			}
-		}
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+
+func reverseBetween(head *ListNode, left int, right int) *ListNode {
+	dummy := &ListNode{Next: head}
+	prevLeft := dummy
+	for i := 0; i < left-1; i++ {
+		prevLeft = prevLeft.Next
 	}
-	return count
-}
-func dfs(grid [][]byte, i, j int) {
-	if (i < 0 || j < 0) || i >= len(grid) || j >= len(grid[0]) || grid[i][j] == '0' {
-		return
+	prev := prevLeft.Next
+	curr := prev.Next
+	for i := 0; i < right-left; i++ {
+		next := curr.Next
+		curr.Next = prev
+		prev = curr
+		curr = next
 	}
-	grid[i][j] = '0'
-	dfs(grid, i+1, j)
-	dfs(grid, i-1, j)
-	dfs(grid, i, j-1)
-	dfs(grid, i, j+1)
+	prevLeft.Next.Next = curr
+	prevLeft.Next = prev
+	return dummy.Next
 }
 ```
 
-**闭包**
+
+**方法二：头插法** 
+
+![](https://pic.leetcode-cn.com/1615105232-cvTINs-image.png)
+
+整体思想是：在需要反转的区间里，每遍历到一个节点，让这个新节点来到反转部分的起始位置。下面的图展示了整个流程。
+
+![](https://pic.leetcode-cn.com/1615105242-ZHlvOn-image.png)
+
+下面我们具体解释如何实现。使用三个指针变量 pre、curr、next 来记录反转的过程中需要的变量，它们的意义如下：
+
+- curr：指向待反转区域的第一个节点 left；
+- next：永远指向 curr 的下一个节点，循环过程中，curr 变化以后 next 会变化；
+- pre：永远指向待反转区域的第一个节点 left 的前一个节点，在循环过程中不变。
+第 1 步，我们使用 ①、②、③ 标注「穿针引线」的步骤。
+
+![](https://pic.leetcode-cn.com/1615105296-bmiPxl-image.png)
+
+操作步骤：
+
+- 先将 curr 的下一个节点记录为 next；
+- 执行操作 ①：把 curr 的下一个节点指向 next 的下一个节点；
+- 执行操作 ②：把 next 的下一个节点指向 pre 的下一个节点；
+- 执行操作 ③：把 pre 的下一个节点指向 next。
+第 1 步完成以后「拉直」的效果如下：
+
+![](https://pic.leetcode-cn.com/1615105340-UBnTBZ-image.png)
+
+第 2 步，同理。同样需要注意 「穿针引线」操作的先后顺序。
+
+![](https://pic.leetcode-cn.com/1615105353-PsCmzb-image.png)
+
+第 2 步完成以后「拉直」的效果如下：
+
+![](https://pic.leetcode-cn.com/1615105364-aDIFqy-image.png)
+
+第 3 步，同理。
+![](https://pic.leetcode-cn.com/1615105376-jIyGwv-image.png)
+
+第 3 步完成以后「拉直」的效果如下：
+![](https://pic.leetcode-cn.com/1615105395-EJQnMe-image.png)
+
+
+
 
 ```go
-func numIslands(grid [][]byte) int {
-	var dfs func(grid [][]byte, i, j int)
-	dfs = func(grid [][]byte, i, j int) {
-		if (i < 0 || j < 0) || i >= len(grid) || j >= len(grid[0]) || grid[i][j] == '0' {
-			return
-		}
-		grid[i][j] = '0'
-		dfs(grid, i+1, j)
-		dfs(grid, i-1, j)
-		dfs(grid, i, j-1)
-		dfs(grid, i, j+1)
+func reverseBetween(head *ListNode, left int, right int) *ListNode {
+	dummy := &ListNode{Next: head}
+	prev := dummy
+	for i := 0; i < left-1; i++ {
+		prev = prev.Next
 	}
-	count := 0
-	for i := 0; i < len(grid); i++ {
-		for j := 0; j < len(grid[0]); j++ {
-			if grid[i][j] == '1' {
-				dfs(grid, i, j)
-				count++
-			}
-		}
+	curr := prev.Next
+	for i := 0; i < right-left; i++ {
+		next := curr.Next
+		curr.Next = next.Next
+		next.Next = prev.Next
+		prev.Next = next
 	}
-	return count
+	return dummy.Next
 }
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+## [142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+
+方法一：快慢指针
+我们使用两个指针，fast 与 slow。它们起始都位于链表的头部。随后，slow 指针每次向后移动一个位置，而 fast 指针向后移动两个位置。如果链表中存在环，则 fast 指针最终将再次与 slow 指针在环中相遇。
+
+
+```go
+func detectCycle(head *ListNode) *ListNode {
+	slow, fast := head, head
+	for fast != nil {
+		slow = slow.Next
+		if fast.Next == nil {
+			return nil
+		}
+		fast = fast.Next.Next
+		if slow == fast { //第一次相遇
+			p := head
+			for p != slow {
+				p = p.Nextx
+				slow = slow.Next
+			}
+			return p
+		}
+	}
+	return nil
+}
+```
+
+
+
+
+
+
+
+
+
+## [23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
+
+
+```go
+func mergeKLists(lists []*ListNode) *ListNode {
+	length := len(lists)
+	if length < 1 {
+		return nil
+	}
+	if length == 1 {
+		return lists[0]
+	}
+	num := length / 2
+	left := mergeKLists(lists[:num])
+	right := mergeKLists(lists[num:])
+	return mergeTwoLists1(left, right)
+}
+func mergeTwoLists1(l1 *ListNode, l2 *ListNode) *ListNode {
+	if l1 == nil {
+		return l2
+	}
+	if l2 == nil {
+		return l1
+	}
+	if l1.Val < l2.Val {
+		l1.Next = mergeTwoLists1(l1.Next, l2)
+		return l1
+	} else {
+		l2.Next = mergeTwoLists1(l1, l2.Next)
+		return l2
+	}
+}
+```
+
+
 
 
 
@@ -614,138 +654,342 @@ func spiralOrder(matrix [][]int) []int {
 
 
 
-## [92. 反转链表 II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
+## [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
 
-**方法一：双指针** 
+1. 如果目标值等于中间元素，则找到目标值。
+2. 如果目标值较小，继续在左侧搜索。
+3. 如果目标值较大，则继续在右侧搜索。
 
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
+**算法：**
 
-func reverseBetween(head *ListNode, left int, right int) *ListNode {
-	dummy := &ListNode{Next: head}
-	prevLeft := dummy
-	for i := 0; i < left-1; i++ {
-		prevLeft = prevLeft.Next
-	}
-	prev := prevLeft.Next
-	curr := prev.Next
-	for i := 0; i < right-left; i++ {
-		next := curr.Next
-		curr.Next = prev
-		prev = curr
-		curr = next
-	}
-	prevLeft.Next.Next = curr
-	prevLeft.Next = prev
-	return dummy.Next
-}
-```
+- 初始化指针 left = 0, right = n - 1。
+- 当 left <= right：
+比较中间元素 nums[mid] 和目标值 target 。
+	1. 如果 target = nums[mid]，返回 mid。
+	2. 如果 target < nums[mid]，则在左侧继续搜索 right = mid - 1。
+	3. 如果 target > nums[mid]，则在右侧继续搜索 left = mid + 1。
 
-
-**方法二：头插法** 
-
-![](https://pic.leetcode-cn.com/1615105232-cvTINs-image.png)
-
-整体思想是：在需要反转的区间里，每遍历到一个节点，让这个新节点来到反转部分的起始位置。下面的图展示了整个流程。
-
-![](https://pic.leetcode-cn.com/1615105242-ZHlvOn-image.png)
-
-下面我们具体解释如何实现。使用三个指针变量 pre、curr、next 来记录反转的过程中需要的变量，它们的意义如下：
-
-- curr：指向待反转区域的第一个节点 left；
-- next：永远指向 curr 的下一个节点，循环过程中，curr 变化以后 next 会变化；
-- pre：永远指向待反转区域的第一个节点 left 的前一个节点，在循环过程中不变。
-第 1 步，我们使用 ①、②、③ 标注「穿针引线」的步骤。
-
-![](https://pic.leetcode-cn.com/1615105296-bmiPxl-image.png)
-
-操作步骤：
-
-- 先将 curr 的下一个节点记录为 next；
-- 执行操作 ①：把 curr 的下一个节点指向 next 的下一个节点；
-- 执行操作 ②：把 next 的下一个节点指向 pre 的下一个节点；
-- 执行操作 ③：把 pre 的下一个节点指向 next。
-第 1 步完成以后「拉直」的效果如下：
-
-![](https://pic.leetcode-cn.com/1615105340-UBnTBZ-image.png)
-
-第 2 步，同理。同样需要注意 「穿针引线」操作的先后顺序。
-
-![](https://pic.leetcode-cn.com/1615105353-PsCmzb-image.png)
-
-第 2 步完成以后「拉直」的效果如下：
-
-![](https://pic.leetcode-cn.com/1615105364-aDIFqy-image.png)
-
-第 3 步，同理。
-![](https://pic.leetcode-cn.com/1615105376-jIyGwv-image.png)
-
-第 3 步完成以后「拉直」的效果如下：
-![](https://pic.leetcode-cn.com/1615105395-EJQnMe-image.png)
-
-
-
-
-```go
-func reverseBetween(head *ListNode, left int, right int) *ListNode {
-	dummy := &ListNode{Next: head}
-	prev := dummy
-	for i := 0; i < left-1; i++ {
-		prev = prev.Next
-	}
-	curr := prev.Next
-	for i := 0; i < right-left; i++ {
-		next := curr.Next
-		curr.Next = next.Next
-		next.Next = prev.Next
-		prev.Next = next
-	}
-	return dummy.Next
-}
-```
-
-
-
-
-
-## [33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
-
-![](https://assets.leetcode-cn.com/solution-static/33/33_fig1.png)
 
 ```go
 func search(nums []int, target int) int {
-	if len(nums) == 0 {
-		return -1
-	}
-	l, r := 0, len(nums)-1
-	for l <= r {
-		mid := (l + r) >> 1
+	left, right := 0, len(nums)-1
+	for left <= right {
+		mid := left + (right-left)>>1
 		if nums[mid] == target {
 			return mid
-		}
-		if nums[l] <= nums[mid] { //左边有序
-			if nums[l] <= target && target < nums[mid] {
-				r = mid - 1
-			} else {
-				l = mid + 1
-			}
+		} else if nums[mid] < target {
+			left = mid + 1
 		} else {
-			if nums[mid] < target && target <= nums[r] {
-				l = mid + 1
-			} else {
-				r = mid - 1
-			}
+			right = mid - 1
 		}
 	}
 	return -1
 }
 ```
+复杂度分析
+
+- 时间复杂度：O(logN)。
+- 空间复杂度：O(1)。
+
+
+
+
+
+
+
+
+## [300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+
+**方法一： nlogn 动态规划** 
+
+```go
+func lengthOfLIS(nums []int) int {
+	dp := []int{}
+	for _, num := range nums {
+		i := sort.SearchInts(dp, num) //min_index
+		if i == len(dp) {
+			dp = append(dp, num)
+		} else {
+			dp[i] = num
+		}
+	}
+	return len(dp)
+}
+```
+复杂度分析
+
+- 时间复杂度：O(nlogn)。数组 nums 的长度为 n，我们依次用数组中的元素去更新 dp 数组，而更新 dp 数组时需要进行 O(logn) 的二分搜索，所以总时间复杂度为 O(nlogn)。
+
+- 空间复杂度：O(n)，需要额外使用长度为 n 的 dp 数组。
+
+**func SearchInts**
+
+- func SearchInts(a []int, x int) int
+- SearchInts在递增顺序的a中搜索x，返回x的索引。如果查找不到，返回值是x应该插入a的位置（以保证a的递增顺序），返回值可以是len(a)。
+
+**方法二：贪心 + 二分查找**
+
+![贪心 + 二分查找](http://ww1.sinaimg.cn/large/007daNw2ly1gpbeyy69rdj31ag0lmtb8.jpg)
+
+```go
+func lengthOfLIS(nums []int) int {
+	d := []int{}
+	for _, num := range nums {
+		if len(d) == 0 || d[len(d)-1] < num {
+			d = append(d, num)
+		} else { //二分查找
+			l, r := 0, len(d)-1
+			pos := r
+			for l <= r {
+				mid := (l + r) >> 1
+				if d[mid] >= num {
+					pos = mid
+					r = mid - 1
+				} else {
+					l = mid + 1
+				}
+			}
+			d[pos] = num
+		}
+	}
+	return len(d)
+}
+```
+复杂度分析
+
+- 时间复杂度：O(nlogn)。数组 nums 的长度为 n，我们依次用数组中的元素去更新 d 数组，而更新 d 数组时需要进行 O(logn) 的二分搜索，所以总时间复杂度为 O(nlogn)。
+
+- 空间复杂度：O(n)，需要额外使用长度为 n 的 d 数组。
+
+**方法三：动态规划**
+
+```go
+func lengthOfLIS(nums []int) int {
+	n := len(nums)
+	if n == 0 {
+		return 0
+	}
+	dp, res := make([]int, n), 0
+	for i := 0; i < n; i++ {
+		dp[i] = 1
+		for j := 0; j < i; j++ {
+			if nums[j] < nums[i] {
+				dp[i] = max(dp[i], dp[j]+1)
+			}
+		}
+		res = max(res, dp[i])
+	}
+	return res
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+复杂度分析：
+
+- 时间复杂度 O(N^2)： 遍历计算 dp 列表需 O(N)，计算每个 dp[i] 需 O(N)。
+- 空间复杂度 O(N) ： dp 列表占用线性大小额外空间。
+
+
+
+
+
+
+
+
+
+## [42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
+
+**方法一：双指针**
+
+![截屏2021-04-06 18.24.23.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpa760w1vwj31440gy77h.jpg)
+
+```go
+func trap(height []int) (res int) {
+	left, right := 0, len(height)-1
+	leftMax, rightMax := 0, 0
+	for left < right {
+		leftMax = max(leftMax, height[left])
+		rightMax = max(rightMax, height[right])
+		if height[left] < height[right] {
+			res += leftMax - height[left]
+			left++
+		} else {
+			res += rightMax - height[right]
+			right--
+		}
+	}
+	return
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+**方法二：单调栈**
+
+```go
+func trap(height []int) (res int) {
+	stack := []int{}
+	for i, h := range height {
+		for len(stack) > 0 && h > height[stack[len(stack)-1]] {
+			top := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			if len(stack) == 0 {
+				break
+			}
+			left := stack[len(stack)-1]
+			curWidth := i - left - 1
+			curHeight := min(height[left], h) - height[top]
+			res += curWidth * curHeight
+		}
+		stack = append(stack, i)
+	}
+	return
+}
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+```
+
+- 单调栈：查找每个数左侧第一个比它小的数
+- 单调队列：滑动窗口中的最值
+
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+
+```go
+func inorderTraversal(root *TreeNode) (res []int) {
+	var inorder func(node *TreeNode)
+	inorder = func(node *TreeNode) {
+		if node == nil {
+			return
+		}
+		inorder(node.Left)
+		res = append(res, node.Val)
+		inorder(node.Right)
+	}
+	inorder(root)
+	return
+}
+```
+
+```go
+func inorderTraversal(root *TreeNode) (res []int) {
+	stack := []*TreeNode{}
+	for root != nil || len(stack) > 0 {
+		for root != nil {
+			stack = append(stack, root)
+			root = root.Left
+		}
+		root = stack[len(stack)-1]   //取栈顶
+		stack = stack[:len(stack)-1] //出栈
+		res = append(res, root.Val)
+		root = root.Right
+	}
+	return
+}
+```
+
+
+
+
+## [232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
+
+**方法一：双栈**
+
+
+![截屏2021-03-28 20.58.04.png](http://ww1.sinaimg.cn/large/007daNw2ly1gozx18b8ilj31740jsdhb.jpg)
+
+**思路**
+
+将一个栈当作输入栈，用于压入 push 传入的数据；另一个栈当作输出栈，用于 pop 和 peek 操作。
+
+每次 pop 或 peek 时，若输出栈为空则将输入栈的全部数据依次弹出并压入输出栈，这样输出栈从栈顶往栈底的顺序就是队列从队首往队尾的顺序。
+
+
+
+```go
+type MyQueue struct {
+	inStack, outStack []int
+}
+
+/** Initialize your data structure here. */
+func Constructor() MyQueue {
+	return MyQueue{}
+}
+
+/** Push element x to the back of queue. */
+func (q *MyQueue) Push(x int) {
+	q.inStack = append(q.inStack, x)
+}
+
+func (q *MyQueue) in2out() {
+	for len(q.inStack) > 0 {
+		q.outStack = append(q.outStack, q.inStack[len(q.inStack)-1])
+		q.inStack = q.inStack[:len(q.inStack)-1]
+	}
+}
+
+/** Removes the element from in front of queue and returns that element. */
+func (q *MyQueue) Pop() int {
+	if len(q.outStack) == 0 {
+		q.in2out()
+	}
+	x := q.outStack[len(q.outStack)-1]
+	q.outStack = q.outStack[:len(q.outStack)-1]
+	return x
+}
+
+/** Get the front element. */
+func (q *MyQueue) Peek() int {
+	if len(q.outStack) == 0 {
+		q.in2out()
+	}
+	return q.outStack[len(q.outStack)-1]
+}
+
+/** Returns whether the queue is empty. */
+func (q *MyQueue) Empty() bool {
+	return len(q.inStack) == 0 && len(q.outStack) == 0
+}
+```
+
+复杂度分析
+
+- 时间复杂度：push 和 empty 为 O(1)，pop 和 peek 为均摊 O(1)。对于每个元素，至多入栈和出栈各两次，故均摊复杂度为 O(1)。
+
+- 空间复杂度：O(n)。其中 n 是操作总数。对于有 n 次 push 操作的情况，队列中会有 n 个元素，故空间复杂度为 O(n)。
+
 
 
 
@@ -845,72 +1089,6 @@ func dfs(root *TreeNode, depth int) {
 
 
 
-
-
-
-
-## [42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
-
-**方法一：双指针**
-
-![截屏2021-04-06 18.24.23.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpa760w1vwj31440gy77h.jpg)
-
-```go
-func trap(height []int) (res int) {
-	left, right := 0, len(height)-1
-	leftMax, rightMax := 0, 0
-	for left < right {
-		leftMax = max(leftMax, height[left])
-		rightMax = max(rightMax, height[right])
-		if height[left] < height[right] {
-			res += leftMax - height[left]
-			left++
-		} else {
-			res += rightMax - height[right]
-			right--
-		}
-	}
-	return
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
-**方法二：单调栈**
-
-```go
-func trap(height []int) (res int) {
-	stack := []int{}
-	for i, h := range height {
-		for len(stack) > 0 && h > height[stack[len(stack)-1]] {
-			top := stack[len(stack)-1]
-			stack = stack[:len(stack)-1]
-			if len(stack) == 0 {
-				break
-			}
-			left := stack[len(stack)-1]
-			curWidth := i - left - 1
-			curHeight := min(height[left], h) - height[top]
-			res += curWidth * curHeight
-		}
-		stack = append(stack, i)
-	}
-	return
-}
-func min(x, y int) int {
-	if x < y {
-		return x
-	}
-	return y
-}
-```
-
-- 单调栈：查找每个数左侧第一个比它小的数
-- 单调队列：滑动窗口中的最值
 
 
 
@@ -1073,100 +1251,6 @@ func climbStairs(n int) int {
 
 
 
-## [300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
-
-**方法一： nlogn 动态规划** 
-
-```go
-func lengthOfLIS(nums []int) int {
-	dp := []int{}
-	for _, num := range nums {
-		i := sort.SearchInts(dp, num) //min_index
-		if i == len(dp) {
-			dp = append(dp, num)
-		} else {
-			dp[i] = num
-		}
-	}
-	return len(dp)
-}
-```
-复杂度分析
-
-- 时间复杂度：O(nlogn)。数组 nums 的长度为 n，我们依次用数组中的元素去更新 dp 数组，而更新 dp 数组时需要进行 O(logn) 的二分搜索，所以总时间复杂度为 O(nlogn)。
-
-- 空间复杂度：O(n)，需要额外使用长度为 n 的 dp 数组。
-
-**func SearchInts**
-
-- func SearchInts(a []int, x int) int
-- SearchInts在递增顺序的a中搜索x，返回x的索引。如果查找不到，返回值是x应该插入a的位置（以保证a的递增顺序），返回值可以是len(a)。
-
-**方法二：贪心 + 二分查找**
-
-![贪心 + 二分查找](http://ww1.sinaimg.cn/large/007daNw2ly1gpbeyy69rdj31ag0lmtb8.jpg)
-
-```go
-func lengthOfLIS(nums []int) int {
-	d := []int{}
-	for _, num := range nums {
-		if len(d) == 0 || d[len(d)-1] < num {
-			d = append(d, num)
-		} else { //二分查找
-			l, r := 0, len(d)-1
-			pos := r
-			for l <= r {
-				mid := (l + r) >> 1
-				if d[mid] >= num {
-					pos = mid
-					r = mid - 1
-				} else {
-					l = mid + 1
-				}
-			}
-			d[pos] = num
-		}
-	}
-	return len(d)
-}
-```
-复杂度分析
-
-- 时间复杂度：O(nlogn)。数组 nums 的长度为 n，我们依次用数组中的元素去更新 d 数组，而更新 d 数组时需要进行 O(logn) 的二分搜索，所以总时间复杂度为 O(nlogn)。
-
-- 空间复杂度：O(n)，需要额外使用长度为 n 的 d 数组。
-
-**方法三：动态规划**
-
-```go
-func lengthOfLIS(nums []int) int {
-	n := len(nums)
-	if n == 0 {
-		return 0
-	}
-	dp, res := make([]int, n), 0
-	for i := 0; i < n; i++ {
-		dp[i] = 1
-		for j := 0; j < i; j++ {
-			if nums[j] < nums[i] {
-				dp[i] = max(dp[i], dp[j]+1)
-			}
-		}
-		res = max(res, dp[i])
-	}
-	return res
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-复杂度分析：
-
-- 时间复杂度 O(N^2)： 遍历计算 dp 列表需 O(N)，计算每个 dp[i] 需 O(N)。
-- 空间复杂度 O(N) ： dp 列表占用线性大小额外空间。
 
 
 
@@ -1241,39 +1325,6 @@ func mySqrt(x int) int {
 
 
 
-## [23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
-
-
-```go
-func mergeKLists(lists []*ListNode) *ListNode {
-	length := len(lists)
-	if length < 1 {
-		return nil
-	}
-	if length == 1 {
-		return lists[0]
-	}
-	num := length / 2
-	left := mergeKLists(lists[:num])
-	right := mergeKLists(lists[num:])
-	return mergeTwoLists1(left, right)
-}
-func mergeTwoLists1(l1 *ListNode, l2 *ListNode) *ListNode {
-	if l1 == nil {
-		return l2
-	}
-	if l2 == nil {
-		return l1
-	}
-	if l1.Val < l2.Val {
-		l1.Next = mergeTwoLists1(l1.Next, l2)
-		return l1
-	} else {
-		l2.Next = mergeTwoLists1(l1, l2.Next)
-		return l2
-	}
-}
-```
 
 
 

@@ -1,9 +1,9 @@
 
 
-1. [33. 搜索旋转排序数组](#33-搜索旋转排序数组)
-2. [200. 岛屿数量](#200-岛屿数量)
-3. [46. 全排列](#46-全排列)
-4. [47. 全排列 II 补充](#47-全排列-ii-补充)
+1. [✅ 33. 搜索旋转排序数组](#-33-搜索旋转排序数组)
+2. [✅ 200. 岛屿数量](#-200-岛屿数量)
+3. [✅ 46. 全排列](#-46-全排列)
+4. [✅ 47. 全排列 II 补充](#-47-全排列-ii-补充)
 5. [92. 反转链表 II](#92-反转链表-ii)
 6. [142. 环形链表 II](#142-环形链表-ii)
 7. [23. 合并K个升序链表](#23-合并k个升序链表)
@@ -96,7 +96,7 @@
 
 
 
-## [33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
+## ✅ [33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
 
 ![](images/33.png)
 
@@ -134,7 +134,7 @@ func search(nums []int, target int) int {
 
 
 
-## [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
+## ✅ [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
 
 **思路一：深度优先遍历DFS**
 
@@ -211,7 +211,7 @@ func numIslands(grid [][]byte) int {
 
 
 
-## [46. 全排列](https://leetcode-cn.com/problems/permutations/)
+## ✅ [46. 全排列](https://leetcode-cn.com/problems/permutations/)
 
 
 **方法一：枚举每个位置放每个数 (回溯)**
@@ -294,7 +294,7 @@ func permute(nums []int) [][]int {
 这个 path 变量是一个地址引用，结束当前递归，将它加入 res，后续的递归分支还要继续进行搜索，还要继续传递这个 path，这个地址引用所指向的内存空间还要继续被操作，所以 res 中的 path 所引用的内容会被改变，这就不对，所以要拷贝一份内容，到一份新的数组里，然后放入 res，这样后续对 path 的操作，就不会影响已经放入 res 的内容。
 
 
-## [47. 全排列 II](https://leetcode-cn.com/problems/permutations-ii/) 补充
+## ✅ [47. 全排列 II](https://leetcode-cn.com/problems/permutations-ii/) 补充
 
 **方法一：枚举每个位置放哪个数 (回溯)**
 

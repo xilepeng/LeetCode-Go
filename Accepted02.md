@@ -98,7 +98,7 @@
 
 ## [33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
 
-![](https://assets.leetcode-cn.com/solution-static/33/33_fig1.png)
+![](images/33.png)
 
 ```go
 func search(nums []int, target int) int {
@@ -129,7 +129,7 @@ func search(nums []int, target int) int {
 }
 ```
 
-
+[参考](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/solution/sou-suo-xuan-zhuan-pai-xu-shu-zu-by-leetcode-solut/)
 
 
 

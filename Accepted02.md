@@ -107,17 +107,17 @@ func search(nums []int, target int) int {
 	}
 	l, r := 0, len(nums)-1
 	for l <= r {
-		mid := (l + r) >> 1
-		if nums[mid] == target {
+		mid := l + (r-l)>>1 //防止加法导致整数溢出 (l+r)>>1
+		if target == nums[mid] {
 			return mid
 		}
 		if nums[l] <= nums[mid] { //左边有序
-			if nums[l] <= target && target < nums[mid] {
-				r = mid - 1
+			if nums[l] <= target && target < nums[mid] { //在左边
+				r = mid - 1 //舍弃右边
 			} else {
 				l = mid + 1
 			}
-		} else {
+		} else { //右边有序
 			if nums[mid] < target && target <= nums[r] {
 				l = mid + 1
 			} else {

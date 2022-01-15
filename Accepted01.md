@@ -1271,14 +1271,16 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 
 ```go
 func longestPalindrome(s string) string {
-	res := ""
-	for i := 0; i < len(s); i++ {
-		for l, r := i, i; l >= 0 && r < len(s) && s[l] == s[r]; l, r = l-1, r+1 {
+	res, n := "", len(s)
+	for i := 0; i < n; i++ { // n 为奇数
+		for l, r := i, i; l >= 0 && r < n && s[l] == s[r]; l, r = l-1, r+1 {
 			if len(res) < r-l+1 {
 				res = s[l : r+1]
 			}
 		}
-		for l, r := i, i+1; l >= 0 && r < len(s) && s[l] == s[r]; l, r = l-1, r+1 {
+	}
+	for i := 0; i < n; i++ { // n 为欧数
+		for l, r := i, i+1; l >= 0 && r < n && s[l] == s[r]; l, r = l-1, r+1 {
 			if len(res) < r-l+1 {
 				res = s[l : r+1]
 			}
@@ -1287,28 +1289,34 @@ func longestPalindrome(s string) string {
 	return res
 }
 ```
+复杂度分析
 
+- 时间复杂度：O(n^2)，其中 n 是字符串的长度。长度为 1 和 2 的回文中心分别有 n 和 n−1 个，每个回文中心最多会向外扩展 O(n) 次。
+- 空间复杂度：O(n)。
 
 **方法二：中心扩展算法**
 
-![截屏2021-04-02 11.43.48.png](http://ww1.sinaimg.cn/large/007daNw2ly1gp59403adbj31kc0i0762.jpg)
+![](images/5.png)
 
 ```go
 func longestPalindrome(s string) string {
-	low, maxLen := 0, 0
+	start, end := 0, 0
 	for i := range s {
-		expand(s, i, i, &low, &maxLen)
-		expand(s, i, i+1, &low, &maxLen)
+		l, r := expend(s, i, i) // n 为奇数
+		if end-start < r-l {
+			start, end = l, r
+		}
+		l, r = expend(s, i, i+1) // n 为欧数
+		if end-start < r-l {
+			start, end = l, r
+		}
 	}
-	return s[low : low+maxLen]
+	return s[start : end+1]
 }
-func expand(s string, l, r int, low, maxLen *int) {
+func expend(s string, l, r int) (int, int) {
 	for ; l >= 0 && r < len(s) && s[l] == s[r]; l, r = l-1, r+1 {
 	}
-	if *maxLen < r-l-1 {
-		*low = l + 1
-		*maxLen = r - l - 1
-	}
+	return l + 1, r - 1
 }
 ```
 复杂度分析
@@ -1319,27 +1327,6 @@ func expand(s string, l, r int, low, maxLen *int) {
 
 
 
-```go
-func longestPalindrome(s string) string {
-	start, end := 0, 0
-	for i := range s {
-		l, r := expand(s, i, i)
-		if end-start < r-l {
-			start, end = l, r
-		}
-		l, r = expand(s, i, i+1)
-		if end-start < r-l {
-			start, end = l, r
-		}
-	}
-	return s[start : end+1]
-}
-func expand(s string, l, r int) (int, int) {
-	for ; l >= 0 && r < len(s) && s[l] == s[r]; l, r = l-1, r+1 {
-	}
-	return l + 1, r - 1
-}
-```
 
 
 

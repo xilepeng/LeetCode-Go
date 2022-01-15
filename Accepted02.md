@@ -228,29 +228,29 @@ func numIslands(grid [][]byte) int {
 func permute(nums []int) [][]int {
 	used, path, res, n := make(map[int]bool, len(nums)), []int{}, [][]int{}, len(nums)
 	var dfs func(int)
-	dfs = func(pos int) {
-		if pos == n {
+	dfs = func(pos int) { // 枚举位置
+		if len(path) == n {
 			res = append(res, append([]int{}, path...))
 			return
 		}
-		for i := 0; i < n; i++ {
-			if !used[i] { //如果第i个位置未使用
-				used[i] = true               //第i个位置已使用
-				path = append(path, nums[i]) //存储第i个数
-				dfs(pos + 1)                 //枚举下一个位置
-				used[i] = false              //回溯（状态重置)
-				path = path[:len(path)-1]    //撤销
+		for i := 0; i < n; i++ { // 枚举所有的选择
+			if !used[i] { // 第i个位置未使用
+				used[i] = true               // 第i个位置已使用
+				path = append(path, nums[i]) // 做出选择，记录路径
+				dfs(pos + 1)                 // 枚举下一个位置
+				used[i] = false              // 撤销选择
+				path = path[:len(path)-1]    // 取消记录
 			}
 		}
 	}
-	dfs(0) //枚举每个位置放每个数
+	dfs(0)
 	return res
 }
 ```
 
 
 
-**方法二：枚举每个数，放在每个位置 (回溯)**
+**方法二：枚举位置、枚举数 (回溯)**
 
 这个问题可以看作有 n 个排列成一行的空格，我们需要从左往右依此填入题目给定的 n 个数，每个数只能使用一次。那么很直接的可以想到一种穷举的算法，即从左往右每一个位置都依此尝试填入一个数，看能不能填完这 n 个空格，在程序中我们可以用「回溯法」来模拟这个过程。
 
@@ -264,14 +264,14 @@ func permute(nums []int) [][]int {
 func permute(nums []int) [][]int {
 	res, n := [][]int{}, len(nums)
 	var dfs func(int)
-	dfs = func(pos int) {
+	dfs = func(pos int) { // 枚举位置
 		if pos == n { // 所有数都填完了
 			res = append(res, append([]int{}, nums...))
 			return
 		}
 		for i := pos; i < n; i++ {
-			nums[i], nums[pos] = nums[pos], nums[i] // 枚举每个数放在每个位置
-			dfs(pos + 1)                            // 继续递归填下一个数
+			nums[i], nums[pos] = nums[pos], nums[i] // 枚举所有的选择
+			dfs(pos + 1)                            // 枚举下一个位置
 			nums[i], nums[pos] = nums[pos], nums[i] // 撤销操作
 		}
 	}

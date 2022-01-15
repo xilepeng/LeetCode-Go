@@ -214,7 +214,7 @@ func numIslands(grid [][]byte) int {
 ## ✅ [46. 全排列](https://leetcode-cn.com/problems/permutations/)
 
 
-**方法一：枚举每个位置放每个数 (回溯)**
+**方法一：枚举每个位置，放每个数 (回溯)**
 
 ![](images/46-1.png)
 
@@ -250,7 +250,7 @@ func permute(nums []int) [][]int {
 
 
 
-**方法二：枚举每个数放在每个位置 (回溯)**
+**方法二：枚举每个数，放在每个位置 (回溯)**
 
 这个问题可以看作有 n 个排列成一行的空格，我们需要从左往右依此填入题目给定的 n 个数，每个数只能使用一次。那么很直接的可以想到一种穷举的算法，即从左往右每一个位置都依此尝试填入一个数，看能不能填完这 n 个空格，在程序中我们可以用「回溯法」来模拟这个过程。
 
@@ -296,41 +296,51 @@ func permute(nums []int) [][]int {
 
 ## ✅ [47. 全排列 II](https://leetcode-cn.com/problems/permutations-ii/) 补充
 
-**方法一：枚举每个位置放哪个数 (回溯)**
+**方法一：枚举每个位置，放每个数 (回溯)**
 
 ![截屏2021-04-04 19.05.15.png](http://ww1.sinaimg.cn/large/007daNw2ly1gp7x3wg42ij30zk0kwtb0.jpg)
+
+
+我们将这个问题看作有 n 个排列成一行的空格，我们需要从左往右依次填入题目给定的 n 个数，每个数只能使用一次。那么很直接的可以想到一种穷举的算法，即从左往右每一个位置都依此尝试填入一个数，看能不能填完这 n 个空格，在程序中我们可以用「回溯法」来模拟这个过程。
+
+
+
 
 假设我们有 3 个重复数排完序后相邻，那么我们一定保证每次都是拿从左往右第一个未被填过的数字，即整个数组的状态其实是保证了 
 [未填入，未填入，未填入] 到 [填入，未填入，未填入]，再到 [填入，填入，未填入]，最后到 [填入，填入，填入] 的过程的，因此可以达到去重的目标。
 
 
-**dfs 闭包实现：**
+**dfs 闭包**
+
 
 ```go
-func permuteUnique(nums []int) (res [][]int) {
+func permuteUnique(nums []int) [][]int {
 	sort.Ints(nums)
-	used, path, n := make([]bool, len(nums)), []int{}, len(nums)
+	used, path, res, n := make(map[int]bool, len(nums)), []int{}, [][]int{}, len(nums)
 	var dfs func(int)
-	dfs = func(pos int) {
-		if pos == n {
+	dfs = func(pos int) { // 枚举位置
+		if len(path) == n {
 			res = append(res, append([]int{}, path...))
 			return
 		}
-		for i := 0; i < n; i++ {
-			if used[i] || i > 0 && !used[i-1] && nums[i-1] == nums[i] {
-				continue
+		for i := 0; i < n; i++ { // 枚举出所有的选择
+			if used[i] || i > 0 && !used[i-1] && nums[i-1] == nums[i] { // 已使用 或 重复
+				continue // 跳过
 			}
-			used[i] = true
-			path = append(path, nums[i])
-			dfs(pos + 1)
-			used[i] = false
-			path = path[:len(path)-1]	
+			used[i] = true               // 记录路径上做过的选择
+			path = append(path, nums[i]) // 做出选择
+			dfs(pos + 1)                 // 枚举下一个位置
+			used[i] = false              // 撤销选择
+			path = path[:len(path)-1]    // 取消记录
 		}
 	}
 	dfs(0)
-	return
+	return res
 }
 ```
+
+
+
 
 
 
@@ -375,47 +385,6 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 
 **方法二：头插法** 
 
-![](https://pic.leetcode-cn.com/1615105232-cvTINs-image.png)
-
-整体思想是：在需要反转的区间里，每遍历到一个节点，让这个新节点来到反转部分的起始位置。下面的图展示了整个流程。
-
-![](https://pic.leetcode-cn.com/1615105242-ZHlvOn-image.png)
-
-下面我们具体解释如何实现。使用三个指针变量 pre、curr、next 来记录反转的过程中需要的变量，它们的意义如下：
-
-- curr：指向待反转区域的第一个节点 left；
-- next：永远指向 curr 的下一个节点，循环过程中，curr 变化以后 next 会变化；
-- pre：永远指向待反转区域的第一个节点 left 的前一个节点，在循环过程中不变。
-第 1 步，我们使用 ①、②、③ 标注「穿针引线」的步骤。
-
-![](https://pic.leetcode-cn.com/1615105296-bmiPxl-image.png)
-
-操作步骤：
-
-- 先将 curr 的下一个节点记录为 next；
-- 执行操作 ①：把 curr 的下一个节点指向 next 的下一个节点；
-- 执行操作 ②：把 next 的下一个节点指向 pre 的下一个节点；
-- 执行操作 ③：把 pre 的下一个节点指向 next。
-第 1 步完成以后「拉直」的效果如下：
-
-![](https://pic.leetcode-cn.com/1615105340-UBnTBZ-image.png)
-
-第 2 步，同理。同样需要注意 「穿针引线」操作的先后顺序。
-
-![](https://pic.leetcode-cn.com/1615105353-PsCmzb-image.png)
-
-第 2 步完成以后「拉直」的效果如下：
-
-![](https://pic.leetcode-cn.com/1615105364-aDIFqy-image.png)
-
-第 3 步，同理。
-![](https://pic.leetcode-cn.com/1615105376-jIyGwv-image.png)
-
-第 3 步完成以后「拉直」的效果如下：
-![](https://pic.leetcode-cn.com/1615105395-EJQnMe-image.png)
-
-
-
 
 ```go
 func reverseBetween(head *ListNode, left int, right int) *ListNode {
@@ -437,7 +406,7 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 
 
 
-
+[参考](https://leetcode-cn.com/problems/reverse-linked-list-ii/solution/fan-zhuan-lian-biao-ii-by-leetcode-solut-teyq/)
 
 
 

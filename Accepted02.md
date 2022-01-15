@@ -328,7 +328,7 @@ func permuteUnique(nums []int) [][]int {
 				continue // 跳过
 			}
 			used[i] = true               // 记录路径上做过的选择
-			path = append(path, nums[i]) // 做出选择
+			path = append(path, nums[i]) // 做出选择，记录路径
 			dfs(pos + 1)                 // 枚举下一个位置
 			used[i] = false              // 撤销选择
 			path = path[:len(path)-1]    // 取消记录

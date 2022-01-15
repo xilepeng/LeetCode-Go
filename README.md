@@ -8,8 +8,10 @@
 
 [54. 螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)
 
-✅ [704. 二分查找](https://leetcode-cn.com/problems/binary-search/) 
+[704. 二分查找](https://leetcode-cn.com/problems/binary-search/) 
 
 [300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 
 [42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
+
+

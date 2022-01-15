@@ -1335,27 +1335,35 @@ func expend(s string, l, r int) (int, int) {
 
 ## ✅ [415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
 
+
+
+**方法一：模拟**
+- 对两个大整数模拟「竖式加法」的过程，将相同数位对齐，
+- 从低到高逐位相加，如果当前位和超过 10，则向高位进一位。
+
+
 ```go
 func addStrings(num1 string, num2 string) string {
-	carry := 0
-	res := ""
+	res, carry := "", 0
 	for i, j := len(num1)-1, len(num2)-1; i >= 0 || j >= 0 || carry != 0; i, j = i-1, j-1 {
 		var x, y int
 		if i >= 0 {
-			x = int(num1[i] - '0')
+			x = int(num1[i] - '0') // 字符串转整数
 		}
 		if j >= 0 {
-			y = int(num2[j] - '0')
+			y = int(num2[j] - '0') // 字符串转整数
 		}
 		tmp := x + y + carry
-		res = strconv.Itoa(tmp%10) + res
-		carry = tmp / 10
+		res = strconv.Itoa(tmp%10) + res // 取个位，整数转字符串，从低到高逐位相加
+		carry = tmp / 10                 // 取十位
 	}
 	return res
 }
 ```
 
 
+
+[参考](https://leetcode-cn.com/problems/add-strings/solution/zi-fu-chuan-xiang-jia-by-leetcode-solution/)
 
 
 

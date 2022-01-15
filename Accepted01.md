@@ -16,8 +16,8 @@
 16. [✅ 103. 二叉树的锯齿形层序遍历](#-103-二叉树的锯齿形层序遍历)
 17. [✅ 20. 有效的括号](#-20-有效的括号)
 18. [✅ 236. 二叉树的最近公共祖先](#-236-二叉树的最近公共祖先)
-19. [5. 最长回文子串](#5-最长回文子串)
-20. [415. 字符串相加](#415-字符串相加)
+19. [✅ 5. 最长回文子串](#-5-最长回文子串)
+20. [✅ 415. 字符串相加](#-415-字符串相加)
 
 
 
@@ -1255,7 +1255,7 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 
 
 
-## [5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
+## ✅ [5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
 
 **方法一：（暴力枚举） O(n^2)**
 
@@ -1333,7 +1333,7 @@ func expend(s string, l, r int) (int, int) {
 
 
 
-## [415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
+## ✅ [415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
 
 ```go
 func addStrings(num1 string, num2 string) string {

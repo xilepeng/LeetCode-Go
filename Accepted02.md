@@ -8,7 +8,7 @@
 6. [142. 环形链表 II](#142-环形链表-ii)
 7. [23. 合并K个升序链表](#23-合并k个升序链表)
 8. [54. 螺旋矩阵](#54-螺旋矩阵)
-9. [704. 二分查找](#704-二分查找)
+9. [✅ 704. 二分查找](#-704-二分查找)
 10. [300. 最长递增子序列](#300-最长递增子序列)
 11. [42. 接雨水](#42-接雨水)
 12. [94. 二叉树的中序遍历](#94-二叉树的中序遍历)
@@ -52,16 +52,13 @@
 
 [42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
 
-
-
-
-
-
 [232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
 
 [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
 
 [199. 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+
+
 
 [143. 重排链表](https://leetcode-cn.com/problems/reorder-list/)
 
@@ -630,7 +627,7 @@ func spiralOrder(matrix [][]int) []int {
 
 
 
-## [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
+## ✅ [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
 
 1. 如果目标值等于中间元素，则找到目标值。
 2. 如果目标值较小，继续在左侧搜索。
@@ -639,7 +636,7 @@ func spiralOrder(matrix [][]int) []int {
 **算法：**
 
 - 初始化指针 left = 0, right = n - 1。
-- 当 left <= right：
+- 当 left <= right： // 等于：考察一个数
 比较中间元素 nums[mid] 和目标值 target 。
 	1. 如果 target = nums[mid]，返回 mid。
 	2. 如果 target < nums[mid]，则在左侧继续搜索 right = mid - 1。
@@ -649,7 +646,7 @@ func spiralOrder(matrix [][]int) []int {
 ```go
 func search(nums []int, target int) int {
 	left, right := 0, len(nums)-1
-	for left <= right {
+	for left <= right {	
 		mid := left + (right-left)>>1
 		if nums[mid] == target {
 			return mid

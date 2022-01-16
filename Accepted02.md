@@ -361,11 +361,11 @@ func permuteUnique(nums []int) [][]int {
 
 func reverseBetween(head *ListNode, left int, right int) *ListNode {
 	dummy := &ListNode{Next: head}
-	prevLeft := dummy
+	pre := dummy
 	for i := 0; i < left-1; i++ {
-		prevLeft = prevLeft.Next
+		pre = pre.Next
 	}
-	prev := prevLeft.Next
+	prev := pre.Next
 	curr := prev.Next
 	for i := 0; i < right-left; i++ {
 		next := curr.Next
@@ -373,8 +373,8 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 		prev = curr
 		curr = next
 	}
-	prevLeft.Next.Next = curr
-	prevLeft.Next = prev
+	pre.Next.Next = curr // 2.Next = 5
+	pre.Next = prev // 1.Next = 4
 	return dummy.Next
 }
 ```
@@ -404,6 +404,8 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 
 
 [参考](https://leetcode-cn.com/problems/reverse-linked-list-ii/solution/fan-zhuan-lian-biao-ii-by-leetcode-solut-teyq/)
+
+
 
 
 

@@ -562,30 +562,32 @@ func mergeTwoLists(l1, l2 *ListNode) *ListNode {
 
 ```go
 func spiralOrder(matrix [][]int) []int {
-    if len(matrix) == 0 {
-        return []int{}
-    }
-    res := []int{}
-    top, bottom, left, right := 0, len(matrix)-1, 0, len(matrix[0])-1
-    
-    for top < bottom && left < right {
-        for i := left; i < right; i++ { res = append(res, matrix[top][i]) }
-        for i := top; i < bottom; i++ { res = append(res, matrix[i][right]) }
-        for i := right; i > left; i-- { res = append(res, matrix[bottom][i]) }
-        for i := bottom; i > top; i-- { res = append(res, matrix[i][left]) }
-        right--
-        top++
-        bottom--
-        left++ 
-    }
-    if top == bottom {
-        for i := left; i <= right; i++ { res = append(res, matrix[top][i]) }
-    } else if left == right {
-        for i := top; i <= bottom; i++ { res = append(res, matrix[i][left]) }
-    } 
-    return res
+	if len(matrix) == 0 {
+		return []int{}
+	}
+	res := []int{}
+	top, right, bottom, left := 0, len(matrix[0])-1, len(matrix)-1, 0
+	for top < bottom && left < right {
+		for i := left; i < right; i ++ { res = append(res, matrix[top][i])}    // 上层  top 行 i 列
+		for i := top; i < bottom; i ++ { res = append(res, matrix[i][right])}  // 右层  i 行 right 列
+		for i := right; i > left; i -- { res = append(res, matrix[bottom][i])} // 下层  bottom 行 i 列
+		for i := bottom; i > top; i -- { res = append(res, matrix[i][left])}   // 左层  i 行 left 列
+		top ++		// 四个边界同时收缩，进入内层
+		right -- 
+		bottom --
+		left ++
+	}
+	if top == bottom {
+		for i := left; i <= right; i ++ { res = append(res, matrix[top][i])}  // 只剩一行，从左到右依次添加
+	} else if left == right {
+		for i := top; i <= bottom; i ++ { res = append(res, matrix[i][left])} // 只剩一列，从上到下依次添加
+	}
+	return res
 }
 ```
+
+
+
 
 **换一种遍历的策略：遍历到底**
 

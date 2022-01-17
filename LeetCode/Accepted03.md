@@ -1,5 +1,22 @@
 
 
+
+
+
+
+<!-- [151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
+
+[8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 
+
+[2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
+
+[104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/) 
+
+
+
+
+
+
 [110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
 
 [144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
@@ -39,13 +56,191 @@
 [148. 排序链表](https://leetcode-cn.com/problems/sort-list/)
 
 [31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
-
+ -->
 
 
 
 
 
 ------
+
+
+
+
+
+## [2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
+
+```go
+func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+	dummy := new(ListNode)
+	curr, carry := dummy, 0
+	for l1 != nil || l2 != nil || carry > 0 {
+		curr.Next = new(ListNode)
+		curr = curr.Next
+		if l1 != nil {
+			carry += l1.Val
+			l1 = l1.Next
+		}
+		if l2 != nil {
+			carry += l2.Val
+			l2 = l2.Next
+		}
+		curr.Val = carry % 10
+		carry /= 10
+	}
+	return dummy.Next
+}
+```
+
+
+
+
+## [151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
+
+**解题思路** 
+
+- 给出一个中间有空格分隔的字符串，要求把这个字符串按照单词的维度前后翻转。
+- 依照题意，先把字符串按照空格分隔成每个小单词，然后把单词前后翻转，最后再把每个单词中间添加空格。
+
+```go
+func reverseWords(s string) string {
+	ss := strings.Fields(s)
+	reverse(&ss, 0, len(ss)-1)
+	return strings.Join(ss, " ")
+}
+func reverse(m *[]string, i, j int) {
+	for i <= j {
+		(*m)[i], (*m)[j] = (*m)[j], (*m)[i]
+		i++
+		j--
+	}
+}
+```
+
+```go
+func reverseWords(s string) string {
+	ss := strings.Fields(s) //ss = ["the", "sky", "is", "blue"]
+	var reverse func([]string, int, int)
+	reverse = func(m []string, i, j int) {
+		for i <= j {
+			m[i], m[j] = m[j], m[i] // ["blue", "sky", "is", "the"]
+			i++
+			j--
+		}
+	}
+	reverse(ss, 0, len(ss)-1)
+	return strings.Join(ss, " ") //"blue is sky the"
+}
+```
+
+**func Fields**
+
+```go
+func Fields(s string) []string
+```
+返回将字符串按照空白（unicode.IsSpace确定，可以是一到多个连续的空白字符）分割的多个字符串。如果字符串全部是空白或者是空字符串的话，会返回空切片。
+
+```go
+Example
+fmt.Printf("Fields are: %q", strings.Fields("  foo bar  baz   "))
+Output:
+
+Fields are: ["foo" "bar" "baz"]
+```
+
+**func Join**
+
+```go
+func Join(a []string, sep string) string
+```
+将一系列字符串连接为一个字符串，之间用sep来分隔。
+
+```go
+Example
+s := []string{"foo", "bar", "baz"}
+fmt.Println(strings.Join(s, ", "))
+Output:
+
+foo, bar, baz
+```
+
+
+## [8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 
+
+```go
+func myAtoi(s string) int {
+	abs, sign, i, n := 0, 1, 0, len(s)
+	//丢弃无用的前导空格
+	for i < n && s[i] == ' ' {
+		i++
+	}
+	//标记正负号
+	if i < n {
+		if s[i] == '-' {
+			sign = -1
+			i++
+		} else if s[i] == '+' {
+			sign = 1
+			i++
+		}
+	}
+	for i < n && s[i] >= '0' && s[i] <= '9' {
+		abs = 10*abs + int(s[i]-'0')  //字节 byte '0' == 48
+		if sign*abs < math.MinInt32 { //整数超过 32 位有符号整数范围
+			return math.MinInt32
+		} else if sign*abs > math.MaxInt32 {
+			return math.MaxInt32
+		}
+		i++
+	}
+	return sign * abs
+}
+```
+复杂度分析
+
+- 时间复杂度：O(n)，其中 n 为字符串的长度。我们只需要依次处理所有的字符，处理每个字符需要的时间为 O(1)。
+
+- 空间复杂度：O(1)，只需要常数空间存储。
+
+
+
+
+
+
+
+## [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
+
+**方法一：深度优先搜索**
+
+思路与算法
+
+如果我们知道了左子树和右子树的最大深度 ll 和 rr，那么该二叉树的最大深度即为
+
+max(l,r)+1
+
+而左子树和右子树的最大深度又可以以同样的方式进行计算。因此我们可以用「深度优先搜索」的方法来计算二叉树的最大深度。具体而言，在计算当前二叉树的最大深度时，可以先递归计算出其左子树和右子树的最大深度，然后在 O(1) 时间内计算出当前二叉树的最大深度。递归在访问到空节点时退出。
+![](https://assets.leetcode-cn.com/solution-static/104/7.png)
+![](https://assets.leetcode-cn.com/solution-static/104/10.png)
+
+```go
+func maxDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n)，其中 n 为二叉树节点的个数。每个节点在递归中只被遍历一次。
+- 空间复杂度：O(height)，其中 height 表示二叉树的高度。递归函数需要栈空间，而栈空间取决于递归的深度，因此空间复杂度等价于二叉树的高度。
 
 
 

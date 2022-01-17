@@ -5,7 +5,7 @@
 3. [✅ 46. 全排列](#-46-全排列)
 4. [✅ 47. 全排列 II 补充](#-47-全排列-ii-补充)
 5. [✅ 92. 反转链表 II](#-92-反转链表-ii)
-6. [142. 环形链表 II](#142-环形链表-ii)
+6. [✅ 142. 环形链表 II](#-142-环形链表-ii)
 7. [23. 合并K个升序链表](#23-合并k个升序链表)
 8. [54. 螺旋矩阵](#54-螺旋矩阵)
 9. [✅ 704. 二分查找](#-704-二分查找)
@@ -425,7 +425,7 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 
 
 
-## [142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+## ✅ [142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
 
 **方法一：快慢指针**
 我们使用两个指针，fast 与 slow。它们起始都位于链表的头部。随后，

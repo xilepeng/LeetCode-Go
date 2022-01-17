@@ -348,6 +348,12 @@ func permuteUnique(nums []int) [][]int {
 
 ## [92. 反转链表 II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
 
+- pre: 是 precursor (前驱) 的缩写
+- succ : 是 successor (后继) 的缩写
+`pre -> prev -> curr -> succ`
+
+![](images/92.png)
+
 **方法一：双指针** 
 
 ```go
@@ -358,44 +364,50 @@ func permuteUnique(nums []int) [][]int {
  *     Next *ListNode
  * }
  */
-
 func reverseBetween(head *ListNode, left int, right int) *ListNode {
 	dummy := &ListNode{Next: head}
-	pre := dummy
+	pre := dummy // pre -> prev -> curr 
 	for i := 0; i < left-1; i++ {
 		pre = pre.Next
 	}
-	prev := pre.Next
-	curr := prev.Next
+	prev, curr := pre.Next, pre.Next.Next
 	for i := 0; i < right-left; i++ {
 		next := curr.Next
 		curr.Next = prev
 		prev = curr
 		curr = next
 	}
-	pre.Next.Next = curr // 2.Next = 5
-	pre.Next = prev // 1.Next = 4
+	pre.Next.Next = curr // 2 -> 5
+	pre.Next = prev      // 1 -> 4
 	return dummy.Next
 }
 ```
+
 
 
 **方法二：头插法** 
 
 
 ```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func reverseBetween(head *ListNode, left int, right int) *ListNode {
 	dummy := &ListNode{Next: head}
-	prev := dummy
+	pre := dummy // pre -> curr -> next		1 -> 2 -> 3
 	for i := 0; i < left-1; i++ {
-		prev = prev.Next
+		pre = pre.Next
 	}
-	curr := prev.Next
+	curr := pre.Next
 	for i := 0; i < right-left; i++ {
 		next := curr.Next
-		curr.Next = next.Next
-		next.Next = prev.Next
-		prev.Next = next
+		curr.Next = next.Next // 2 -> 4
+		next.Next = pre.Next  // 3 -> 2
+		pre.Next = next       // 1 -> 3
 	}
 	return dummy.Next
 }

@@ -6,7 +6,7 @@
 4. [✅ 47. 全排列 II 补充](#-47-全排列-ii-补充)
 5. [✅ 92. 反转链表 II](#-92-反转链表-ii)
 6. [✅ 142. 环形链表 II](#-142-环形链表-ii)
-7. [23. 合并K个升序链表](#23-合并k个升序链表)
+7. [✅ 23. 合并K个升序链表](#-23-合并k个升序链表)
 8. [54. 螺旋矩阵](#54-螺旋矩阵)
 9. [✅ 704. 二分查找](#-704-二分查找)
 10. [300. 最长递增子序列](#300-最长递增子序列)
@@ -428,6 +428,7 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 ## ✅ [142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
 
 **方法一：快慢指针**
+
 我们使用两个指针，fast 与 slow。它们起始都位于链表的头部。随后，
 - slow 指针每次向后移动一个位置，而 fast 指针向后移动两个位置。
 - 如果链表中存在环，则 fast 指针最终将再次与 slow 指针在环中相遇。
@@ -471,24 +472,29 @@ func detectCycle(head *ListNode) *ListNode {
 
 
 
-## [23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
-
+## ✅ [23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
 
 ```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func mergeKLists(lists []*ListNode) *ListNode {
-	length := len(lists)
-	if length < 1 {
+	n := len(lists)
+	if n < 1 {
 		return nil
 	}
-	if length == 1 {
+	if n == 1 {
 		return lists[0]
 	}
-	num := length / 2
-	left := mergeKLists(lists[:num])
-	right := mergeKLists(lists[num:])
-	return mergeTwoLists1(left, right)
+	mid := n >> 1
+	left, right := mergeKLists(lists[:mid]), mergeKLists(lists[mid:])
+	return mergeTwoLists(left, right)
 }
-func mergeTwoLists1(l1 *ListNode, l2 *ListNode) *ListNode {
+func mergeTwoLists(l1, l2 *ListNode) *ListNode {
 	if l1 == nil {
 		return l2
 	}
@@ -496,14 +502,16 @@ func mergeTwoLists1(l1 *ListNode, l2 *ListNode) *ListNode {
 		return l1
 	}
 	if l1.Val < l2.Val {
-		l1.Next = mergeTwoLists1(l1.Next, l2)
+		l1.Next = mergeTwoLists(l1.Next, l2)
 		return l1
 	} else {
-		l2.Next = mergeTwoLists1(l1, l2.Next)
+		l2.Next = mergeTwoLists(l1, l2.Next)
 		return l2
 	}
 }
 ```
+
+
 
 
 

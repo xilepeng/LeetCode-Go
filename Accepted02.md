@@ -4,7 +4,7 @@
 2. [✅ 200. 岛屿数量](#-200-岛屿数量)
 3. [✅ 46. 全排列](#-46-全排列)
 4. [✅ 47. 全排列 II 补充](#-47-全排列-ii-补充)
-5. [92. 反转链表 II](#92-反转链表-ii)
+5. [✅ 92. 反转链表 II](#-92-反转链表-ii)
 6. [142. 环形链表 II](#142-环形链表-ii)
 7. [23. 合并K个升序链表](#23-合并k个升序链表)
 8. [54. 螺旋矩阵](#54-螺旋矩阵)
@@ -295,8 +295,7 @@ func permute(nums []int) [][]int {
 
 **方法一：枚举每个位置，放每个数 (回溯)**
 
-![截屏2021-04-04 19.05.15.png](http://ww1.sinaimg.cn/large/007daNw2ly1gp7x3wg42ij30zk0kwtb0.jpg)
-
+![](images/47.png)
 
 我们将这个问题看作有 n 个排列成一行的空格，我们需要从左往右依次填入题目给定的 n 个数，每个数只能使用一次。那么很直接的可以想到一种穷举的算法，即从左往右每一个位置都依此尝试填入一个数，看能不能填完这 n 个空格，在程序中我们可以用「回溯法」来模拟这个过程。
 
@@ -346,7 +345,7 @@ func permuteUnique(nums []int) [][]int {
 
 
 
-## [92. 反转链表 II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
+## ✅ [92. 反转链表 II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
 
 - pre: 是 precursor (前驱) 的缩写
 - succ : 是 successor (后继) 的缩写

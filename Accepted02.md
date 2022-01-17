@@ -474,6 +474,8 @@ func detectCycle(head *ListNode) *ListNode {
 
 ## ✅ [23. 合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
 
+**方法二：分治合并**
+
 ```go
 /**
  * Definition for singly-linked list.
@@ -511,7 +513,7 @@ func mergeTwoLists(l1, l2 *ListNode) *ListNode {
 }
 ```
 
-
+[参考](https://leetcode-cn.com/problems/merge-k-sorted-lists/solution/he-bing-kge-pai-xu-lian-biao-by-leetcode-solutio-2/)
 
 
 
@@ -520,7 +522,7 @@ func mergeTwoLists(l1, l2 *ListNode) *ListNode {
 
 ## [54. 螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)
 
-![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1goyc6zkdssj31ef0eiwjn.jpg)
+![](images/54-1.png)
 
 - 如果一条边从头遍历到底，则下一条边遍历的起点随之变化
 
@@ -587,8 +589,7 @@ func spiralOrder(matrix [][]int) []int {
 
 **换一种遍历的策略：遍历到底**
 
-![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1goyc7ez0y4j31l00fswk5.jpg)
-
+![](images/54-2.png)
 
 - 循环的条件改为： top <= bottom && left <= right
 - 每遍历一条边，下一条边遍历的起点被“挤占”，要更新相应的边界
@@ -655,6 +656,7 @@ func spiralOrder(matrix [][]int) []int {
 ```
 
 
+[参考](https://leetcode-cn.com/problems/spiral-matrix/solution/shou-hui-tu-jie-liang-chong-bian-li-de-ce-lue-kan-/)
 
 
 

@@ -349,7 +349,7 @@ func permuteUnique(nums []int) [][]int {
 
 - pre: 是 precursor (前驱) 的缩写
 - succ : 是 successor (后继) 的缩写
-`pre -> prev -> curr -> succ`
+- pre -> prev -> curr -> succ
 
 ![](images/92.png)
 
@@ -427,11 +427,21 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 
 ## [142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
 
-方法一：快慢指针
-我们使用两个指针，fast 与 slow。它们起始都位于链表的头部。随后，slow 指针每次向后移动一个位置，而 fast 指针向后移动两个位置。如果链表中存在环，则 fast 指针最终将再次与 slow 指针在环中相遇。
+**方法一：快慢指针**
+我们使用两个指针，fast 与 slow。它们起始都位于链表的头部。随后，
+- slow 指针每次向后移动一个位置，而 fast 指针向后移动两个位置。
+- 如果链表中存在环，则 fast 指针最终将再次与 slow 指针在环中相遇。
+- 当发现 slow 与 fast 相遇时，我们再额外使用一个指针 ptr。起始，它指向链表头部；随后，它和 slow 每次向后移动一个位置。最终，它们会在入环点相遇。
 
 
 ```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func detectCycle(head *ListNode) *ListNode {
 	slow, fast := head, head
 	for fast != nil {
@@ -440,13 +450,13 @@ func detectCycle(head *ListNode) *ListNode {
 			return nil
 		}
 		fast = fast.Next.Next
-		if slow == fast { //第一次相遇
+		if slow == fast { // 第一次相遇
 			p := head
 			for p != slow {
-				p = p.Nextx
+				p = p.Next
 				slow = slow.Next
 			}
-			return p
+			return p // 第二次相遇
 		}
 	}
 	return nil
@@ -454,7 +464,7 @@ func detectCycle(head *ListNode) *ListNode {
 ```
 
 
-
+[参考](https://leetcode-cn.com/problems/linked-list-cycle-ii/solution/huan-xing-lian-biao-ii-by-leetcode-solution/)
 
 
 

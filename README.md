@@ -1,11 +1,8 @@
 
-**2022年1月18日** 
 
+**2022年1月20日** 
 
-[300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
-
-[42. 接雨水](https://leetcode-cn.com/problems/trapping-rain-water/)
-
+## 每天刷10题
 
 
 [232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
@@ -17,6 +14,10 @@
 [143. 重排链表](https://leetcode-cn.com/problems/reorder-list/)
 
 [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+
+
+---
+
 
 [剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
 

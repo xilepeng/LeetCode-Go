@@ -6,7 +6,7 @@
 
  ✅ [232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
 
-[94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+ ✅ [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
 
 [199. 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
 

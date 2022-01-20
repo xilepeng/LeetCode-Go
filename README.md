@@ -8,11 +8,11 @@
 
  ✅ [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
 
-[199. 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+ ✅ [199. 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
 
-[143. 重排链表](https://leetcode-cn.com/problems/reorder-list/)
+ ✅ [143. 重排链表](https://leetcode-cn.com/problems/reorder-list/)
 
-[70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+ ✅ [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
 
 
 ---

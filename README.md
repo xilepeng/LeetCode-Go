@@ -4,7 +4,7 @@
 ## 每天刷10题
 
 
-[232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
+ ✅ [232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
 
 [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
 

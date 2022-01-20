@@ -29,7 +29,7 @@
 
 [64. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)
 
-[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) 
+
 
 [136. 只出现一次的数字](https://leetcode-cn.com/problems/single-number/)
 
@@ -37,7 +37,7 @@
 
 [41. 缺失的第一个正数](https://leetcode-cn.com/problems/first-missing-positive/)
 
-[72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/) 
+
 
 [958. 二叉树的完全性检验](https://leetcode-cn.com/problems/check-completeness-of-a-binary-tree/)
 
@@ -1263,146 +1263,7 @@ func firstMissingPositive(nums []int) int {
 - 空间复杂度：O(N)。
 
 
-[72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/) 
 
-
-
-```go
-func minDistance(word1 string, word2 string) int {
-	m, n := len(word1), len(word2)
-	dp := make([][]int, m+1)
-	for i := range dp {
-		dp[i] = make([]int, n+1)
-	}
-	for i := 0; i < m+1; i++ {
-		dp[i][0] = i // word1[i] 变成 word2[0], 删掉 word1[i], 需要 i 部操作
-	}
-	for j := 0; j < n+1; j++ {
-		dp[0][j] = j // word1[0] 变成 word2[j], 插入 word1[j]，需要 j 部操作
-	}
-	for i := 1; i < m+1; i++ {
-		for j := 1; j < n+1; j++ {
-			if word1[i-1] == word2[j-1] {
-				dp[i][j] = dp[i-1][j-1]
-			} else { // Min(插入，删除，替换)
-				dp[i][j] = Min(dp[i][j-1], dp[i-1][j], dp[i-1][j-1]) + 1
-			}
-		}
-	}
-	return dp[m][n]
-}
-func Min(args ...int) int {
-	min := args[0]
-	for _, item := range args {
-		if item < min {
-			min = item
-		}
-	}
-	return min
-}
-
-```
-
-![](https://pic.leetcode-cn.com/8704230781a0bc6f11ff317757c73505e8c4cb2c1ca1dcdfb9b0c84eb08d901f-%E5%B9%BB%E7%81%AF%E7%89%872.PNG)
-
-![](https://pic.leetcode-cn.com/bfc8d2232a17c8999b7d700806bf0048ad4727b567ee756e01fa16750e9e0d07-%E5%B9%BB%E7%81%AF%E7%89%873.PNG)
-
-![](https://pic.leetcode-cn.com/0e81d8994ffa586183a32f545c259f81d7b33baa753275a4ffb9587c65a55c15-%E5%B9%BB%E7%81%AF%E7%89%874.PNG)
-
-
-
-#### 替换 word1[i] 字符：dp[i-1][j-1] + 1 
-	case 1. if word1[i] == word2[j]  相等跳过: dp[i-1][j-1] 不操作
-	case 2. if word1[i] != word2[j]  word1[i-1] 等于 word2[j-1], 再加上最后一步替换操作(+1)  dp[i-1][j-1] + 1
-
-#### 插入 word1[i] 字符：dp[i][j-1] + 1
-	word1[i] 插入一个字符变成 word2[j], 插完相等，因此插入字符一定是 word2[j]， 插入前 word1[i] 和 word2[j-1]已经匹配(相等)
-
-#### 删除 word1[i] 字符：dp[i-1][j] + 1
-	word1[i] 删除一个字符变成 word2[j], word1[i] 删除前 word1[i-1] 和 word2[j] 已经匹配(相等)
-
-
-
-
-
-
-
-[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) 
-
-
-```go
-func minWindow(s string, t string) string {
-	need, window := map[byte]int{}, map[byte]int{}
-	for i := range t {
-		need[t[i]]++
-	} // 记录最小覆盖子串的起始索引及长度
-	left, right, valid, index, length := 0, 0, 0, 0, math.MaxInt64
-	for right < len(s) {
-		b := s[right]             // b 是将移入窗口的字符
-		right++                   // 右移窗口
-		if _, ok := need[b]; ok { // 进行窗口内数据的一系列更新
-			window[b]++
-			if window[b] == need[b] {
-				valid++
-			}
-		}
-		for valid == len(need) { // 判断左侧窗口是否要收缩
-			if right-left < length { // 在这里更新最小覆盖子串
-				index = left
-				length = right - left
-			}
-			d := s[left]              // d 是将移出窗口的字符
-			left++                    // 左移窗口
-			if _, ok := need[d]; ok { // 进行窗口内数据的一系列更新
-				window[d]--
-				if window[d] < need[d] {
-					valid--
-				}
-			}
-		}
-	}
-	if length == math.MaxInt64 {
-		return ""
-	}
-	return s[index : index+length]
-}
-```
-
-1. Use two pointers: start and end to represent a window.
-2. Move end to find a valid window.
-3. When a valid window is found, move start to find a smaller window.
-
-```go
-func minWindow(s string, t string) string {
-	need := make(map[byte]int)
-	for i := range t {
-		need[t[i]]++
-	}
-	start, end, count, i := 0, -1, len(t), 0
-	for j := 0; j < len(s); j++ {
-		if need[s[j]] > 0 { //如果t中存在字符 s[j]，减少计数器
-			count--
-		}
-		need[s[j]]--    //减少s[j]，如果字符s[j]在t中不存在，need[s[j]]置为负数
-		if count == 0 { //找到有效的窗口后，开始移动以查找较小的窗口
-			for i < j && need[s[i]] < 0 { //指针未越界且 字符s[i]在t中不存在
-				need[s[i]]++ //移除t中不存在的字符 s[i]
-				i++          // 左移窗口
-			}
-			if end == -1 || j-i < end-start {
-				start, end = i, j
-			}
-			need[s[i]]++ //移除t中存在的字符 s[i]
-			count++
-			i++ //缩小窗口
-		}
-	}
-	if end < start {
-		return ""
-	}
-	return s[start : end+1]
-}
-```
 
 
 

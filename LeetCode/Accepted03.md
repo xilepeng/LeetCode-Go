@@ -4,36 +4,59 @@
 
 
 
-<!-- [151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
+<!-- 
+
+
+
+[19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 
 [8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 
 
 [2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
+
+[144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
+
+[148. 排序链表](https://leetcode-cn.com/problems/sort-list/)
+
+[72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/) 
+
+[105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+
+[151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
+
+[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) 
+
+[31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
+
+
+
+
+
+
+[1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
 
 [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/) 
 
 
 
 
-
-
 [110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
 
-[144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
+
 
 [718. 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
 
 
 
-[105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+
 
 [113. 路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/)
 
 [155. 最小栈](https://leetcode-cn.com/problems/min-stack/)
 
-[1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
 
-[19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+
+
 
 [234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
 
@@ -53,9 +76,9 @@
 
 [4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/) 	
 
-[148. 排序链表](https://leetcode-cn.com/problems/sort-list/)
 
-[31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
+
+
  -->
 
 
@@ -64,6 +87,87 @@
 
 ------
 
+
+
+
+
+
+
+
+
+```go
+func minWindow(s string, t string) string {
+	need, window := map[byte]int{}, map[byte]int{}
+	for i := range t {
+		need[t[i]]++
+	} // 记录最小覆盖子串的起始索引及长度
+	left, right, valid, index, length := 0, 0, 0, 0, math.MaxInt64
+	for right < len(s) {
+		b := s[right]             // b 是将移入窗口的字符
+		right++                   // 右移窗口
+		if _, ok := need[b]; ok { // 进行窗口内数据的一系列更新
+			window[b]++
+			if window[b] == need[b] {
+				valid++
+			}
+		}
+		for valid == len(need) { // 判断左侧窗口是否要收缩
+			if right-left < length { // 在这里更新最小覆盖子串
+				index = left
+				length = right - left
+			}
+			d := s[left]              // d 是将移出窗口的字符
+			left++                    // 左移窗口
+			if _, ok := need[d]; ok { // 进行窗口内数据的一系列更新
+				window[d]--
+				if window[d] < need[d] {
+					valid--
+				}
+			}
+		}
+	}
+	if length == math.MaxInt64 {
+		return ""
+	}
+	return s[index : index+length]
+}
+```
+
+1. Use two pointers: start and end to represent a window.
+2. Move end to find a valid window.
+3. When a valid window is found, move start to find a smaller window.
+
+```go
+func minWindow(s string, t string) string {
+	need := make(map[byte]int)
+	for i := range t {
+		need[t[i]]++
+	}
+	start, end, count, i := 0, -1, len(t), 0
+	for j := 0; j < len(s); j++ {
+		if need[s[j]] > 0 { //如果t中存在字符 s[j]，减少计数器
+			count--
+		}
+		need[s[j]]--    //减少s[j]，如果字符s[j]在t中不存在，need[s[j]]置为负数
+		if count == 0 { //找到有效的窗口后，开始移动以查找较小的窗口
+			for i < j && need[s[i]] < 0 { //指针未越界且 字符s[i]在t中不存在
+				need[s[i]]++ //移除t中不存在的字符 s[i]
+				i++          // 左移窗口
+			}
+			if end == -1 || j-i < end-start {
+				start, end = i, j
+			}
+			need[s[i]]++ //移除t中存在的字符 s[i]
+			count++
+			i++ //缩小窗口
+		}
+	}
+	if end < start {
+		return ""
+	}
+	return s[start : end+1]
+}
+```
 
 
 
@@ -208,6 +312,71 @@ func myAtoi(s string) int {
 
 
 
+
+## [72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/) 
+
+
+
+```go
+func minDistance(word1 string, word2 string) int {
+	m, n := len(word1), len(word2)
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+	for i := 0; i < m+1; i++ {
+		dp[i][0] = i // word1[i] 变成 word2[0], 删掉 word1[i], 需要 i 部操作
+	}
+	for j := 0; j < n+1; j++ {
+		dp[0][j] = j // word1[0] 变成 word2[j], 插入 word1[j]，需要 j 部操作
+	}
+	for i := 1; i < m+1; i++ {
+		for j := 1; j < n+1; j++ {
+			if word1[i-1] == word2[j-1] {
+				dp[i][j] = dp[i-1][j-1]
+			} else { // Min(插入，删除，替换)
+				dp[i][j] = Min(dp[i][j-1], dp[i-1][j], dp[i-1][j-1]) + 1
+			}
+		}
+	}
+	return dp[m][n]
+}
+func Min(args ...int) int {
+	min := args[0]
+	for _, item := range args {
+		if item < min {
+			min = item
+		}
+	}
+	return min
+}
+
+```
+
+![](https://pic.leetcode-cn.com/8704230781a0bc6f11ff317757c73505e8c4cb2c1ca1dcdfb9b0c84eb08d901f-%E5%B9%BB%E7%81%AF%E7%89%872.PNG)
+
+![](https://pic.leetcode-cn.com/bfc8d2232a17c8999b7d700806bf0048ad4727b567ee756e01fa16750e9e0d07-%E5%B9%BB%E7%81%AF%E7%89%873.PNG)
+
+![](https://pic.leetcode-cn.com/0e81d8994ffa586183a32f545c259f81d7b33baa753275a4ffb9587c65a55c15-%E5%B9%BB%E7%81%AF%E7%89%874.PNG)
+
+
+
+**替换 word1[i] 字符：dp[i-1][j-1] + 1** 
+	case 1. if word1[i] == word2[j]  相等跳过: dp[i-1][j-1] 不操作
+	case 2. if word1[i] != word2[j]  word1[i-1] 等于 word2[j-1], 再加上最后一步替换操作(+1)  dp[i-1][j-1] + 1
+
+**插入 word1[i] 字符：dp[i][j-1] + 1**
+	word1[i] 插入一个字符变成 word2[j], 插完相等，因此插入字符一定是 word2[j]， 插入前 word1[i] 和 word2[j-1]已经匹配(相等)
+
+**删除 word1[i] 字符：dp[i-1][j] + 1**
+	word1[i] 删除一个字符变成 word2[j], word1[i] 删除前 word1[i-1] 和 word2[j] 已经匹配(相等)
+
+
+
+
+
+
+
 ## [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
 
 **方法一：深度优先搜索**
@@ -246,9 +415,9 @@ func max(x, y int) int {
 
 
 
-[110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
+## [110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
 
-### 方法一：自顶向下的递归 (前序遍历)
+**方法一：自顶向下的递归 (前序遍历)**
 
 具体做法类似于二叉树的前序遍历，即对于当前遍历到的节点，首先计算左右子树的高度，如果左右子树的高度差是否不超过 11，再分别递归地遍历左右子节点，并判断左子树和右子树是否平衡。这是一个自顶向下的递归的过程。
 
@@ -291,7 +460,7 @@ func max(x, y int) int {
 - 空间复杂度：O(n)，其中 n 是二叉树中的节点个数。空间复杂度主要取决于递归调用的层数，递归调用的层数不会超过 n。
 
 
-### 方法二：自底向上的递归 (后序遍历)
+**方法二：自底向上的递归 (后序遍历)**
 
 方法一由于是自顶向下递归，因此对于同一个节点，函数 height 会被重复调用，导致时间复杂度较高。如果使用自底向上的做法，则对于每个节点，函数 height 只会被调用一次。
 
@@ -332,9 +501,9 @@ func max(x, y int) int {
 
 
 
-[144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
+## [144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
 
-### 方法一：递归
+**方法一：递归**
 
 ```go
 func preorderTraversal(root *TreeNode) (res []int) {
@@ -405,7 +574,7 @@ func preorder(node *TreeNode, res *[]int) {
 - 时间复杂度：O(n)，其中 n 是二叉树的节点数。每一个节点恰好被遍历一次。
 - 空间复杂度：O(n)，为递归过程中栈的开销，平均情况下为 O(logn)，最坏情况下树呈现链状，为 O(n)。
 
-### 方法二：迭代
+**方法二：迭代**
 
 
 ```go
@@ -461,10 +630,10 @@ func preorderTraversal(root *TreeNode) (res []int) {
 
 
 
-[718. 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
+## [718. 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
 
 
-### 方法一：暴力
+**方法一：暴力**
 
 
 ```go
@@ -493,16 +662,16 @@ Time Limit Exceeded
 
 
 
-### 方法二：动态规划
+**方法二：动态规划**
 
 
-#### 动态规划法：
+**动态规划法：**
 - A 、B数组各抽出一个子数组，单看它们的末尾项，如果它们俩不一样，则公共子数组肯定不包括它们俩。
 - 如果它们俩一样，则要考虑它们俩前面的子数组「能为它们俩提供多大的公共长度」。
 	- 如果它们俩的前缀数组的「末尾项」不相同，由于子数组的连续性，前缀数组不能为它们俩提供公共长度
 	- 如果它们俩的前缀数组的「末尾项」相同，则可以为它们俩提供公共长度：
 	至于提供多长的公共长度？这又取决于前缀数组的末尾项是否相同……
-#### 加上注释再讲一遍
+**加上注释再讲一遍**
 - A 、B数组各抽出一个子数组，单看它们的末尾项，如果它们俩不一样——以它们俩为末尾项形成的公共子数组的长度为0：dp[i][j] = 0
 - 如果它们俩一样，以它们俩为末尾项的公共子数组，长度保底为1——dp[i][j]至少为 1，要考虑它们俩的前缀数组——dp[i-1][j-1]能为它们俩提供多大的公共长度
 1. 如果它们俩的前缀数组的「末尾项」不相同，前缀数组提供的公共长度为 0——dp[i-1][j-1] = 0
@@ -516,7 +685,7 @@ Time Limit Exceeded
 
 ![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfh1ulfu2j31go0wkn6i.jpg)
 
-#### 状态转移方程
+**状态转移方程**
 - dp[i][j] ：长度为i，末尾项为A[i-1]的子数组，与长度为j，末尾项为B[j-1]的子数组，二者的最大公共后缀子数组长度。
 	如果 A[i-1] != B[j-1]， 有 dp[i][j] = 0
 	如果 A[i-1] == B[j-1] ， 有 dp[i][j] = dp[i-1][j-1] + 1
@@ -527,7 +696,7 @@ Time Limit Exceeded
 ![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfh22j20lj31880lktd2.jpg)
 
 
-#### 代码
+**代码**
 - 时间复杂度 O(n * m)O(n∗m)。 空间复杂度 O(n * m)O(n∗m)。 
 - 降维后空间复杂度 O(n)O(n)，如果没有空间复杂度的要求，降不降都行。
 
@@ -553,7 +722,7 @@ func findLength(A []int, B []int) int {
 ```
 
 
-#### 降维优化
+**降维优化**
 dp[i][j] 只依赖上一行上一列的对角线的值，所以我们从右上角开始计算。
 一维数组 dp ， dp[j] 是以 A[i-1], B[j-1] 为末尾项的最长公共子数组的长度
 
@@ -579,7 +748,7 @@ func findLength(A []int, B []int) int {
 }
 ```
 
-### 方法三：动态规划
+**方法三：动态规划**
 
 
 
@@ -636,7 +805,7 @@ N 表示数组 A 的长度，M 表示数组 B 的长度。
 
 
 
-[105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+## [105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 
 
 ```go
@@ -667,9 +836,9 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
 
 
 
-[113. 路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/)
+## [113. 路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/)
 
-### 方法一：深度优先搜索
+**方法一：深度优先搜索**
 
 思路及算法
 
@@ -732,7 +901,7 @@ func pathSum(root *TreeNode, targetSum int) (res [][]int) {
 
 
 
-[155. 最小栈](https://leetcode-cn.com/problems/min-stack/)
+## [155. 最小栈](https://leetcode-cn.com/problems/min-stack/)
 
 ```go
 type MinStack struct {
@@ -824,7 +993,7 @@ func (this *MinStack) GetMin() int {
 
 
 
-[1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
+## [1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
 
 状态转移方程：
 
@@ -889,9 +1058,9 @@ func max(x, y int) int {
 
 
 
-[19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+## [19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 
-### 方法一：双指针
+**方法一：双指针**
 思路与算法
 
 使用两个指针 first 和 second 同时对链表进行遍历，并且 first 比 second 超前 nn 个节点。当 first 遍历到链表的末尾时，second 就恰好处于倒数第 nn 个节点。
@@ -922,9 +1091,9 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 
 
 
-[234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
+## [234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
 
-### 方法一：转成数组
+**方法一：转成数组**
 遍历一遍，把值放入数组中，然后用双指针判断是否回文。
 
 - 时间复杂度O(n)。
@@ -961,7 +1130,7 @@ func isPalindrome(head *ListNode) bool {
 
 
 
-### 方法二：快慢指针
+**方法二：快慢指针**
 快慢指针，起初都指向表头，快指针一次走两步，慢指针一次走一步，遍历结束时：
 
 - 要么，slow 正好指向中间两个结点的后一个。
@@ -972,7 +1141,7 @@ func isPalindrome(head *ListNode) bool {
 
 ![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpecx13c3rj30z20fcjv7.jpg)
 
-### 如何翻转单链表
+**如何翻转单链表**
 可以这么思考：一次迭代中，有哪些指针需要变动：
 
 每个结点的 next 指针要变动。
@@ -1022,9 +1191,9 @@ func isPalindrome(head *ListNode) bool {
 
 
 
-[169. 多数元素](https://leetcode-cn.com/problems/majority-element/)
+## [169. 多数元素](https://leetcode-cn.com/problems/majority-element/)
 
-### 方法五：Boyer-Moore 投票算法
+**方法五：Boyer-Moore 投票算法**
 思路
 
 如果我们把众数记为 +1，把其他数记为 −1，将它们全部加起来，显然和大于 0，从结果本身我们可以看出众数比其他数多。
@@ -1076,7 +1245,7 @@ func majorityElement(nums []int) int {
 
 
 
-[470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
+## [470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
 
 ```go
 func rand10() int {
@@ -1104,11 +1273,11 @@ func rand10() int {
 
 
 
-[226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
+## [226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
 
-### 方法一：dfs 递归
+**方法一：dfs 递归**
 
-#### 递归思路1
+**递归思路1**
 
 我们从根节点开始，递归地对树进行遍历，并从叶子结点先开始翻转。如果当前遍历到的节点 root 的左右两棵子树都已经翻转，那么我们只需要交换两棵子树的位置，即可完成以 root 为根节点的整棵子树的翻转。
 
@@ -1137,7 +1306,7 @@ func invertTree(root *TreeNode) *TreeNode {
 }
 ```
 
-#### 递归思路 2
+**递归思路 2**
 
 ![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpmz4kjl1jj31fu0gh77e.jpg)
 
@@ -1165,7 +1334,7 @@ func invertTree(root *TreeNode) *TreeNode {
 
 
 
-#### 总结
+**总结**
 两种分别是后序遍历和前序遍历。都是基于DFS，都是先遍历根节点、再遍历左子树、再右子树。
 唯一的区别是：
 前序遍历：将「处理当前节点」放到「递归左子树」之前。
@@ -1179,7 +1348,7 @@ root.Left, root.Right = root.Right, root.Left
 
 递归只是帮你遍历这棵树，核心还是解决问题的代码，递归把它应用到每个子树上，解决每个子问题，最后解决整个问题。
 
-### 方法二：BFS 
+**方法二：BFS **
 
 用层序遍历的方式去遍历二叉树。
 
@@ -1212,7 +1381,7 @@ func invertTree(root *TreeNode) *TreeNode {
 ```
 
 
-[543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
+## [543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
 
 ```go
 func diameterOfBinaryTree(root *TreeNode) int {
@@ -1249,8 +1418,9 @@ func max(x, y int) int {
 
 
 
-[101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
-### 方法一：递归
+## [101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
+
+**方法一：递归**
 ```go
 func isSymmetric(root *TreeNode) bool {
 	return check(root, root)
@@ -1265,7 +1435,8 @@ func check(p, q *TreeNode) bool {
 	return p.Val == q.Val && check(p.Left, q.Right) && check(p.Right, q.Left)
 }
 ```
-### 方法二：迭代
+
+**方法二：迭代**
 ```go
 func isSymmetric(root *TreeNode) bool {
 	q := []*TreeNode{root, root}
@@ -1293,7 +1464,7 @@ func isSymmetric(root *TreeNode) bool {
 
 
 
-[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)
+## [4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)
 
 
 for example，a=[1 2 3 4 6 9]and, b=[1 1 5 6 9 10 11]，total numbers are 13， 
@@ -1400,10 +1571,10 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 
 
 
-[148. 排序链表](https://leetcode-cn.com/problems/sort-list/)
+## [148. 排序链表](https://leetcode-cn.com/problems/sort-list/)
 
 
-## 方法一：自底向上归并排序
+**方法一：自底向上归并排序**
 
 ![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gph692tsj7j30z70jw75l.jpg)
 
@@ -1478,7 +1649,7 @@ func sortList(head *ListNode) *ListNode {
 ```
 
 
-#### 解释
+**解释**
 
 ```go
 /**
@@ -1539,7 +1710,7 @@ func sortList(head *ListNode) *ListNode {
 }
 ```
 
-#### C++ 代码
+**C++ 代码**
 ```C++
 /**
  * Definition for singly-linked list.
@@ -1578,7 +1749,7 @@ public:
 };
 ```
 
-## 方法二：自顶向下归并排序
+**方法二：自顶向下归并排序**
 
 思路
 看到时间复杂度的要求，而且是链表，归并排序比较好做。
@@ -1693,7 +1864,7 @@ func mergeList(l1, l2 *ListNode) *ListNode {
 }
 
 ```
-#### 复杂度分析
+**复杂度分析**
 
 - 时间复杂度：O(nlogn)，其中 n 是链表的长度。
 
@@ -1706,9 +1877,9 @@ func mergeList(l1, l2 *ListNode) *ListNode {
 
 
 
-[31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
+## [31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
 
-### 思路
+**思路**
 
 1. 我们需要将一个左边的「较小数」与一个右边的「较大数」交换，以能够让当前排列变大，从而得到下一个排列。
 

@@ -1,29 +1,28 @@
 
-**2022年1月21日** 
+**2022年1月22日** 
 
 ## 每天刷10题
 
 
-[19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 
-[8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 
+[1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
 
-[2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
+[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/) 	
 
-[144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
+[104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/) 
 
-[148. 排序链表](https://leetcode-cn.com/problems/sort-list/)
+[129. 求根节点到叶节点数字之和](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
+
+[110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
 
 ---
 
-[72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/) 
+[239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
 
-[105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+[93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/) 
 
-[151. 翻转字符串里的单词](https://leetcode-cn.com/problems/reverse-words-in-a-string/)
+[113. 路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/)
 
-[76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) 
+[41. 缺失的第一个正数](https://leetcode-cn.com/problems/first-missing-positive/)
 
-[31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/)
-
-
+[155. 最小栈](https://leetcode-cn.com/problems/min-stack/)

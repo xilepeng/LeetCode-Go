@@ -1,20 +1,48 @@
+
+
+[718. 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
+
+[234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
+
+[169. 多数元素](https://leetcode-cn.com/problems/majority-element/)
+
+[876. 链表的中间结点](https://leetcode-cn.com/problems/middle-of-the-linked-list/) 补充
+
+[470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
+
+
+
+[226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
+
+[543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
+
+[101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
+
+
+
+
+
+
+
+
+
 [83. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
 
 [112. 路径总和](https://leetcode-cn.com/problems/path-sum/)
 
 [113. 路径总和 II](https://leetcode-cn.com/problems/path-sum-ii/) 补充
 
-[239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
+
 
 [165. 比较版本号](https://leetcode-cn.com/problems/compare-version-numbers/)
 
 
 
-[93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/) 
+
 
 [98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
 
-[129. 求根节点到叶节点数字之和](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
+
 
 
 [48. 旋转图像](https://leetcode-cn.com/problems/rotate-image/)
@@ -35,7 +63,7 @@
 
 [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
-[41. 缺失的第一个正数](https://leetcode-cn.com/problems/first-missing-positive/)
+
 
 
 
@@ -46,6 +74,561 @@
 [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
 ------
+
+
+
+
+
+
+## [234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
+
+**方法一：转成数组**
+遍历一遍，把值放入数组中，然后用双指针判断是否回文。
+
+- 时间复杂度O(n)。
+- 空间复杂度O(n)。
+
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+*/
+func isPalindrome(head *ListNode) bool {
+	nums := []int{}
+	for head != nil {
+		nums = append(nums, head.Val)
+		head = head.Next
+	}
+	left, right := 0, len(nums)-1
+	for left < right {
+		if nums[left] != nums[right] {
+			return false
+		}
+		left++
+		right--
+	}
+	return true
+}
+
+```
+
+
+
+
+**方法二：快慢指针**
+快慢指针，起初都指向表头，快指针一次走两步，慢指针一次走一步，遍历结束时：
+
+- 要么，slow 正好指向中间两个结点的后一个。
+- 要么，slow 正好指向中间结点。
+用 prev 保存 slow 的前一个结点，通过prev.next = null断成两个链表。
+
+将后半段链表翻转，和前半段从头比对。空间复杂度降为O(1)。
+
+![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpecx13c3rj30z20fcjv7.jpg)
+
+**如何翻转单链表**
+可以这么思考：一次迭代中，有哪些指针需要变动：
+
+每个结点的 next 指针要变动。
+指向表头的 slow 指针要变动。
+需要有指向新链表表头的 head2 指针，它也要变。
+
+![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpecxtza7vj31ie0ogn3i.jpg)
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+*/
+func isPalindrome(head *ListNode) bool {
+	if head == nil || head.Next == nil {
+		return true
+	}
+	slow, fast := head, head
+	prev := new(ListNode) // var prev *ListNode = nil
+	for fast != nil && fast.Next != nil {
+		prev = slow
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+	prev.Next = nil //断开
+	//翻转后半部分链表
+	head2 := new(ListNode)
+	for slow != nil { 
+		t := slow.Next
+		slow.Next = head2
+		head2, slow = slow, t
+	}
+	for head != nil && head2 != nil {
+		if head.Val != head2.Val {
+			return false
+		}
+		head = head.Next
+		head2 = head2.Next
+	}
+	return true
+}
+```
+
+
+
+
+## [169. 多数元素](https://leetcode-cn.com/problems/majority-element/)
+
+**方法五：Boyer-Moore 投票算法**
+思路
+
+如果我们把众数记为 +1，把其他数记为 −1，将它们全部加起来，显然和大于 0，从结果本身我们可以看出众数比其他数多。
+
+不同元素相互抵消，最后剩余就是众数
+
+```go
+func majorityElement(nums []int) int {
+	res, count := 0, 0
+	for _, num := range nums {
+		if count == 0 {
+			res = num
+		}
+		if res == num {
+			count++
+		} else {
+			count--
+		}
+	}
+	return res
+}
+```
+
+```go
+func majorityElement(nums []int) int {
+	res, count := 0, 0
+	for _, num := range nums {
+		if count == 0 {
+			res, count = num, 1
+		} else {
+			if res == num {
+				count++
+			} else {
+				count--
+			}
+		}
+	}
+	return res
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n)。Boyer-Moore 算法只对数组进行了一次遍历。
+
+- 空间复杂度：O(1)。Boyer-Moore 算法只需要常数级别的额外空间。
+
+
+
+
+
+## [470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
+
+```go
+func rand10() int {
+	t := (rand7()-1)*7 + rand7() //1~49
+	if t > 40 {
+		return rand10()
+	}
+	return (t-1)%10 + 1
+}
+```
+
+```go
+func rand10() int {
+	for {
+		row, col := rand7(), rand7()
+		idx := col + (row-1)*7
+		if idx <= 40 {
+			return 1 + (idx-1)%10
+		}
+	}
+}
+```
+
+
+
+
+
+## [226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
+
+**方法一：dfs 递归**
+
+**递归思路1**
+
+我们从根节点开始，递归地对树进行遍历，并从叶子结点先开始翻转。如果当前遍历到的节点 root 的左右两棵子树都已经翻转，那么我们只需要交换两棵子树的位置，即可完成以 root 为根节点的整棵子树的翻转。
+
+*思路*
+一个二叉树，怎么才算翻转了？
+
+它的左右子树要交换，并且左右子树内部的所有子树，都要进行左右子树的交换。
+
+![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpmz43wk4yj31er0fw0w1.jpg)
+
+
+每个子树的根节点都说：先交换我的左右子树吧。那么递归就会先压栈压到底。然后才做交换。
+即，位于底部的、左右孩子都是 null 的子树，先被翻转。
+随着递归向上返回，子树一个个被翻转……整棵树翻转好了。
+问题是在递归出栈时解决的。
+
+```go
+func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	invertTree(root.Left)
+	invertTree(root.Right)
+	root.Left, root.Right = root.Right, root.Left
+	return root
+}
+```
+
+**递归思路 2**
+
+![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpmz4kjl1jj31fu0gh77e.jpg)
+
+思路变了：先 “做事”——先交换左右子树，它们内部的子树还没翻转——丢给递归去做。
+把交换的操作，放在递归子树之前。
+问题是在递归压栈前被解决的。
+
+```go
+func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	root.Left, root.Right = root.Right, root.Left
+	invertTree(root.Left)
+	invertTree(root.Right)
+	return root
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(N)，其中 N 为二叉树节点的数目。我们会遍历二叉树中的每一个节点，对每个节点而言，我们在常数时间内交换其两棵子树。
+
+- 空间复杂度：O(N)。使用的空间由递归栈的深度决定，它等于当前节点在二叉树中的高度。在平均情况下，二叉树的高度与节点个数为对数关系，即 O(logN)。而在最坏情况下，树形成链状，空间复杂度为 O(N)。
+
+
+
+**总结**
+两种分别是后序遍历和前序遍历。都是基于DFS，都是先遍历根节点、再遍历左子树、再右子树。
+唯一的区别是：
+前序遍历：将「处理当前节点」放到「递归左子树」之前。
+后序遍历：将「处理当前节点」放到「递归右子树」之后。
+
+这个「处理当前节点」，就是交换左右子树 ，就是解决问题的代码：
+
+```go
+root.Left, root.Right = root.Right, root.Left
+```
+
+递归只是帮你遍历这棵树，核心还是解决问题的代码，递归把它应用到每个子树上，解决每个子问题，最后解决整个问题。
+
+**方法二：BFS **
+
+用层序遍历的方式去遍历二叉树。
+
+根节点先入列，然后出列，出列就 “做事”，交换它的左右子节点（左右子树）。
+并让左右子节点入列，往后，这些子节点出列，也被翻转。
+直到队列为空，就遍历完所有的节点，翻转了所有子树。
+
+解决问题的代码放在节点出列时。
+
+
+```go
+func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	q := []*TreeNode{root}
+	for len(q) > 0 {
+		cur := q[0]
+		q = q[1:len(q)]
+		cur.Left, cur.Right = cur.Right, cur.Left
+		if cur.Left != nil {
+			q = append(q, cur.Left)
+		}
+		if cur.Right != nil {
+			q = append(q, cur.Right)
+		}
+	}
+	return root
+}
+```
+
+
+## [543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
+
+```go
+func diameterOfBinaryTree(root *TreeNode) int {
+	res := 1
+	var depth func(*TreeNode) int
+	depth = func(node *TreeNode) int {
+		if node == nil {
+			return 0
+		}
+		left := depth(node.Left)
+		right := depth(node.Right)
+		res = max(res, left+right+1)
+		return max(left, right) + 1
+	}
+	depth(root)
+	return res - 1
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+## [101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
+
+**方法一：递归**
+```go
+func isSymmetric(root *TreeNode) bool {
+	return check(root, root)
+}
+func check(p, q *TreeNode) bool {
+	if p == nil && q == nil {
+		return true
+	}
+	if p == nil || q == nil {
+		return false
+	}
+	return p.Val == q.Val && check(p.Left, q.Right) && check(p.Right, q.Left)
+}
+```
+
+**方法二：迭代**
+```go
+func isSymmetric(root *TreeNode) bool {
+	q := []*TreeNode{root, root}
+	for 0 < len(q) {
+		l, r := q[0], q[1]
+		q = q[2:]
+		if l == nil && r == nil {
+			continue
+		}
+		if l == nil || r == nil {
+			return false
+		}
+		if l.Val != r.Val {
+			return false
+		}
+		q = append(q, l.Left)
+		q = append(q, r.Right)
+
+		q = append(q, l.Right)
+		q = append(q, r.Left)
+	}
+	return true
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+## [718. 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
+
+
+**方法一：暴力**
+
+
+```go
+func findLength(A []int, B []int) int {
+	m, n, res := len(A), len(B), 0
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if A[i] == B[j] {
+				subLen := 1
+				for i+subLen < m && j+subLen < n && A[i+subLen] == B[j+subLen] {
+					subLen++
+				}
+				if res < subLen {
+					res = subLen
+				}
+			}
+		}
+	}
+	return res
+}
+```
+
+Time Limit Exceeded
+53/54 cases passed (N/A)
+
+
+
+
+**方法二：动态规划**
+
+
+**动态规划法：**
+- A 、B数组各抽出一个子数组，单看它们的末尾项，如果它们俩不一样，则公共子数组肯定不包括它们俩。
+- 如果它们俩一样，则要考虑它们俩前面的子数组「能为它们俩提供多大的公共长度」。
+	- 如果它们俩的前缀数组的「末尾项」不相同，由于子数组的连续性，前缀数组不能为它们俩提供公共长度
+	- 如果它们俩的前缀数组的「末尾项」相同，则可以为它们俩提供公共长度：
+	至于提供多长的公共长度？这又取决于前缀数组的末尾项是否相同……
+**加上注释再讲一遍**
+- A 、B数组各抽出一个子数组，单看它们的末尾项，如果它们俩不一样——以它们俩为末尾项形成的公共子数组的长度为0：dp[i][j] = 0
+- 如果它们俩一样，以它们俩为末尾项的公共子数组，长度保底为1——dp[i][j]至少为 1，要考虑它们俩的前缀数组——dp[i-1][j-1]能为它们俩提供多大的公共长度
+1. 如果它们俩的前缀数组的「末尾项」不相同，前缀数组提供的公共长度为 0——dp[i-1][j-1] = 0
+	- 以它们俩为末尾项的公共子数组的长度——dp[i][j] = 1
+2. 如果它们俩的前缀数组的「末尾项」相同
+	- 前缀部分能提供的公共长度——dp[i-1][j-1]，它至少为 1
+	- 以它们俩为末尾项的公共子数组的长度 dp[i][j] = dp[i-1][j-1] + 1
+- 题目求：最长公共子数组的长度。不同的公共子数组的末尾项不一样。我们考察不同末尾项的公共子数组，找出最长的那个。（注意下图的最下方的一句话）
+
+
+
+![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfh1ulfu2j31go0wkn6i.jpg)
+
+**状态转移方程**
+- dp[i][j] ：长度为i，末尾项为A[i-1]的子数组，与长度为j，末尾项为B[j-1]的子数组，二者的最大公共后缀子数组长度。
+	如果 A[i-1] != B[j-1]， 有 dp[i][j] = 0
+	如果 A[i-1] == B[j-1] ， 有 dp[i][j] = dp[i-1][j-1] + 1
+- base case：如果i==0||j==0，则二者没有公共部分，dp[i][j]=0
+- 最长公共子数组以哪一项为末尾项都有可能，求出每个 dp[i][j]，找出最大值。
+
+
+![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfh22j20lj31880lktd2.jpg)
+
+
+**代码**
+- 时间复杂度 O(n * m)O(n∗m)。 空间复杂度 O(n * m)O(n∗m)。 
+- 降维后空间复杂度 O(n)O(n)，如果没有空间复杂度的要求，降不降都行。
+
+```go
+func findLength(A []int, B []int) int {
+	m, n := len(A), len(B)
+	dp, res := make([][]int, m+1), 0
+	for i := 0; i <= m; i++ {
+		dp[i] = make([]int, n+1)
+	}
+	for i := 1; i <= m; i++ {
+		for j := 1; j <= n; j++ {
+			if A[i-1] == B[j-1] {
+				dp[i][j] = dp[i-1][j-1] + 1
+			}
+			if res < dp[i][j] {
+				res = dp[i][j]
+			}
+		}
+	}
+	return res
+}
+```
+
+
+**降维优化**
+dp[i][j] 只依赖上一行上一列的对角线的值，所以我们从右上角开始计算。
+一维数组 dp ， dp[j] 是以 A[i-1], B[j-1] 为末尾项的最长公共子数组的长度
+
+![3.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfh7zq2paj31ff0l8dm8.jpg)
+
+```go
+func findLength(A []int, B []int) int {
+	m, n := len(A), len(B)
+	dp, res := make([]int, m+1), 0
+	for i := 1; i <= m; i++ {
+		for j := n; j >= 1; j-- {
+			if A[i-1] == B[j-1] {
+				dp[j] = dp[j-1] + 1
+			} else {
+				dp[j] = 0
+			}
+			if res < dp[j] {
+				res = dp[j]
+			}
+		}
+	}
+	return res
+}
+```
+
+**方法三：动态规划**
+
+
+
+思路及算法
+- 如果 A[i] == B[j]，
+- 那么我们知道 A[i:] 与 B[j:] 的最长公共前缀为 A[i + 1:] 与 B[j + 1:] 的最长公共前缀的长度加一，
+- 否则我们知道 A[i:] 与 B[j:] 的最长公共前缀为零。
+
+这样我们就可以提出动态规划的解法：
+令 dp[i][j] 表示 A[i:] 和 B[j:] 的最长公共前缀，那么答案即为所有 dp[i][j] 中的最大值。
+- 如果 A[i] == B[j]，那么 dp[i][j] = dp[i + 1][j + 1] + 1，否则 dp[i][j] = 0。
+
+
+考虑到这里 dp[i][j] 的值从 dp[i + 1][j + 1] 转移得到，所以我们需要倒过来，首先计算 dp[len(A) - 1][len(B) - 1]，最后计算 dp[0][0]。
+
+
+```go
+func findLength(A []int, B []int) int {
+	dp, res := make([][]int, len(A)+1), 0
+	for i := range dp {
+		dp[i] = make([]int, len(B)+1)
+	}
+	for i := len(A) - 1; i >= 0; i-- {
+		for j := len(B) - 1; j >= 0; j-- {
+			if A[i] == B[j] {
+				dp[i][j] = dp[i+1][j+1] + 1
+			} else {
+				dp[i][j] = 0
+			}
+			if res < dp[i][j] {
+				res = dp[i][j]
+			}
+		}
+	}
+	return res
+}
+```
+
+复杂度分析
+
+- 时间复杂度： O(N×M)。
+
+- 空间复杂度： O(N×M)。
+
+N 表示数组 A 的长度，M 表示数组 B 的长度。
+
+空间复杂度还可以再优化，利用滚动数组可以优化到 O(min(N,M))。
+
+
 
 
 
@@ -272,78 +855,6 @@ func pathSum(root *TreeNode, targetSum int) (res [][]int) {
 
 
 
-[239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
-
-### 方法一 暴力解法 O(nk)
-
-```go
-func maxSlidingWindow(nums []int, k int) []int {
-	res, n := make([]int, 0, k), len(nums)
-	if n == 0 {
-		return make([]int, 0)
-	}
-	for i := 0; i <= n-k; i++ {
-		max := nums[i]
-		for j := 1; j < k; j++ {
-			if max < nums[i+j] {
-				max = nums[i+j]
-			}
-		}
-		res = append(res, max)
-	}
-	return res
-}
-```
-Time Limit Exceeded
-50/61 cases passed (N/A)
-
-### 方法二 双端队列 Deque
-最优的解法是用双端队列，队列的一边永远都存的是窗口的最大值，队列的另外一个边存的是比最大值小的值。队列中最大值左边的所有值都出队。在保证了双端队列的一边即是最大值以后，时间复杂度是 O(n)，空间复杂度是 O(K)
-
-```go
-func maxSlidingWindow(nums []int, k int) []int {
-	if len(nums) == 0 || len(nums) < k {
-		return make([]int, 0)
-	}
-	window := make([]int, 0, k) // store the index of nums
-	result := make([]int, 0, len(nums)-k+1)
-	for i, v := range nums {
-		if i >= k && window[0] <= i-k { // if the left-most index is out of window, remove it
-			window = window[1:len(window)]
-		}
-		for len(window) > 0 && nums[window[len(window)-1]] < v {
-			window = window[0 : len(window)-1]
-		}
-		window = append(window, i)
-		if i >= k-1 {
-			result = append(result, nums[window[0]]) // the left-most is the index of max value in nums
-		}
-	}
-	return result
-}
-```
-
-![](http://ww1.sinaimg.cn/large/007daNw2ly1gpmcfyuvh1j319g0mun0a.jpg)
-
-```go
-func maxSlidingWindow(nums []int, k int) []int {
-	q, res := []int{}, []int{}
-	for i := 0; i < len(nums); i++ {
-		if len(q) > 0 && i-k+1 > q[0] {
-			q = q[1:] //窗口满了，删除队头
-		}
-		for len(q) > 0 && nums[q[len(q)-1]] <= nums[i] {
-			q = q[:len(q)-1] //队尾小于当前元素，删除队尾
-		}
-		q = append(q, i)
-		if i >= k-1 { //窗口大小大于等于 k
-			res = append(res, nums[q[0]])
-		}
-	}
-	return res
-}
-```
-
 
 [165. 比较版本号](https://leetcode-cn.com/problems/compare-version-numbers/)
 
@@ -391,86 +902,6 @@ func Itoa(i int) string
 
 
 
-
-
-
-[93. 复原 IP 地址](https://leetcode-cn.com/problems/restore-ip-addresses/)
-
-思路
-
-- 以 "25525511135" 为例，做第一步时我们有几种选择？
-
-1. 选 "2" 作为第一个片段
-2. 选 "25" 作为第一个片段
-3. 选 "255" 作为第一个片段
-- 能切三种不同的长度，切第二个片段时，又面临三种选择。
-- 这会向下分支形成一棵树，我们用 DFS 去遍历所有选择，必要时提前回溯。
-	因为某一步的选择可能是错的，得不到正确的结果，不要往下做了。撤销最后一个选择，回到选择前的状态，去试另一个选择。
-- 回溯的第一个要点：选择，它展开了一颗空间树。
-
-#### 回溯的要点二——约束
-- 约束条件限制了当前的选项，这道题的约束条件是：
-1. 一个片段的长度是 1~3
-2. 片段的值范围是 0~255
-3. 不能是 "0x"、"0xx" 形式（测试用例告诉我们的）
-- 用这些约束进行充分地剪枝，去掉一些选择，避免搜索「不会产生正确答案」的分支。
-#### 回溯的要点三——目标
-- 目标决定了什么时候捕获答案，什么时候砍掉死支，回溯。
-- 目标是生成 4 个有效片段，并且要耗尽 IP 的字符。
-- 当满足该条件时，说明生成了一个有效组合，加入解集，结束当前递归，继续探索别的分支。
-- 如果满4个有效片段，但没耗尽字符，不是想要的解，不继续往下递归，提前回溯。
-#### 定义 dfs 函数
-- dfs 函数传什么？也就是，用什么描述一个节点的状态？
-- 选择切出一个片段后，继续递归剩余子串。可以传子串，也可以传指针，加上当前的片段数组，描述节点的状态。
-- dfs 函数做的事：复原从 start 到末尾的子串。
-
-我把递归树画了出来，可以看看回溯的细节：
-
-
-![](https://pic.leetcode-cn.com/5276b1631cb1fc47d8d88dd021f1302213291bf05bfdfdc6209370ce9034be83-image.png)
-
-如图['2','5','5','2']未耗尽字符，不是有效组合，不继续选下去。撤销选择"2"，回到之前的状态（当前分支砍掉了），切入到另一个分支，选择"25"。
-
-回溯会穷举所有节点，通常用于解决「找出所有可能的组合」问题。
-
-下图展示找到一个有效的组合的样子。start 指针越界，代表耗尽了所有字符，且满 4 个片段。
-
-
-![](https://pic.leetcode-cn.com/e3e3a6dac1ecb79da18740f7968a5eedaa80d5a0e0e45463c7096f663748e0fa-image.png)
-
-```go
-func restoreIpAddresses(s string) []string {
-	res := []string{}
-	var dfs func([]string, int)
-
-	dfs = func(sub []string, start int) {
-		if len(sub) == 4 && start == len(s) { // 片段满4段，且耗尽所有字符
-			res = append(res, strings.Join(sub, ".")) // 拼成字符串，加入解集
-			return
-		}
-		if len(sub) == 4 && start < len(s) { // 满4段，字符未耗尽，不用往下选了
-			return
-		}
-		for length := 1; length <= 3; length++ { // 枚举出选择，三种切割长度
-			if start+length-1 >= len(s) { // 加上要切的长度就越界，不能切这个长度
-				return
-			}
-			if length != 1 && s[start] == '0' { // 不能切出'0x'、'0xx'
-				return
-			}
-			str := s[start : start+length]          // 当前选择切出的片段
-			if n, _ := strconv.Atoi(str); n > 255 { // 不能超过255
-				return
-			}
-			sub = append(sub, str) // 作出选择，将片段加入sub
-			dfs(sub, start+length) // 基于当前选择，继续选择，注意更新指针
-			sub = sub[:len(sub)-1] // 上面一句的递归分支结束，撤销最后的选择，进入下一轮迭代，考察下一个切割长度
-		}
-	}
-	dfs([]string{}, 0)
-	return res
-}
-```
 
 
 
@@ -606,53 +1037,6 @@ func isValidBST(root *TreeNode) bool {
 
 - 时间复杂度 : O(n)，其中 n 为二叉树的节点个数。二叉树的每个节点最多被访问一次，因此时间复杂度为 O(n)。
 - 空间复杂度 : O(n)，其中 n 为二叉树的节点个数。栈最多存储 n 个节点，因此需要额外的 O(n) 的空间。
-
-
-
-
-[129. 求根节点到叶节点数字之和](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
-
-### 方法一：深度优先搜索
-思路与算法
-
-从根节点开始，遍历每个节点，如果遇到叶子节点，则将叶子节点对应的数字加到数字之和。如果当前节点不是叶子节点，则计算其子节点对应的数字，然后对子节点递归遍历。
-
-![](https://assets.leetcode-cn.com/solution-static/129/fig1.png)
-
-![](https://pic.leetcode-cn.com/1603933660-UNWQbT-image.png)
-
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func sumNumbers(root *TreeNode) int {
-	var dfs func(*TreeNode, int) int
-
-	dfs = func(root *TreeNode, prevSum int) int {
-		if root == nil {
-			return 0
-		}
-		sum := prevSum*10 + root.Val
-		if root.Left == nil && root.Right == nil {
-			return sum
-		}
-		return dfs(root.Left, sum) + dfs(root.Right, sum)
-	}
-
-	return dfs(root, 0)
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(n)，其中 n 是二叉树的节点个数。对每个节点访问一次。
-
-- 空间复杂度：O(n)，其中 n 是二叉树的节点个数。空间复杂度主要取决于递归调用的栈空间，递归栈的深度等于二叉树的高度，最坏情况下，二叉树的高度等于节点个数，空间复杂度为 O(n)。
 
 
 
@@ -1162,105 +1546,6 @@ func min(x, y int) int {
 
 
 
-
-
-
-[41. 缺失的第一个正数](https://leetcode-cn.com/problems/first-missing-positive/) 
-
-
-## 方法一：置换
-除了打标记以外，我们还可以使用置换的方法，将给定的数组「恢复」成下面的形式：
-
-如果数组中包含 x x∈[1,N]，那么恢复后，数组的第 x - 1 个元素为 x。
-
-```go
-func firstMissingPositive(nums []int) int {
-	n := len(nums)
-	for i := 0; i < n; i++ {
-		for nums[i] > 0 && nums[i] <= n && nums[nums[i]-1] != nums[i] {
-			nums[nums[i]-1], nums[i] = nums[i], nums[nums[i]-1]
-		}
-	}
-	for i := 0; i < n; i++ {
-		if nums[i] != i+1 {
-			return i + 1
-		}
-	}
-	return n + 1
-}
-```
-
-
-复杂度分析
-
-- 时间复杂度：O(N)，其中 N 是数组的长度。
-
-- 空间复杂度：O(1)。
-
-
-
-## 方法二：哈希表
-
-![](https://assets.leetcode-cn.com/solution-static/41/41_fig1.png)
-
-
-```go
-func firstMissingPositive(nums []int) int {
-	n := len(nums)
-	for i := 0; i < n; i++ { //将小于等于0的数变为 n+1
-		if nums[i] <= 0 {
-			nums[i] = n + 1
-		}
-	}
-	for _, v := range nums { //将小于等于 n 的元素对应位置变为负数
-		num := abs(v)
-		if num <= n {
-			nums[num-1] = -abs(nums[num-1])
-		}
-	}
-	for i := 0; i < n; i++ {
-		if nums[i] > 0 { //返回第一个大于0的元素下标 +1
-			return i + 1
-		}
-	}
-	return n + 1
-}
-func abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-	return x
-}
-```
-
-复杂度分析
-
-- 时间复杂度：O(N)，其中 N 是数组的长度。
-
-- 空间复杂度：O(1)。
-
-
-
-```go
-func firstMissingPositive(nums []int) int {
-	n := len(nums)
-	hash := make(map[int]int, n)
-	for _, v := range nums {
-		hash[v] = v
-	}
-	for i := 1; i < n+1; i++ {
-		if _, ok := hash[i]; !ok {
-			return i
-		}
-	}
-	return n + 1
-}
-```
-复杂度分析
-
-- 时间复杂度：O(N)，其中 N 是数组的长度。
-
-- 空间复杂度：O(N)。
 
 
 

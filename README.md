@@ -5,15 +5,15 @@
 
 
 
-[1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
+ ✅ [1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
 
-[4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/) 	
+ ✅ [4. 寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/) 	
 
-[104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/) 
+ ✅ [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/) 
 
-[129. 求根节点到叶节点数字之和](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
+ ✅ [129. 求根节点到叶节点数字之和](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
 
-[110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
+ ✅ [110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
 
 ---
 

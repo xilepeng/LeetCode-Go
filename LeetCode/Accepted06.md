@@ -10,7 +10,7 @@
 
 [145. 二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/)
 
-[22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
+
 
 [198. 打家劫舍](https://leetcode-cn.com/problems/house-robber/)
 
@@ -536,65 +536,6 @@ func postorderTraversal(root *TreeNode) []int {
 }
 ```
 
-
-
-
-[22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
-
-思路
-就是不停选括号啊~，要么选左括号，要么选右括号。
-
-并且，是有约束的：
-
-- 只要(有剩，就可以选(。 (((((这么选，都还不能判定为非法。
-- 当剩下的)比(多时，才可以选)，否则，)不能选，选了就非法了（见下图）。
-描述节点的状态有：当前构建的字符串，和左右括号所剩的数量。
-
-![](https://pic.leetcode-cn.com/1600428729-tjBQsP-image.png)
-
-### 回溯，死抓三个要点
-- 选择
-	在这里，每次最多两个选择，选左括号，或右括号，“选择”会展开出一棵解的空间树。
-	用 DFS 的方式遍历这棵树，找出所有的解，这个过程叫回溯。
-- 约束条件
-	即，什么情况下可以选左括号，什么情况下可以选右括号。
-	利用约束做“剪枝”，即，去掉不会产生解的选项，即，剪去不会通往合法解的分支。
-	- 比如()，现在左右括号各剩一个，再选)就成了())，这是错的选择，不能让它成为选项（不落入递归）：
-```go
-if (right > left) { // 右括号剩的比较多，才能选右括号
-    dfs(str + ')', left, right - 1);
-}
-```
-- 目标
-	构建出一个用尽 n 对括号的合法括号串。
-	意味着，当构建的长度达到 2*n，就可以结束递归（不用继续选了）。
-
-### 充分剪枝的好处
-经过充分的剪枝，所有不会通往合法解的选项，都被干掉，只要往下递归，就都通向合法解。
-即，只要递归到：当构建的字符串的长度为 2*n 时，一个合法解就生成了，加入解集即可。
-
-
-
-```go
-func generateParenthesis(n int) []string {
-	res := []string{}
-	var dfs func(int, int, string)
-	dfs = func(lRemain, rRemain int, path string) {
-		if len(path) == 2*n {
-			res = append(res, path)
-			return
-		}
-		if lRemain > 0 {
-			dfs(lRemain-1, rRemain, path+"(")
-		}
-		if lRemain < rRemain {
-			dfs(lRemain, rRemain-1, path+")")
-		}
-	}
-	dfs(n, n, "")
-	return res
-}
-```
 
 
 

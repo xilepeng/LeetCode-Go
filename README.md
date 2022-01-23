@@ -1,9 +1,9 @@
 
 ## 2022年1月24日
 
-**06：00 ~ 07：00 背算法模板**
+**06：00 ~ 07：00 $\color{Purple}{背算法模板}$**
 
-## 08：00 ~ 11：00  早上默写10题
+## <font color= green > 08：00 ~ 11：00 默写10题  </font>
 
 
 [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
@@ -27,7 +27,7 @@
 [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
 
 
-## 14：00 ~ 17：00 分享 + 总结笔记
+## <font color= red >14：00 ~ 17：00 分享 </font>
 
 
-**19：00 ~ 21：00 背算法模板**
+**19：00 ~ 21：00 $\color{BlueViolet}{背算法模板}$**

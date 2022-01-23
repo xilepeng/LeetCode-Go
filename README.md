@@ -1,29 +1,35 @@
 
-**2022年1月23日** 
+**2022年1月24日** 
 
-## 每天刷10题
+## 06：00 ~ 07：00 背算法模板 
+
+
+## 08：00 ~ 11：00  早上默写10题
+
+
+[206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
+
+[146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
+
+[3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
+
+[215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
+
+[25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
+
+[补充题4. 手撕快速排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
+
+[53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+
+[1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
+
+[21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
 
 
 
-[22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
+## 14：30 ~ 17：00 分享 + 总结笔记
 
-[98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
 
-[543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
-
-[470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
-
-[64. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)
-
----
-
-[718. 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
-
-[78. 子集](https://leetcode-cn.com/problems/subsets/)
-
-[112. 路径总和](https://leetcode-cn.com/problems/path-sum/)
-
-[48. 旋转图像](https://leetcode-cn.com/problems/rotate-image/)
-
-[234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
-
+## 19：00 ~ 21：00 背算法模板

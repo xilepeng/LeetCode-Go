@@ -6,13 +6,13 @@
 ## 08：00 ~ 11：00 默写10题  
 
 
-[206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
+🚀 [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
 
-[146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
+✅ [146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
 
-[3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
+❌ [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
 
-[215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
+❓ [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
 
 [25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
 

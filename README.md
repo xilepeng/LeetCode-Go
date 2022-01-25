@@ -1,67 +1,35 @@
 
-## 2022年1月25日
-
-**06：00 ~ 07：00 背算法模板**
-
-## 08：00 ~ 11：00 默写10题  
+## 2022年1月26日
 
 
-🚀 [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
-
-✅ [146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
-
-❌ [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
-
-❓ [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
-
-[25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
-
-[补充题4. 手撕快速排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
-
-[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
-
-[53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
-
-[1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
-
-[21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+## 08：00 ~ 09:30 默写5题
 
 
-## 14：00 ~ 17：00 分享
+[141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
+
+[102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+[121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+
+[160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
+
+[88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
 
 
-**19：00 ~ 21：00 背算法模板**
+## 10:00 ~ 12：00 默写5题  
 
-<!-- 
-## 2022年1月24日
+[103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
 
-**06：00 ~ 07：00 $\color{Purple}{背算法模板}$**
+[20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
 
-## <font color= green > 08：00 ~ 11：00 默写10题  </font>
+[236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
 
+[5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
 
-[206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
-
-[146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
-
-[3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
-
-[215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
-
-[25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
-
-[补充题4. 手撕快速排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
-
-[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
-
-[53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
-
-[1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
-
-[21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+[415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
 
 
-## <font color= red >14：00 ~ 17：00 分享 </font>
+
+🚀 ✅ ❌ 
 
 
-**19：00 ~ 21：00 $\color{BlueViolet}{背算法模板}$** -->

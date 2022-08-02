@@ -5,7 +5,7 @@
 ## 08：00 ~ 12：00 每天刷10题 
 
 
-[206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
+✅ [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
 
 [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
 
@@ -25,6 +25,6 @@
 
 [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
 
-✅ 
+
 
 

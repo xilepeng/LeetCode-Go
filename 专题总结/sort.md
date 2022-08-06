@@ -1389,7 +1389,7 @@ func insertionSort(nums []int) {
 
 C++ 模板一：
 
-```c++ []
+```c++ 
 void quickSort(int a[], int l, int r) {
 	if (l >= r) return;
 	int i = l-1, j =r+1, x = a[l+r>>1];
@@ -1404,7 +1404,7 @@ void quickSort(int a[], int l, int r) {
 ```
 C++ 模板二：
 
-```c++ []
+```c++
 void quickSort(int a[], int l, int r) {
 	if (l >= r) return;
 	int i = l-1, j =r+1, x = a[l+r>>1];

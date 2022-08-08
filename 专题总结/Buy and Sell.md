@@ -332,15 +332,51 @@ func max(x, y int) int {
 
 [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
+
+```go
+// 最低价格买入，最高价格卖出
+func maxProfit(prices []int) int {
+	min_price, max_profit := math.MaxInt64, 0
+	for _, price := range prices {
+		if price < min_price {
+			min_price = price // 最低价格
+		} else if max_profit < price-min_price {
+			max_profit = price - min_price // 最高利润
+		}
+	}
+	return max_profit
+}
+```
+
+
 ```go
 func maxProfit(prices []int) int {
-	buy, sell := math.MinInt64, 0
+	buy := math.MinInt64 // 买入之后的余额
+	sell := 0            // 卖出之后的余额
 	for _, p := range prices {
-		buy = max(buy, 0-p)
+		// 无论买/卖，保证手里的钱最多
+		if buy < -p {
+			buy = -p
+		}
+		if sell < buy+p {
+			sell = buy + p
+		}
+	}
+	return sell
+}
+```
+
+```go
+func maxProfit(prices []int) int {
+	buy := math.MinInt64 // 买入之后的余额
+	sell := 0            // 卖出之后的余额
+	for _, p := range prices {
+		buy = max(buy, -p) // 无论买/卖，保证手里的钱最多
 		sell = max(sell, buy+p)
 	}
 	return sell
 }
+
 func max(x, y int) int {
 	if x > y {
 		return x

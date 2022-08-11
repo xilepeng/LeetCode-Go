@@ -15,6 +15,8 @@
 [509. 斐波那契数](https://leetcode-cn.com/problems/fibonacci-number/)
 
 
+
+
 ```go
 func fib(n int) int {
 	if n == 0 || n == 1 { //base case
@@ -29,6 +31,21 @@ func fib(n int) int {
 	return curr
 }
 ```
+```go
+func fib(n int) int {
+	if n < 2 {
+		return n 
+	}
+	p, q, r := 0, 0, 1
+	for i := 2; i <= n; i++ {
+		p = q
+		q = r
+		r = p + q
+	}
+	return r
+}
+```
+
 
 复杂度分析
 
@@ -38,7 +55,19 @@ func fib(n int) int {
 ```go
 func fib(n int) int {
 	a, b := 0, 1
-	for i := 0; i < n; i++ {
+	for i := 1; i <= n; i++ {
+		c := a + b
+		a = b
+		b = c
+	}
+	return a
+}
+```
+
+```go
+func fib(n int) int {
+	a, b := 0, 1
+	for i := 1; i <= n; i++ {
 		a, b = b, (a + b)
 	}
 	return a

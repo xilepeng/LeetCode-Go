@@ -9,11 +9,10 @@
 [322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/)
 
 
-![322. Coin Change and 518. Coin Change 2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gps6k2bgrtj31kg3tub29.jpg)
+![](images/322.%20Coin%20Change%20and%20518.%20Coin%20Change%202.png)
 
-![截屏2021-04-23 16.55.43.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpts6iwvafj319i0o042z.jpg)
-
-![截屏2021-04-23 13.16.57.png](http://ww1.sinaimg.cn/large/007daNw2ly1gptltwipl8j319q0p2go8.jpg)
+![](images/322-1.png)
+![](images/322-2.png)
 
 
 #### iterate amount
@@ -49,7 +48,7 @@ func min(x, y int) int {
 
 [518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/)
 
-![截屏2021-04-23 16.57.11.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpts6y27nhj319a0n8gpb.jpg)
+![](images/518.png)
 
 #### iterate coins
 
@@ -65,3 +64,8 @@ func change(amount int, coins []int) int {
 	return dp[amount]
 }
 ```
+
+
+[参考视频](https://www.bilibili.com/video/BV1kX4y1P7M3?spm_id_from=333.999.0.0&vd_source=c42cfd612643754cd305aa832e64afe1)
+
+[代码](https://happygirlzt.com/codelist.html)

@@ -19,19 +19,19 @@
 
 ```go
 func coinChange(coins []int, amount int) int {
-	dp := make([]int, amount+1)
-	dp[0] = 0 //base case
-	for i := 1; i < len(dp); i++ {
-		dp[i] = amount + 1
+	dp := make([]int, amount+1) // 需要的最小硬币数量
+	dp[0] = 0                   // 无法组成0的硬币
+	for i := 1; i <= amount; i++ {
+		dp[i] = amount + 1 //初始化需要最小硬币数量为最大值（不可能取到）
 	}
-	for i := 1; i <= amount; i++ { //遍历所有状态的所有值
+	for i := 1; i <= amount; i++ { // 自底向上，遍历所有状态
 		for _, coin := range coins { //求所有选择的最小值 min(dp[4],dp[3],dp[0])+1
 			if i-coin >= 0 {
 				dp[i] = min(dp[i], dp[i-coin]+1)
 			}
 		}
 	}
-	if amount-dp[amount] < 0 {
+	if amount < dp[amount] { // 不可能兑换成比自己更大的硬币
 		return -1
 	}
 	return dp[amount]

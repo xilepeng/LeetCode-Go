@@ -1,6 +1,15 @@
 
+1. [287. 寻找重复数](#287-寻找重复数)
+2. [剑指 Offer 03. 数组中重复的数字](#剑指-offer-03-数组中重复的数字)
 
 
+<!-- [287. 寻找重复数](https://leetcode-cn.com/problems/find-the-duplicate-number/)
+
+
+[剑指 Offer 03. 数组中重复的数字](https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/) -->
+
+
+---
 
 ## [287. 寻找重复数](https://leetcode-cn.com/problems/find-the-duplicate-number/)
 
@@ -204,5 +213,19 @@ func findRepeatNumber(nums []int) int {
 
 - 时间复杂度 O(N) ： 遍历数组使用 O(N) ，每轮遍历的判断和交换操作使用 O(1) 。
 - 空间复杂度 O(1) ： 使用常数复杂度的额外空间。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

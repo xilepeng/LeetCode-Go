@@ -54,11 +54,12 @@ func min(x, y int) int {
 
 ```go
 func change(amount int, coins []int) int {
-	dp := make([]int, amount+1)
-	dp[0] = 1
+	dp := make([]int, amount+1) // dp[x] 表示金额之和等于 xx 的硬币组合数
+	dp[0] = 1                   // 当不选取任何硬币时，金额之和才为 0，只有 1 种硬币组合
 	for _, coin := range coins {
 		for i := coin; i <= amount; i++ {
-			dp[i] += dp[i-coin]
+			// 如果存在一种硬币组合的金额之和等于 i - coin，则在该硬币组合中增加一个面额为 coin 的硬币，
+			dp[i] += dp[i-coin] // 即可得到一种金额之和等于 i 的硬币组合。
 		}
 	}
 	return dp[amount]

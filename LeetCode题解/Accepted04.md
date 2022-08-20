@@ -20,7 +20,6 @@
 17. [240. 搜索二维矩阵 II](#240-搜索二维矩阵-ii)
 18. [136. 只出现一次的数字](#136-只出现一次的数字)
 19. [153. 寻找旋转排序数组中的最小值](#153-寻找旋转排序数组中的最小值)
-	1. [思路](#思路)
 20. [34. 在排序数组中查找元素的第一个和最后一个位置](#34-在排序数组中查找元素的第一个和最后一个位置-1)
 21. [39. 组合总和](#39-组合总和)
 22. [62. 不同路径](#62-不同路径)
@@ -219,17 +218,25 @@ func dfs(root *TreeNode, lower, upper int) bool {
 ## [543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
 
 ```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
 func diameterOfBinaryTree(root *TreeNode) int {
 	res := 1
 	var depth func(*TreeNode) int
+
 	depth = func(node *TreeNode) int {
 		if node == nil {
 			return 0
 		}
-		left := depth(node.Left)
-		right := depth(node.Right)
-		res = max(res, left+right+1)
-		return max(left, right) + 1
+		left, right := depth(node.Left), depth(node.Right) // 左右子树最大深度
+		res = max(res, left+right+1)                       // max(最大直径，当前节点的直径)
+		return max(left, right) + 1                        // 返回该节点为根的子树的深度
 	}
 	depth(root)
 	return res - 1
@@ -1044,17 +1051,25 @@ func invertTree(root *TreeNode) *TreeNode {
 
 **方法一：递归**
 ```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
 func isSymmetric(root *TreeNode) bool {
-	return check(root, root)
+	return isMirror(root, root)
 }
-func check(p, q *TreeNode) bool {
-	if p == nil && q == nil {
+func isMirror(left, right *TreeNode) bool {
+	if left == nil && right == nil {
 		return true
 	}
-	if p == nil || q == nil {
+	if left == nil || right == nil {
 		return false
 	}
-	return p.Val == q.Val && check(p.Left, q.Right) && check(p.Right, q.Left)
+	return left.Val == right.Val && isMirror(left.Left, right.Right) && isMirror(left.Right, right.Left)
 }
 ```
 
@@ -1395,7 +1410,7 @@ func singleNumber(nums []int) int {
 
 ## [153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
 
-### 思路
+**思路**
 1. 有序数组分成了左右2个小的有序数组，而实际上要找的是右边有序数组的最小值
 2. 如果中间值大于右边的最大值，说明中间值还在左边的小数组里，需要left向右移动
 3. 否则就是中间值小于等于当前右边最大值，mid 已经在右边的小数组里了，但是至少说明了当前右边的right值不是最小值了或者不是唯一的最小值，需要慢慢向左移动一位。

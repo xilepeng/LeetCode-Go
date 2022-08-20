@@ -1565,24 +1565,25 @@ func restoreIpAddresses(s string) []string {
  *     Right *TreeNode
  * }
  */
-func pathSum(root *TreeNode, targetSum int) (res [][]int) {
-	path := []int{}
+func pathSum(root *TreeNode, targetSum int) [][]int {
+	path, res := []int{}, [][]int{}
 	var dfs func(*TreeNode, int)
-	dfs = func(node *TreeNode, left int) {
+	dfs = func(node *TreeNode, sum int) {
 		if node == nil {
 			return
 		}
-		left -= node.Val
+		sum -= node.Val
 		path = append(path, node.Val)
 		defer func() { path = path[:len(path)-1] }()
-		if node.Left == nil && node.Right == nil && left == 0 {
-			res = append(res, append([]int{}, path...))
+		if sum == 0 && node.Left == nil && node.Right == nil {
+			res = append(res, append([]int(nil), path...))
 		}
-		dfs(node.Left, left)
-		dfs(node.Right, left)
+		dfs(node.Left, sum)
+		dfs(node.Right, sum)
+		// path = path[:len(path)-1]
 	}
 	dfs(root, targetSum)
-	return
+	return res
 }
 ```
 

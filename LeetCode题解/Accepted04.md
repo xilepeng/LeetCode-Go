@@ -1554,7 +1554,102 @@ func searchRange(nums []int, target int) []int {
 
 ## [39. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
 
-![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gplqpjg5wdj31ax0jnn10.jpg)
+
+**方法一：搜索回溯**
+
+```go
+func combinationSum(candidates []int, target int) [][]int {
+	comb, res := []int{}, [][]int{}
+	var dfs func(int, int)
+
+	dfs = func(target int, idx int) {
+		if idx == len(candidates) {
+			return
+		}
+		if target == 0 {
+			res = append(res, append([]int(nil), comb...))
+			return
+		}
+		// 直接跳过
+		dfs(target, idx+1)
+		// 选择当前数
+		if target-candidates[idx] >= 0 {
+			comb = append(comb, candidates[idx])
+			dfs(target-candidates[idx], idx)
+			comb = comb[:len(comb)-1]
+		}
+	}
+	dfs(target, 0)
+	return res
+}
+```
+
+[参考](https://leetcode.cn/problems/combination-sum/solution/zu-he-zong-he-by-leetcode-solution/)
+
+
+**剪枝优化**
+
+- ×：当前组合和之前生成的组合重复了。
+- △：当前求和 > target，不能选下去了，返回。
+- ○：求和正好 == target，加入解集，并返回。
+
+![](images/39.png)
+
+利用约束条件剪枝
+
+利用后两个约束条件做剪枝，较为简单，设置递归出口如下：
+
+```go
+		if target <= 0 {
+			if target == 0 { // 找到一组正确组合
+				res = append(res, append([]int(nil), comb...)) // 将当前组合加入解集
+			}
+			return // 结束当前递归
+		}
+```
+
+
+**不产生重复组合怎么限制（剪枝）？**
+
+如图，只要限制下一次选择的起点，是基于本次的选择，这样下一次就不会选到本次选择同层左边的数。即通过控制 for 遍历的起点，去掉会产生重复组合的选项。
+
+
+```go
+		for i := index; i < len(candidates); i++ { // 枚举当前可选的数，从index开始
+			comb = append(comb, candidates[i]) // 选这个数,基于此，继续选择，传i，下次就不会选到i左边的数
+			dfs(target-candidates[i], i)       // 注意这里迭代的时候 index 依旧不变，因为一个元素可以取多次
+			comb = comb[:len(comb)-1]          // 撤销选择，回到选择candidates[i]之前的状态，继续尝试选同层右边的数
+		}
+```
+
+注意，子递归传了 i 而不是 i+1 ，因为元素可以重复选入集合，如果传 i+1 就不重复了。
+
+
+
+```go
+func combinationSum(candidates []int, target int) [][]int {
+	comb, res := []int{}, [][]int{}
+	var dfs func(int, int)
+
+	dfs = func(target, index int) {
+		if target <= 0 {
+			if target == 0 { // 找到一组正确组合
+				res = append(res, append([]int(nil), comb...)) // 将当前组合加入解集
+			}
+			return // 结束当前递归
+		}
+		for i := index; i < len(candidates); i++ { // 枚举当前可选的数，从index开始
+			comb = append(comb, candidates[i]) // 选这个数,基于此，继续选择，传i，下次就不会选到i左边的数
+			dfs(target-candidates[i], i)       // 注意这里迭代的时候 index 依旧不变，因为一个元素可以取多次
+			comb = comb[:len(comb)-1]          // 撤销选择，回到选择candidates[i]之前的状态，继续尝试选同层右边的数
+		}
+	}
+	dfs(target, 0)
+	return res
+}
+```
+
+
 
 ```go
 func combinationSum(candidates []int, target int) (res [][]int) {
@@ -1585,6 +1680,7 @@ func combinationSum(candidates []int, target int) (res [][]int) {
 
 ```
 
+[参考](https://leetcode.cn/problems/combination-sum/solution/shou-hua-tu-jie-zu-he-zong-he-combination-sum-by-x/)
 
 
 

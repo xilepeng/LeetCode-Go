@@ -1,4 +1,41 @@
-[补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+
+
+
+1. [补充题5. 手撕归并排序 912. 排序数组](#补充题5-手撕归并排序-912-排序数组)
+2. [460. LFU 缓存](#460-lfu-缓存)
+3. [剑指 Offer 09. 用两个栈实现队列](#剑指-offer-09-用两个栈实现队列)
+	1. [买卖股票的最佳时机](#买卖股票的最佳时机)
+4. [121. 买卖股票的最佳时机](#121-买卖股票的最佳时机)
+5. [122. 买卖股票的最佳时机 II](#122-买卖股票的最佳时机-ii)
+6. [123. 买卖股票的最佳时机 III](#123-买卖股票的最佳时机-iii)
+7. [188. 买卖股票的最佳时机 IV](#188-买卖股票的最佳时机-iv)
+8. [309. 最佳买卖股票时机含冷冻期](#309-最佳买卖股票时机含冷冻期)
+9. [714. 买卖股票的最佳时机含手续费](#714-买卖股票的最佳时机含手续费)
+10. [补充题1. 排序奇升偶降链表](#补充题1-排序奇升偶降链表)
+11. [145. 二叉树的后序遍历](#145-二叉树的后序遍历)
+12. [198. 打家劫舍](#198-打家劫舍)
+	1. [方法一：动态规划](#方法一动态规划)
+13. [剑指 Offer 51. 数组中的逆序对](#剑指-offer-51-数组中的逆序对)
+14. [138. 复制带随机指针的链表](#138-复制带随机指针的链表)
+15. [695. 岛屿的最大面积](#695-岛屿的最大面积)
+16. [394. 字符串解码](#394-字符串解码)
+17. [209. 长度最小的子数组](#209-长度最小的子数组)
+	1. [方法一：滑动窗口](#方法一滑动窗口)
+18. [322. 零钱兑换 补充](#322-零钱兑换-补充)
+		1. [iterate amount](#iterate-amount)
+19. [518. 零钱兑换 II](#518-零钱兑换-ii)
+		1. [iterate coins](#iterate-coins)
+20. [剑指 Offer 40. 最小的k个数](#剑指-offer-40-最小的k个数)
+	1. [方法一：快速选择](#方法一快速选择)
+	2. [小根堆](#小根堆)
+21. [328. 奇偶链表](#328-奇偶链表)
+22. [125. 验证回文串](#125-验证回文串)
+23. [189. 旋转数组](#189-旋转数组)
+24. [384. 打乱数组](#384-打乱数组)
+25. [225. 用队列实现栈](#225-用队列实现栈)
+
+
+<!-- [补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
 [460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 
@@ -38,7 +75,7 @@
 
 [384. 打乱数组](https://leetcode-cn.com/problems/shuffle-an-array/)
 
-[225. 用队列实现栈](https://leetcode-cn.com/problems/implement-stack-using-queues/)
+[225. 用队列实现栈](https://leetcode-cn.com/problems/implement-stack-using-queues/) -->
 
 
 
@@ -46,7 +83,7 @@
 
 
 
-[补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+## [补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
 ```go
 func sortArray(nums []int) []int {
@@ -87,7 +124,7 @@ func merge(A []int, start, mid, end int) {
 }
 ```
 
-[460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
+## [460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 
 ```go
 type LFUCache struct {
@@ -209,7 +246,7 @@ func (this *DoubleList) IsEmpty() bool {
 
 
 
-[剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
+## [剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
 
 
 ```go
@@ -256,7 +293,7 @@ func (this *CQueue) DeleteHead() int {
 买股票手里的钱减少，卖股票手里的钱增加，无论什么时刻，我们要保证手里的钱最多。
 并且我们这一次买还是卖只跟上一次我们卖还是买的状态有关。**
 
-[121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+## [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
 ```go
 func maxProfit(prices []int) int {
@@ -275,7 +312,7 @@ func max(x, y int) int {
 }
 ```
 
-[122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
+## [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
 
 ```go
@@ -298,7 +335,7 @@ func max(x, y int) int {
 这两个问题唯一的不同点在于我们是买一次还是买无穷多次，而代码就只有 0-p 和 sell-p 的区别。
 因为如果买无穷多次，就需要上一次卖完的状态。如果只买一次，那么上一个状态一定是0。
 
-[123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)
+## [123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)
 
 
 第三题只允许最多买两次，那么就有四个状态，第一次买，第一次卖，第二次买，第二次卖。
@@ -323,7 +360,7 @@ func max(x, y int) int {
 }
 ```
 
-[188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
+## [188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
 
 ```go
 func maxProfit(k int, prices []int) int {
@@ -357,7 +394,7 @@ func max(x, y int) int {
 }
 ```
 
-[309. 最佳买卖股票时机含冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
+## [309. 最佳买卖股票时机含冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
 
 这道题只是第二题的变形，卖完要隔一天才能买，那么就多记录前一天卖的状态即可。
 
@@ -380,7 +417,7 @@ func max(x, y int) int {
 
 
 
-[714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
+## [714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
 
 每次买卖需要手续费，那么我们买的时候减掉手续费就行了。
 ```go
@@ -411,7 +448,7 @@ func max(x, y int) int {
 
 
 
-[补充题1. 排序奇升偶降链表](https://mp.weixin.qq.com/s/377FfqvpY8NwMInhpoDgsw)
+## [补充题1. 排序奇升偶降链表](https://mp.weixin.qq.com/s/377FfqvpY8NwMInhpoDgsw)
 
 ```go
 /**
@@ -479,7 +516,7 @@ func merge(l1, l2 *ListNode) *ListNode {
 
 
 
-[145. 二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/)
+## [145. 二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/)
 
 
 
@@ -543,7 +580,7 @@ func postorderTraversal(root *TreeNode) []int {
 
 
 
-[198. 打家劫舍](https://leetcode-cn.com/problems/house-robber/)
+## [198. 打家劫舍](https://leetcode-cn.com/problems/house-robber/)
 
 ### 方法一：动态规划
 
@@ -609,7 +646,7 @@ func max(x, y int) int {
 
 
 
-[剑指 Offer 51. 数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
+## [剑指 Offer 51. 数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
 
 ```go
 func reversePairs(nums []int) int {
@@ -654,7 +691,7 @@ func merge(A []int, start, mid, end int) int {
 
 
 
-[138. 复制带随机指针的链表](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
+## [138. 复制带随机指针的链表](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
 
 ![](https://pic.leetcode-cn.com/1789e6dd9bbe41223cab82b2e0a7615cd1a8ed16a3c992462d4e1eaec3b82fb1-image.png)
 
@@ -704,7 +741,7 @@ func copyRandomList(head *Node) *Node {
 }
 ```
 
-[695. 岛屿的最大面积](https://leetcode-cn.com/problems/max-area-of-island/)
+## [695. 岛屿的最大面积](https://leetcode-cn.com/problems/max-area-of-island/)
 
 ```go
 func maxAreaOfIsland(grid [][]int) int {
@@ -738,7 +775,7 @@ func max(x, y int) int {
 }
 ```
 
-[394. 字符串解码](https://leetcode-cn.com/problems/decode-string/)
+## [394. 字符串解码](https://leetcode-cn.com/problems/decode-string/)
 
 ```go
 func decodeString(s string) string {
@@ -769,7 +806,7 @@ func decodeString(s string) string {
 }
 ```
 
-[209. 长度最小的子数组](https://leetcode-cn.com/problems/minimum-size-subarray-sum/)
+## [209. 长度最小的子数组](https://leetcode-cn.com/problems/minimum-size-subarray-sum/)
 
 
 ### 方法一：滑动窗口
@@ -817,7 +854,7 @@ func min(x, y int) int {
 
 
 
-[322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/) 补充
+## [322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/) 补充
 
 
 ![322. Coin Change and 518. Coin Change 2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gps6k2bgrtj31kg3tub29.jpg)
@@ -858,7 +895,7 @@ func min(x, y int) int {
 
 
 
-[518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/)
+## [518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/)
 
 ![截屏2021-04-23 16.57.11.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpts6y27nhj319a0n8gpb.jpg)
 
@@ -887,7 +924,7 @@ func change(amount int, coins []int) int {
 
 
 
-[剑指 Offer 40. 最小的k个数](https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/)
+## [剑指 Offer 40. 最小的k个数](https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/)
 
 ### 方法一：快速选择
 
@@ -988,7 +1025,7 @@ func min_heapify(A []int, i, heap_size int) {
 ```
 
 
-[328. 奇偶链表](https://leetcode-cn.com/problems/odd-even-linked-list/) 
+## [328. 奇偶链表](https://leetcode-cn.com/problems/odd-even-linked-list/) 
 
 ![](https://pic.leetcode-cn.com/1605227711-BsDKjR-image.png)
 
@@ -1033,7 +1070,7 @@ func oddEvenList(head *ListNode) *ListNode {
 ```
 
 
-[125. 验证回文串](https://leetcode-cn.com/problems/valid-palindrome/)
+## [125. 验证回文串](https://leetcode-cn.com/problems/valid-palindrome/)
 
 ```go
 func isPalindrome(s string) bool {
@@ -1083,7 +1120,7 @@ func isPalindrome(s string) bool {
 }
 ```
 
-[189. 旋转数组](https://leetcode-cn.com/problems/rotate-array/)
+## [189. 旋转数组](https://leetcode-cn.com/problems/rotate-array/)
 
 ```go
 func rotate(nums []int, k int) {
@@ -1102,7 +1139,7 @@ func reverse(nums []int) {
 
 
 
-[384. 打乱数组](https://leetcode-cn.com/problems/shuffle-an-array/)
+## [384. 打乱数组](https://leetcode-cn.com/problems/shuffle-an-array/)
 
 
 
@@ -1155,7 +1192,7 @@ func (r *Rand) Intn(n int) int
 返回一个取值范围在[0,n)的伪随机int值，如果n<=0会panic。
 ```
 
-[225. 用队列实现栈](https://leetcode-cn.com/problems/implement-stack-using-queues/)
+## [225. 用队列实现栈](https://leetcode-cn.com/problems/implement-stack-using-queues/)
 
 ```go
 type MyStack struct {

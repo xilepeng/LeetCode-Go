@@ -1,4 +1,43 @@
 
+
+1. [958. 二叉树的完全性检验](#958-二叉树的完全性检验)
+	1. [方法一：广度优先搜索](#方法一广度优先搜索)
+2. [322. 零钱兑换](#322-零钱兑换)
+		1. [iterate amount](#iterate-amount)
+3. [518. 零钱兑换 II 补充](#518-零钱兑换-ii-补充)
+		1. [iterate coins](#iterate-coins)
+4. [剑指 Offer 36. 二叉搜索树与双向链表](#剑指-offer-36-二叉搜索树与双向链表)
+5. [179. 最大数](#179-最大数)
+	1. [func Atoi](#func-atoi)
+	2. [func Itoa](#func-itoa)
+6. [剑指 Offer 10- I. 斐波那契数列](#剑指-offer-10--i-斐波那契数列)
+7. [509. 斐波那契数 补充](#509-斐波那契数-补充)
+	1. [方法一：递归](#方法一递归)
+	2. [方法二：带备忘录递归](#方法二带备忘录递归)
+	3. [方法三：动态规划](#方法三动态规划)
+	4. [方法四：滚动数组](#方法四滚动数组)
+8. [剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](#剑指-offer-21-调整数组顺序使奇数位于偶数前面)
+9. [剑指 Offer 54. 二叉搜索树的第k大节点](#剑指-offer-54-二叉搜索树的第k大节点)
+10. [162. 寻找峰值](#162-寻找峰值)
+	1. [方法一：二分查找](#方法一二分查找)
+	2. [方法二: 线性扫描](#方法二-线性扫描)
+11. [876. 链表的中间结点 补充](#876-链表的中间结点-补充)
+12. [24. 两两交换链表中的节点](#24-两两交换链表中的节点)
+13. [14. 最长公共前缀](#14-最长公共前缀)
+	1. [方法一：纵向扫描](#方法一纵向扫描)
+14. [468. 验证IP地址](#468-验证ip地址)
+15. [227. 基本计算器 II](#227-基本计算器-ii)
+16. [43. 字符串相乘](#43-字符串相乘)
+17. [补充题6. 手撕堆排序 912. 排序数组](#补充题6-手撕堆排序-912-排序数组)
+18. [59. 螺旋矩阵 II](#59-螺旋矩阵-ii)
+19. [498. 对角线遍历 next](#498-对角线遍历-next)
+20. [7. 整数反转](#7-整数反转)
+21. [32. 最长有效括号](#32-最长有效括号)
+22. [128. 最长连续序列](#128-最长连续序列)
+23. [283. 移动零](#283-移动零)
+
+
+<!-- 
 [958. 二叉树的完全性检验](https://leetcode-cn.com/problems/check-completeness-of-a-binary-tree/)
 
 [322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/)
@@ -43,12 +82,12 @@
 
 [128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
 
-[283. 移动零](https://leetcode-cn.com/problems/move-zeroes/)
+[283. 移动零](https://leetcode-cn.com/problems/move-zeroes/) -->
 
 
 ------
 
-[958. 二叉树的完全性检验](https://leetcode-cn.com/problems/check-completeness-of-a-binary-tree/)
+## [958. 二叉树的完全性检验](https://leetcode-cn.com/problems/check-completeness-of-a-binary-tree/)
 
 ### 方法一：广度优先搜索
 1. 按 根左右(前序遍历) 顺序依次检查
@@ -76,7 +115,7 @@ func isCompleteTree(root *TreeNode) bool {
 ```
 
 
-[322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/)
+## [322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/)
 
 
 ![322. Coin Change and 518. Coin Change 2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gps6k2bgrtj31kg3tub29.jpg)
@@ -117,7 +156,7 @@ func min(x, y int) int {
 
 
 
-[518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/) 补充
+## [518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/) 补充
 
 ![截屏2021-04-23 16.57.11.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpts6y27nhj319a0n8gpb.jpg)
 
@@ -137,7 +176,7 @@ func change(amount int, coins []int) int {
 ```
 
 
-[剑指 Offer 36. 二叉搜索树与双向链表](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
+## [剑指 Offer 36. 二叉搜索树与双向链表](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
 
 ```go
 /*
@@ -175,7 +214,7 @@ func dfs(curr *TreeNode) {
 
 
 
-[179. 最大数](https://leetcode-cn.com/problems/largest-number/)
+## [179. 最大数](https://leetcode-cn.com/problems/largest-number/)
 
 ```go
 func largestNumber(nums []int) string {
@@ -315,7 +354,7 @@ func main() {
 
 
 
-[剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
+## [剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
 
 ```go
 func fib(n int) int {
@@ -332,7 +371,7 @@ func fib(n int) int {
 }
 ```
 
-[509. 斐波那契数](https://leetcode-cn.com/problems/fibonacci-number/) 补充
+## [509. 斐波那契数](https://leetcode-cn.com/problems/fibonacci-number/) 补充
 
 ### 方法一：递归
 
@@ -452,7 +491,7 @@ func fib(n int) int {
 
 
 
-[剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/)
+## [剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/)
 
 ```go
 func exchange(nums []int) []int {
@@ -485,7 +524,7 @@ func exchange(nums []int) []int {
 
 
 
-[剑指 Offer 54. 二叉搜索树的第k大节点](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
+## [剑指 Offer 54. 二叉搜索树的第k大节点](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
 
 ```go
 /**
@@ -545,7 +584,7 @@ func kthLargest(root *TreeNode, k int) int {
 
 
 
-[162. 寻找峰值](https://leetcode-cn.com/problems/find-peak-element/)
+## [162. 寻找峰值](https://leetcode-cn.com/problems/find-peak-element/)
 
 ### 方法一：二分查找
 
@@ -578,7 +617,7 @@ func findPeakElement(nums []int) int {
 
 
 
-[876. 链表的中间结点](https://leetcode-cn.com/problems/middle-of-the-linked-list/) 补充
+## [876. 链表的中间结点](https://leetcode-cn.com/problems/middle-of-the-linked-list/) 补充
 
 ```go
 /**
@@ -600,7 +639,7 @@ func middleNode(head *ListNode) *ListNode {
 
 
 
-[24. 两两交换链表中的节点](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)
+## [24. 两两交换链表中的节点](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)
 
 
 
@@ -650,7 +689,7 @@ func swapPairs(head *ListNode) *ListNode {
 
 
 
-[14. 最长公共前缀](https://leetcode-cn.com/problems/longest-common-prefix/)
+## [14. 最长公共前缀](https://leetcode-cn.com/problems/longest-common-prefix/)
 
 ### 方法一：纵向扫描
 
@@ -675,7 +714,7 @@ func longestCommonPrefix(strs []string) string {
 ```
 
 
-[468. 验证IP地址](https://leetcode-cn.com/problems/validate-ip-address/)
+## [468. 验证IP地址](https://leetcode-cn.com/problems/validate-ip-address/)
 
 
 
@@ -778,7 +817,7 @@ func validIPv6Address(IP string) bool {
 
 
 
-[227. 基本计算器 II](https://leetcode-cn.com/problems/basic-calculator-ii/)
+## [227. 基本计算器 II](https://leetcode-cn.com/problems/basic-calculator-ii/)
 
 ```go
 func calculate(s string) int {
@@ -850,7 +889,7 @@ func calculate(s string) int {
 
 
 
-[43. 字符串相乘](https://leetcode-cn.com/problems/multiply-strings/)
+## [43. 字符串相乘](https://leetcode-cn.com/problems/multiply-strings/)
 
 
 
@@ -889,7 +928,7 @@ func multiply(num1 string, num2 string) string {
 - 空间复杂度：O(m+n)
 
 
-[补充题6. 手撕堆排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
+## [补充题6. 手撕堆排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
 
 思路和算法
@@ -940,7 +979,7 @@ func maxHeapify(a []int, i, heapSize int) { // O(nlogn)
 
 
 
-[59. 螺旋矩阵 II](https://leetcode-cn.com/problems/spiral-matrix-ii/)
+## [59. 螺旋矩阵 II](https://leetcode-cn.com/problems/spiral-matrix-ii/)
 
 ```go
 func generateMatrix(n int) [][]int {
@@ -998,7 +1037,7 @@ func generateMatrix(n int) [][]int {
 
 
 
-[498. 对角线遍历](https://leetcode-cn.com/problems/diagonal-traverse/) next
+## [498. 对角线遍历](https://leetcode-cn.com/problems/diagonal-traverse/) next
 
 ```go
 func findDiagonalOrder(mat [][]int) []int {
@@ -1032,7 +1071,7 @@ func findDiagonalOrder(mat [][]int) []int {
 ```
 
 
-[7. 整数反转](https://leetcode-cn.com/problems/reverse-integer/)
+## [7. 整数反转](https://leetcode-cn.com/problems/reverse-integer/)
 
 ```go
 func reverse(x int) int {
@@ -1048,7 +1087,7 @@ func reverse(x int) int {
 }
 ```
 
-[32. 最长有效括号](https://leetcode-cn.com/problems/longest-valid-parentheses/)
+## [32. 最长有效括号](https://leetcode-cn.com/problems/longest-valid-parentheses/)
 
 ```go
 func longestValidParentheses(s string) int {
@@ -1113,7 +1152,7 @@ func max(x, y int) int {
 }
 ```
 
-[128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
+## [128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
 
 ```go
 func longestConsecutive(nums []int) int {
@@ -1141,7 +1180,7 @@ func longestConsecutive(nums []int) int {
 
 
 
-[283. 移动零](https://leetcode-cn.com/problems/move-zeroes/)
+## [283. 移动零](https://leetcode-cn.com/problems/move-zeroes/)
 
 
 ```go

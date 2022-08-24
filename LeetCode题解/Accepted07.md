@@ -1,5 +1,44 @@
 
-[224. 基本计算器](https://leetcode-cn.com/problems/basic-calculator/)
+
+1. [224. 基本计算器](#224-基本计算器)
+2. [662. 二叉树最大宽度](#662-二叉树最大宽度)
+3. [349. 两个数组的交集](#349-两个数组的交集)
+4. [230. 二叉搜索树中第K小的元素](#230-二叉搜索树中第k小的元素)
+5. [297. 二叉树的序列化与反序列化](#297-二叉树的序列化与反序列化)
+6. [221. 最大正方形](#221-最大正方形)
+7. [79. 单词搜索](#79-单词搜索)
+8. [9. 回文数](#9-回文数)
+9. [剑指 Offer 10- II. 青蛙跳台阶问题](#剑指-offer-10--ii-青蛙跳台阶问题)
+10. [剑指 Offer 10- I. 斐波那契数列](#剑指-offer-10--i-斐波那契数列)
+11. [70. 爬楼梯](#70-爬楼梯)
+12. [剑指 Offer 62. 圆圈中最后剩下的数字](#剑指-offer-62-圆圈中最后剩下的数字)
+13. [剑指 Offer 27. 二叉树的镜像](#剑指-offer-27-二叉树的镜像)
+14. [226. 翻转二叉树](#226-翻转二叉树)
+	1. [方法一：dfs 递归](#方法一dfs-递归)
+	2. [方法一：dfs 递归](#方法一dfs-递归-1)
+	3. [方法二: BFS](#方法二-bfs)
+15. [补充题23. 检测循环依赖](#补充题23-检测循环依赖)
+	1. [拓扑排序算法过程：](#拓扑排序算法过程)
+16. [207. 课程表](#207-课程表)
+	1. [方法一: 广度优先搜索](#方法一-广度优先搜索)
+	2. [方法二：深度优先搜索](#方法二深度优先搜索)
+17. [210. 课程表 II](#210-课程表-ii)
+18. [739. 每日温度](#739-每日温度)
+19. [26. 删除有序数组中的重复项](#26-删除有序数组中的重复项)
+20. [287. 寻找重复数](#287-寻找重复数)
+	1. [方法一：快慢指针](#方法一快慢指针)
+	2. [方法二：二分查找](#方法二二分查找)
+	3. [方法三：排序](#方法三排序)
+	4. [方法四：哈希](#方法四哈希)
+21. [11. 盛最多水的容器](#11-盛最多水的容器)
+22. [560. 和为K的子数组](#560-和为k的子数组)
+23. [443. 压缩字符串](#443-压缩字符串)
+24. [50. Pow(x, n)](#50-powx-n)
+25. [补充题2. 圆环回原点问题](#补充题2-圆环回原点问题)
+
+
+
+<!-- [224. 基本计算器](https://leetcode-cn.com/problems/basic-calculator/)
 
 [662. 二叉树最大宽度](https://leetcode-cn.com/problems/maximum-width-of-binary-tree/)
 
@@ -37,14 +76,14 @@
 
 [50. Pow(x, n)](https://leetcode-cn.com/problems/powx-n/)
 
-[补充题2. 圆环回原点问题](https://mp.weixin.qq.com/s/VnGFEWHeD3nh1n9JSDkVUg)
+[补充题2. 圆环回原点问题](https://mp.weixin.qq.com/s/VnGFEWHeD3nh1n9JSDkVUg) -->
 
 
 ------
 
 
 
-[224. 基本计算器](https://leetcode-cn.com/problems/basic-calculator/)
+## [224. 基本计算器](https://leetcode-cn.com/problems/basic-calculator/)
 
 ```go
 func calculate(s string) int {
@@ -81,7 +120,7 @@ func calculate(s string) int {
 
 ```
 
-[662. 二叉树最大宽度](https://leetcode-cn.com/problems/maximum-width-of-binary-tree/)
+## [662. 二叉树最大宽度](https://leetcode-cn.com/problems/maximum-width-of-binary-tree/)
 
 ```go
 /**
@@ -116,7 +155,7 @@ func max(x, y int) int {
 }
 ```
 
-[349. 两个数组的交集](https://leetcode-cn.com/problems/intersection-of-two-arrays/)
+## [349. 两个数组的交集](https://leetcode-cn.com/problems/intersection-of-two-arrays/)
 
 ```go
 func intersection(nums1 []int, nums2 []int) []int {
@@ -135,9 +174,9 @@ func intersection(nums1 []int, nums2 []int) []int {
 }
 ```
 
-[230. 二叉搜索树中第K小的元素](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
+## [230. 二叉搜索树中第K小的元素](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
 
-## 方法一：迭代
+**方法一：迭代**
 
 
 ```go
@@ -177,7 +216,7 @@ func kthSmallest(root *TreeNode, k int) int {
 
 
 
-### 方法二：递归
+**方法二：递归**
 
 ```go
 /**
@@ -240,7 +279,7 @@ func kthSmallest(root *TreeNode, k int) int {
 
 
 
-[297. 二叉树的序列化与反序列化](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)
+## [297. 二叉树的序列化与反序列化](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)
 
 ```go
 /**
@@ -302,7 +341,7 @@ func (this *Codec) buildTree(nodes *[]string) *TreeNode {
  */
 ```
 
-[221. 最大正方形](https://leetcode-cn.com/problems/maximal-square/)
+## [221. 最大正方形](https://leetcode-cn.com/problems/maximal-square/)
 
 ```go
 func maximalSquare(matrix [][]byte) int {
@@ -334,7 +373,7 @@ func min(x, y int) int {
 }
 ```
 
-[79. 单词搜索](https://leetcode-cn.com/problems/word-search/)
+## [79. 单词搜索](https://leetcode-cn.com/problems/word-search/)
 
 ```go
 func exist(board [][]byte, word string) bool {
@@ -397,7 +436,7 @@ func dfs(board [][]byte, y int, x int, word string, i int) bool {
 ```
 
 
-[9. 回文数](https://leetcode-cn.com/problems/palindrome-number/)
+## [9. 回文数](https://leetcode-cn.com/problems/palindrome-number/)
 
 
 
@@ -442,7 +481,7 @@ func isPalindrome(x int) bool {
 ```
 
 
-[剑指 Offer 10- II. 青蛙跳台阶问题](https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/)
+## [剑指 Offer 10- II. 青蛙跳台阶问题](https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/)
 
 ```go
 func numWays(n int) int {
@@ -467,7 +506,7 @@ func numWays(n int) int {
 }
 ```
 
-[剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
+## [剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
 
 ```go
 func fib(n int) int {
@@ -497,7 +536,7 @@ func fib(n int) int {
 
 
 
-[70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+## [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
 
 ```go
 func climbStairs(n int) int {
@@ -522,7 +561,7 @@ func climbStairs(n int) int {
 ```
 
 
-[剑指 Offer 62. 圆圈中最后剩下的数字](https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
+## [剑指 Offer 62. 圆圈中最后剩下的数字](https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
 
 
 ```go
@@ -536,10 +575,10 @@ func lastRemaining(n int, m int) int {
 ```
 
 
-[剑指 Offer 27. 二叉树的镜像](https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/)
+## [剑指 Offer 27. 二叉树的镜像](https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/)
 
 
-[226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
+## [226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
 
 ### 方法一：dfs 递归
 它的左右子树要交换，并且左右子树内部的所有子树，都要进行左右子树的交换。
@@ -651,7 +690,7 @@ func invertTree(root *TreeNode) *TreeNode {
 
 
 
-[补充题23. 检测循环依赖](https://mp.weixin.qq.com/s/q6AhBt6MX2RL_HNZc8cYKQ)
+## [补充题23. 检测循环依赖](https://mp.weixin.qq.com/s/q6AhBt6MX2RL_HNZc8cYKQ)
 
 
 ### 拓扑排序算法过程：
@@ -714,7 +753,7 @@ func findOrder(n int, prerequisites [][]int) []int {
 
 
 
-[207. 课程表](https://leetcode-cn.com/problems/course-schedule/)
+## [207. 课程表](https://leetcode-cn.com/problems/course-schedule/)
 
 
 ### 方法一: 广度优先搜索
@@ -795,7 +834,7 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
 
 
 
-[210. 课程表 II](https://leetcode-cn.com/problems/course-schedule-ii/)
+## [210. 课程表 II](https://leetcode-cn.com/problems/course-schedule-ii/)
 
 ```go
 func findOrder(numCourses int, prerequisites [][]int) []int {
@@ -882,7 +921,7 @@ func findOrder(numCourses int, prerequisites [][]int) []int {
 
 
 
-[739. 每日温度](https://leetcode-cn.com/problems/daily-temperatures/)
+## [739. 每日温度](https://leetcode-cn.com/problems/daily-temperatures/)
 
 ```go
 func dailyTemperatures(T []int) []int {
@@ -902,7 +941,7 @@ func dailyTemperatures(T []int) []int {
 }
 ```
 
-[26. 删除有序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
+## [26. 删除有序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
 
 ```go
 func removeDuplicates(A []int) int {
@@ -934,7 +973,7 @@ func removeDuplicates(A []int) int {
 }
 ```
 
-[287. 寻找重复数](https://leetcode-cn.com/problems/find-the-duplicate-number/)
+## [287. 寻找重复数](https://leetcode-cn.com/problems/find-the-duplicate-number/)
 
 ### 方法一：快慢指针
 
@@ -1057,7 +1096,7 @@ func findDuplicate(nums []int) int {
 - 空间复杂度：O(n)。
 
 
-[11. 盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/)
+## [11. 盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/)
 
 ```go
 func maxArea(height []int) int {
@@ -1087,7 +1126,7 @@ func min(x, y int) int {
 }
 ```
 
-[560. 和为K的子数组](https://leetcode-cn.com/problems/subarray-sum-equals-k/)
+## [560. 和为K的子数组](https://leetcode-cn.com/problems/subarray-sum-equals-k/)
 
 ![截屏2021-05-30 15.45.51.png](http://ww1.sinaimg.cn/large/007daNw2ly1gr0i1voj83j31fm0oggqk.jpg)
 
@@ -1138,7 +1177,7 @@ func subarraySum(nums []int, k int) int {
 }
 ```
 
-[443. 压缩字符串](https://leetcode-cn.com/problems/string-compression/)
+## [443. 压缩字符串](https://leetcode-cn.com/problems/string-compression/)
 
 
 ```go
@@ -1146,7 +1185,7 @@ func subarraySum(nums []int, k int) int {
 ```
 
 
-[50. Pow(x, n)](https://leetcode-cn.com/problems/powx-n/)
+## [50. Pow(x, n)](https://leetcode-cn.com/problems/powx-n/)
 
 
 
@@ -1224,14 +1263,7 @@ func quickMul(x float64, n int) float64 {
 
 
 
-[补充题2. 圆环回原点问题](https://mp.weixin.qq.com/s/VnGFEWHeD3nh1n9JSDkVUg)
-
-
-
-
-
-
-
+## [补充题2. 圆环回原点问题](https://mp.weixin.qq.com/s/VnGFEWHeD3nh1n9JSDkVUg)
 
 
 

@@ -1295,16 +1295,17 @@ func Itoa(i int) string
 
 1. 从右上角开始搜索
 
+
 ```go
 func searchMatrix(matrix [][]int, target int) bool {
-	row, col := 0, len(matrix[0])-1
-	for row <= len(matrix)-1 && col >= 0 {
-		if target == matrix[row][col] {
-			return true
-		} else if target < matrix[row][col] {
+	row, col := 0, len(matrix[0])-1 // 从右上角开始遍历
+	for row < len(matrix) && col >= 0 {
+		if matrix[row][col] < target { // 小于目标值向下搜索
+			row++
+		} else if matrix[row][col] > target { // 大于目标值向左搜索
 			col--
 		} else {
-			row++
+			return true // 等于目标值返回true
 		}
 	}
 	return false
@@ -1313,21 +1314,24 @@ func searchMatrix(matrix [][]int, target int) bool {
 
 2. 从左下角开始搜索
 
+
+
 ```go
 func searchMatrix(matrix [][]int, target int) bool {
-	row, col := len(matrix)-1, 0
-	for row >= 0 && col <= len(matrix[0])-1 {
-		if target == matrix[row][col] {
-			return true
-		} else if target < matrix[row][col] {
+	row, col := len(matrix)-1, 0 // 从左下角开始遍历
+	for row >= 0 && col < len(matrix[0]) {
+		if matrix[row][col] < target { // 小于目标值向右搜索
+			col++
+		} else if matrix[row][col] > target { // 大于目标值向上搜索
 			row--
 		} else {
-			col++
+			return true // 等于目标值返回true
 		}
 	}
 	return false
 }
 ```
+
 复杂度分析
 
 - 时间复杂度：O(n+m)。
@@ -1446,7 +1450,51 @@ func findMin(nums []int) int {
 
 ## [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
-**方法一：二分查找**
+
+
+**方法一**
+
+```go
+func searchRange(nums []int, target int) []int {
+	first, last := findFirst(nums, target), findLast(nums, target)
+	return []int{first, last}
+}
+func findFirst(nums []int, target int) int {
+	low, high := 0, len(nums)-1
+	index := -1
+	for low <= high {
+		mid := low + (high-low)>>1
+		if nums[mid] >= target {
+			high = mid - 1
+		} else {
+			low = mid + 1
+		}
+		if nums[mid] == target {
+			index = mid
+		}
+	}
+	return index
+}
+func findLast(nums []int, target int) int {
+	low, high := 0, len(nums)-1
+	index := -1
+	for low <= high {
+		mid := low + (high-low)>>1
+		if nums[mid] <= target {
+			low = mid + 1
+		} else {
+			high = mid - 1
+		}
+		if nums[mid] == target {
+			index = mid
+		}
+	}
+	return index
+}
+```
+
+
+**方法二：二分查找**
 
 **解题思路** 
 - 给出一个有序数组 nums 和一个数 target，要求在数组中找到第一个和这个元素相等的元素下标，最后一个和这个元素相等的元素下标。
@@ -1536,7 +1584,7 @@ func searchLastLessElement(nums []int, target int) int {
 	return -1
 }
 ```
-**方法二：二分查找**
+**方法三：二分查找**
 
 ```go
 func searchRange(nums []int, target int) []int {

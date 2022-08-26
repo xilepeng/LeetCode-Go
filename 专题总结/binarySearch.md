@@ -1,10 +1,20 @@
-
+<!-- 
 [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
 
 [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)  补充
 
-[69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
+[69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/) -->
 
+
+1. [704. 二分查找](#704-二分查找)
+		1. [算法：](#算法)
+2. [34. 在排序数组中查找元素的第一个和最后一个位置](#34-在排序数组中查找元素的第一个和最后一个位置)
+	1. [方法一：二分查找](#方法一二分查找)
+	2. [解题思路](#解题思路)
+	3. [方法二：二分查找](#方法二二分查找)
+3. [69. x 的平方根](#69-x-的平方根)
+	1. [方法一：二分查找](#方法一二分查找-1)
+	2. [方法二：牛顿迭代](#方法二牛顿迭代)
 
 ------
 
@@ -13,7 +23,7 @@
 
 
 
-[704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
+## [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
 
 1. 如果目标值等于中间元素，则找到目标值。
 2. 如果目标值较小，继续在左侧搜索。
@@ -52,7 +62,51 @@ func search(nums []int, target int) int {
 
 
 
-[34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+## [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+
+
+
+**方法一**
+
+```go
+func searchRange(nums []int, target int) []int {
+	first, last := findFirst(nums, target), findLast(nums, target)
+	return []int{first, last}
+}
+func findFirst(nums []int, target int) int {
+	low, high := 0, len(nums)-1
+	index := -1
+	for low <= high {
+		mid := low + (high-low)>>1
+		if nums[mid] >= target {
+			high = mid - 1
+		} else {
+			low = mid + 1
+		}
+		if nums[mid] == target {
+			index = mid
+		}
+	}
+	return index
+}
+func findLast(nums []int, target int) int {
+	low, high := 0, len(nums)-1
+	index := -1
+	for low <= high {
+		mid := low + (high-low)>>1
+		if nums[mid] <= target {
+			low = mid + 1
+		} else {
+			high = mid - 1
+		}
+		if nums[mid] == target {
+			index = mid
+		}
+	}
+	return index
+}
+```
+
 
 ### 方法一：二分查找
 
@@ -164,7 +218,7 @@ func searchRange(nums []int, target int) []int {
 
 
 
-[69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
+## [69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
 
 ### 方法一：二分查找
 

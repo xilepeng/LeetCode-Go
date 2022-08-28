@@ -20,7 +20,6 @@
 9. [剑指 Offer 54. 二叉搜索树的第k大节点](#剑指-offer-54-二叉搜索树的第k大节点)
 10. [162. 寻找峰值](#162-寻找峰值)
 	1. [方法一：二分查找](#方法一二分查找)
-	2. [方法二: 线性扫描](#方法二-线性扫描)
 11. [876. 链表的中间结点 补充](#876-链表的中间结点-补充)
 12. [24. 两两交换链表中的节点](#24-两两交换链表中的节点)
 13. [14. 最长公共前缀](#14-最长公共前缀)
@@ -588,29 +587,19 @@ func kthLargest(root *TreeNode, k int) int {
 
 ### 方法一：二分查找
 
+
 ```go
 func findPeakElement(nums []int) int {
-	left, right := 0, len(nums)-1
-	for left < right {
-		mid := left + (right-left)>>1
-		if nums[mid] > nums[mid+1] {
-			right = mid
-		} else {
-			left = mid + 1
+	low, high := 0, len(nums)-1
+	for low < high {
+		mid := low + (high-low)>>1   // (low + high) / 2
+		if nums[mid] < nums[mid+1] { // 单调递增，mid 右边存在峰值
+			low = mid + 1 
+		} else {                     // 单调递减，mid 左边存在峰值
+			high = mid 
 		}
 	}
-	return left
-}
-```
-### 方法二: 线性扫描
-```go
-func findPeakElement(nums []int) int {
-	for i := 0; i < len(nums)-1; i++ {
-		if nums[i] > nums[i+1] {
-			return i
-		}
-	}
-	return len(nums) - 1
+	return low // low == high 
 }
 ```
 

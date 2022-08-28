@@ -1745,24 +1745,29 @@ func combinationSum(candidates []int, target int) (res [][]int) {
 ![截屏2021-04-20 10.01.56.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpq0assvhfj31sc0scqb0.jpg)
 
 
+
+
+
 ```go
 func uniquePaths(m int, n int) int {
-	dp := make([][]int, m)
+	dp := make([][]int, m) // 定义二维数组
 	for i := 0; i < m; i++ {
 		dp[i] = make([]int, n)
-		dp[i][0] = 1
 	}
-	for j := 0; j < n; j++ {
-		dp[0][j] = 1
-	}
-	for i := 1; i < m; i++ {
-		for j := 1; j < n; j++ {
-			dp[i][j] = dp[i-1][j] + dp[i][j-1]
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if i == 0 || j == 0 { // 初始化二维数组的第0行/第0列等于1
+				dp[i][j] = 1
+				continue
+			}
+			dp[i][j] = dp[i-1][j] + dp[i][j-1] // 每一格的路径由其上一格和左一格决定
 		}
 	}
 	return dp[m-1][n-1]
 }
 ```
+
+
 
 复杂度分析
 
@@ -1772,20 +1777,27 @@ func uniquePaths(m int, n int) int {
 
 **优化**
 
+
+
 ```go
 func uniquePaths(m int, n int) int {
 	dp := make([]int, n)
-	for j := 0; j < n; j++ {
-		dp[j] = 1
-	}
-	for i := 1; i < m; i++ {
-		for j := 1; j < n; j++ {
-			dp[j] += dp[j-1]
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if j == 0 {
+				dp[j] = 1
+				continue
+			}
+			dp[j] += dp[j-1] //  dp[i][j] 仅与第 i 行和第 i−1 行的状态有关
 		}
 	}
 	return dp[n-1]
 }
 ```
+
+
+
+
 复杂度分析
 
 - 时间复杂度：O(mn)。
@@ -1795,6 +1807,7 @@ func uniquePaths(m int, n int) int {
 
 
 
+[参考视频](https://leetcode.cn/problems/unique-paths/solution/bu-tong-lu-jing-by-leetcode-solution-hzjf/)
 
 
 

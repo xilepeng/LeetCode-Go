@@ -1143,26 +1143,26 @@ func max(x, y int) int {
 
 ## [128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
 
+
 ```go
 func longestConsecutive(nums []int) int {
-	m, longest := make(map[int]bool, len(nums)), 0
+	m, longgest := map[int]bool{}, 0
 	for _, num := range nums {
-		m[num] = true
+		m[num] = true // 标记 nums 数组中所有元素都存在
 	}
-	for num := range m {
-		if !m[num-1] {
-			currNum := num
-			currLongest := 1
-			for m[currNum+1] {
-				currNum++
-				currLongest++
+	for _, num := range nums {
+		if !m[num-1] { // 要枚举的数 num 一定是在数组中不存在前驱数 num−1
+			currNum, currLonggest := num, 1
+			for m[currNum+1] { // 枚举数组中的每个数 x，考虑以其为起点，不断尝试匹配 x+1,x+2,⋯ 是否存在
+				currNum++      // 枚举连续的下一个数
+				currLonggest++ // 当前最长连续长度递增
 			}
-			if longest < currLongest {
-				longest = currLongest
+			if currLonggest > longgest {
+				longgest = currLonggest
 			}
 		}
 	}
-	return longest
+	return longgest
 }
 ```
 

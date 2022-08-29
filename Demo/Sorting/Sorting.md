@@ -6,7 +6,7 @@
 
 快速排序基于分而治之的方法，随机选择枢轴元素划分数组，左边小于枢轴、右边大于枢轴，递归处理左右两边
 
-```go
+``` go
 func quick_sort(A []int, start, end int) {
 	if start < end {
 		piv_pos := random_partition(A, start, end)
@@ -40,7 +40,7 @@ func random_partition(A []int, start, end int) int {
 
 在大根堆中、最大元素总在根上，堆排序使用堆的这个属性进行排序
 
-```go
+``` go
 func heap_sort(A []int) {
 	heap_size := len(A)
 	build_maxheap(A, heap_size)
@@ -76,7 +76,7 @@ func max_heapify(A []int, i, heap_size int) {
 
 归并排序是一种分而治之的算法，其思想是将一个列表分解为几个子列表，直到每个子列表由一个元素组成，然后将这些子列表合并为排序后的列表。
 
-```go
+``` go
 func merge_sort(A []int, start, end int) {
 	if start < end {
 		mid := start + (end-start)>>1 //分2部分定义当前数组
@@ -112,7 +112,7 @@ func merge(A []int, start, mid, end int) {
 }
 ```
 
-```go
+``` go
 func merge_sort(A []int, start, end int) {
 	if start >= end {
 		return
@@ -152,7 +152,7 @@ func merge_sort(A []int, start, end int) {
 
 通过在每次迭代时增加排序后的数组来迭代输入元素。它将当前元素与已排序数组中的最大值进行比较。如果当前元素更大，则它将元素留在其位置，然后移至下一个元素，否则它将在已排序数组中找到其正确位置，并将其移至该位置。这是通过将已排序数组中所有大于当前元素的元素移动到前面的一个位置来完成的
 
-```go
+``` go
 func insertion_sort(A []int, n int) {
 	for i := 0; i < n; i++ {
 		temp, j := A[i], i
@@ -174,7 +174,7 @@ func insertion_sort(A []int, n int) {
 
 反复比较成对的相邻元素，交换它们的位置如果他们在无序区。（最大元素冒泡到最后）
 
-```go
+``` go
 func bubble_sort(A []int, n int) {
 	for k := 0; k < n-1; k++ {  // (n-k-1) 是忽略比较的元素，这些元素已比较完成在简单的迭代中
 		for i := 0; i < n-k-1; i++ {
@@ -191,7 +191,7 @@ func bubble_sort(A []int, n int) {
 
 在未排序的数组中找到最小或最大元素，然后将其放在已排序的数组中的正确位置。
 
-```go
+``` go
 func selection_sort(A []int, n int) {
 	for i := 0; i < n-1; i++ {		 //在每次迭代中将数组的有效大小减少1
 		min := i                     //假设第一个元素是未排序数组的最小值
@@ -209,7 +209,7 @@ func selection_sort(A []int, n int) {
 
 ### 7. [Counting Sort](https://www.hackerearth.com/practice/algorithms/sorting/counting-sort/tutorial/)
 
-```go
+``` go
 func counting_sort(A, Aux, sortedA []int, N int) {
 	K := 0
 	for i := 0; i < N; i++ {
@@ -235,7 +235,7 @@ func counting_sort(A, Aux, sortedA []int, N int) {
 ```
 
 
-```go
+``` go
 func count_sort(nums []int) {
 	cnt := [100001]int{}
 	for i := 0; i < len(nums); i++ {
@@ -266,7 +266,7 @@ func count_sort(nums []int) {
 [Quick Sort](https://www.hackerearth.com/practice/algorithms/sorting/quick-sort/tutorial/)
 
 
-```go
+``` go
 package main
 
 import (
@@ -317,7 +317,7 @@ func main() {
 
 [Heap Sort](https://www.hackerearth.com/practice/algorithms/sorting/heap-sort/tutorial/)
 
-```go
+``` go
 package main
 
 import (
@@ -385,7 +385,7 @@ func main() {
 
 ### 方法一：Merge Sort
 
-```go
+``` go
 package main
 
 import (
@@ -453,7 +453,7 @@ func main() {
 
 ### 方法二：Merge Sort
 
-```go
+``` go
 package main
 
 import (
@@ -519,7 +519,7 @@ func main() {
 
 ### 方法三：
 
-```go
+``` go
 package main
 
 import (
@@ -588,7 +588,7 @@ func main() {
 
 [Bubble Sort](https://www.hackerearth.com/practice/algorithms/sorting/bubble-sort/tutorial/)
 
-```go
+``` go
 package main
 
 import (
@@ -625,7 +625,7 @@ func main() {
 
 [Selection Sort](https://www.hackerearth.com/practice/algorithms/sorting/selection-sort/tutorial/)
 
-```go
+``` go
 package main
 
 import (
@@ -664,7 +664,7 @@ func main() {
 [Insertion Sort](https://www.hackerearth.com/practice/algorithms/sorting/insertion-sort/tutorial/#c252800)
 
 
-```go
+``` go
 package main
 
 import (
@@ -712,7 +712,7 @@ func main() {
 [Counting Sort](https://www.hackerearth.com/practice/algorithms/sorting/counting-sort/tutorial/)
 
 
-```go
+``` go
 package main
 
 import (

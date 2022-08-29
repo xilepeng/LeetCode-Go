@@ -19,7 +19,7 @@
 
 [144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -51,7 +51,7 @@ func preorderTraversal(root *TreeNode) []int {
 
 [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -82,7 +82,7 @@ func inorderTraversal(root *TreeNode) []int {
 
 [145. 二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/)
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -113,7 +113,7 @@ func postorderTraversal(root *TreeNode) []int {
 
 [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
 
-```go
+``` go
 
 ```
 
@@ -125,7 +125,7 @@ func postorderTraversal(root *TreeNode) []int {
 
 ## 其他解法
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -156,7 +156,7 @@ func preorderTraversal(root *TreeNode) []int {
 ```
 
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {

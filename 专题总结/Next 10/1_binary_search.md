@@ -43,7 +43,7 @@
 
 4、为什么该算法能够搜索左侧边界？
 答：关键在于对于 nums[mid] == target 这种情况的处理：
-```go
+``` go
     if nums[mid] == target {
 		right = mid
 	}     
@@ -65,7 +65,7 @@
 
 [33. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
 
-```go
+``` go
 func search(nums []int, target int) int {
 	if len(nums) == 0 {
 		return -1
@@ -96,7 +96,7 @@ func search(nums []int, target int) int {
 
 [69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
 
-```go
+``` go
 func mySqrt(x int) int {
 	l, r := 0, x
 	ans := -1

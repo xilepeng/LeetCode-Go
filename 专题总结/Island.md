@@ -27,7 +27,7 @@
 - 最终返回岛屿数 count 即可。
 
 
-```go
+``` go
 func numIslands(grid [][]byte) int {
 	count := 0
 	for i := 0; i < len(grid); i++ {
@@ -53,7 +53,7 @@ func dfs(grid [][]byte, i, j int) {
 ```
 
 
-```go
+``` go
 func numIslands(grid [][]byte) int {
 	count := 0
 	for i := 0; i < len(grid); i++ {
@@ -80,7 +80,7 @@ func dfs(grid [][]byte, i, j int) {
 
 #### 闭包
 
-```go
+``` go
 func numIslands(grid [][]byte) int {
 	var dfs func(grid [][]byte, i, j int)
 	dfs = func(grid [][]byte, i, j int) {
@@ -109,7 +109,7 @@ func numIslands(grid [][]byte) int {
 
 [695. 岛屿的最大面积](https://leetcode-cn.com/problems/max-area-of-island/)
 
-```go
+``` go
 func maxAreaOfIsland(grid [][]int) int {
 	max_area := 0
 	for i := 0; i < len(grid); i++ {

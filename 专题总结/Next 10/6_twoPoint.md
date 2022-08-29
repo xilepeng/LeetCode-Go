@@ -33,7 +33,7 @@
 
 Time Limit Exceeded
 
-```go
+``` go
 func largestRectangleArea(heights []int) (res int) {
 	n := len(heights)
 	for mid := 0; mid < n; mid++ {
@@ -55,7 +55,7 @@ func largestRectangleArea(heights []int) (res int) {
 
 ## 方法一：单调栈
 
-```go
+``` go
 func largestRectangleArea(heights []int) int {
 	n := len(heights)
 	left, right := make([]int, n), make([]int, n)

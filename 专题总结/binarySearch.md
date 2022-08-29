@@ -39,7 +39,7 @@
 	3. 如果 target > nums[mid]，则在右侧继续搜索 left = mid + 1。
 
 
-```go
+``` go
 func search(nums []int, target int) int {
 	left, right := 0, len(nums)-1
 	for left <= right {
@@ -68,7 +68,7 @@ func search(nums []int, target int) int {
 
 **方法一**
 
-```go
+``` go
 func searchRange(nums []int, target int) []int {
 	first, last := findFirst(nums, target), findLast(nums, target)
 	return []int{first, last}
@@ -121,7 +121,7 @@ func findLast(nums []int, target int) int {
 	4. 查找最后一个小于等于给定值的元素
 这一题的解题思路可以分别利用变种 1 和变种 2 的解法就可以做出此题。或者用一次变种 1 的方法，然后循环往后找到最后一个与给定值相等的元素。不过后者这种方法可能会使时间复杂度下降到 O(n)，因为有可能数组中 n 个元素都和给定元素相同。(4 大基础变种的实现见代码)
 
-```go
+``` go
 func searchRange(nums []int, target int) []int {
 	return []int{searchFirstEqualElement(nums, target), searchLastEqualElement(nums, target)}
 }
@@ -200,7 +200,7 @@ func searchLastLessElement(nums []int, target int) int {
 ```
 ### 方法二：二分查找
 
-```go
+``` go
 func searchRange(nums []int, target int) []int {
 	leftmost := sort.SearchInts(nums, target)
 	if leftmost == len(nums) || nums[leftmost] != target {
@@ -222,7 +222,7 @@ func searchRange(nums []int, target int) []int {
 
 ### 方法一：二分查找
 
-```go
+``` go
 func mySqrt(x int) (res int) {
 	left, right := 0, x
 	for left <= right {
@@ -244,7 +244,7 @@ func mySqrt(x int) (res int) {
 
 ### 方法二：牛顿迭代
 
-```go
+``` go
 func mySqrt(x int) int {
 	r := x
 	for r*r > x {

@@ -56,7 +56,7 @@
 ## [22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
 
 
-```go
+``` go
 func generateParenthesis(n int) (res []string) {
 	var dfs func(int, int, string)
 	dfs = func(left, right int, path string) {
@@ -86,7 +86,7 @@ func generateParenthesis(n int) (res []string) {
 
 基于方法一中提及的性质，我们可以进一步知道二叉搜索树「中序遍历」得到的值构成的序列一定是升序的，这启示我们在中序遍历的时候实时检查当前节点的值是否大于前一个中序遍历到的节点的值即可。如果均大于说明这个序列是升序的，整棵树是二叉搜索树，否则不是
 
-```go
+``` go
 func isValidBST(root *TreeNode) bool {
 	stack := []*TreeNode{}
 	inorder := math.MinInt64
@@ -109,7 +109,7 @@ func isValidBST(root *TreeNode) bool {
 
 解法二，把 BST 按照左中右的顺序输出到数组中，如果是 BST，则数组中的数字是从小到大有序的，如果出现逆序就不是 BST
 
-```go
+``` go
 func isValidBST(root *TreeNode) bool {
 	nums := []int{}
 
@@ -151,7 +151,7 @@ func isValidBST(root *TreeNode) bool {
 
 解法一，直接按照定义比较大小，比 root 节点小的都在左边，比 root 节点大的都在右边
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -176,7 +176,7 @@ func dfs(node *TreeNode, lower, upper int) bool {
 
 
 
-```go
+``` go
 func isValidBST(root *TreeNode) bool {
 	return dfs(root, -1<<63, 1<<63-1)
 }
@@ -213,7 +213,7 @@ func dfs(root *TreeNode, lower, upper int) bool {
 
 ## [543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -253,7 +253,7 @@ func max(x, y int) int {
 ## [470. 用 Rand7() 实现 Rand10()](https://leetcode-cn.com/problems/implement-rand10-using-rand7/)
 
 
-```go
+``` go
 [1,7]
 0  t =[1,7]
 7  t = [1,49]  
@@ -263,7 +263,7 @@ t = 1    min = 1
 t = 40  (40-1)%10 + 1 = 10
 ```
 
-```go
+``` go
 func rand10() int {
 	t := (rand7()-1)*7 + rand7() //t = [1, 49]
 	if t > 40 {
@@ -273,7 +273,7 @@ func rand10() int {
 }
 ```
 
-```go
+``` go
 func rand10() int {
 	for {
 		row, col := rand7(), rand7()
@@ -294,7 +294,7 @@ func rand10() int {
 
 **方法一：原地 DP，无辅助空间**
 
-```go
+``` go
 func minPathSum(grid [][]int) int {
 	m, n := len(grid), len(grid[0]) // m 行 n 列
 	for i := 1; i < m; i++ {
@@ -352,7 +352,7 @@ func min(x, y int) int {
 **方法一：暴力**
 
 
-```go
+``` go
 func findLength(A []int, B []int) int {
 	m, n, res := len(A), len(B), 0
 	for i := 0; i < m; i++ {
@@ -416,7 +416,7 @@ Time Limit Exceeded
 - 时间复杂度 O(n * m)O(n∗m)。 空间复杂度 O(n * m)O(n∗m)。 
 - 降维后空间复杂度 O(n)O(n)，如果没有空间复杂度的要求，降不降都行。
 
-```go
+``` go
 func findLength(A []int, B []int) int {
 	m, n := len(A), len(B)
 	dp, res := make([][]int, m+1), 0
@@ -444,7 +444,7 @@ dp[i][j] 只依赖上一行上一列的对角线的值，所以我们从右上�
 
 ![3.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfh7zq2paj31ff0l8dm8.jpg)
 
-```go
+``` go
 func findLength(A []int, B []int) int {
 	m, n := len(A), len(B)
 	dp, res := make([]int, m+1), 0
@@ -481,7 +481,7 @@ func findLength(A []int, B []int) int {
 考虑到这里 dp[i][j] 的值从 dp[i + 1][j + 1] 转移得到，所以我们需要倒过来，首先计算 dp[len(A) - 1][len(B) - 1]，最后计算 dp[0][0]。
 
 
-```go
+``` go
 func findLength(A []int, B []int) int {
 	dp, res := make([][]int, len(A)+1), 0
 	for i := range dp {
@@ -530,7 +530,7 @@ N 表示数组 A 的长度，M 表示数组 B 的长度。
 
 ![截屏2021-04-17 11.45.32.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpmlgt89mej31120o2wgb.jpg)
 
-```go
+``` go
 func subsets(nums []int) [][]int {
 	res, n := [][]int{}, len(nums)
     //1<<3 二进制：1000 十进制：1*2^n=8
@@ -557,7 +557,7 @@ func subsets(nums []int) [][]int {
 
 可以发现 0/1 序列对应的二进制数正好从 0 到 2^n - 1。我们可以枚举 mask∈[0, 2^n - 1]，mask 的二进制表示是一个 0/1 序列，我们可以按照这个 0/1 序列在原集合当中取数。当我们枚举完所有 2^n 个 mask，我们也就能构造出所有的子集。
 
-```go
+``` go
 func subsets(nums []int) [][]int {
 	res, n := [][]int{}, len(nums)
 	for mask := 0; mask < 1<<n; mask++ {
@@ -601,7 +601,7 @@ func subsets(nums []int) [][]int {
 ![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpms4bgnnkj31a60lc0w8.jpg)
 
 
-```go
+``` go
 func subsets(nums []int) [][]int {
 	res, set := [][]int{}, []int{}
 	var dfs func(int)
@@ -637,7 +637,7 @@ func subsets(nums []int) [][]int {
 - 每次递归枚举的选项变少，一直递归到没有可选的数字，进入不了for循环，落入不了递归，整个DFS结束。
 - 可见我们没有显式地设置递归的出口，而是通过控制循环的起点，使得最后递归自然结束。
 
-```go
+``` go
 func subsets(nums []int) [][]int {
 	res, set := [][]int{}, []int{}
 	var dfs func(int)
@@ -666,7 +666,7 @@ func subsets(nums []int) [][]int {
 
 **方法一：递归**
 
-```go
+``` go
 func hasPathSum(root *TreeNode, sum int) bool {
 	if root == nil {
 		return false // 遍历到null节点
@@ -691,7 +691,7 @@ func hasPathSum(root *TreeNode, sum int) bool {
 
 ![截屏2021-04-20 17.50.41.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpqcvp2lc4j318e0o60xd.jpg)
 
-```go
+``` go
 func rotate(matrix [][]int) {
 	n := len(matrix)
 	// 水平翻转
@@ -726,7 +726,7 @@ func rotate(matrix [][]int) {
 - 空间复杂度O(n)。
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -776,7 +776,7 @@ func isPalindrome(head *ListNode) bool {
 
 ![2.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpecxtza7vj31ie0ogn3i.jpg)
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -886,7 +886,7 @@ func isPalindrome(head *ListNode) bool {
 
 不同元素相互抵消，最后剩余就是众数
 
-```go
+``` go
 func majorityElement(nums []int) int {
 	res, count := 0, 0
 	for _, num := range nums {
@@ -903,7 +903,7 @@ func majorityElement(nums []int) int {
 }
 ```
 
-```go
+``` go
 func majorityElement(nums []int) int {
 	res, count := 0, 0
 	for _, num := range nums {
@@ -953,7 +953,7 @@ func majorityElement(nums []int) int {
 随着递归向上返回，子树一个个被翻转……整棵树翻转好了。
 问题是在递归出栈时解决的。
 
-```go
+``` go
 func invertTree(root *TreeNode) *TreeNode {
 	if root == nil {
 		return nil
@@ -973,7 +973,7 @@ func invertTree(root *TreeNode) *TreeNode {
 把交换的操作，放在递归子树之前。
 问题是在递归压栈前被解决的。
 
-```go
+``` go
 func invertTree(root *TreeNode) *TreeNode {
 	if root == nil {
 		return nil
@@ -1001,7 +1001,7 @@ func invertTree(root *TreeNode) *TreeNode {
 
 这个「处理当前节点」，就是交换左右子树 ，就是解决问题的代码：
 
-```go
+``` go
 root.Left, root.Right = root.Right, root.Left
 ```
 
@@ -1018,7 +1018,7 @@ root.Left, root.Right = root.Right, root.Left
 解决问题的代码放在节点出列时。
 
 
-```go
+``` go
 func invertTree(root *TreeNode) *TreeNode {
 	if root == nil {
 		return nil
@@ -1046,7 +1046,7 @@ func invertTree(root *TreeNode) *TreeNode {
 ## [101. 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
 
 **方法一：递归**
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -1070,7 +1070,7 @@ func isMirror(left, right *TreeNode) bool {
 ```
 
 **方法二：迭代**
-```go
+``` go
 func isSymmetric(root *TreeNode) bool {
 	q := []*TreeNode{root, root}
 	for 0 < len(q) {
@@ -1117,7 +1117,7 @@ func isSymmetric(root *TreeNode) bool {
 	4. 查找最后一个小于等于给定值的元素
 这一题的解题思路可以分别利用变种 1 和变种 2 的解法就可以做出此题。或者用一次变种 1 的方法，然后循环往后找到最后一个与给定值相等的元素。不过后者这种方法可能会使时间复杂度下降到 O(n)，因为有可能数组中 n 个元素都和给定元素相同。(4 大基础变种的实现见代码)
 
-```go
+``` go
 func searchRange(nums []int, target int) []int {
 	return []int{searchFirstEqualElement(nums, target), searchLastEqualElement(nums, target)}
 }
@@ -1197,7 +1197,7 @@ func searchLastLessElement(nums []int, target int) int {
 
 **方法二：二分查找**
 
-```go
+``` go
 func searchRange(nums []int, target int) []int {
 	leftmost := sort.SearchInts(nums, target)
 	if leftmost == len(nums) || nums[leftmost] != target {
@@ -1214,7 +1214,7 @@ func searchRange(nums []int, target int) []int {
 
 ## [83. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
 
-```go
+``` go
 	/**
 	 * Definition for singly-linked list.
 	 * type ListNode struct {
@@ -1243,7 +1243,7 @@ func searchRange(nums []int, target int) []int {
 
 ## [165. 比较版本号](https://leetcode-cn.com/problems/compare-version-numbers/)
 
-```go
+``` go
 func compareVersion(s1 string, s2 string) int {
 	i, j := 0, 0
 	for i < len(s1) || j < len(s2) {
@@ -1270,7 +1270,7 @@ func compareVersion(s1 string, s2 string) int {
 }
 ```
 
-```go
+``` go
 strconv.Atoi()函数用于将字符串类型的整数转换为int类型，函数签名如下。
 
 func Atoi(s string) (i int, err error)
@@ -1296,7 +1296,7 @@ func Itoa(i int) string
 1. 从右上角开始搜索
 
 
-```go
+``` go
 func searchMatrix(matrix [][]int, target int) bool {
 	row, col := 0, len(matrix[0])-1 // 从右上角开始遍历
 	for row < len(matrix) && col >= 0 {
@@ -1316,7 +1316,7 @@ func searchMatrix(matrix [][]int, target int) bool {
 
 
 
-```go
+``` go
 func searchMatrix(matrix [][]int, target int) bool {
 	row, col := len(matrix)-1, 0 // 从左下角开始遍历
 	for row >= 0 && col < len(matrix[0]) {
@@ -1340,7 +1340,7 @@ func searchMatrix(matrix [][]int, target int) bool {
 
 **方法二：二分法搜索**
 
-```go
+``` go
 func searchMatrix(matrix [][]int, target int) bool {
 	for _, row := range matrix {
 		low, high := 0, len(matrix[0])-1
@@ -1392,7 +1392,7 @@ func searchMatrix(matrix [][]int, target int) bool {
 
 　　（3） 任何数异或自己＝把自己置0
 
-```go
+``` go
 func singleNumber(nums []int) int {
 	res := 0
 	for _, num := range nums {
@@ -1416,7 +1416,7 @@ func singleNumber(nums []int) int {
 3. 否则就是中间值小于等于当前右边最大值，mid 已经在右边的小数组里了，但是至少说明了当前右边的right值不是最小值了或者不是唯一的最小值，需要慢慢向左移动一位。
 
 
-```go
+``` go
 func findMin(nums []int) int {
 	left, right := 0, len(nums)-1
 	for left <= right {
@@ -1431,7 +1431,7 @@ func findMin(nums []int) int {
 }
 ```
 
-```go
+``` go
 func findMin(nums []int) int {
 	left, right := 0, len(nums)-1
 	for left < right {
@@ -1454,7 +1454,7 @@ func findMin(nums []int) int {
 
 **方法一**
 
-```go
+``` go
 func searchRange(nums []int, target int) []int {
 	first, last := findFirst(nums, target), findLast(nums, target)
 	return []int{first, last}
@@ -1507,7 +1507,7 @@ func findLast(nums []int, target int) int {
 	4. 查找最后一个小于等于给定值的元素
 这一题的解题思路可以分别利用变种 1 和变种 2 的解法就可以做出此题。或者用一次变种 1 的方法，然后循环往后找到最后一个与给定值相等的元素。不过后者这种方法可能会使时间复杂度下降到 O(n)，因为有可能数组中 n 个元素都和给定元素相同。(4 大基础变种的实现见代码)
 
-```go
+``` go
 func searchRange(nums []int, target int) []int {
 	return []int{searchFirstEqualElement(nums, target), searchLastEqualElement(nums, target)}
 }
@@ -1586,7 +1586,7 @@ func searchLastLessElement(nums []int, target int) int {
 ```
 **方法三：二分查找**
 
-```go
+``` go
 func searchRange(nums []int, target int) []int {
 	leftmost := sort.SearchInts(nums, target)
 	if leftmost == len(nums) || nums[leftmost] != target {
@@ -1605,7 +1605,7 @@ func searchRange(nums []int, target int) []int {
 
 **方法一：搜索回溯**
 
-```go
+``` go
 func combinationSum(candidates []int, target int) [][]int {
 	comb, res := []int{}, [][]int{}
 	var dfs func(int, int)
@@ -1647,7 +1647,7 @@ func combinationSum(candidates []int, target int) [][]int {
 
 利用后两个约束条件做剪枝，较为简单，设置递归出口如下：
 
-```go
+``` go
 		if target <= 0 {
 			if target == 0 { // 找到一组正确组合
 				res = append(res, append([]int(nil), comb...)) // 将当前组合加入解集
@@ -1662,7 +1662,7 @@ func combinationSum(candidates []int, target int) [][]int {
 如图，只要限制下一次选择的起点，是基于本次的选择，这样下一次就不会选到本次选择同层左边的数。即通过控制 for 遍历的起点，去掉会产生重复组合的选项。
 
 
-```go
+``` go
 		for i := index; i < len(candidates); i++ { // 枚举当前可选的数，从index开始
 			comb = append(comb, candidates[i]) // 选这个数,基于此，继续选择，传i，下次就不会选到i左边的数
 			dfs(target-candidates[i], i)       // 注意这里迭代的时候 index 依旧不变，因为一个元素可以取多次
@@ -1674,7 +1674,7 @@ func combinationSum(candidates []int, target int) [][]int {
 
 
 
-```go
+``` go
 func combinationSum(candidates []int, target int) [][]int {
 	comb, res := []int{}, [][]int{}
 	var dfs func(int, int)
@@ -1699,7 +1699,7 @@ func combinationSum(candidates []int, target int) [][]int {
 
 
 
-```go
+``` go
 func combinationSum(candidates []int, target int) (res [][]int) {
 	path := []int{}
 	sort.Ints(candidates)
@@ -1748,7 +1748,7 @@ func combinationSum(candidates []int, target int) (res [][]int) {
 
 
 
-```go
+``` go
 func uniquePaths(m int, n int) int {
 	dp := make([][]int, m) // 定义二维数组
 	for i := 0; i < m; i++ {
@@ -1779,7 +1779,7 @@ func uniquePaths(m int, n int) int {
 
 
 
-```go
+``` go
 func uniquePaths(m int, n int) int {
 	dp := make([]int, n)
 	for i := 0; i < m; i++ {

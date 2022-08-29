@@ -10,7 +10,7 @@
 
 ### LRUCache
 
-```go
+``` go
 type LRUCache struct {
 	cache          map[int]*DLinkedNode
 	head, tail     *DLinkedNode
@@ -130,7 +130,7 @@ LRU 缓存机制可以通过哈希表辅以双向链表实现，我们用一个�
 
 
 
-```go
+``` go
 type LRUCache struct {
 	cache          map[int]*DLinkedNode
 	head, tail     *DLinkedNode
@@ -231,7 +231,7 @@ func (this *LRUCache) removeTail() *DLinkedNode {
 
 [460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 
-```go
+``` go
 type LFUCache struct {
 	cache               map[int]*Node       // 存储缓存的内容
 	freq                map[int]*DoubleList // 存储每个频次对应的双向链表

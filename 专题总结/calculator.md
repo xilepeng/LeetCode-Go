@@ -8,7 +8,7 @@
 
 [227. 基本计算器 II](https://leetcode-cn.com/problems/basic-calculator-ii/)
 
-```go
+``` go
 func calculate(s string) int {
 	stack, sign, num, res := []int{}, byte('+'), 0, 0
 	for i := 0; i < len(s); i++ {
@@ -41,7 +41,7 @@ func calculate(s string) int {
 - 减号：将数字的相反数压入栈；
 - 乘除号：计算数字与栈顶元素，并将栈顶元素替换为计算结果。
 
-```go
+``` go
 func calculate(s string) int {
 	stack, preSign, num, res := []int{}, '+', 0, 0
 	for i, ch := range s {
@@ -74,7 +74,7 @@ func calculate(s string) int {
 
 [224. 基本计算器](https://leetcode-cn.com/problems/basic-calculator/)
 
-```go
+``` go
 func calculate(s string) int {
 	stack, res, num, sign := []int{}, 0, 0, 1
 	for i := 0; i < len(s); i++ {

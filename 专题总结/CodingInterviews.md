@@ -17,7 +17,7 @@
 
 [剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
 
-```go
+``` go
 func fib(n int) int {
     if n < 2 { 
         return n 
@@ -39,7 +39,7 @@ func fib(n int) int {
 
 ![截屏2021-04-22 11.34.30.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsd9a3yaxj317o0o0q7h.jpg)
 
-```go
+``` go
 func fib(n int) int {
 	if n == 0 || n == 1 {
 		return n
@@ -59,7 +59,7 @@ func fib(n int) int {
 ![截屏2021-04-23 20.07.36.png](http://ww1.sinaimg.cn/large/007daNw2ly1gptxon19akj319k0nw407.jpg)
 
 闭包写法：
-```go
+``` go
 func fib(n int) int {
 	memo := make([]int, n+1)//从0开始
 	var helper func(int) int
@@ -79,7 +79,7 @@ func fib(n int) int {
 }
 ```
 
-```go
+``` go
 func fib(n int) int {
 	memo := make([]int, n+1)
 	return helper(memo, n)
@@ -105,7 +105,7 @@ func helper(memo []int, n int) int {
 
 ![截屏2021-04-22 11.35.07.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsda7wdjwj30zu0hwmyn.jpg)
 
-```go
+``` go
 func fib(n int) int {
 	if n == 0 {
 		return 0
@@ -129,7 +129,7 @@ func fib(n int) int {
 
 动态规划空间优化：只存储前2项
 
-```go
+``` go
 func fib(n int) int {
 	if n == 0 || n == 1 { //base case
 		return n
@@ -153,7 +153,7 @@ func fib(n int) int {
 
 [剑指 Offer 51. 数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
 
-```go
+``` go
 func reversePairs(nums []int) int {
     return merge_sort(nums, 0, len(nums)-1)
 }
@@ -186,7 +186,7 @@ func merge_sort(A []int, start, end int) int {
 }
 ```
 
-```go
+``` go
 func reversePairs(nums []int) int {
     return merge_sort(nums, 0, len(nums)-1)
 }
@@ -224,7 +224,7 @@ func merge(A []int, start, mid, end int) int {
 
 ### 方法一：Merge Sort
 
-```go
+``` go
 func reversePairs(nums []int) int {
     n := len(nums)
     temp := make([]int, n)
@@ -262,7 +262,7 @@ func merge_sort(A, temp []int, start, end int) int {
 
 ### 方法二：Merge Sort
 
-```go
+``` go
 func reversePairs(nums []int) int {
     n := len(nums)
     Arr := make([]int, n)
@@ -307,7 +307,7 @@ func merge(A, Arr []int, start, mid, end int) int {
 
 ### 方法三：Merge Sort
 
-```go
+``` go
 func reversePairs(nums []int) int {
     n := len(nums)
     return merge_sort(nums, 0, n-1)
@@ -351,7 +351,7 @@ func merge(A []int, start, mid, end int) int {
 
 [剑指 Offer 36. 二叉搜索树与双向链表](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
 
-```go
+``` go
 package main
 
 import "fmt"

@@ -54,7 +54,7 @@
 
 ![](images/33.png)
 
-```go
+``` go
 func search(nums []int, target int) int {
 	if len(nums) == 0 {
 		return -1
@@ -107,7 +107,7 @@ func search(nums []int, target int) int {
 - 最终返回岛屿数 count 即可。
 
 
-```go
+``` go
 func numIslands(grid [][]byte) int {
 	count := 0
 	for i := 0; i < len(grid); i++ { //行
@@ -133,7 +133,7 @@ func dfs(grid [][]byte, i, j int) {
 
 **闭包**
 
-```go
+``` go
 func numIslands(grid [][]byte) int {
 	var dfs func(grid [][]byte, i, j int)
 	dfs = func(grid [][]byte, i, j int) {
@@ -178,7 +178,7 @@ func numIslands(grid [][]byte) int {
 
 **闭包**：
 
-```go
+``` go
 func permute(nums []int) [][]int {
 	used, path, res, n := make(map[int]bool, len(nums)), []int{}, [][]int{}, len(nums)
 	var dfs func(int)
@@ -214,7 +214,7 @@ func permute(nums []int) [][]int {
 
 ![](images/46-2-1.png)
 
-```go
+``` go
 func permute(nums []int) [][]int {
 	res, n := [][]int{}, len(nums)
 	var dfs func(int)
@@ -266,7 +266,7 @@ func permute(nums []int) [][]int {
 **dfs 闭包**
 
 
-```go
+``` go
 func permuteUnique(nums []int) [][]int {
 	sort.Ints(nums)
 	used, path, res, n := make(map[int]bool, len(nums)), []int{}, [][]int{}, len(nums)
@@ -312,7 +312,7 @@ func permuteUnique(nums []int) [][]int {
 
 **方法一：双指针** 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -344,7 +344,7 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 **方法二：头插法** 
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -392,7 +392,7 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 - 当发现 slow 与 fast 相遇时，我们再额外使用一个指针 ptr。起始，它指向链表头部；随后，它和 slow 每次向后移动一个位置。最终，它们会在入环点相遇。
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -433,7 +433,7 @@ func detectCycle(head *ListNode) *ListNode {
 
 **方法一：分治合并**
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -521,7 +521,7 @@ func mergeTwoLists(l1, l2 *ListNode) *ListNode {
 - 时间复杂度 O(m*n)，m、n 分别是矩阵的行数和列数
 - 空间复杂度 O(m*n)
 
-```go
+``` go
 func spiralOrder(matrix [][]int) []int {
 	if len(matrix) == 0 {
 		return []int{}
@@ -565,7 +565,7 @@ func spiralOrder(matrix [][]int) []int {
 - 但你发现，**遍历完成要么发生在遍历完“上边”，要么发生在遍历完“右边”**
 - 所以只需在这两步操作之后，加 if (top > bottom || left > right) break 即可
 
-```go
+``` go
 func spiralOrder(matrix [][]int) []int {
 	if len(matrix) == 0 {
 		return []int{}
@@ -595,7 +595,7 @@ func spiralOrder(matrix [][]int) []int {
 - 不等于就继续遍历，等于就 break
 
 
-```go
+``` go
 func spiralOrder(matrix [][]int) []int {
 	if len(matrix) == 0 {
 		return []int{}
@@ -641,7 +641,7 @@ func spiralOrder(matrix [][]int) []int {
 	3. 如果 target > nums[mid]，则在右侧继续搜索 left = mid + 1。
 
 
-```go
+``` go
 func search(nums []int, target int) int {
 	left, right := 0, len(nums)-1
 	for left <= right {	
@@ -673,7 +673,7 @@ func search(nums []int, target int) int {
 
 **方法一： nlogn 动态规划** 
 
-```go
+``` go
 func lengthOfLIS(nums []int) int {
 	dp := []int{} // 维护单调递增数组 sorted
 	for _, x := range nums {
@@ -710,7 +710,7 @@ func lengthOfLIS(nums []int) int {
 
 
 
-```go
+``` go
 func lengthOfLIS(nums []int) int {
 	d := []int{} // 维护单调递增数组
 	for _, n := range nums {
@@ -742,7 +742,7 @@ func lengthOfLIS(nums []int) int {
 
 **方法三：动态规划**
 
-```go
+``` go
 func lengthOfLIS(nums []int) int {
 	n := len(nums)
 	if n == 0 {
@@ -786,7 +786,7 @@ func max(x, y int) int {
 
 ![](images/42.png)
 
-```go
+``` go
 func trap(height []int) (res int) {
 	left, right := 0, len(height)-1
 	leftMax, rightMax := 0, 0
@@ -816,7 +816,7 @@ func max(x, y int) int {
 
 **方法二：单调栈**
 
-```go
+``` go
 func trap(height []int) (res int) {
 	stack := []int{}
 	for i, h := range height {
@@ -921,7 +921,7 @@ func min(x, y int) int {
 
 ![](images/232.png)
 
-```go
+``` go
 type MyQueue struct {
 	inStack, outStack []int
 }
@@ -981,7 +981,7 @@ func (q *MyQueue) Empty() bool {
 ## ✅ [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
 
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -1008,7 +1008,7 @@ func inorderTraversal(root *TreeNode) (res []int) {
 
 
 
-```go
+``` go
 func inorderTraversal(root *TreeNode) (res []int) {
 	stack := []*TreeNode{}
 	for root != nil || len(stack) > 0 {
@@ -1052,7 +1052,7 @@ func inorderTraversal(root *TreeNode) (res []int) {
 - 先访问 当前节点，再递归地访问 右子树 和 左子树。
 - 如果当前节点所在深度还没有出现在res里，说明在该深度下当前节点是第一个被访问的节点，因此将当前节点加入res中。
 
-```go
+``` go
  * Definition for a binary tree node.
  * type TreeNode struct {
  *     Val int
@@ -1093,7 +1093,7 @@ func rightSideView(root *TreeNode) (res []int) {
 
 
 
-```go
+``` go
 func rightSideView(root *TreeNode) []int {
 	res := []int{}
 	if root == nil {
@@ -1134,7 +1134,7 @@ func rightSideView(root *TreeNode) []int {
 ## ✅ [143. 重排链表](https://leetcode-cn.com/problems/reorder-list/)
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -1187,7 +1187,7 @@ func mergeList(l1, l2 *ListNode) {
 ```
 
 
-```go
+``` go
 func reorderList(head *ListNode) {
 	if head == nil || head.Next == nil {
 		return
@@ -1246,7 +1246,7 @@ f(x) = f(x - 1) + f(x - 2)
 f(x) 只和 f(x−1) 与 f(x−2) 有关，所以我们可以用「滚动数组思想」把空间复杂度优化成 O(1)。
 
 
-```go
+``` go
 func climbStairs(n int) int {
 	p, q, r := 0, 0, 1
 	for i := 1; i <= n; i++ {
@@ -1272,7 +1272,7 @@ func climbStairs(n int) int {
 - 简单的 DP，经典的爬楼梯问题。一个楼梯可以由 n-1 和 n-2 的楼梯爬上来。
 - 这一题求解的值就是斐波那契数列。
 
-```go
+``` go
 func climbStairs(n int) int {
 	dp := make([]int, n+1)
 	dp[0], dp[1] = 1, 1
@@ -1339,7 +1339,7 @@ func climbStairs(n int) int {
 
 ![7.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpdskk5ycoj31c00kx781.jpg)
 
-```go
+``` go
 func climbStairs(n int) int {
 	dp := make([]int, n+1)
 	dp[0] = 1
@@ -1356,7 +1356,7 @@ func climbStairs(n int) int {
 
 dp[i] 只与过去的两项：dp[i-1] 和 dp[i-2] 有关，没有必要存下所有计算过的 dp 项。用两个变量去存这两个过去的状态就好。
 
-```go
+``` go
 
 func climbStairs(n int) int {
 	prev := 1
@@ -1394,7 +1394,7 @@ func climbStairs(n int) int {
 ## ✅ [56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
 
 
-```go
+``` go
 func merge(intervals [][]int) (res [][]int) {
 	n, k := len(intervals), 0
 	startArr, endArr := make([]int, n), make([]int, n)
@@ -1463,7 +1463,7 @@ prev[1] = max(prev[1], cur[1])
 
 ![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfnod6g2lj318c0ff760.jpg)
 
-```go
+``` go
 func merge(intervals [][]int) [][]int {
 	sort.Slice(intervals, func(i, j int) bool {
 		return intervals[i][0] < intervals[j][0]
@@ -1505,7 +1505,7 @@ func max(x, y int) int {
 ## ✅ [124. 二叉树中的最大路径和](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
 
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -1544,7 +1544,7 @@ func max(x, y int) int {
 
 ## ✅ [剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -1565,7 +1565,7 @@ func getKthFromEnd(head *ListNode, k int) *ListNode {
 }
 ```
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -1596,7 +1596,7 @@ func getKthFromEnd(head *ListNode, k int) *ListNode {
 
 **方法一：二分查找**
 
-```go
+``` go
 func mySqrt(x int) (res int) {
 	left, right := 0, x
 	for left <= right {
@@ -1621,7 +1621,7 @@ func mySqrt(x int) (res int) {
 
 **方法二：牛顿迭代**
 
-```go
+``` go
 func mySqrt(x int) int {
 	r := x
 	for r*r > x {
@@ -1652,7 +1652,7 @@ func mySqrt(x int) int {
 ![](images/82.png)
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {

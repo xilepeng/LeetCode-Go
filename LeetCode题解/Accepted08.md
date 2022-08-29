@@ -51,7 +51,7 @@
 
 [415. 字符串相加](https://leetcode-cn.com/problems/add-strings/) 扩展
 
-```go
+``` go
 func addStrings(num1 string, num2 string) string {
 	carry := 0
 	res := ""
@@ -74,7 +74,7 @@ func addStrings(num1 string, num2 string) string {
 
 [补充题9. 36进制加法](https://mp.weixin.qq.com/s/bgD1Q5lc92mX7RNS1L65qA)
 
-```go
+``` go
 func addStrings(num1 string, num2 string) string {
 	carry := 0
 	res := ""

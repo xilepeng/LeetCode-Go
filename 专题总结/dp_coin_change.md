@@ -17,7 +17,7 @@
 
 #### iterate amount
 
-```go
+``` go
 func coinChange(coins []int, amount int) int {
 	dp := make([]int, amount+1) // 需要的最小硬币数量
 	dp[0] = 0                   // 无法组成0的硬币
@@ -52,7 +52,7 @@ func min(x, y int) int {
 
 #### iterate coins
 
-```go
+``` go
 func change(amount int, coins []int) int {
 	dp := make([]int, amount+1) // dp[x] 表示金额之和等于 xx 的硬币组合数
 	dp[0] = 1                   // 当不选取任何硬币时，金额之和才为 0，只有 1 种硬币组合

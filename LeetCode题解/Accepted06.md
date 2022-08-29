@@ -85,7 +85,7 @@
 
 ## [补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	merge_sort(nums, 0, len(nums)-1)
 	return nums
@@ -126,7 +126,7 @@ func merge(A []int, start, mid, end int) {
 
 ## [460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 
-```go
+``` go
 type LFUCache struct {
 	cache               map[int]*Node       // 存储缓存的内容
 	freq                map[int]*DoubleList // 存储每个频次对应的双向链表
@@ -249,7 +249,7 @@ func (this *DoubleList) IsEmpty() bool {
 ## [剑指 Offer 09. 用两个栈实现队列](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
 
 
-```go
+``` go
 type CQueue struct {
     inStack, outStack []int
 }
@@ -295,7 +295,7 @@ func (this *CQueue) DeleteHead() int {
 
 ## [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	buy, sell := math.MinInt64, 0
 	for _, p := range prices {
@@ -315,7 +315,7 @@ func max(x, y int) int {
 ## [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	buy, sell := math.MinInt64, 0
 	for _, p := range prices {
@@ -341,7 +341,7 @@ func max(x, y int) int {
 第三题只允许最多买两次，那么就有四个状态，第一次买，第一次卖，第二次买，第二次卖。
 还是那句话，无论什么状态，我们要保证手里的钱最多。
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	b1, b2, s1, s2 := math.MinInt64, math.MinInt64, 0, 0
 	for _, p := range prices {
@@ -362,7 +362,7 @@ func max(x, y int) int {
 
 ## [188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
 
-```go
+``` go
 func maxProfit(k int, prices []int) int {
 	if k >= len(prices)>>1 {
 		T_ik0, T_ik1 := 0, math.MinInt64
@@ -398,7 +398,7 @@ func max(x, y int) int {
 
 这道题只是第二题的变形，卖完要隔一天才能买，那么就多记录前一天卖的状态即可。
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	buy, sell_pre, sell := math.MinInt64, 0, 0
 	for _, p := range prices {
@@ -420,7 +420,7 @@ func max(x, y int) int {
 ## [714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
 
 每次买卖需要手续费，那么我们买的时候减掉手续费就行了。
-```go
+``` go
 func maxProfit(prices []int, fee int) int {
 	buy, sell := math.MinInt64, 0
 	for _, p := range prices {
@@ -450,7 +450,7 @@ func max(x, y int) int {
 
 ## [补充题1. 排序奇升偶降链表](https://mp.weixin.qq.com/s/377FfqvpY8NwMInhpoDgsw)
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -520,7 +520,7 @@ func merge(l1, l2 *ListNode) *ListNode {
 
 
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -546,7 +546,7 @@ func postorderTraversal(root *TreeNode) []int {
 }
 ```
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -618,7 +618,7 @@ func postorderTraversal(root *TreeNode) []int {
 - 空间复杂度 O(1) ： cur和 pre 使用常数大小的额外空间。
 
 
-```go
+``` go
 func rob(nums []int) int {
 	cur, pre := 0, 0
 	for _, num := range nums {
@@ -648,7 +648,7 @@ func max(x, y int) int {
 
 ## [剑指 Offer 51. 数组中的逆序对](https://leetcode-cn.com/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
 
-```go
+``` go
 func reversePairs(nums []int) int {
 	return merge_sort(nums, 0, len(nums)-1)
 }
@@ -695,7 +695,7 @@ func merge(A []int, start, mid, end int) int {
 
 ![](https://pic.leetcode-cn.com/1789e6dd9bbe41223cab82b2e0a7615cd1a8ed16a3c992462d4e1eaec3b82fb1-image.png)
 
-```go
+``` go
 /**
  * Definition for a Node.
  * type Node struct {
@@ -743,7 +743,7 @@ func copyRandomList(head *Node) *Node {
 
 ## [695. 岛屿的最大面积](https://leetcode-cn.com/problems/max-area-of-island/)
 
-```go
+``` go
 func maxAreaOfIsland(grid [][]int) int {
 	max_area := 0
 	for i := 0; i < len(grid); i++ {
@@ -777,7 +777,7 @@ func max(x, y int) int {
 
 ## [394. 字符串解码](https://leetcode-cn.com/problems/decode-string/)
 
-```go
+``` go
 func decodeString(s string) string {
 	numStack := []int{}      // 存倍数的栈
 	strStack := []string{}   // 存待拼接的str的栈
@@ -811,7 +811,7 @@ func decodeString(s string) string {
 
 ### 方法一：滑动窗口
 
-```go
+``` go
 func minSubArrayLen(target int, nums []int) int {
 	n := len(nums)
 	if n == 0 {
@@ -866,7 +866,7 @@ func min(x, y int) int {
 
 #### iterate amount
 
-```go
+``` go
 func coinChange(coins []int, amount int) int {
 	dp := make([]int, amount+1)
 	dp[0] = 0 //base case
@@ -902,7 +902,7 @@ func min(x, y int) int {
 #### iterate coins
 
 
-```go
+``` go
 func change(amount int, coins []int) int {
 	dp := make([]int, amount+1)
 	dp[0] = 1
@@ -928,7 +928,7 @@ func change(amount int, coins []int) int {
 
 ### 方法一：快速选择
 
-```go
+``` go
 func getLeastNumbers(arr []int, k int) []int {
     rand.Seed(time.Now().Unix())
     quickSelect(arr, 0, len(arr)-1, k)
@@ -984,7 +984,7 @@ func randomPartition(A []int, start, end int) int {
 
 有错
 
-```go
+``` go
 func getLeastNumbers(arr []int, k int) []int {
     if k == 0 {
         return []int{}
@@ -1044,7 +1044,7 @@ func min_heapify(A []int, i, heap_size int) {
 - 扫描结束时，奇链偶链就分开了，此时 odd 指向奇链的尾结点
 - 奇链的尾结点 ——next——> 偶链的头结点（循环前保存），就连接了奇偶链
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -1072,7 +1072,7 @@ func oddEvenList(head *ListNode) *ListNode {
 
 ## [125. 验证回文串](https://leetcode-cn.com/problems/valid-palindrome/)
 
-```go
+``` go
 func isPalindrome(s string) bool {
 	s = strings.ToLower(s)
 	left, right := 0, len(s)-1
@@ -1100,7 +1100,7 @@ func isValid(c byte) bool {
 ```
 
 
-```go
+``` go
 func isPalindrome(s string) bool {
 	left, right := 0, len(s)-1
 	for left < right {
@@ -1122,7 +1122,7 @@ func isPalindrome(s string) bool {
 
 ## [189. 旋转数组](https://leetcode-cn.com/problems/rotate-array/)
 
-```go
+``` go
 func rotate(nums []int, k int) {
 	k %= len(nums)
 	reverse(nums)
@@ -1143,7 +1143,7 @@ func reverse(nums []int) {
 
 
 
-```go
+``` go
 
 type Solution struct {
 	A []int
@@ -1181,7 +1181,7 @@ func (this *Solution) Shuffle() []int {
 
 
 
-```go
+``` go
 func (*Rand) Int
 func (r *Rand) Int() int
 返回一个非负的伪随机int值。
@@ -1194,7 +1194,7 @@ func (r *Rand) Intn(n int) int
 
 ## [225. 用队列实现栈](https://leetcode-cn.com/problems/implement-stack-using-queues/)
 
-```go
+``` go
 type MyStack struct {
 	queue []int
 }
@@ -1241,7 +1241,7 @@ func (s *MyStack) Empty() bool {
  */
 ```
 
-```go
+``` go
 type MyStack struct {
 	queue1, queue2 []int
 }

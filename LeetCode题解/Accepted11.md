@@ -14,7 +14,7 @@
 ## [287. 寻找重复数](https://leetcode-cn.com/problems/find-the-duplicate-number/)
 
 
-```go
+``` go
 func findDuplicate(nums []int) int {
 	slow, fast := 0, 0
 	for slow, fast = nums[slow], nums[nums[fast]]; slow != fast; { // 首次相遇
@@ -29,7 +29,7 @@ func findDuplicate(nums []int) int {
 ```
 
 
-```go
+``` go
 func findDuplicate(nums []int) int {
 	slow, fast := 0, 0
 	for {
@@ -162,7 +162,7 @@ b 的距离与 fast 相遇。此时，fast 指针已经走完了环的 n 圈，�
 
 
 
-```go
+``` go
 func findRepeatNumber(nums []int) int {
     m := make(map[int]bool)
     for _,num := range nums {
@@ -193,7 +193,7 @@ func findRepeatNumber(nums []int) int {
 若遍历完毕尚未返回，则返回 −1 。
 
 
-```go
+``` go
 func findRepeatNumber(nums []int) int {
 	for i := 0; i < len(nums); {
 		if nums[i] == i { // nums[i]已在对应索引位置，无需交换，因此跳过；

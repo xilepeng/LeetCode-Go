@@ -14,7 +14,7 @@
 
 思路：将当前节点的 next 指针改为指向前一个节点。
 
-```go
+``` go
 func reverseList(head *ListNode) *ListNode {
 	var prev *ListNode
 	curr := head
@@ -43,7 +43,7 @@ func reverseList(head *ListNode) *ListNode {
 ![截屏2021-04-21 12.11.12.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr8otljdfj315c0oy42w.jpg)
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -96,7 +96,7 @@ n1 → … → nk−1 → nk → nk+1 ← … ← nm
 - 时间复杂度分析：链表中每个节点只被遍历一次，所以时间复杂度是 O(n)。
 
 
-```go
+``` go
 func reverseList(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil { //只有一个节点或没有节点
 		return head
@@ -121,7 +121,7 @@ func reverseList(head *ListNode) *ListNode {
 
 ![截屏2021-04-21 11.31.37.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7jmcf05j315g0pen05.jpg)
 
-```go
+``` go
 func reverseKGroup(head *ListNode, k int) *ListNode {
 	dummy := &ListNode{Next: head}
 	prev := dummy
@@ -169,7 +169,7 @@ func reverse(head *ListNode) *ListNode {
 
 [237. Delete Node in a Linked List](https://leetcode.com/problems/delete-node-in-a-linked-list/)
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {

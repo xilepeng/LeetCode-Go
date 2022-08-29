@@ -35,7 +35,7 @@ rob(i) = Math.max( rob(i - 2) + currentHouseValue, rob(i - 1) )
 #### Step 2. Recursive (top-down)
 Converting the recurrent relation from Step 1 shound't be very hard.
 
-```go
+``` go
 func rob(nums []int) int {
 	return Rob(nums, len(nums)-1)
 }
@@ -60,7 +60,7 @@ This algorithm will process the same i multiple times and it needs improvement. 
 
 #### Step 3. Recursive + memo (top-down).
 
-```go
+``` go
 var memo []int
 
 func rob(nums []int) int {
@@ -96,7 +96,7 @@ Much better, this should run in O(n) time. Space complexity is O(n) as well, bec
 
 #### Step 4. Iterative + memo (bottom-up)
 
-```go
+``` go
 func rob(nums []int) int {
 	n := len(nums)
 	if n == 0 {
@@ -121,7 +121,7 @@ func max(x, y int) int {
 #### Step 5. Iterative + 2 variables (bottom-up)
 We can notice that in the previous step we use only memo[i] and memo[i-1], so going just 2 steps back. We can hold them in 2 variables instead. This optimization is met in Fibonacci sequence creation and some other problems [to paste links].
 
-```go
+``` go
 func rob(nums []int) int {
 	if len(nums) == 0 {
 		return 0
@@ -158,49 +158,27 @@ func max(x, y int) int {
 
 [198. 打家劫舍](https://leetcode-cn.com/problems/house-robber/)
 
+
+
 ### 方法一：动态规划
 
-解题思路：
 
 
-状态定义：
-
-设动态规划列表 dp ，dp[i] 代表前 i 个房子在满足条件下的能偷窃到的最高金额。
-转移方程：
-
-设： 有 n 个房子，前 n 间能偷窃到的最高金额是 dp[n] ，前 n−1 间能偷窃到的最高金额是 dp[n−1] ，此时向这些房子后加一间房，此房间价值为 num ；
-
-加一间房间后： 由于不能抢相邻的房子，意味着抢第 n+1 间就不能抢第 n 间；那么前 n+1 间房能偷取到的最高金额 dp[n+1] 一定是以下两种情况的 较大值 ：
-
-不抢第 n+1 个房间，因此等于前 n 个房子的最高金额，即 dp[n+1] = dp[n] ；
-抢第 n+1 个房间，此时不能抢第 n 个房间；因此等于前 n−1 个房子的最高金额加上当前房间价值，即 dp[n+1]=dp[n−1]+num ；
-细心的我们发现： 难道在前 n 间的最高金额 dp[n] 情况下，第 n 间一定被偷了吗？假设没有被偷，那 n+1 间的最大值应该也可能是 dp[n+1] = dp[n] + num 吧？其实这种假设的情况可以被省略，这是因为：
-
-假设第 n 间没有被偷，那么此时 dp[n] = dp[n-1] ，此时 dp[n+1] = dp[n] + num = dp[n-1] + num ，即两种情况可以 合并为一种情况 考虑；
-假设第 n 间被偷，那么此时 dp[n+1] = dp[n] + num 不可取 ，因为偷了第 nn 间就不能偷第 n+1 间。
-最终的转移方程： dp[n+1] = max(dp[n],dp[n-1]+num)
-初始状态：
-
-前 0 间房子的最大偷窃价值为 0 ，即 dp[0] = 0。
-返回值：
-
-返回 dp 列表最后一个元素值，即所有房间的最大偷窃价值。
-简化空间复杂度：
-
-我们发现 dp[n] 只与 dp[n−1] 和 dp[n−2] 有关系，因此我们可以设两个变量 cur和 pre 交替记录，将空间复杂度降到 O(1) 。
-
-复杂度分析：
-- 时间复杂度 O(N) ： 遍历 nums 需要线性时间；
-- 空间复杂度 O(1) ： cur和 pre 使用常数大小的额外空间。
-
-
-```go
+``` go
 func rob(nums []int) int {
-	cur, pre := 0, 0
-	for _, num := range nums {
-		cur, pre = max(pre+num, cur), cur
+	if len(nums) == 0 {
+		return 0
 	}
-	return cur
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	dp := make([]int, len(nums))
+	dp[0] = nums[0]               // 只有一间房屋，则偷窃该房屋
+	dp[1] = max(nums[0], nums[1]) // 只有两间房屋，选择其中金额较高的房屋进行偷窃
+	for i := 2; i < len(nums); i++ {
+		dp[i] = max(dp[i-2]+nums[i], dp[i-1]) // dp[i] 前i间房屋能偷窃到的最高总金额 = max(抢第1间房子，不抢第1件房子)
+	}
+	return dp[len(dp)-1]
 }
 func max(x, y int) int {
 	if x > y {
@@ -210,11 +188,82 @@ func max(x, y int) int {
 }
 ```
 
-复杂度分析
+上述方法使用了数组存储结果。考虑到每间房屋的最高总金额只和该房屋的前两间房屋的最高总金额相关，因此可以使用滚动数组，在每个时刻只需要存储前两间房屋的最高总金额。
 
-- 时间复杂度：O(n)，其中 n 是数组长度。只需要对数组遍历一次。
 
-- 空间复杂度：O(1)。使用滚动数组，可以只存储前两间房屋的最高总金额，而不需要存储整个数组的结果，因此空间复杂度是 O(1)。
+``` go
+func rob(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	first := nums[0]                // 只有一间房屋，则偷窃该房屋
+	second := max(nums[0], nums[1]) // 只有两间房屋，选择其中金额较高的房屋进行偷窃
+	for i := 2; i < len(nums); i++ {
+		first, second = second, max(first+nums[i], second) // dp[i] 前i间房屋能偷窃到的最高总金额 = max(抢第1间房子，不抢第1件房子)
+	}
+	return second
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+
+``` go
+func rob(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	first := nums[0]                // 只有一间房屋，则偷窃该房屋
+	second := max(nums[0], nums[1]) // 只有两间房屋，选择其中金额较高的房屋进行偷窃
+	for i := 2; i < len(nums); i++ {
+		tmp := second
+		second = max(first+nums[i], second) // dp[i] 前i间房屋能偷窃到的最高总金额 = max(抢第1间房子，不抢第1件房子)
+		first = tmp
+	}
+	return second
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+
+``` go
+func rob(nums []int) int {
+	first, second := 0, 0
+	for i := 0; i < len(nums); i++ {
+		first, second = second, max(first+nums[i], second) 
+	}
+	return second
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+
+
+[官方题解](https://leetcode.cn/problems/house-robber/solution/da-jia-jie-she-by-leetcode-solution/)
+
+[参考视频](https://www.bilibili.com/video/BV1qf4y1i7Mx)
+
+
 
 [213. 打家劫舍 II](https://leetcode-cn.com/problems/house-robber-ii/)
 
@@ -233,7 +282,7 @@ func max(x, y int) int {
 
 
 
-```go
+``` go
 func rob(nums []int) int {
 	n := len(nums)
 	if n == 1 {

@@ -17,7 +17,7 @@
 
 
 
-```go
+``` go
 func fib(n int) int {
 	if n == 0 || n == 1 { //base case
 		return n
@@ -31,7 +31,7 @@ func fib(n int) int {
 	return curr
 }
 ```
-```go
+``` go
 func fib(n int) int {
 	if n < 2 {
 		return n 
@@ -52,7 +52,7 @@ func fib(n int) int {
 - 时间复杂度：O(n)。
 - 空间复杂度：O(1)。
 
-```go
+``` go
 func fib(n int) int {
 	a, b := 0, 1
 	for i := 1; i <= n; i++ {
@@ -64,7 +64,7 @@ func fib(n int) int {
 }
 ```
 
-```go
+``` go
 func fib(n int) int {
 	a, b := 0, 1
 	for i := 1; i <= n; i++ {
@@ -77,7 +77,7 @@ func fib(n int) int {
 
 [剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
 
-```go
+``` go
 func fib(n int) int {
     if n == 0 || n == 1 {
         return n 
@@ -92,7 +92,7 @@ func fib(n int) int {
 }
 ```
 
-```go
+``` go
 func fib(n int) int {
     a, b := 0, 1
     for i := 0; i < n; i++ {
@@ -106,7 +106,7 @@ func fib(n int) int {
 
 [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
 
-```go
+``` go
 func climbStairs(n int) int {
 	prev, curr := 1, 1
 	for i := 2; i <= n; i++ {
@@ -118,7 +118,7 @@ func climbStairs(n int) int {
 }
 ```
 
-```go
+``` go
 func climbStairs(n int) int {
 	a, b := 1, 1
 	for i := 0; i < n; i++ {
@@ -132,7 +132,7 @@ func climbStairs(n int) int {
 
 [剑指 Offer 10- II. 青蛙跳台阶问题](https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/)
 
-```go
+``` go
 func numWays(n int) int {
     prev, curr := 1, 1
     for i := 2; i <= n; i++ {
@@ -145,7 +145,7 @@ func numWays(n int) int {
 ```
 
 
-```go
+``` go
 func numWays(n int) int {
 	a, b := 1, 1
 	for i := 0; i < n; i++ {
@@ -172,7 +172,7 @@ func numWays(n int) int {
 
 ![截屏2021-04-22 11.34.30.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsd9a3yaxj317o0o0q7h.jpg)
 
-```go
+``` go
 func fib(n int) int {
 	if n == 0 || n == 1 {
 		return n
@@ -192,7 +192,7 @@ func fib(n int) int {
 ![截屏2021-04-23 20.07.36.png](http://ww1.sinaimg.cn/large/007daNw2ly1gptxon19akj319k0nw407.jpg)
 
 闭包写法：
-```go
+``` go
 func fib(n int) int {
 	memo := make([]int, n+1)//从0开始
 	var helper func(int) int
@@ -212,7 +212,7 @@ func fib(n int) int {
 }
 ```
 
-```go
+``` go
 func fib(n int) int {
 	memo := make([]int, n+1)
 	return helper(memo, n)
@@ -238,7 +238,7 @@ func helper(memo []int, n int) int {
 
 ![截屏2021-04-22 11.35.07.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsda7wdjwj30zu0hwmyn.jpg)
 
-```go
+``` go
 func fib(n int) int {
 	if n == 0 {
 		return 0
@@ -262,7 +262,7 @@ func fib(n int) int {
 
 动态规划空间优化：只存储前2项
 
-```go
+``` go
 func fib(n int) int {
 	if n == 0 || n == 1 { //base case
 		return n

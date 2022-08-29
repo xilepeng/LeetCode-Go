@@ -58,7 +58,7 @@
 
 [补充题4. 手撕快速排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	quick_sort(nums, 0, len(nums)-1)
 	return nums
@@ -92,7 +92,7 @@ func random_partition(A []int, start, end int) int {
 
 [补充题6. 手撕堆排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	heap_sort(nums)
 	return nums
@@ -131,7 +131,7 @@ func max_heapify(A []int, i, heap_size int) {
 
 [补充题1. 排序奇升偶降链表](https://mp.weixin.qq.com/s/377FfqvpY8NwMInhpoDgsw)
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -193,7 +193,7 @@ func merge(l1, l2 *ListNode) *ListNode {
 
 [补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	merge_sort(nums, 0, len(nums)-1)
 	return nums

@@ -31,7 +31,7 @@
 
 若当前指针所指元素之前的和小于0， 则丢弃当前元素之前的数列
 
-```go
+``` go
 func maxSubArray(nums []int) int {
 	if len(nums) == 0 {
 		return math.MinInt64
@@ -57,7 +57,7 @@ func max(x, y int) int {
 
 
 
-```go
+``` go
 func maxSubArray(nums []int) int {
 	max := nums[0]
 	for i := 1; i < len(nums); i++ {
@@ -72,7 +72,7 @@ func maxSubArray(nums []int) int {
 }
 ```
 
-```go
+``` go
 func maxSubArray(nums []int) int {
 	res, last := math.MinInt64, 0
 	for i := 0; i < len(nums); i++ {
@@ -90,7 +90,7 @@ func max(x, y int) int {
 }
 ```
 
-```go
+``` go
 func maxSubArray(nums []int) int {
 	for i := 1; i < len(nums); i++ {
 		if nums[i-1] > 0 {
@@ -112,7 +112,7 @@ func max(nums []int) int {
 
 [120. 三角形最小路径和](https://leetcode-cn.com/problems/triangle/)
 
-```go
+``` go
 func minimumTotal(triangle [][]int) int {
 	bottom := triangle[len(triangle)-1]
 	dp := make([]int, len(bottom))
@@ -152,19 +152,19 @@ triangle.length-1层高的「最优路径」推出 triangle.length 层高的「�
 
 [63. 不同路径 II](https://leetcode-cn.com/problems/unique-paths-ii/)
 
-```go
+``` go
 
 ```
 
 [91. 解码方法](https://leetcode-cn.com/problems/decode-ways/)
 
-```go
+``` go
 
 ```
 
 [198. 打家劫舍](https://leetcode-cn.com/problems/house-robber/)
 
-```go
+``` go
 
 ```
 

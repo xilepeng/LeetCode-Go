@@ -62,7 +62,7 @@
 
 ![](https://assets.leetcode-cn.com/solution-static/19/p3.png)
 
-```go
+``` go
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	dummy := &ListNode{0, head}
 	first, second := head, dummy
@@ -82,7 +82,7 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 - 空间复杂度：O(1)。
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -104,7 +104,7 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 }
 ```
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -131,7 +131,7 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 
 ## ✅ [8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 
 
-```go
+``` go
 func myAtoi(s string) int {
 	abs, sign, i, n := 0, 1, 0, len(s)
 	//丢弃无用的前导空格
@@ -179,7 +179,7 @@ func myAtoi(s string) int {
 
 ## ✅ [2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
 
-```go
+``` go
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	dummy := new(ListNode)
 	curr, carry := dummy, 0
@@ -211,7 +211,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 
 **方法一：递归**
 
-```go
+``` go
 func preorderTraversal(root *TreeNode) (res []int) {
 	var preorder func(*TreeNode)
 	preorder = func(node *TreeNode) {
@@ -226,7 +226,7 @@ func preorderTraversal(root *TreeNode) (res []int) {
 }
 ```
 
-```go
+``` go
 func preorderTraversal(root *TreeNode) (res []int) {
 	if root != nil {
 		res = append(res, root.Val)
@@ -243,7 +243,7 @@ func preorderTraversal(root *TreeNode) (res []int) {
 }
 ```
 
-```go
+``` go
 var res []int
 
 func preorderTraversal(root *TreeNode) []int {
@@ -260,7 +260,7 @@ func preorder(node *TreeNode) {
 }
 ```
 
-```go
+``` go
 func preorderTraversal(root *TreeNode) []int {
 	res := []int{}
 	preorder(root, &res)
@@ -283,7 +283,7 @@ func preorder(node *TreeNode, res *[]int) {
 **方法二：迭代**
 
 
-```go
+``` go
 func preorderTraversal(root *TreeNode) (res []int) {
 	stack, node := []*TreeNode{}, root
 	for node != nil || len(stack) > 0 {
@@ -300,7 +300,7 @@ func preorderTraversal(root *TreeNode) (res []int) {
 }
 ```
 
-```go
+``` go
 func preorderTraversal(root *TreeNode) (res []int) {
 	if root == nil {
 		return []int{}
@@ -358,7 +358,7 @@ func preorderTraversal(root *TreeNode) (res []int) {
 
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -412,7 +412,7 @@ func sortList(head *ListNode) *ListNode {
 
 **解释**
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -520,7 +520,7 @@ public:
 合并两个有序的链表，合并后的结果返回给父调用，一层层向上，最后得出大问题的答案。
 
 伪代码：
-```go
+``` go
 func sortList (head) {
 	对链表进行二分
 	l = sortList(左链) // 已排序的左链
@@ -543,7 +543,7 @@ func sortList (head) {
 ![4.png](http://ww1.sinaimg.cn/large/007daNw2ly1gph68ecpsoj31gc0iq43c.jpg)
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -584,7 +584,7 @@ func mergeList(l1, l2 *ListNode) *ListNode {
 }
 ```
 
-```go
+``` go
 func sortList(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil { // 递归的出口，不用排序 直接返回
 		return head
@@ -647,7 +647,7 @@ func mergeList(l1, l2 *ListNode) *ListNode {
 
 
 
-```go
+``` go
 func minDistance(word1 string, word2 string) int {
 	m, n := len(word1), len(word2)
 	dp := make([][]int, m+1)
@@ -711,7 +711,7 @@ func Min(args ...int) int {
 ## [105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -750,7 +750,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
 - 给出一个中间有空格分隔的字符串，要求把这个字符串按照单词的维度前后翻转。
 - 依照题意，先把字符串按照空格分隔成每个小单词，然后把单词前后翻转，最后再把每个单词中间添加空格。
 
-```go
+``` go
 func reverseWords(s string) string {
 	ss := strings.Fields(s)
 	reverse(&ss, 0, len(ss)-1)
@@ -765,7 +765,7 @@ func reverse(m *[]string, i, j int) {
 }
 ```
 
-```go
+``` go
 func reverseWords(s string) string {
 	ss := strings.Fields(s) //ss = ["the", "sky", "is", "blue"]
 	var reverse func([]string, int, int)
@@ -783,12 +783,12 @@ func reverseWords(s string) string {
 
 **func Fields**
 
-```go
+``` go
 func Fields(s string) []string
 ```
 返回将字符串按照空白（unicode.IsSpace确定，可以是一到多个连续的空白字符）分割的多个字符串。如果字符串全部是空白或者是空字符串的话，会返回空切片。
 
-```go
+``` go
 Example
 fmt.Printf("Fields are: %q", strings.Fields("  foo bar  baz   "))
 Output:
@@ -798,12 +798,12 @@ Fields are: ["foo" "bar" "baz"]
 
 **func Join**
 
-```go
+``` go
 func Join(a []string, sep string) string
 ```
 将一系列字符串连接为一个字符串，之间用sep来分隔。
 
-```go
+``` go
 Example
 s := []string{"foo", "bar", "baz"}
 fmt.Println(strings.Join(s, ", "))
@@ -820,7 +820,7 @@ foo, bar, baz
 
 ## [76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) 
 
-```go
+``` go
 func minWindow(s string, t string) string {
 	need, window := map[byte]int{}, map[byte]int{}
 	for i := range t {
@@ -862,7 +862,7 @@ func minWindow(s string, t string) string {
 2. Move end to find a valid window.
 3. When a valid window is found, move start to find a smaller window.
 
-```go
+``` go
 func minWindow(s string, t string) string {
 	need := make(map[byte]int)
 	for i := range t {
@@ -920,7 +920,7 @@ func minWindow(s string, t string) string {
 
 
 
-```go
+``` go
 func nextPermutation(nums []int) {
 	i := len(nums) - 2                   // 从右向左遍历，i从倒数第二开始是为了nums[i+1]要存在
 	for i >= 0 && nums[i] >= nums[i+1] { // 寻找第一个小于右邻居的数
@@ -984,7 +984,7 @@ func nextPermutation(nums []int) {
 ## ✅ [1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
 
 
-```go
+``` go
 func longestCommonSubsequence(text1 string, text2 string) int {
 	m, n := len(text1), len(text2)
 	dp := make([][]int, m+1) // 创建二维数组
@@ -1019,7 +1019,7 @@ func max(x, y int) int {
 
 ![](https://pic.leetcode-cn.com/1617411822-KhEKGw-image.png)
 
-```go
+``` go
 	m, n := len(text1), len(text2)
 	dp := make([][]int, m+1)
 	for i := range dp {
@@ -1058,7 +1058,7 @@ you should find the seventh number , int(7/2)=3, a[3]<b[3],
 so you don't need to consider a[0],a[1],a[2] because they can't be the seventh number. Then find the fourth number in the others numbers which don't include a[0]a[1]a[2]. just like this , decrease half of numbers every time .......
 
 
-```go
+``` go
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	if l := len(nums1) + len(nums2); l%2 == 0 {
 		return (findKth(nums1, nums2, l/2-1) + findKth(nums1, nums2, l/2)) / 2.0
@@ -1107,7 +1107,7 @@ func findKth(nums1, nums2 []int, k int) float64 {
 
 
 
-```go
+``` go
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	l1, l2 := len(nums1), len(nums2)
 	if l1 > l2 {
@@ -1171,7 +1171,7 @@ max(l,r)+1
 ![](https://assets.leetcode-cn.com/solution-static/104/10.png)
 
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -1196,7 +1196,7 @@ func max(x, y int) int {
 }
 ```
 
-```go
+``` go
 func maxDepth(root *TreeNode) int {
 	if root == nil {
 		return 0
@@ -1234,7 +1234,7 @@ func max(x, y int) int {
 
 ![](https://pic.leetcode-cn.com/1603933660-UNWQbT-image.png)
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -1279,7 +1279,7 @@ func sumNumbers(root *TreeNode) int {
 具体做法类似于二叉树的前序遍历，即对于当前遍历到的节点，首先计算左右子树的高度，如果左右子树的高度差是否不超过 11，再分别递归地遍历左右子节点，并判断左子树和右子树是否平衡。这是一个自顶向下的递归的过程。
 
 
-```go
+``` go
 func isBalanced(root *TreeNode) bool {
 	if root == nil {
 		return true
@@ -1323,7 +1323,7 @@ func max(x, y int) int {
 
 自底向上递归的做法类似于后序遍历，对于当前遍历到的节点，先递归地判断其左右子树是否平衡，再判断以当前节点为根的子树是否平衡。如果一棵子树是平衡的，则返回其高度（高度一定是非负整数），否则返回 −1。如果存在一棵子树不平衡，则整个二叉树一定不平衡。
 
-```go
+``` go
 func isBalanced(root *TreeNode) bool {
 	return depth(root) >= 0
 }
@@ -1360,7 +1360,7 @@ func max(x, y int) int {
 
 **方法一 暴力解法 O(nk)**
 
-```go
+``` go
 func maxSlidingWindow(nums []int, k int) []int {
 	res, n := make([]int, 0, k), len(nums)
 	if n == 0 {
@@ -1388,7 +1388,7 @@ Time Limit Exceeded
 - 时间复杂度是 O(n)
 - 空间复杂度是 O(K)
 
-```go
+``` go
 // 维护单调递减队列
 func maxSlidingWindow(nums []int, k int) []int {
 	q, res := []int{}, []int{}
@@ -1411,7 +1411,7 @@ func maxSlidingWindow(nums []int, k int) []int {
 
 ![](http://ww1.sinaimg.cn/large/007daNw2ly1gpmcfyuvh1j319g0mun0a.jpg)
 
-```go
+``` go
 func maxSlidingWindow(nums []int, k int) []int {
 	q, res := []int{}, []int{}
 	for i := 0; i < len(nums); i++ {
@@ -1484,7 +1484,7 @@ func maxSlidingWindow(nums []int, k int) []int {
 
 ![](https://pic.leetcode-cn.com/e3e3a6dac1ecb79da18740f7968a5eedaa80d5a0e0e45463c7096f663748e0fa-image.png)
 
-```go
+``` go
 func restoreIpAddresses(s string) []string {
 	res := []string{}
 	var dfs func([]string, int)
@@ -1556,7 +1556,7 @@ func restoreIpAddresses(s string) []string {
 我们可以采用深度优先搜索的方式，枚举每一条从根节点到叶子节点的路径。当我们遍历到叶子节点，且此时路径和恰为目标和时，我们就找到了一条满足条件的路径。
 
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -1610,7 +1610,7 @@ func pathSum(root *TreeNode, targetSum int) [][]int {
 
 如果数组中包含 x x∈[1,N]，那么恢复后，数组的第 x - 1 个元素为 x。
 
-```go
+``` go
 func firstMissingPositive(nums []int) int {
 	n := len(nums)
 	for i := 0; i < n; i++ {
@@ -1641,7 +1641,7 @@ func firstMissingPositive(nums []int) int {
 ![](https://assets.leetcode-cn.com/solution-static/41/41_fig1.png)
 
 
-```go
+``` go
 func firstMissingPositive(nums []int) int {
 	n := len(nums)
 	for i := 0; i < n; i++ { //将小于等于0的数变为 n+1
@@ -1678,7 +1678,7 @@ func abs(x int) int {
 
 
 
-```go
+``` go
 func firstMissingPositive(nums []int) int {
 	n := len(nums)
 	hash := make(map[int]int, n)
@@ -1706,7 +1706,7 @@ func firstMissingPositive(nums []int) int {
 
 ## [155. 最小栈](https://leetcode-cn.com/problems/min-stack/)
 
-```go
+``` go
 type MinStack struct {
 	stack, minStack []int
 }
@@ -1746,7 +1746,7 @@ func min(x, y int) int {
 }
 ```
 
-```go
+``` go
 // MinStack define
 type MinStack struct {
 	stack, min []int

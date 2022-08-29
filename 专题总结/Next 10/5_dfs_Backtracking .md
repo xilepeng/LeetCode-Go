@@ -26,7 +26,7 @@
 
 [17. 电话号码的字母组合](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/)
 
-```go 
+``` go 
 func letterCombinations(digits string) []string {
 	if len(digits) == 0 {
 		return []string{}

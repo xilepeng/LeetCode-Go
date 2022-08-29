@@ -7,7 +7,7 @@
 
 快速排序基于分而治之的方法，随机选择枢轴元素划分数组，左边小于枢轴、右边大于枢轴，递归处理左右两边
 
-```go
+``` go
 func quick_sort(A []int, start, end int) {
 	if start < end {
 		piv_pos := random_partition(A, start, end)
@@ -41,7 +41,7 @@ func random_partition(A []int, start, end int) int {
 
 在大根堆中、最大元素总在根上，堆排序使用堆的这个属性进行排序
 
-```go
+``` go
 func heap_sort(A []int) {
 	heap_size := len(A)
 	build_maxheap(A, heap_size)
@@ -77,7 +77,7 @@ func max_heapify(A []int, i, heap_size int) {
 
 归并排序是一种分而治之的算法，其思想是将一个列表分解为几个子列表，直到每个子列表由一个元素组成，然后将这些子列表合并为排序后的列表。
 
-```go
+``` go
 func merge_sort(A []int, start, end int) {
 	if start < end {
 		mid := start + (end-start)>>1 //分2部分定义当前数组
@@ -122,7 +122,7 @@ func merge(A []int, start, mid, end int) {
 
 通过在每次迭代时增加排序后的数组来迭代输入元素。它将当前元素与已排序数组中的最大值进行比较。如果当前元素更大，则它将元素留在其位置，然后移至下一个元素，否则它将在已排序数组中找到其正确位置，并将其移至该位置。这是通过将已排序数组中所有大于当前元素的元素移动到前面的一个位置来完成的
 
-```go
+``` go
 func insertion_sort(A []int, n int) {
 	for i := 0; i < n; i++ {
 		temp, j := A[i], i
@@ -144,7 +144,7 @@ func insertion_sort(A []int, n int) {
 
 反复比较成对的相邻元素，交换它们的位置如果他们在无序区。（最大元素冒泡到最后）
 
-```go
+``` go
 func bubble_sort(A []int, n int) {
 	for k := 0; k < n-1; k++ {  // (n-k-1) 是忽略比较的元素，这些元素已比较完成在简单的迭代中
 		for i := 0; i < n-k-1; i++ {
@@ -161,7 +161,7 @@ func bubble_sort(A []int, n int) {
 
 在未排序的数组中找到最小或最大元素，然后将其放在已排序的数组中的正确位置。
 
-```go
+``` go
 func selection_sort(A []int, n int) {
 	for i := 0; i < n-1; i++ {		 //在每次迭代中将数组的有效大小减少1
 		min := i                     //假设第一个元素是未排序数组的最小值
@@ -184,7 +184,7 @@ func selection_sort(A []int, n int) {
 
 
 
-```go
+``` go
 func quick_sort(A []int, start, end int) {
 	if start < end {
 		piv_pos := random_partition(A, start, end)
@@ -211,7 +211,7 @@ func random_partition(A []int, start, end int) int {
 }
 ```
 
-```go
+``` go
 func quick_sort(A []int, start, end int) {
 	if start < end {
 		piv_pos := random_partition(A, start, end)
@@ -239,7 +239,7 @@ func random_partition(A []int, start, end int) int {
 
 ### 2. Heap Sort
 
-```go
+``` go
 func heap_sort(A []int) {
 	heap_size := len(A)
 	build_maxheap(A, heap_size)
@@ -272,7 +272,7 @@ func heapify(A []int, i, heap_size int) {
 
 ### 3. Merge Sort
 
-```go
+``` go
 func merge_sort(A []int, start, end int) {
 	if start < end {
 		mid := start + (end-start)>>1
@@ -311,7 +311,7 @@ func merge(A []int, start, mid, end int) {
 ### 4. Insertion Sort
 
 
-```go
+``` go
 func insertion_sort(A []int, n int) {
 	for i := 0; i < n; i++ {
 		temp, j := A[i], i
@@ -326,7 +326,7 @@ func insertion_sort(A []int, n int) {
 
 ### 5. Bubble Sort
 
-```go
+``` go
 func bubble_sort(A []int, n int) {
 	for k := 0; k < n; k++ {
 		for i := 0; i < n-k-1; i++ {
@@ -342,7 +342,7 @@ func bubble_sort(A []int, n int) {
 ### 6. Selection Sort
 
 
-```go
+``` go
 func selection_sort(A []int, n int) {
 	for i := 0; i < n-1; i++ {
 		min := i
@@ -389,7 +389,7 @@ func selection_sort(A []int, n int) {
 
 
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	quick_sort(nums, 0, len(nums)-1)
 	return nums
@@ -440,7 +440,7 @@ func random_partition(A []int, start, end int) int {
 如果划分得到的 q 正好就是我们需要的下标，就直接返回 a[q]；
 否则，如果 q 比目标下标小，就递归右子区间，否则递归左子区间。
 
-```go
+``` go
 func findKthLargest(nums []int, k int) int {
 	rand.Seed(time.Now().Unix())
 	n := len(nums)
@@ -489,7 +489,7 @@ func random_partition(A []int, start, end int) int {
 
 建立一个大根堆，做 k - 1 次删除操作后堆顶元素就是我们要找的答案。
 
-```go
+``` go
 func findKthLargest(A []int, k int) int {
 	heap_size, n := len(A), len(A)
 	build_maxheap(A, heap_size)
@@ -535,7 +535,7 @@ func max_heapify(A []int, i, heap_size int) {
 
 堆排序的思想就是先将待排序的序列建成大根堆，使得每个父节点的元素大于等于它的子节点。此时整个序列最大值即为堆顶元素，我们将其与末尾元素交换，使末尾元素为最大值，然后再调整堆顶元素使得剩下的 n−1 个元素仍为大根堆，再重复执行以上操作我们即能得到一个有序的序列。
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	heap_sort(nums)
 	return nums
@@ -595,7 +595,7 @@ func max_heapify(A []int, i, heap_size int) {
 3. 归并
 
 
-```go
+``` go
 
 func sortArray(nums []int) []int {
 	merge_sort(nums, 0, len(nums)-1)
@@ -656,7 +656,7 @@ T(n)=2T(n/2)+O(n)
 
 
 [785. 快速排序](https://www.acwing.com/problem/content/description/787/)
-```go
+``` go
 package main 
 
 import "fmt"
@@ -719,7 +719,7 @@ func main() {
 
 1. 快速排序
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	quickSort(nums, 0, len(nums)-1)
 	return nums
@@ -744,7 +744,7 @@ func partition(a []int, l, r int) int {
 }
 ```
 
-```go
+``` go
 func sortArray(nums []int) []int {
     rand.Seed(time.Now().UnixNano())
 	quickSort(nums, 0, len(nums)-1)
@@ -778,7 +778,7 @@ func partition(a []int, l, r int) int {
 
 
 
-```go
+``` go
 func sortArray(nums []int) []int {
     quickSort(nums, 0, len(nums)-1)
     return nums
@@ -814,7 +814,7 @@ func quickSort (nums[]int, l, r int) {
 
 2. 堆排序
 
-```go
+``` go
 func heapSort(a []int) {
     heapSize := len(a) 
     buildMaxHeap(a, heapSize)
@@ -848,7 +848,7 @@ func maxHeapify(a []int, i, heapSize int) {
 
 3. 归并排序
 
-```go
+``` go
 func mergeSort(a []int, l, r int) {
 	if l >= r {
 		return
@@ -873,7 +873,7 @@ func mergeSort(a []int, l, r int) {
 
 4. 选择排序
 
-```go
+``` go
 func selectSort(a []int) {
 	for i := 0; i < len(a)-1; i++ {
 		minIdx := i
@@ -889,7 +889,7 @@ func selectSort(a []int) {
 
 5. 插入排序
 
-```go
+``` go
 func insertionSort(nums []int) {
 	for i := 1; i < len(nums); i++ {
 		tmp := nums[i]
@@ -937,13 +937,13 @@ func count_sort(nums []int) {
 
 8. 桶排序
 
-```go
+``` go
 
 ```
 
 9. 基数排序
 
-```go
+``` go
 
 ```
 
@@ -970,7 +970,7 @@ func count_sort(nums []int) {
 ------
 
 
-```go
+``` go
 func sortArray(nums []int) []int {
     heapSort(nums)
     return nums
@@ -1050,7 +1050,7 @@ func merge_sort(nums []int, l, r int) {
 }
 ```
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	n := len(nums)
 	temp := make([]int, n)
@@ -1199,7 +1199,7 @@ func count_sort(nums []int) {
 空间复杂度： O(log(n)), 递归使用栈空间的空间代价为O(logn)。
 
 
-```go
+``` go
 func sortArray(nums []int) []int {
     rand.Seed(time.Now().UnixNano())
     quickSort(nums, 0, len(nums)-1)
@@ -1237,7 +1237,7 @@ func partition(a []int, l, r int) int {
 
 
 
-```go
+``` go
 func heapSort(a []int) {
     heapSize := len(a) 
     buildMaxHeap(a, heapSize)
@@ -1282,7 +1282,7 @@ func maxHeapify(a []int, i, heapSize int) {
 2. 递归排序左右两边
 3. 归并
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	mergeSort(nums, 0, len(nums)-1)
 	return nums
@@ -1315,7 +1315,7 @@ func mergeSort(a []int, l, r int) {
 再从剩余元素中找到最小元素，存放到已排序序列末尾...
 
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	selectSort(nums)
 	return nums
@@ -1344,7 +1344,7 @@ Time Limit Exceeded
 选取数组第2个元素开始比较，如果左边第1个元素比它大，左边元素向右移动1位，索引减1，向前扫描...
 直到左边元素比他小，插入这个元素右边
 
-```go
+``` go
 func insertionSort(nums []int) {
 	for i := 1; i < len(nums); i++ {
 		tmp := nums[i]
@@ -1418,9 +1418,9 @@ void quickSort(int a[], int l, int r) {
 }
 ```
 
-go 模板一：
+ go 模板一：
 
-```go []
+``` go []
 func sortArray(nums []int) []int {
     quickSort(nums, 0, len(nums)-1)
     return nums
@@ -1453,9 +1453,9 @@ func quickSort (q[]int, l, r int) {
 }
 ```
 
-go 模板二：
+ go 模板二：
 
-```go []
+``` go []
 func sortArray(nums []int) []int {
     quickSort(nums, 0, len(nums)-1)
     return nums
@@ -1492,7 +1492,7 @@ n + n/2 + n/4 + ... = (1 + 1/2 + 1/4 + ...)n <= 2n
 
 ## 方法二
 
-```go
+``` go
 func sortArray(nums []int) []int {
     rand.Seed(time.Now().UnixNano())
 	quickSort(nums, 0, len(nums)-1)
@@ -1526,7 +1526,7 @@ func partition(a []int, l, r int) int {
 ## 方法三： 
 
 
-```go []
+``` go []
 func sortArray(nums []int) []int {
     quickSort(nums, 0, len(nums)-1)
     return nums
@@ -1550,7 +1550,7 @@ func quickSort(a []int, l, r int) {
 }
 ```
 
-```go []
+``` go []
 func sortArray(nums []int) []int {
     quickSort(nums, 0, len(nums)-1)
     return nums
@@ -1576,7 +1576,7 @@ func quickSort(nums []int, l, r int) {
 
 
 
-```go
+``` go
 func quick_sort(A []int, start, end int) {
 	if start >= end {
 		return
@@ -1606,7 +1606,7 @@ func quick_sort(A []int, start, end int) {
 ```
 
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	n := len(nums)
 	temp := make([]int, n)
@@ -1648,7 +1648,7 @@ func merge(A, temp []int, start, mid, end int) {
 
 
 
-```go
+``` go
 
 func sortArray(nums []int) []int {
 	n := len(nums)
@@ -1688,7 +1688,7 @@ func merge(A []int, start, mid, end int) {
 
 ### 方法二：归并排序
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	mergeSort(nums, 0, len(nums)-1)
 	return nums
@@ -1717,7 +1717,7 @@ func merge(a []int, l, mid, r int) {
 }
 ```
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	mergeSort(nums, 0, len(nums)-1)
 	return nums

@@ -61,7 +61,7 @@
 思路：在遍历链表时，将当前节点的 next 指针改为指向前一个节点。由于节点没有引用其前一个节点，因此必须事先存储其前一个节点。在更改引用之前，还需要存储后一个节点。最后返回新的头引用。
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -95,7 +95,7 @@ func reverseList(head *ListNode) *ListNode {
 ![](images/206-2-1.png)
 ![](images/206-2-2.png)
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -134,7 +134,7 @@ func reverseList(head *ListNode) *ListNode {
 
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -205,7 +205,7 @@ LRU 缓存机制可以通过哈希表辅以双向链表实现，我们用一个�
 
 
 
-```go
+``` go
 type LRUCache struct {
 	cache          map[int]*DLinkedNode
 	head, tail     *DLinkedNode
@@ -312,7 +312,7 @@ func (this *LRUCache) removeTail() *DLinkedNode {
 
 ![](images/3.png)
 
-```go
+``` go
 func lengthOfLongestSubstring(s string) (res int) {
 	m := map[byte]int{} // 无重复字符的最长下标
 	start := 0          // 无重复字符的起点下标
@@ -334,7 +334,7 @@ func max(x, y int) int {
 ```
 
 
-```go
+``` go
 func lengthOfLongestSubstring(s string) int {
 	m := map[rune]int{}
 	res, start := 0, 0
@@ -380,7 +380,7 @@ S(n) = O(|Σ|) 其中 Σ 表示字符集（即字符串中可以出现的字符�
 如果划分得到的 q 正好就是我们需要的下标，就直接返回 a[q]；
 否则，如果 q 比目标下标小，就递归右子区间，否则递归左子区间。
 
-```go
+``` go
 func findKthLargest(nums []int, k int) int {
 	rand.Seed(time.Now().UnixNano())
 	return quick_select(nums, 0, len(nums)-1, len(nums)-k)
@@ -433,7 +433,7 @@ func partiton(A []int, start, end int) int{
 
 建立一个大根堆，做 k - 1 次删除操作后堆顶元素就是我们要找的答案。
 
-```go
+``` go
 func findKthLargest(A []int, k int) int {
 	heap_size, n := len(A), len(A)
 	build_maxheap(A, heap_size)
@@ -478,7 +478,7 @@ func max_heapify(A []int, i, heap_size int) {
 ![](images/25-1.png)
 ![](images/25-2.png)
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -550,7 +550,7 @@ func reverse(head *ListNode) *ListNode {
 - 时间复杂度： O(nlog(n)) 
 - 空间复杂度： O(log(n)), 递归使用栈空间的空间代价为O(logn)。
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	rand.Seed(time.Now().UnixNano())
 	quick_sort(nums, 0, len(nums)-1)
@@ -620,7 +620,7 @@ func random_partition(A []int, start, end int) int {
 
 
 
-```go
+``` go
 func threeSum(nums []int) [][]int {
 	sort.Ints(nums)
 	res := [][]int{}
@@ -676,7 +676,7 @@ func threeSum(nums []int) [][]int {
 
 ![](images/53-1.png)
 
-```go
+``` go
 func maxSubArray(nums []int) int {
 	curSum, maxSum := nums[0], nums[0]
 	for i := 1; i < len(nums); i++ {
@@ -699,7 +699,7 @@ func max(x, y int) int {
 
 ![](images/53-2.png)
 
-```go
+``` go
 func maxSubArray(nums []int) int {
 	max := nums[0]
 	for i := 1; i < len(nums); i++ {
@@ -735,7 +735,7 @@ func maxSubArray(nums []int) int {
 
 最容易想到的方法是枚举数组中的每一个数 x，寻找数组中是否存在 target - x。
 
-```go
+``` go
 func twoSum(nums []int, target int) []int {
 	for i, x := range nums {
 		for j := i + 1; j < len(nums); j++ {
@@ -765,7 +765,7 @@ func twoSum(nums []int, target int) []int {
 
 
 
-```go
+``` go
 func twoSum(nums []int, target int) []int {
 	hashTable := map[int]int{}
 	for i, x := range nums {
@@ -813,7 +813,7 @@ Any Detial?
 
 *方法一：递归*
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -852,7 +852,7 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -932,7 +932,7 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 ## ✅ [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -962,7 +962,7 @@ func hasCycle(head *ListNode) bool {
 
 **方法一：DFS递归**
 
-```go
+``` go
 var res [][]int
 
 func levelOrder(root *TreeNode) [][]int {
@@ -990,7 +990,7 @@ func dfs(root *TreeNode, level int) {
 
 **方法二：BFS(queue)迭代**
 
-```go
+``` go
 func levelOrder(root *TreeNode) [][]int {
 	res := [][]int{}
 	if root == nil {
@@ -1031,7 +1031,7 @@ func levelOrder(root *TreeNode) [][]int {
 ## ✅ [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	min_price, max_profit := math.MaxInt64, 0
 	for _, price := range prices {
@@ -1046,7 +1046,7 @@ func maxProfit(prices []int) int {
 ```
 
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	min_price, max_profit := 1<<63-1, 0
 	for _,price := range prices {
@@ -1082,7 +1082,7 @@ func max(x, y int) int {
 
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -1125,7 +1125,7 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
 
 **方法一：逆向双指针**
 
-```go
+``` go
 func merge(nums1 []int, m int, nums2 []int, n int) {
 	i, j := m-1, n-1
 	for tail := m + n - 1; tail >= 0; tail-- {
@@ -1142,7 +1142,7 @@ func merge(nums1 []int, m int, nums2 []int, n int) {
 
 
 
-```go
+``` go
 func merge(nums1 []int, m int, nums2 []int, n int) {
 	for p := m + n; m > 0 && n > 0; p-- {
 		if nums1[m-1] <= nums2[n-1] {
@@ -1180,7 +1180,7 @@ func merge(nums1 []int, m int, nums2 []int, n int) {
 
 **方法一：深度优先遍历**
 
-```go
+``` go
 var res [][]int
 
 func zigzagLevelOrder(root *TreeNode) [][]int {
@@ -1206,7 +1206,7 @@ func dfs(root *TreeNode, level int) {
 
 **闭包**
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -1239,7 +1239,7 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 
 **方法二：广度优先遍历**
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -1285,7 +1285,7 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 
 ## ✅ [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
 
-```go
+``` go
 func isValid(s string) bool {
 	stack := []rune{}
 	for _, ch := range s {
@@ -1315,7 +1315,7 @@ func isValid(s string) bool {
 ## ✅ [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
 
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -1377,7 +1377,7 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 时间复杂度分析：一共两重循环，所以时间复杂度是 O(n^2)
 
 
-```go
+``` go
 func longestPalindrome(s string) string {
 	res, n := "", len(s)
 	for i := 0; i < n; i++ { // n 为奇数
@@ -1406,7 +1406,7 @@ func longestPalindrome(s string) string {
 
 ![](images/5.png)
 
-```go
+``` go
 func longestPalindrome(s string) string {
 	start, end := 0, 0
 	for i := range s {
@@ -1451,7 +1451,7 @@ func expend(s string, l, r int) (int, int) {
 - 从低到高逐位相加，如果当前位和超过 10，则向高位进一位。
 
 
-```go
+``` go
 func addStrings(num1 string, num2 string) string {
 	res, carry := "", 0
 	for i, j := len(num1)-1, len(num2)-1; i >= 0 || j >= 0 || carry != 0; i, j = i-1, j-1 {

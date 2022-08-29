@@ -93,7 +93,7 @@
 2. 如果出现空节点，标记end = true
 3. 如果后面还有节点，返回false
 
-```go
+``` go
 func isCompleteTree(root *TreeNode) bool {
 	q, end := []*TreeNode{root}, false
 	for len(q) > 0 {
@@ -126,7 +126,7 @@ func isCompleteTree(root *TreeNode) bool {
 
 #### iterate amount
 
-```go
+``` go
 func coinChange(coins []int, amount int) int {
 	dp := make([]int, amount+1)
 	dp[0] = 0 //base case
@@ -161,7 +161,7 @@ func min(x, y int) int {
 
 #### iterate coins
 
-```go
+``` go
 func change(amount int, coins []int) int {
 	dp := make([]int, amount+1)
 	dp[0] = 1
@@ -177,7 +177,7 @@ func change(amount int, coins []int) int {
 
 ## [剑指 Offer 36. 二叉搜索树与双向链表](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/)
 
-```go
+``` go
 /*
 type TreeNode struct {
 	Val   int
@@ -215,7 +215,7 @@ func dfs(curr *TreeNode) {
 
 ## [179. 最大数](https://leetcode-cn.com/problems/largest-number/)
 
-```go
+``` go
 func largestNumber(nums []int) string {
 	if len(nums) == 0 {
 		return ""
@@ -263,7 +263,7 @@ func partition(A []string, start, end int) int {
 
 
 
-```go
+``` go
 func largestNumber(nums []int) string {
 	if len(nums) == 0 {
 		return ""
@@ -313,19 +313,19 @@ func partition(A []string, start, end int) int {
 
 
 ### func Atoi
-```go
+``` go
 func Atoi(s string) (i int, err error)
 ```
 Atoi是ParseInt(s, 10, 0)的简写。
 
 
 ### func Itoa
-```go
+``` go
 func Itoa(i int) string
 ```
 Itoa是FormatInt(i, 10) 的简写。
 
-```go
+``` go
 package main
 
 import (
@@ -355,7 +355,7 @@ func main() {
 
 ## [剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
 
-```go
+``` go
 func fib(n int) int {
     if n < 2 { 
         return n 
@@ -376,7 +376,7 @@ func fib(n int) int {
 
 ![截屏2021-04-22 11.34.30.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsd9a3yaxj317o0o0q7h.jpg)
 
-```go
+``` go
 func fib(n int) int {
 	if n == 0 || n == 1 {
 		return n
@@ -396,7 +396,7 @@ func fib(n int) int {
 ![截屏2021-04-23 20.07.36.png](http://ww1.sinaimg.cn/large/007daNw2ly1gptxon19akj319k0nw407.jpg)
 
 闭包写法：
-```go
+``` go
 func fib(n int) int {
 	memo := make([]int, n+1)//从0开始
 	var helper func(int) int
@@ -416,7 +416,7 @@ func fib(n int) int {
 }
 ```
 
-```go
+``` go
 func fib(n int) int {
 	memo := make([]int, n+1)
 	return helper(memo, n)
@@ -442,7 +442,7 @@ func helper(memo []int, n int) int {
 
 ![截屏2021-04-22 11.35.07.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsda7wdjwj30zu0hwmyn.jpg)
 
-```go
+``` go
 func fib(n int) int {
 	if n == 0 {
 		return 0
@@ -466,7 +466,7 @@ func fib(n int) int {
 
 动态规划空间优化：只存储前2项
 
-```go
+``` go
 func fib(n int) int {
 	if n == 0 || n == 1 { //base case
 		return n
@@ -492,7 +492,7 @@ func fib(n int) int {
 
 ## [剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/)
 
-```go
+``` go
 func exchange(nums []int) []int {
     for i, j := 0, 0; i < len(nums); i++ {
         if nums[i] & 1 == 1 { //nums[i]奇数      nums[j]偶数
@@ -504,7 +504,7 @@ func exchange(nums []int) []int {
 }
 ```
 
-```go
+``` go
 func exchange(nums []int) []int {
     i, j := 0, len(nums)-1
     for i < j {
@@ -525,7 +525,7 @@ func exchange(nums []int) []int {
 
 ## [剑指 Offer 54. 二叉搜索树的第k大节点](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -552,7 +552,7 @@ func kthLargest(root *TreeNode, k int) (res int) {
 }
 ```
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -588,7 +588,7 @@ func kthLargest(root *TreeNode, k int) int {
 ### 方法一：二分查找
 
 
-```go
+``` go
 func findPeakElement(nums []int) int {
 	low, high := 0, len(nums)-1
 	for low < high {
@@ -608,7 +608,7 @@ func findPeakElement(nums []int) int {
 
 ## [876. 链表的中间结点](https://leetcode-cn.com/problems/middle-of-the-linked-list/) 补充
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -632,7 +632,7 @@ func middleNode(head *ListNode) *ListNode {
 
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -653,7 +653,7 @@ func swapPairs(head *ListNode) *ListNode {
 
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -686,7 +686,7 @@ func swapPairs(head *ListNode) *ListNode {
 
 ![](https://assets.leetcode-cn.com/solution-static/14/14_fig2.png)
 
-```go
+``` go
 func longestCommonPrefix(strs []string) string {
 	if len(strs) == 0 {
 		return ""
@@ -708,7 +708,7 @@ func longestCommonPrefix(strs []string) string {
 
 
 
-```go
+``` go
 func validIPAddress(IP string) string {
 	if validIPv4Address(IP) {
 		return "IPv4"
@@ -758,7 +758,7 @@ func validIPv6Address(IP string) bool {
 }
 ```
 
-```go
+``` go
 func validIPAddress(IP string) string {
 	if validIPv4Address(IP) {
 		return "IPv4"
@@ -808,7 +808,7 @@ func validIPv6Address(IP string) bool {
 
 ## [227. 基本计算器 II](https://leetcode-cn.com/problems/basic-calculator-ii/)
 
-```go
+``` go
 func calculate(s string) int {
 	stack, sign, num, res := []int{}, byte('+'), 0, 0
 	for i := 0; i < len(s); i++ {
@@ -841,7 +841,7 @@ func calculate(s string) int {
 - 减号：将数字的相反数压入栈；
 - 乘除号：计算数字与栈顶元素，并将栈顶元素替换为计算结果。
 
-```go
+``` go
 func calculate(s string) int {
 	stack, preSign, num, res := []int{}, '+', 0, 0
 	for i, ch := range s {
@@ -882,7 +882,7 @@ func calculate(s string) int {
 
 
 
-```go
+``` go
 func multiply(num1 string, num2 string) string {
 	if num1 == "0" || num2 == "0" {
 		return "0"
@@ -925,7 +925,7 @@ func multiply(num1 string, num2 string) string {
 堆排序的思想就是先将待排序的序列建成大根堆，使得每个父节点的元素大于等于它的子节点。此时整个序列最大值即为堆顶元素，我们将其与末尾元素交换，使末尾元素为最大值，然后再调整堆顶元素使得剩下的 n−1 个元素仍为大根堆，再重复执行以上操作我们即能得到一个有序的序列。
 
 
-```go
+``` go
 func sortArray(nums []int) []int {
 	heapSort(nums)
 	return nums
@@ -970,7 +970,7 @@ func maxHeapify(a []int, i, heapSize int) { // O(nlogn)
 
 ## [59. 螺旋矩阵 II](https://leetcode-cn.com/problems/spiral-matrix-ii/)
 
-```go
+``` go
 func generateMatrix(n int) [][]int {
 	matrix, num := make([][]int, n), 1
 	for i := range matrix {
@@ -1028,7 +1028,7 @@ func generateMatrix(n int) [][]int {
 
 ## [498. 对角线遍历](https://leetcode-cn.com/problems/diagonal-traverse/) next
 
-```go
+``` go
 func findDiagonalOrder(mat [][]int) []int {
 	res := []int{}
 	if len(mat) == 0 {
@@ -1062,7 +1062,7 @@ func findDiagonalOrder(mat [][]int) []int {
 
 ## [7. 整数反转](https://leetcode-cn.com/problems/reverse-integer/)
 
-```go
+``` go
 func reverse(x int) int {
 	res := 0
 	for x != 0 {
@@ -1078,7 +1078,7 @@ func reverse(x int) int {
 
 ## [32. 最长有效括号](https://leetcode-cn.com/problems/longest-valid-parentheses/)
 
-```go
+``` go
 func longestValidParentheses(s string) int {
 	left, right, maxLength, n := 0, 0, 0, len(s)
 	for i := 0; i < n; i++ {
@@ -1116,7 +1116,7 @@ func max(x, y int) int {
 }
 ```
 
-```go
+``` go
 func longestValidParentheses(s string) int {
 	stack, res := []int{-1}, 0
 	for i := 0; i < len(s); i++ {
@@ -1144,7 +1144,7 @@ func max(x, y int) int {
 ## [128. 最长连续序列](https://leetcode-cn.com/problems/longest-consecutive-sequence/)
 
 
-```go
+``` go
 func longestConsecutive(nums []int) int {
 	m, longgest := map[int]bool{}, 0
 	for _, num := range nums {
@@ -1172,7 +1172,7 @@ func longestConsecutive(nums []int) int {
 ## [283. 移动零](https://leetcode-cn.com/problems/move-zeroes/)
 
 
-```go
+``` go
 func moveZeroes(nums []int) {
 	i, j, n := 0, 0, len(nums)
 	for j < n {

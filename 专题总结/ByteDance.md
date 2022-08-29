@@ -5,7 +5,7 @@
 ![截屏2021-04-21 11.31.37.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpr7jmcf05j315g0pen05.jpg)
 
 
-```go
+``` go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -48,7 +48,7 @@ func reverse(head *ListNode) *ListNode {
 
 [114. 二叉树展开为链表](https://leetcode-cn.com/problems/flatten-binary-tree-to-linked-list/)
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {

@@ -85,7 +85,7 @@
 
 ## [224. 基本计算器](https://leetcode-cn.com/problems/basic-calculator/)
 
-```go
+``` go
 func calculate(s string) int {
 	stack, res, num, sign := []int{}, 0, 0, 1
 	for i := 0; i < len(s); i++ {
@@ -122,7 +122,7 @@ func calculate(s string) int {
 
 ## [662. 二叉树最大宽度](https://leetcode-cn.com/problems/maximum-width-of-binary-tree/)
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -157,7 +157,7 @@ func max(x, y int) int {
 
 ## [349. 两个数组的交集](https://leetcode-cn.com/problems/intersection-of-two-arrays/)
 
-```go
+``` go
 func intersection(nums1 []int, nums2 []int) []int {
 	m := map[int]bool{}
 	res := []int{}
@@ -179,7 +179,7 @@ func intersection(nums1 []int, nums2 []int) []int {
 **方法一：迭代**
 
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -218,7 +218,7 @@ func kthSmallest(root *TreeNode, k int) int {
 
 **方法二：递归**
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -248,7 +248,7 @@ func kthSmallest(root *TreeNode, k int) int {
 ```
 
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -281,7 +281,7 @@ func kthSmallest(root *TreeNode, k int) int {
 
 ## [297. 二叉树的序列化与反序列化](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -343,7 +343,7 @@ func (this *Codec) buildTree(nodes *[]string) *TreeNode {
 
 ## [221. 最大正方形](https://leetcode-cn.com/problems/maximal-square/)
 
-```go
+``` go
 func maximalSquare(matrix [][]byte) int {
 	if len(matrix) == 0 || len(matrix[0]) == 0 {
 		return 0
@@ -375,7 +375,7 @@ func min(x, y int) int {
 
 ## [79. 单词搜索](https://leetcode-cn.com/problems/word-search/)
 
-```go
+``` go
 func exist(board [][]byte, word string) bool {
 	var dfs func(int, int, int) bool
 
@@ -406,7 +406,7 @@ func exist(board [][]byte, word string) bool {
 }
 ```
 
-```go
+``` go
 func exist(board [][]byte, word string) bool {
 	for y := 0; y < len(board); y++ {
 		for x := 0; x < len(board[y]); x++ {
@@ -440,7 +440,7 @@ func dfs(board [][]byte, y int, x int, word string, i int) bool {
 
 
 
-```go
+``` go
 func isPalindrome(x int) bool {
 	if x < 0 || (x%10 == 0 && x != 0) { //第1位不是0，最后一位是0
 		return false
@@ -462,7 +462,7 @@ func isPalindrome(x int) bool {
 
 
 
-```go
+``` go
 func isPalindrome(x int) bool {
 	if x < 0 {
 		return false
@@ -483,7 +483,7 @@ func isPalindrome(x int) bool {
 
 ## [剑指 Offer 10- II. 青蛙跳台阶问题](https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/)
 
-```go
+``` go
 func numWays(n int) int {
     prev, curr := 1, 1
     for i := 2; i <= n; i++ {
@@ -496,7 +496,7 @@ func numWays(n int) int {
 ```
 
 
-```go
+``` go
 func numWays(n int) int {
 	a, b := 1, 1
 	for i := 0; i < n; i++ {
@@ -508,7 +508,7 @@ func numWays(n int) int {
 
 ## [剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
 
-```go
+``` go
 func fib(n int) int {
     if n == 0 || n == 1 {
         return n 
@@ -523,7 +523,7 @@ func fib(n int) int {
 }
 ```
 
-```go
+``` go
 func fib(n int) int {
     a, b := 0, 1
     for i := 0; i < n; i++ {
@@ -538,7 +538,7 @@ func fib(n int) int {
 
 ## [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
 
-```go
+``` go
 func climbStairs(n int) int {
 	prev, curr := 1, 1
 	for i := 2; i <= n; i++ {
@@ -550,7 +550,7 @@ func climbStairs(n int) int {
 }
 ```
 
-```go
+``` go
 func climbStairs(n int) int {
 	a, b := 1, 1
 	for i := 0; i < n; i++ {
@@ -564,7 +564,7 @@ func climbStairs(n int) int {
 ## [剑指 Offer 62. 圆圈中最后剩下的数字](https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
 
 
-```go
+``` go
 func lastRemaining(n int, m int) int {
     f := 0
     for i := 2; i <= n; i++ {
@@ -593,7 +593,7 @@ func lastRemaining(n int, m int) int {
 问题是在递归出栈时解决的。
 
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -621,7 +621,7 @@ func invertTree(root *TreeNode) *TreeNode {
 把交换的操作，放在递归子树之前。
 问题是在递归压栈前被解决的。
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -652,7 +652,7 @@ func invertTree(root *TreeNode) *TreeNode {
 解决问题的代码放在节点出列时。
 
 
-```go
+``` go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -702,7 +702,7 @@ func invertTree(root *TreeNode) *TreeNode {
 3. 重复1和2，直到图为空或没有入度为0的点。
 
 
-```go
+``` go
 /*
  * @lc app=leetcode.cn id=210 lang=golang
  *
@@ -760,7 +760,7 @@ func findOrder(n int, prerequisites [][]int) []int {
 
 ### 方法一: 广度优先搜索
 
-```go
+``` go
 func canFinish(numCourses int, prerequisites [][]int) bool {
 	T := make([][]int, numCourses)       // 存储有向图
 	in_degree := make([]int, numCourses) // 存储每个节点的入度
@@ -795,7 +795,7 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
 
 ### 方法二：深度优先搜索
 
-```go
+``` go
 func canFinish(numCourses int, prerequisites [][]int) bool {
 	T := make([][]int, numCourses)       // 存储有向图
 	in_degree := make([]int, numCourses) // 存储每个节点的入度
@@ -838,7 +838,7 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
 
 ## [210. 课程表 II](https://leetcode-cn.com/problems/course-schedule-ii/)
 
-```go
+``` go
 func findOrder(numCourses int, prerequisites [][]int) []int {
 	graph := make([][]int, numCourses)
 	in_degree := make([]int, numCourses)
@@ -875,7 +875,7 @@ func findOrder(numCourses int, prerequisites [][]int) []int {
 }
 ```
 
-```go
+``` go
 func findOrder(numCourses int, prerequisites [][]int) []int {
 	graph := make([][]int, numCourses)
 	in_degree := make([]int, numCourses)
@@ -925,7 +925,7 @@ func findOrder(numCourses int, prerequisites [][]int) []int {
 
 ## [739. 每日温度](https://leetcode-cn.com/problems/daily-temperatures/)
 
-```go
+``` go
 func dailyTemperatures(T []int) []int {
 	n := len(T)
 	res := make([]int, n)
@@ -945,7 +945,7 @@ func dailyTemperatures(T []int) []int {
 
 ## [26. 删除有序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
 
-```go
+``` go
 func removeDuplicates(A []int) int {
 	if len(A) == 0 {
 		return 0
@@ -961,7 +961,7 @@ func removeDuplicates(A []int) int {
 }
 ```
 
-```go
+``` go
 func removeDuplicates(A []int) int {
 	count, n := 0, len(A)
 	for i := 1; i < n; i++ {
@@ -979,7 +979,7 @@ func removeDuplicates(A []int) int {
 
 ### 方法一：快慢指针
 
-```go
+``` go
 func findDuplicate(nums []int) int {
 	slow := nums[0]
 	fast := nums[nums[0]]
@@ -1005,7 +1005,7 @@ func findDuplicate(nums []int) int {
 
 ### 方法二：二分查找
 
-```go
+``` go
 func findDuplicate(nums []int) int {
 	res, n := -1, len(nums)
 	low, high := 0, n-1
@@ -1028,7 +1028,7 @@ func findDuplicate(nums []int) int {
 }
 ```
 
-```go
+``` go
 func findDuplicate(nums []int) int {
 	low, high := 0, len(nums)-1
 	for low < high {
@@ -1057,7 +1057,7 @@ func findDuplicate(nums []int) int {
 
 ### 方法三：排序
 
-```go
+``` go
 func findDuplicate(nums []int) int {
 	sort.Ints(nums)
 	for i := 0; i < len(nums); i++ {
@@ -1078,7 +1078,7 @@ func findDuplicate(nums []int) int {
 
 ### 方法四：哈希
 
-```go
+``` go
 func findDuplicate(nums []int) int {
 	hash := make(map[int]bool, len(nums))
 	for _, num := range nums {
@@ -1100,7 +1100,7 @@ func findDuplicate(nums []int) int {
 
 ## [11. 盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/)
 
-```go
+``` go
 func maxArea(height []int) int {
 	max_area := 0
 	l, r := 0, len(height)-1
@@ -1132,7 +1132,7 @@ func min(x, y int) int {
 
 ![截屏2021-05-30 15.45.51.png](http://ww1.sinaimg.cn/large/007daNw2ly1gr0i1voj83j31fm0oggqk.jpg)
 
-```go
+``` go
 func subarraySum(nums []int, k int) int {
 	pre, count := 0, 0
 	m := map[int]int{0: 1}
@@ -1147,7 +1147,7 @@ func subarraySum(nums []int, k int) int {
 }
 ```
 
-```go
+``` go
 func subarraySum(nums []int, k int) int {
 	preSum, count := 0, 0
 	hash := map[int]int{0: 1}
@@ -1163,7 +1163,7 @@ func subarraySum(nums []int, k int) int {
 ```
 
 
-```go
+``` go
 func subarraySum(nums []int, k int) int {
 	count := 0
 	for i := 0; i < len(nums); i++ {
@@ -1182,7 +1182,7 @@ func subarraySum(nums []int, k int) int {
 ## [443. 压缩字符串](https://leetcode-cn.com/problems/string-compression/)
 
 
-```go
+``` go
 
 ```
 
@@ -1191,7 +1191,7 @@ func subarraySum(nums []int, k int) int {
 
 
 
-```go
+``` go
 func myPow(x float64, n int) float64 {
 	if n >= 0 {
 		return quickMul(x, n)
@@ -1211,7 +1211,7 @@ func quickMul(x float64, n int) float64 {
 }
 ```
 
-```go
+``` go
 func myPow(x float64, n int) float64 {
 	if x == 0.0 {
 		return 0.0
@@ -1238,7 +1238,7 @@ func myPow(x float64, n int) float64 {
 - 空间复杂度：O(1)。
 
 
-```go
+``` go
 func myPow(x float64, n int) float64 {
 	if n >= 0 {
 		return quickMul(x, n)

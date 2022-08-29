@@ -69,7 +69,7 @@ It is straightforward to write the O(n) time and O(n) space solution, based on t
 
 
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	T_i10, T_i11 := 0, math.MinInt64
 	for _, price := range prices {
@@ -100,7 +100,7 @@ T[i][k][1] = max(T[i-1][k][1], T[i-1][k-1][0] - prices[i]) = max(T[i-1][k][1], T
 
 where we have taken advantage of the fact that T[i-1][k-1][0] = T[i-1][k][0] for the second equation. The O(n) time and O(1) space solution is as follows:
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	T_ik0, T_ik1 := 0, math.MinInt64
 	for _, price := range prices {
@@ -118,7 +118,7 @@ func max(x, y int) int {
 }
 ```
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	T_ik0, T_ik1 := 0, math.MinInt64
 	for _, price := range prices {
@@ -153,7 +153,7 @@ T[i][1][1] = max(T[i-1][1][1], -prices[i])
 
 where again we have taken advantage of the base caseT[i][0][0] = 0 for the last equation. The O(n) time and O(1) space solution is as follows:
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	T_i10, T_i11 := 0, math.MinInt64
 	T_i20, T_i21 := 0, math.MinInt64
@@ -188,7 +188,7 @@ A profitable transaction takes at least two days (buy at one day and sell at the
 The following is the O(kn) time and O(k) space solution. Without the optimization, the code will be met with TLE for large k values.
 
 
-```go
+``` go
 func maxProfit(k int, prices []int) int {
 	if k >= len(prices)>>1 {
 		T_ik0, T_ik1 := 0, math.MinInt64
@@ -239,7 +239,7 @@ T[i][k][1] = max(T[i-1][k][1], T[i-2][k][0] - prices[i])
 And here is the O(n) time and O(1) space solution:
 
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	T_ik0_pre, T_ik0, T_ik1 := 0, 0, math.MinInt64
 	for _, price := range prices {
@@ -283,7 +283,7 @@ Note we have two options as for when to subtract the fee. This is because (as I 
 Solution I -- pay the fee when buying the stock:
 
 
-```go
+``` go
 func maxProfit(prices []int, fee int) int {
 	T_ik0, T_ik1 := 0, math.MinInt64
 	for _, price := range prices {
@@ -301,7 +301,7 @@ func max(x, y int) int {
 }
 ```
 
-```go
+``` go
 func maxProfit(prices []int, fee int) int {
 	T_ik0, T_ik1 := 0, math.MinInt64
 	for _, price := range prices {
@@ -333,7 +333,7 @@ func max(x, y int) int {
 [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
 
-```go
+``` go
 // 最低价格买入，最高价格卖出
 func maxProfit(prices []int) int {
 	min_price, max_profit := math.MaxInt64, 0
@@ -349,7 +349,7 @@ func maxProfit(prices []int) int {
 ```
 
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	buy := math.MinInt64 // 买入之后的余额
 	sell := 0            // 卖出之后的余额
@@ -366,7 +366,7 @@ func maxProfit(prices []int) int {
 }
 ```
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	buy := math.MinInt64 // 买入之后的余额
 	sell := 0            // 卖出之后的余额
@@ -388,7 +388,7 @@ func max(x, y int) int {
 [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	buy, sell := math.MinInt64, 0
 	for _, p := range prices {
@@ -414,7 +414,7 @@ func max(x, y int) int {
 第三题只允许最多买两次，那么就有四个状态，第一次买，第一次卖，第二次买，第二次卖。
 还是那句话，无论什么状态，我们要保证手里的钱最多。
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	b1, b2, s1, s2 := math.MinInt64, math.MinInt64, 0, 0
 	for _, p := range prices {
@@ -466,7 +466,7 @@ class Solution:
 
 这道题只是第二题的变形，卖完要隔一天才能买，那么就多记录前一天卖的状态即可。
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	buy, sell_pre, sell := math.MinInt64, 0, 0
 	for _, p := range prices {
@@ -488,7 +488,7 @@ func max(x, y int) int {
 [714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
 
 每次买卖需要手续费，那么我们买的时候减掉手续费就行了。
-```go
+``` go
 func maxProfit(prices []int, fee int) int {
 	buy, sell := math.MinInt64, 0
 	for _, p := range prices {
@@ -525,7 +525,7 @@ func max(x, y int) int {
 
 利用「状态」进行穷举。我们具体到每一天，看看总共有几种可能的「状态」，再找出每个「状态」对应的「选择」。我们要穷举所有「状态」，穷举的目的是根据对应的「选择」更新状态。听起来抽象，你只要记住「状态」和「选择」两个词就行，下面实操一下就很容易明白了。
 
-```go
+``` go
 for 状态1 in 状态1的所有取值：
     for 状态2 in 状态2的所有取值：
         for ...
@@ -536,7 +536,7 @@ for 状态1 in 状态1的所有取值：
 
 很复杂对吧，不要怕，我们现在的目的只是穷举，你有再多的状态，老夫要做的就是一把梭全部列举出来。这个问题的「状态」有三个，第一个是天数，第二个是允许交易的最大次数，第三个是当前的持有状态（即之前说的 rest 的状态，我们不妨用 1 表示持有，0 表示没有持有）。然后我们用一个三维数组就可以装下这几种状态的全部组合：
 
-```go
+``` go
 dp[i][k][0 or 1]
 0 <= i <= n-1, 1 <= k <= K
 n 为天数，大 K 为最多交易数
@@ -561,7 +561,7 @@ for 0 <= i < n:
 
 通过这个图可以很清楚地看到，每种状态（0 和 1）是如何转移而来的。根据这个图，我们来写一下状态转移方程：
 
-```go
+``` go
 dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
               max(   选择 rest  ,             选择 sell      )
 
@@ -581,7 +581,7 @@ dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
 
 现在，我们已经完成了动态规划中最困难的一步：状态转移方程。如果之前的内容你都可以理解，那么你已经可以秒杀所有问题了，只要套这个框架就行了。不过还差最后一点点，就是定义 base case，即最简单的情况。
 
-```go
+``` go
 dp[-1][k][0] = 0
 解释：因为 i 是从 0 开始的，所以 i = -1 意味着还没有开始，这时候的利润当然是 0 。
 
@@ -597,7 +597,7 @@ dp[i][0][1] = -infinity
 
 把上面的状态转移方程总结一下：
 
-```go
+``` go
 base case：
 dp[-1][k][0] = dp[i][0][0] = 0			//没开始或不允许交易时最大利润为 0
 dp[-1][k][1] = dp[i][0][1] = -infinity	//没开始或不允许交易时不可能持有股票
@@ -619,7 +619,7 @@ dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i]) //前一天持有�
 
 直接套状态转移方程，根据 base case，可以做一些化简：
 
-```go
+``` go
 dp[i][1][0] = max(dp[i-1][1][0], dp[i-1][1][1] + prices[i])
 dp[i][1][1] = max(dp[i-1][1][1], dp[i-1][0][0] - prices[i]) 
             = max(dp[i-1][1][1], -prices[i])
@@ -633,7 +633,7 @@ dp[i][1] = max(dp[i-1][1], -prices[i])
 
 直接写出代码：
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	n := len(prices)
 	dp := make([][]int, n+1)
@@ -653,7 +653,7 @@ func max(x, y int) int {
 
 显然 i = 0 时 dp[i-1] 是不合法的。这是因为我们没有对 i 的 base case 进行处理。可以这样处理：
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	n := len(prices)
 	dp := make([][]int, n)
@@ -690,7 +690,7 @@ func max(x, y int) int {
 第一题就解决了，但是这样处理 base case 很麻烦，而且注意一下状态转移方程，新状态只和相邻的一个状态有关，其实不用整个 dp 数组，只需要一个变量储存相邻的那个状态就足够了，这样可以把空间复杂度降到 O(1):
 
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	n := len(prices)
 	dp_i_0, dp_i_1 := 0, math.MinInt64	//-1<<63
@@ -710,7 +710,7 @@ func max(x, y int) int {
 }
 ```
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	dp_i_0, dp_i_1, n := 0, math.MinInt64, len(prices)
 	for i := 0; i < n; i++ {
@@ -733,7 +733,7 @@ func max(x, y int) int {
 Time Limit Exceeded
 201/210 cases passed (N/A)
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	res, n := 0, len(prices)
 	for i := 0; i < n; i++ {
@@ -755,7 +755,7 @@ func max(x, y int) int {
 
 ### 方法二：一次遍历
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	minprice, maxprofit := math.MaxInt64, 0
 	for _, price := range prices {
@@ -779,7 +779,7 @@ func min(x, y int) int {
 ```
 
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	minprice, maxprofit := math.MaxInt64, 0 // 1<<63-1
 	for _, price := range prices {
@@ -796,7 +796,7 @@ func maxProfit(prices []int) int {
 
 ### dp
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	minprice, n := prices[0], len(prices)
 	dp := make([]int, n)
@@ -827,7 +827,7 @@ func min(x, y int) int {
 
 ### 优化空间
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	minprice, maxprofit := prices[0], 0
 	for _, price := range prices {
@@ -857,7 +857,7 @@ func min(x, y int) int {
 
 如果 k 为正无穷，那么就可以认为 k 和 k - 1 是一样的。可以这样改写框架：
 
-```go
+``` go
 dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
 dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
             = max(dp[i-1][k][1], dp[i-1][k][0] - prices[i])
@@ -869,7 +869,7 @@ dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i])
 
 直接翻译成代码：
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	dp_i_0, dp_i_1, n := 0, math.MinInt64, len(prices)
 	for i := 0; i < n; i++ {
@@ -893,13 +893,13 @@ func max(x, y int) int {
 ### 第三题，k = +infinity with cooldown
 每次 sell 之后要等一天才能继续交易。只要把这个特点融入上一题的状态转移方程即可：
 
-```go
+``` go
 dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
 dp[i][1] = max(dp[i-1][1], dp[i-2][0] - prices[i])
 解释：第 i 天选择 buy 的时候，要从 i-2 的状态转移，而不是 i-1 。
 ```
 
-```go
+``` go
 func maxProfit(prices []int) int {
 	dp_i_0, dp_i_1, n := 0, math.MinInt64, len(prices)
 	dp_pre_0 := 0 //代表 dp[i-2][0]
@@ -926,7 +926,7 @@ func max(x, y int) int {
 
 每次交易要支付手续费，只要把手续费从利润中减去即可。改写方程：
 
-```go
+``` go
 dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
 dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i] - fee)
 解释：相当于买入股票的价格升高了。
@@ -935,7 +935,7 @@ dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i] - fee)
 
 直接翻译成代码：
 
-```go
+``` go
 func maxProfit(prices []int, fee int) int {
 	dp_i_0, dp_i_1, n := 0, math.MinInt64, len(prices)
 	for i := 0; i < n; i++ {
@@ -964,7 +964,7 @@ func max(x, y int) int {
 k = 2 和前面题目的情况稍微不同，因为上面的情况都和 k 的关系不太大。要么 k 是正无穷，状态转移和 k 没关系了；要么 k = 1，跟 k = 0 这个 base case 挨得近，最后也没有存在感。
 这道题 k = 2 和后面要讲的 k 是任意正整数的情况中，对 k 的处理就凸显出来了。我们直接写代码，边写边分析原因。
 
-```go
+``` go
 原始的动态转移方程，没有可化简的地方
 dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
 dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])

@@ -451,10 +451,10 @@ func build_maxheap(A []int, heap_size int) {
 }
 func max_heapify(A []int, i, heap_size int) {
 	lson, rson, largest := i<<1+1, i<<1+2, i
-	for lson < heap_size && A[largest] < A[lson] {
+	if lson < heap_size && A[largest] < A[lson] {
 		largest = lson
 	}
-	for rson < heap_size && A[largest] < A[rson] {
+	if rson < heap_size && A[largest] < A[rson] {
 		largest = rson
 	}
 	if i != largest {

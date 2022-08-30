@@ -46,18 +46,18 @@ func heap_sort(A []int) {
 	heap_size := len(A)
 	build_maxheap(A, heap_size)
 	for i := heap_size - 1; i >= 0; i-- {
-		A[0], A[i] = A[i], A[0]      // 交换堆顶 A[0] 与堆底 A[i] 元素，最大值 A[0] 放置在数组末尾
-		heap_size--                  // 剩余待排序元素整理成堆
-		max_heapify(A, 0, heap_size) // 堆顶 A[0] 向下调整
+		A[0], A[i] = A[i], A[0]      // 交换堆顶元素 A[0] 与堆底元素 A[i]，最大值 A[0] 放置在数组末尾
+		heap_size--                  // 删除堆顶元素 A[0]
+		max_heapify(A, 0, heap_size) // 堆顶元素 A[0] 向下调整
 	}
 }
 func build_maxheap(A []int, heap_size int) { // 建堆 O(n)
-	for i := heap_size >> 1; i >= 0; i-- {   // heap_size / 2 后面都是叶子节点，不需要向下调整
+	for i := heap_size / 2; i >= 0; i-- {   // heap_size>>1 后面都是叶子节点，不需要向下调整
 		max_heapify(A, i, heap_size)
 	}
 }
-func max_heapify(A []int, i, heap_size int) {     // 大根堆调整 O(nlogn)
-	lson, rson, largest := i<<1+1, i<<1+2, i
+func max_heapify(A []int, i, heap_size int) {     // 调整大根堆 O(nlogn)
+	lson, rson, largest := i*2+1, i*2+2, i	  // i<<1+1, i<<1+2
 	if lson < heap_size && A[largest] < A[lson] { // 左儿子存在并大于根
 		largest = lson
 	}

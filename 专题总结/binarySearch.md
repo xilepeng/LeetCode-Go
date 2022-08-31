@@ -15,11 +15,44 @@
 3. [69. x 的平方根](#69-x-的平方根)
 	1. [方法一：二分查找](#方法一二分查找-1)
 	2. [方法二：牛顿迭代](#方法二牛顿迭代)
+4. [二分模板](#二分模板)
+5. [模板一](#模板一)
+6. [模板二](#模板二)
 
 ------
 
 
+**Go 二分查找高级模版**
 
+``` go
+
+func binarySearchLeft(nums []int, target int) int {
+	low, high := 0, len(nums)-1
+	for low < high {
+		pivot := low + (high-low)>>1
+		if nums[pivot] > target {
+			high = pivot // 答案在 pivot 左侧
+		} else {
+			low = pivot + 1
+		}
+	}
+	return nums[low] // low == high
+}
+
+func binarySearchRight(nums []int, target int) int {
+	low, high := 0, len(nums)-1
+	for low < high {
+		pivot := low + (high-low+1)>>1
+		if nums[pivot] <= target {
+			low = pivot // 答案在 pivot 右侧
+		} else {
+			high = pivot - 1
+		}
+	}
+	return nums[low] // low == high
+}
+
+```
 
 
 
@@ -220,6 +253,22 @@ func searchRange(nums []int, target int) []int {
 
 ## [69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
 
+
+``` go
+func mySqrt(x int) int {
+	low, high := 0, x
+	for low < high {
+		pivot := low + (high-low+1)>>1
+		if pivot <= x/pivot {
+			low = pivot // 答案在 pivot 右侧
+		} else {
+			high = pivot - 1
+		}
+	}
+	return low
+}
+```
+
 ### 方法一：二分查找
 
 ``` go
@@ -258,3 +307,98 @@ func mySqrt(x int) int {
 - 时间复杂度：O(logx)，此方法是二次收敛的，相较于二分查找更快。
 - 空间复杂度：O(1)。
 
+
+
+
+
+## 二分模板
+
+算法思路：假设目标值在闭区间[l, r]中，每次将区间长度缩小一半，当l = r 时，就找到了目标值。
+
+![屏幕快照 2019-07-15 上午10.11.49.png](https://cdn.acwing.com/media/article/image/2019/07/15/2569_3b273314a6-屏幕快照-2019-07-15-上午10.11.49.png) 
+## 模板一
+
+mid = l + r >> 1， （下取整）
+if mid是绿色,分界点target在mid左侧，可能包括mid, [l,r]->[l,mid],  r = mid
+else mid是红色，分界点target在mid右侧，不包括mid , [l,r]->[mid+1,r], l = mid + 1
+
+当我们将区间[l, r]划分成[l, mid], [mid + 1， r]时，其更新操作是 r = mid 或者 l = mid + 1。
+
+C++代码模板：
+
+``` go
+    int bsearch_1(int l, int r)
+    {
+        while(l < r)
+        {
+            int mid = l + r >> 1;
+            if(check(mid)) r = mid;
+            else l = mid + 1;
+        }
+        return l;
+    }
+```
+     
+![屏幕快照 2019-07-15 上午10.11.56.png](https://cdn.acwing.com/media/article/image/2019/07/15/2569_52c8c0c8a6-屏幕快照-2019-07-15-上午10.11.56.png)  
+
+## 模板二
+
+mid = l + r +1 >> 1，（上取整）
+if mid 是红色，分界点target在mid 右侧，可能包括mid, [l,r]->[mid,r], l = mid 
+else mid 是绿色， 分界点target在mid 左侧， 不包括mid, [l,r]->[l,mid - 1] r = mid - 1
+
+    注意：
+    如果模板二用mid = l + r >> 1，（下取整）
+    当l = r - 1， mid = l + r >>1 == 2l + 1 >>1  ==  l
+    if mid 是红色，[l,r]->[mid,r]  ->[l,r]，死循环。
+    
+当我们将区间[l, r]划分成[l, mid - 1] 和[mid, r]时，更新操作是 r = mid - 1或者 l = mid,此时为了防止死循环，计算mid 时要加1。
+
+C++代码模板：
+``` go
+    int bsearch_2(int l, int r)
+    {
+        while(l < r)
+        {
+            int mid = l + r + 1 >> 1;
+            if(check(mid)) l = mid;
+            else r = mid - 1;
+        }
+        return l;
+    }
+```
+
+
+
+``` go
+// 整数二分算法模板
+
+bool check(int x) {/* ... */} // 检查x是否满足某种性质
+
+
+// 区间[l, r]被划分成[l, mid]和[mid + 1, r]时使用：
+int bsearch_1(int l, int r)
+{
+    while (l < r)
+    {
+        int mid = l + r >> 1;
+        if (check(mid)) r = mid;    // check()判断mid是否满足性质
+        else l = mid + 1;
+    }
+    return l;
+}
+
+
+// 区间[l, r]被划分成[l, mid - 1]和[mid, r]时使用：
+int bsearch_2(int l, int r)
+{
+    while (l < r)
+    {
+        int mid = l + r + 1 >> 1;
+        if (check(mid)) l = mid;
+        else r = mid - 1;
+    }
+    return l;
+}
+
+```

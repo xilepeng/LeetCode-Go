@@ -4,35 +4,29 @@
 1. [补充题5. 手撕归并排序 912. 排序数组](#补充题5-手撕归并排序-912-排序数组)
 2. [460. LFU 缓存](#460-lfu-缓存)
 3. [剑指 Offer 09. 用两个栈实现队列](#剑指-offer-09-用两个栈实现队列)
-	1. [买卖股票的最佳时机](#买卖股票的最佳时机)
-4. [121. 买卖股票的最佳时机](#121-买卖股票的最佳时机)
-5. [122. 买卖股票的最佳时机 II](#122-买卖股票的最佳时机-ii)
-6. [123. 买卖股票的最佳时机 III](#123-买卖股票的最佳时机-iii)
-7. [188. 买卖股票的最佳时机 IV](#188-买卖股票的最佳时机-iv)
-8. [309. 最佳买卖股票时机含冷冻期](#309-最佳买卖股票时机含冷冻期)
-9. [714. 买卖股票的最佳时机含手续费](#714-买卖股票的最佳时机含手续费)
-10. [补充题1. 排序奇升偶降链表](#补充题1-排序奇升偶降链表)
-11. [145. 二叉树的后序遍历](#145-二叉树的后序遍历)
-12. [198. 打家劫舍](#198-打家劫舍)
+4. [122. 买卖股票的最佳时机 II](#122-买卖股票的最佳时机-ii)
+5. [补充题1. 排序奇升偶降链表](#补充题1-排序奇升偶降链表)
+6. [145. 二叉树的后序遍历](#145-二叉树的后序遍历)
+7. [198. 打家劫舍](#198-打家劫舍)
 	1. [方法一：动态规划](#方法一动态规划)
-13. [剑指 Offer 51. 数组中的逆序对](#剑指-offer-51-数组中的逆序对)
-14. [138. 复制带随机指针的链表](#138-复制带随机指针的链表)
-15. [695. 岛屿的最大面积](#695-岛屿的最大面积)
-16. [394. 字符串解码](#394-字符串解码)
-17. [209. 长度最小的子数组](#209-长度最小的子数组)
+8. [剑指 Offer 51. 数组中的逆序对](#剑指-offer-51-数组中的逆序对)
+9. [138. 复制带随机指针的链表](#138-复制带随机指针的链表)
+10. [695. 岛屿的最大面积](#695-岛屿的最大面积)
+11. [394. 字符串解码](#394-字符串解码)
+12. [209. 长度最小的子数组](#209-长度最小的子数组)
 	1. [方法一：滑动窗口](#方法一滑动窗口)
-18. [322. 零钱兑换 补充](#322-零钱兑换-补充)
+13. [322. 零钱兑换 补充](#322-零钱兑换-补充)
 		1. [iterate amount](#iterate-amount)
-19. [518. 零钱兑换 II](#518-零钱兑换-ii)
+14. [518. 零钱兑换 II](#518-零钱兑换-ii)
 		1. [iterate coins](#iterate-coins)
-20. [剑指 Offer 40. 最小的k个数](#剑指-offer-40-最小的k个数)
+15. [剑指 Offer 40. 最小的k个数](#剑指-offer-40-最小的k个数)
 	1. [方法一：快速选择](#方法一快速选择)
 	2. [小根堆](#小根堆)
-21. [328. 奇偶链表](#328-奇偶链表)
-22. [125. 验证回文串](#125-验证回文串)
-23. [189. 旋转数组](#189-旋转数组)
-24. [384. 打乱数组](#384-打乱数组)
-25. [225. 用队列实现栈](#225-用队列实现栈)
+16. [328. 奇偶链表](#328-奇偶链表)
+17. [125. 验证回文串](#125-验证回文串)
+18. [189. 旋转数组](#189-旋转数组)
+19. [384. 打乱数组](#384-打乱数组)
+20. [225. 用队列实现栈](#225-用队列实现栈)
 
 
 <!-- [补充题5. 手撕归并排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
@@ -285,127 +279,34 @@ func (this *CQueue) DeleteHead() int {
 ```
 
 
-
-
-###  买卖股票的最佳时机
-
-**我们要跳出固有的思维模式，并不是要考虑买还是卖，而是要最大化手里持有的钱。
-买股票手里的钱减少，卖股票手里的钱增加，无论什么时刻，我们要保证手里的钱最多。
-并且我们这一次买还是卖只跟上一次我们卖还是买的状态有关。**
-
-## [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
-
-``` go
-func maxProfit(prices []int) int {
-	buy, sell := math.MinInt64, 0
-	for _, p := range prices {
-		buy = max(buy, 0-p)
-		sell = max(sell, buy+p)
-	}
-	return sell
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
 ## [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
 
+- 这一题是第 121 题的加强版。要求输出最大收益，这一题不止买卖一次，可以买卖多次，买卖不能在同一天内操作。
+- 最大收益来源，必然是每次跌了就买入，涨到顶峰的时候就抛出。只要有涨峰就开始计算赚的钱，连续涨可以用两两相减累加来计算，两两相减累加，相当于涨到波峰的最大值减去谷底的值。这一点看通以后，题目非常简单。
+
+
+
 ``` go
+
 func maxProfit(prices []int) int {
-	buy, sell := math.MinInt64, 0
-	for _, p := range prices {
-		buy = max(buy, sell-p)
-		sell = max(sell, buy+p)
-	}
-	return sell
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
-这两个问题唯一的不同点在于我们是买一次还是买无穷多次，而代码就只有 0-p 和 sell-p 的区别。
-因为如果买无穷多次，就需要上一次卖完的状态。如果只买一次，那么上一个状态一定是0。
-
-## [123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)
-
-
-第三题只允许最多买两次，那么就有四个状态，第一次买，第一次卖，第二次买，第二次卖。
-还是那句话，无论什么状态，我们要保证手里的钱最多。
-
-``` go
-func maxProfit(prices []int) int {
-	b1, b2, s1, s2 := math.MinInt64, math.MinInt64, 0, 0
-	for _, p := range prices {
-		b1 = max(b1, 0-p)
-		s1 = max(s1, b1+p)
-		b2 = max(b2, s1-p)
-		s2 = max(s2, b2+p)
-	}
-	return s2
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
-## [188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
-
-``` go
-func maxProfit(k int, prices []int) int {
-	if k >= len(prices)>>1 {
-		T_ik0, T_ik1 := 0, math.MinInt64
-		for _, price := range prices {
-			T_ik0_old := T_ik0
-			T_ik0 = max(T_ik0, T_ik1+price)
-			T_ik1 = max(T_ik1, T_ik0_old-price)
-		}
-		return T_ik0
-	}
-	T_ik0, T_ik1 := make([]int, k+1), make([]int, k+1)
-	for i := range T_ik0 {
-		T_ik0[i] = 0
-		T_ik1[i] = math.MinInt64
-	}
-	for _, price := range prices {
-		for j := k; j > 0; j-- {
-			T_ik0[j] = max(T_ik0[j], T_ik1[j]+price)
-			T_ik1[j] = max(T_ik1[j], T_ik0[j-1]-price)
+	profit := 0
+	for i := 1; i < len(prices); i++ {
+		if prices[i-1] < prices[i] {
+			profit += prices[i] - prices[i-1]
 		}
 	}
-	return T_ik0[k]
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
+	return profit
 }
 ```
-
-## [309. 最佳买卖股票时机含冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
-
-这道题只是第二题的变形，卖完要隔一天才能买，那么就多记录前一天卖的状态即可。
 
 ``` go
 func maxProfit(prices []int) int {
-	buy, sell_pre, sell := math.MinInt64, 0, 0
-	for _, p := range prices {
-		buy = max(buy, sell_pre-p)
-		sell_pre, sell = sell, max(sell, buy+p)
+	profit := 0
+	for i := 1; i < len(prices); i++ {
+		profit += max(0, prices[i]-prices[i-1])
 	}
-	return sell
+	return profit
 }
 func max(x, y int) int {
 	if x > y {
@@ -414,30 +315,6 @@ func max(x, y int) int {
 	return y
 }
 ```
-
-
-
-## [714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
-
-每次买卖需要手续费，那么我们买的时候减掉手续费就行了。
-``` go
-func maxProfit(prices []int, fee int) int {
-	buy, sell := math.MinInt64, 0
-	for _, p := range prices {
-		buy = max(buy, sell-p-fee)
-		sell = max(sell, buy+p)
-	}
-	return sell
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-```
-
-
 
 
 

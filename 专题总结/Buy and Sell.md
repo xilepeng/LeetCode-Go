@@ -1,4 +1,133 @@
 
+1. [✅ 121. 买卖股票的最佳时机](#-121-买卖股票的最佳时机)
+2. [122. 买卖股票的最佳时机 II](#122-买卖股票的最佳时机-ii)
+
+## ✅ [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+
+``` go
+// 最低价格买入，最高价格卖出
+func maxProfit(prices []int) int {
+	min_price, max_profit := math.MaxInt64, 0
+	for _, price := range prices {
+		if price < min_price {
+			min_price = price // 最低价格
+		} 
+		if max_profit < price-min_price {
+			max_profit = price - min_price // 最高利润
+		}
+	}
+	return max_profit
+}
+```
+
+
+
+``` go
+func maxProfit(prices []int) int {
+	min_price, max_profit := math.MaxInt64, 0
+	for _, price := range prices { // 忘记 _, 导致取到index，而非value 
+		max_profit = max(max_profit, price-min_price) // 最低价格
+		min_price = min(min_price, price)             // 最高利润
+	}
+	return max_profit
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+```
+
+
+
+
+``` go
+func maxProfit(prices []int) int {
+	buy := math.MinInt64 // 买入之后的余额
+	sell := 0            // 卖出之后的余额
+	for _, p := range prices {
+		buy = max(buy, -p) // 无论买/卖，保证手里的钱最多
+		sell = max(sell, buy+p)
+	}
+	return sell
+}
+
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+
+
+[参考](https://www.bilibili.com/video/BV1hQ4y1R7pL)
+
+
+
+
+## [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
+
+- 这一题是第 121 题的加强版。要求输出最大收益，这一题不止买卖一次，可以买卖多次，买卖不能在同一天内操作。
+- 最大收益来源，必然是每次跌了就买入，涨到顶峰的时候就抛出。只要有涨峰就开始计算赚的钱，连续涨可以用两两相减累加来计算，两两相减累加，相当于涨到波峰的最大值减去谷底的值。这一点看通以后，题目非常简单。
+
+
+
+``` go
+
+func maxProfit(prices []int) int {
+	profit := 0
+	for i := 1; i < len(prices); i++ {
+		if prices[i-1] < prices[i] {
+			profit += prices[i] - prices[i-1]
+		}
+	}
+	return profit
+}
+```
+
+``` go
+func maxProfit(prices []int) int {
+	profit := 0
+	for i := 1; i < len(prices); i++ {
+		profit += max(0, prices[i]-prices[i-1])
+	}
+	return profit
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+
+
 
 [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
@@ -12,10 +141,12 @@
 
 [714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
 
-# 思路1：
+**思路1**：
+
+
 
 ------
-## I -- General cases
+- I -- General cases
 
 The idea begins with the following question: Given an array representing the price of stocks on each day, what determines the maximum profit we can obtain?
 
@@ -45,7 +176,7 @@ To find the maximum profit at the end of the last day, we can simply loop throug
 
 ------
 
-## II -- Applications to specific cases
+- II -- Applications to specific cases
 
 The aforementioned six stock problems are classified by the value of k, which is the maximum number of allowable transactions (the last two also have additional requirements such as "cooldown" or "transaction fee"). I will apply the general solution to each of them one by one.
 
@@ -56,7 +187,7 @@ The aforementioned six stock problems are classified by the value of k, which is
 
 [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
-### Case I: k = 1
+- Case I: k = 1
 
 For this case, we really have two unknown variables on each day: T[i][1][0] and T[i][1][1], and the recurrence relations say:
 
@@ -91,7 +222,7 @@ Now let's try to gain some insight of the solution above. If we examine the part
 
 [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
-### Case II: k = +Infinity
+- Case II: k = +Infinity
 
 If k is positive infinity, then there isn't really any difference between k and k - 1 (wonder why? see my comment below), which implies T[i-1][k-1][0] = T[i-1][k][0] and T[i-1][k-1][1] = T[i-1][k][1]. Therefore, we still have two unknown variables on each day: T[i][k][0] and T[i][k][1] with k = +Infinity, and the recurrence relations say:
 
@@ -142,7 +273,7 @@ This solution suggests a greedy strategy of gaining maximum profit: as long as p
 
 [123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)
 
-### Case III: k = 2
+- Case III: k = 2
 
 Similar to the case where k = 1, except now we have four variables instead of two on each day: T[i][1][0], T[i][1][1], T[i][2][0], T[i][2][1], and the recurrence relations are:
 
@@ -179,7 +310,7 @@ which is essentially the same as the one given [here](https://leetcode.com/probl
 
 [188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
 
-### Case IV: k is arbitrary
+- Case IV: k is arbitrary
 
 This is the most general case so on each day we need to update all the maximum profits with different k values corresponding to 0 or 1 stocks in hand at the end of the day. However, there is a minor optimization we can do if k exceeds some critical value, beyond which the maximum profit will no long depend on the number of allowable transactions but instead will be bound by the number of available stocks (length of the prices array). Let's figure out what this critical value will be.
 
@@ -224,7 +355,7 @@ func max(x, y int) int {
 
 [309. 最佳买卖股票时机含冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
 
-### Case V: k = +Infinity but with cooldown
+- Case V: k = +Infinity but with cooldown
 
 This case resembles Case II very much due to the fact that they have the same k value, except now the recurrence relations have to be modified slightly to account for the "cooldown" requirement. The original recurrence relations for Case II are given by
 
@@ -261,7 +392,7 @@ func max(x, y int) int {
 
 [714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
 
-### Case VI: k = +Infinity but with transaction fee
+- Case VI: k = +Infinity but with transaction fee
 
 Again this case resembles Case II very much as they have the same k value, except now the recurrence relations need to be modified slightly to account for the "transaction fee" requirement. The original recurrence relations for Case II are given by
 
@@ -324,7 +455,7 @@ func max(x, y int) int {
 
 ------
 
-# 思路2：买卖股票的最佳时机
+**思路2：买卖股票的最佳时机**
 
 **我们要跳出固有的思维模式，并不是要考虑买还是卖，而是要最大化手里持有的钱。
 买股票手里的钱减少，卖股票手里的钱增加，无论什么时刻，我们要保证手里的钱最多。
@@ -517,11 +648,11 @@ func max(x, y int) int {
 
 
 
-# 思路3：
+**思路3**：
 
 [188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
 
-### 一、穷举框架
+- 一、穷举框架
 
 利用「状态」进行穷举。我们具体到每一天，看看总共有几种可能的「状态」，再找出每个「状态」对应的「选择」。我们要穷举所有「状态」，穷举的目的是根据对应的「选择」更新状态。听起来抽象，你只要记住「状态」和「选择」两个词就行，下面实操一下就很容易明白了。
 
@@ -553,7 +684,7 @@ for 0 <= i < n:
 我们想求的最终答案是 dp[n - 1][K][0]，即最后一天，最多允许 K 次交易，最多获得多少利润。读者可能问为什么不是 dp[n - 1][K][1]？因为 [1] 代表手上还持有股票，[0] 表示手上的股票已经卖出去了，很显然后者得到的利润一定大于前者。
 记住如何解释「状态」，一旦你觉得哪里不好理解，把它翻译成自然语言就容易理解了。
 
-### 二、状态转移框架
+- 二、状态转移框架
 
 现在，我们完成了「状态」的穷举，我们开始思考每种「状态」有哪些「选择」，应该如何更新「状态」。只看「持有状态」，可以画个状态转移图。
 
@@ -613,9 +744,9 @@ dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i]) //前一天持有�
 
 [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
-### 方法三：动态规划
+- 方法三：动态规划
 
-### 第一题，k = 1
+- 第一题，k = 1
 
 直接套状态转移方程，根据 base case，可以做一些化简：
 
@@ -728,7 +859,7 @@ func max(x, y int) int {
 ```
 
 
-### 方法一：暴力法
+- 方法一：暴力法
 
 Time Limit Exceeded
 201/210 cases passed (N/A)
@@ -753,7 +884,7 @@ func max(x, y int) int {
 
 
 
-### 方法二：一次遍历
+- 方法二：一次遍历
 
 ``` go
 func maxProfit(prices []int) int {
@@ -794,7 +925,7 @@ func maxProfit(prices []int) int {
 }
 ```
 
-### dp
+- dp
 
 ``` go
 func maxProfit(prices []int) int {
@@ -825,7 +956,7 @@ func min(x, y int) int {
 }
 ```
 
-### 优化空间
+- 优化空间
 
 ``` go
 func maxProfit(prices []int) int {
@@ -853,7 +984,7 @@ func min(x, y int) int {
 
 [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
-### 第二题，k = +infinity
+- 第二题，k = +infinity
 
 如果 k 为正无穷，那么就可以认为 k 和 k - 1 是一样的。可以这样改写框架：
 
@@ -890,7 +1021,7 @@ func max(x, y int) int {
 
 [309. 最佳买卖股票时机含冷冻期](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
 
-### 第三题，k = +infinity with cooldown
+- 第三题，k = +infinity with cooldown
 每次 sell 之后要等一天才能继续交易。只要把这个特点融入上一题的状态转移方程即可：
 
 ``` go
@@ -922,7 +1053,7 @@ func max(x, y int) int {
 [714. 买卖股票的最佳时机含手续费](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
 
 
-### 第四题，k = +infinity with fee
+- 第四题，k = +infinity with fee
 
 每次交易要支付手续费，只要把手续费从利润中减去即可。改写方程：
 
@@ -959,7 +1090,7 @@ func max(x, y int) int {
 
 [123. 买卖股票的最佳时机 III](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/)
 
-### 第五题，k = 2
+- 第五题，k = 2
 
 k = 2 和前面题目的情况稍微不同，因为上面的情况都和 k 的关系不太大。要么 k 是正无穷，状态转移和 k 没关系了；要么 k = 1，跟 k = 0 这个 base case 挨得近，最后也没有存在感。
 这道题 k = 2 和后面要讲的 k 是任意正整数的情况中，对 k 的处理就凸显出来了。我们直接写代码，边写边分析原因。
@@ -983,7 +1114,7 @@ dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
 
 [188. 买卖股票的最佳时机 IV](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
 
-### 第六题，k = any integer
+- 第六题，k = any integer
 
 
 

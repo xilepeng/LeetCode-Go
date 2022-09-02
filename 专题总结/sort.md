@@ -8,6 +8,32 @@
 快速排序基于分而治之的方法，随机选择枢轴元素划分数组，左边小于枢轴、右边大于枢轴，递归处理左右两边
 
 ``` go
+func quickSort(A []int, start, end int) {
+	if start >= end {
+		return
+	}
+	i, j := start-1, end+1 // 循环内直接扫描下一个数，导致多操作1次，所以预处理
+	x := A[i+(j-i)>>1]     // x = A[(low+high)/2],用j划分递归子区间
+	for i < j {
+		i++ // 扫描下一个数
+		j--
+		for A[i] < x { // 从左向右扫描，找到大于 x 的数，停止
+			i++
+		}
+		for A[j] > x { // 从右向左扫描，找到小于 x 的数，停止
+			j--
+		}
+		if i < j {
+			A[i], A[j] = A[j], A[i] // 交换, 使得左边小于 x, 右边大于 x
+		}
+	}
+	quickSort(A, start, j) // 递归处理 x 左边
+	quickSort(A, j+1, end) // 递归处理 x 右边
+}
+```
+
+
+``` go
 func quick_sort(A []int, start, end int) {
 	if start < end {
 		piv_pos := random_partition(A, start, end)

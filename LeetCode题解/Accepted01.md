@@ -310,18 +310,63 @@ func (this *LRUCache) removeTail() *DLinkedNode {
 
 
 
+**方法一：双指针 O(n)**
+
+1. (a)bcabcbb
+2. (ab)cabcbb 
+3. (abc)abcbb
+4. (abca)bcbb 当前字符和首字符重复
+5. ~~a~~(bca)bcbb 删除首字符（收缩窗口）
+6. ~~a~~(bcab)cbb 继续向后扫描（扩展窗口）
+7. ~~ab~~(cab)cbb
+
+思路：定义两个指针 i,j(i<=j)，表示当前扫描到的子串是 [i,j](闭区间)。扫描过程中维护一个哈希表 hash := map[byte]int{}，表示 [i,j]中每个字符出现的次数。线性扫描时，每次循环的流程如下：
+
+1. 指针 j 向后移一位, 同时将哈希表中 s[j] 的计数加一: hash[s[j]]++;
+2. 假设 j 移动前的区间 [i,j] 中没有重复字符，则 j 移动后，只有 s[j] 可能出现2次。因此我们不断向后移动 i，直至区间 [i,j] 中 s[j] 的个数等于1为止；
+   
+复杂度分析：由于 i,j 均最多增加n次，且哈希表的插入和更新操作的复杂度都是 O(1)，因此，总时间复杂度 O(n)
+
+
+
+``` go
+func lengthOfLongestSubstring(s string) int {
+	hash := map[byte]int{} // 哈希集合记录每个字符出现次数
+	res := 0
+	for i, j := 0, 0; j < len(s); j++ {
+		hash[s[j]]++                // 首次存入哈希
+		for ; hash[s[j]] > 1; i++ { // 出现字符和首字符重复，i++跳过首字符(收缩窗口)
+			hash[s[i]]-- // 哈希记录次数减1
+		}
+		res = max(res, j-i+1) // 统计无重复字符的最长子串
+	}
+	return res
+}
+func max(x, y int) int {
+	if x < y {
+		return y
+	}
+	return x
+}
+```
+[参考](https://www.acwing.com/solution/content/49/)
+
+
+**方法二：双指针 / 滑动窗口**
+
+
 ![](images/3.png)
 
 ``` go
 func lengthOfLongestSubstring(s string) (res int) {
 	m := map[byte]int{} // 无重复字符的最长下标
 	start := 0          // 无重复字符的起点下标
-	for i := 0; i < len(s); i++ {
+	for i := 0; i < len(s); i++ { // 扩展窗口
 		if _, exists := m[s[i]]; exists { // 有重复字符
-			start = max(start, m[s[i]]+1) // 取index最大值作为起点
+			start = max(start, m[s[i]]+1) // 取index较大值作为起点（收缩窗口）
 		}
 		m[s[i]] = i               // 无重复字符，加入map
-		res = max(res, i-start+1) // 目前无重复字符的最大长度
+		res = max(res, i-start+1) // 统计目前无重复字符的最大长度
 	}
 	return
 }
@@ -359,8 +404,8 @@ func max(x, y int) int {
 
 
 
-T(n) = O(n)
-S(n) = O(|Σ|) 其中 Σ 表示字符集（即字符串中可以出现的字符），∣Σ∣ 表示字符集的大小。
+- T(n) = O(n)
+- S(n) = O(|Σ|) 其中 Σ 表示字符集（即字符串中可以出现的字符），∣Σ∣ 表示字符集的大小。
 
 
 [参考](https://www.bilibili.com/video/BV1ub4y1d7Z8)

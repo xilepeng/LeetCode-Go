@@ -7,21 +7,23 @@
 
 快速排序基于分而治之的方法，随机选择枢轴元素划分数组，左边小于枢轴、右边大于枢轴，递归处理左右两边
 
-``` go
+
+```go
+func sortArray(nums []int) []int {
+	quickSort(nums, 0, len(nums)-1)
+	return nums
+}
+
 func quickSort(A []int, start, end int) {
 	if start >= end {
 		return
 	}
+	x := A[(start+end)>>1]  // x := A[(start+end)/2],用j划分递归子区间
 	i, j := start-1, end+1 // 循环内直接扫描下一个数，导致多操作1次，所以预处理
-	x := A[i+(j-i)>>1]     // x = A[(low+high)/2],用j划分递归子区间
 	for i < j {
-		i++ // 扫描下一个数
-		j--
-		for A[i] < x { // 从左向右扫描，找到大于 x 的数，停止
-			i++
+		for i++; A[i] < x; i++ { // 从左向右扫描，找到大于 x 的数，停止
 		}
-		for A[j] > x { // 从右向左扫描，找到小于 x 的数，停止
-			j--
+		for j--; A[j] > x; j-- { // 从右向左扫描，找到小于 x 的数，停止
 		}
 		if i < j {
 			A[i], A[j] = A[j], A[i] // 交换, 使得左边小于 x, 右边大于 x
@@ -29,6 +31,75 @@ func quickSort(A []int, start, end int) {
 	}
 	quickSort(A, start, j) // 递归处理 x 左边
 	quickSort(A, j+1, end) // 递归处理 x 右边
+}
+```
+
+**解法二**
+
+```go
+func sortArray(nums []int) []int {
+    quick_sort(nums, 0, len(nums)-1)
+    return nums
+}
+
+func quick_sort(A []int, start, end int) {
+    if start < end {
+        piv_pos := partition(A, start, end)
+        quick_sort(A, start, piv_pos-1)
+        quick_sort(A, piv_pos+1, end)
+    }
+}
+
+func partition(A []int, start, end int) int {
+    A[(start+end)>>1], A[end] = A[end], A[(start+end)>>1]
+    i, piv := start, A[end]
+    for j := start; j < end; j++ {
+        if A[j] < piv {
+            if i != j {
+                A[i], A[j] = A[j], A[i]
+            }
+            i++
+        }
+    }
+    A[i], A[end] = A[end], A[i]
+    return i 
+}
+```
+
+
+```go
+func sortArray(nums []int) []int {
+    rand.Seed(time.Now().UnixNano())
+    quick_sort(nums, 0, len(nums)-1)
+    return nums
+}
+
+func quick_sort(A []int, start, end int) {
+    if start < end {
+        piv_pos := random_partition(A, start, end)
+        quick_sort(A, start, piv_pos-1)
+        quick_sort(A, piv_pos+1, end)
+    }
+}
+
+func partition(A []int, start, end int) int {
+    i, piv := start, A[end] // 从第一个数开始扫描，选取最后一位数字最为对比
+    for j := start; j < end; j++ {
+        if A[j] < piv {
+            if i != j {// 不是同一个数
+                A[i], A[j] = A[j], A[i]// A[j] 放在正确的位置
+            }
+            i++//扫描下一个数
+        }
+    }
+    A[i], A[end] = A[end], A[i] // A[end] 回到正确的位置
+    return i 
+}
+
+func random_partition(A []int, start, end int) int {
+    random := rand.Int()%(end-start+1)+start
+    A[random], A[end] = A[end],A[random]
+    return partition(A, start, end)
 }
 ```
 
@@ -683,7 +754,7 @@ T(n)=2T(n/2)+O(n)
 
 [785. 快速排序](https://www.acwing.com/problem/content/description/787/)
 
-``` go
+```go
 package main 
 
 import "fmt"
@@ -879,7 +950,7 @@ func quickSort (nums[]int, l, r int) {
 
 2. 堆排序
 
-``` go
+```go
 func heapSort(a []int) {
     heapSize := len(a) 
     buildMaxHeap(a, heapSize)
@@ -938,7 +1009,7 @@ func mergeSort(a []int, l, r int) {
 
 4. 选择排序
 
-``` go
+```go
 func selectSort(a []int) {
 	for i := 0; i < len(a)-1; i++ {
 		minIdx := i
@@ -1035,7 +1106,7 @@ func count_sort(nums []int) {
 ------
 
 
-``` go
+```go
 func sortArray(nums []int) []int {
     heapSort(nums)
     return nums
@@ -1115,7 +1186,7 @@ func merge_sort(nums []int, l, r int) {
 }
 ```
 
-``` go
+```go
 func sortArray(nums []int) []int {
 	n := len(nums)
 	temp := make([]int, n)
@@ -1264,7 +1335,7 @@ func count_sort(nums []int) {
 空间复杂度： O(log(n)), 递归使用栈空间的空间代价为O(logn)。
 
 
-``` go
+```go
 func sortArray(nums []int) []int {
     rand.Seed(time.Now().UnixNano())
     quickSort(nums, 0, len(nums)-1)
@@ -1302,7 +1373,7 @@ func partition(a []int, l, r int) int {
 
 
 
-``` go
+```go
 func heapSort(a []int) {
     heapSize := len(a) 
     buildMaxHeap(a, heapSize)
@@ -1347,7 +1418,7 @@ func maxHeapify(a []int, i, heapSize int) {
 2. 递归排序左右两边
 3. 归并
 
-``` go
+```go
 func sortArray(nums []int) []int {
 	mergeSort(nums, 0, len(nums)-1)
 	return nums
@@ -1485,7 +1556,7 @@ void quickSort(int a[], int l, int r) {
 
  go 模板一：
 
-``` go []
+```go
 func sortArray(nums []int) []int {
     quickSort(nums, 0, len(nums)-1)
     return nums
@@ -1520,7 +1591,7 @@ func quickSort (q[]int, l, r int) {
 
  go 模板二：
 
-``` go []
+```go 
 func sortArray(nums []int) []int {
     quickSort(nums, 0, len(nums)-1)
     return nums
@@ -1557,7 +1628,7 @@ n + n/2 + n/4 + ... = (1 + 1/2 + 1/4 + ...)n <= 2n
 
 ## 方法二
 
-``` go
+```go
 func sortArray(nums []int) []int {
     rand.Seed(time.Now().UnixNano())
 	quickSort(nums, 0, len(nums)-1)
@@ -1591,7 +1662,7 @@ func partition(a []int, l, r int) int {
 ## 方法三： 
 
 
-``` go []
+```go 
 func sortArray(nums []int) []int {
     quickSort(nums, 0, len(nums)-1)
     return nums
@@ -1615,7 +1686,7 @@ func quickSort(a []int, l, r int) {
 }
 ```
 
-``` go []
+```go 
 func sortArray(nums []int) []int {
     quickSort(nums, 0, len(nums)-1)
     return nums
@@ -1641,7 +1712,7 @@ func quickSort(nums []int, l, r int) {
 
 
 
-``` go
+```go
 func quick_sort(A []int, start, end int) {
 	if start >= end {
 		return
@@ -1671,7 +1742,7 @@ func quick_sort(A []int, start, end int) {
 ```
 
 
-``` go
+```go
 func sortArray(nums []int) []int {
 	n := len(nums)
 	temp := make([]int, n)
@@ -1713,7 +1784,7 @@ func merge(A, temp []int, start, mid, end int) {
 
 
 
-``` go
+```go
 
 func sortArray(nums []int) []int {
 	n := len(nums)
@@ -1753,7 +1824,7 @@ func merge(A []int, start, mid, end int) {
 
 ### 方法二：归并排序
 
-``` go
+```go
 func sortArray(nums []int) []int {
 	mergeSort(nums, 0, len(nums)-1)
 	return nums
@@ -1782,7 +1853,7 @@ func merge(a []int, l, mid, r int) {
 }
 ```
 
-``` go
+```go
 func sortArray(nums []int) []int {
 	mergeSort(nums, 0, len(nums)-1)
 	return nums

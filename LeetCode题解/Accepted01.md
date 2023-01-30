@@ -379,7 +379,7 @@ func max(x, y int) int {
 ```
 
 
-``` go
+```go
 func lengthOfLongestSubstring(s string) int {
 	m := map[rune]int{}
 	res, start := 0, 0
@@ -1127,7 +1127,7 @@ func max(x, y int) int {
 
 
 
-``` go
+```go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {

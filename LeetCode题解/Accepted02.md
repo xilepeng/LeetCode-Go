@@ -54,7 +54,7 @@
 
 ![](images/33.png)
 
-``` go
+```go
 func search(nums []int, target int) int {
 	if len(nums) == 0 {
 		return -1
@@ -204,7 +204,7 @@ func permute(nums []int) [][]int {
 
 
 
-**方法二：枚举位置、枚举数 (回溯)**
+**写法二：枚举每个位置，放每个数 (回溯)**
 
 这个问题可以看作有 n 个排列成一行的空格，我们需要从左往右依此填入题目给定的 n 个数，每个数只能使用一次。那么很直接的可以想到一种穷举的算法，即从左往右每一个位置都依此尝试填入一个数，看能不能填完这 n 个空格，在程序中我们可以用「回溯法」来模拟这个过程。
 
@@ -214,7 +214,7 @@ func permute(nums []int) [][]int {
 
 ![](images/46-2-1.png)
 
-``` go
+```go
 func permute(nums []int) [][]int {
 	res, n := [][]int{}, len(nums)
 	var dfs func(int)
@@ -244,6 +244,16 @@ func permute(nums []int) [][]int {
 
 
 **为什么加入解集时，要将数组（在go中是切片）内容拷贝到一个新的数组里，再加入解集。**
+
+```go
+		if len(path) == n { // 个数选够了
+			// res = append(res, append([]int{}, path...)) // path append后会扩容，消除前面的无效数据
+			temp := make([]int, len(path))
+			copy(temp, path)
+			res = append(res, temp)
+			return // 结束当前递归分支
+		}
+```
 
 这个 path 变量是一个地址引用，结束当前递归，将它加入 res，后续的递归分支还要继续进行搜索，还要继续传递这个 path，这个地址引用所指向的内存空间还要继续被操作，所以 res 中的 path 所引用的内容会被改变，这就不对，所以要拷贝一份内容，到一份新的数组里，然后放入 res，这样后续对 path 的操作，就不会影响已经放入 res 的内容。
 

@@ -1403,8 +1403,7 @@ func climbStairs(n int) int {
 
 ## ✅ [56. 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
 
-
-``` go
+```go
 func merge(intervals [][]int) (res [][]int) {
 	n, k := len(intervals), 0
 	startArr, endArr := make([]int, n), make([]int, n)
@@ -1412,13 +1411,8 @@ func merge(intervals [][]int) (res [][]int) {
 		startArr[k], endArr[k] = interval[0], interval[1]
 		k++
 	}
-	sort.Slice(startArr, func(i, j int) bool { // 排序
-		return startArr[i] < startArr[j]
-	})
-	sort.Slice(endArr, func(i, j int) bool {
-		return endArr[i] < endArr[j]
-	})
-
+	sort.Ints(startArr)
+	sort.Ints(endArr)
 	start := 0
 	for i := 0; i < n; i++ {
 		if i == n-1 || startArr[i+1] > endArr[i] { // 无重叠：最后一个结点 下一个结点大于当前终点
@@ -1429,6 +1423,9 @@ func merge(intervals [][]int) (res [][]int) {
 	return
 }
 ```
+
+
+
 [参考](https://www.bilibili.com/video/BV1hA411G7r2?from=search&seid=11783008207075221403)
 
 
@@ -1473,7 +1470,7 @@ prev[1] = max(prev[1], cur[1])
 
 ![1.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpfnod6g2lj318c0ff760.jpg)
 
-``` go
+```go
 func merge(intervals [][]int) [][]int {
 	sort.Slice(intervals, func(i, j int) bool {
 		return intervals[i][0] < intervals[j][0]

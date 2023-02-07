@@ -22,7 +22,8 @@
 
 
 
-<!-- [19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+<!-- 
+[19. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 
 [8. 字符串转换整数 (atoi)](https://leetcode-cn.com/problems/string-to-integer-atoi/) 
 
@@ -40,7 +41,8 @@
 
 [76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/) 
 
-[31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/) -->
+[31. 下一个排列](https://leetcode-cn.com/problems/next-permutation/) 
+-->
 
 
 

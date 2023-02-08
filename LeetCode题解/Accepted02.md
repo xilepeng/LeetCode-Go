@@ -1551,7 +1551,7 @@ func max(x, y int) int {
 
 ## ✅ [剑指 Offer 22. 链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
 
-``` go
+```go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -1561,8 +1561,9 @@ func max(x, y int) int {
  */
 func getKthFromEnd(head *ListNode, k int) *ListNode {
     slow, fast := head, head 
-    for ; fast != nil && k > 0; k -- {
+    for fast != nil && k > 0 {
         fast = fast.Next
+        k --
     }
     for fast != nil {
         slow = slow.Next
@@ -1572,7 +1573,7 @@ func getKthFromEnd(head *ListNode, k int) *ListNode {
 }
 ```
 
-``` go
+```go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {
@@ -1601,7 +1602,23 @@ func getKthFromEnd(head *ListNode, k int) *ListNode {
 
 ## ✅ [69. x 的平方根](https://leetcode-cn.com/problems/sqrtx/)
 
-**方法一：二分查找**
+**方法一：袖珍计算器算法**
+```go
+func mySqrt(x int) int {
+	if x == 0 {
+		return 0
+	}
+	res := int(math.Exp(0.5 * math.Log(float64(x))))
+	if (res+1)*(res+1) <= x {
+		return res + 1
+	}
+	return res
+}
+```
+
+
+
+**方法二：二分查找**
 
 ``` go
 func mySqrt(x int) (res int) {
@@ -1626,7 +1643,7 @@ func mySqrt(x int) (res int) {
 
 
 
-**方法二：牛顿迭代**
+**方法三：牛顿迭代**
 
 ``` go
 func mySqrt(x int) int {
@@ -1659,7 +1676,7 @@ func mySqrt(x int) int {
 ![](images/82.png)
 
 
-``` go
+```go
 /**
  * Definition for singly-linked list.
  * type ListNode struct {

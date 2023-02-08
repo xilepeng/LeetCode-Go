@@ -181,23 +181,30 @@ func myAtoi(s string) int {
 
 ## ✅ [2. 两数相加](https://leetcode-cn.com/problems/add-two-numbers/)
 
-``` go
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	dummy := new(ListNode)
 	curr, carry := dummy, 0
-	for l1 != nil || l2 != nil || carry > 0 {
-		curr.Next = new(ListNode)
+	for l1 != nil || l2 != nil || carry != 0 {
+		curr.Next = new(ListNode) // 新建节点
 		curr = curr.Next
-		if l1 != nil {
-			carry += l1.Val
-			l1 = l1.Next
+		if l1 != nil { // 如果指针不为空
+			carry += l1.Val // 将指针向的值加入 carry
+			l1 = l1.Next    // 向后扫描
 		}
 		if l2 != nil {
 			carry += l2.Val
 			l2 = l2.Next
 		}
-		curr.Val = carry % 10
-		carry /= 10
+		curr.Val = carry % 10 // 取个位
+		carry /= 10           // 取十位
 	}
 	return dummy.Next
 }
@@ -213,7 +220,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 
 **方法一：递归**
 
-``` go
+```go
 func preorderTraversal(root *TreeNode) (res []int) {
 	var preorder func(*TreeNode)
 	preorder = func(node *TreeNode) {
@@ -228,7 +235,7 @@ func preorderTraversal(root *TreeNode) (res []int) {
 }
 ```
 
-``` go
+```go
 func preorderTraversal(root *TreeNode) (res []int) {
 	if root != nil {
 		res = append(res, root.Val)
@@ -245,7 +252,7 @@ func preorderTraversal(root *TreeNode) (res []int) {
 }
 ```
 
-``` go
+```go
 var res []int
 
 func preorderTraversal(root *TreeNode) []int {
@@ -1390,10 +1397,9 @@ Time Limit Exceeded
 - 时间复杂度是 O(n)
 - 空间复杂度是 O(K)
 
-``` go
-// 维护单调递减队列
-func maxSlidingWindow(nums []int, k int) []int {
-	q, res := []int{}, []int{}
+```go
+func maxSlidingWindow(nums []int, k int) (res []int) {
+	q := []int{} // 动态维护单调递减队列，存储 nums 的索引
 	for i, v := range nums {
 		if i >= k && q[0] <= i-k { // 队满
 			q = q[1:] // 删除队头
@@ -1402,11 +1408,11 @@ func maxSlidingWindow(nums []int, k int) []int {
 			q = q[:len(q)-1] // 删除队尾
 		}
 		q = append(q, i) // 存储当前索引
-		if i >= k-1 {
-			res = append(res, nums[q[0]])
+		if i >= k-1 {    // 首次队满
+			res = append(res, nums[q[0]]) // 队头存储 nums 的最大值的索引
 		}
 	}
-	return res
+	return
 }
 ```
 

@@ -656,7 +656,7 @@ func mergeList(l1, l2 *ListNode) *ListNode {
 
 
 
-``` go
+```go
 func minDistance(word1 string, word2 string) int {
 	m, n := len(word1), len(word2)
 	dp := make([][]int, m+1)
@@ -720,7 +720,7 @@ func Min(args ...int) int {
 ## [105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 
 
-``` go
+```go
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -759,7 +759,7 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
 - 给出一个中间有空格分隔的字符串，要求把这个字符串按照单词的维度前后翻转。
 - 依照题意，先把字符串按照空格分隔成每个小单词，然后把单词前后翻转，最后再把每个单词中间添加空格。
 
-``` go
+```go
 func reverseWords(s string) string {
 	ss := strings.Fields(s)
 	reverse(&ss, 0, len(ss)-1)
@@ -774,7 +774,7 @@ func reverse(m *[]string, i, j int) {
 }
 ```
 
-``` go
+```go
 func reverseWords(s string) string {
 	ss := strings.Fields(s) //ss = ["the", "sky", "is", "blue"]
 	var reverse func([]string, int, int)

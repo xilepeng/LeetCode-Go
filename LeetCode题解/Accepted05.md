@@ -126,21 +126,21 @@ func isCompleteTree(root *TreeNode) bool {
 
 #### iterate amount
 
-``` go
+```go
 func coinChange(coins []int, amount int) int {
 	dp := make([]int, amount+1)
-	dp[0] = 0 //base case
-	for i := 1; i < len(dp); i++ {
-		dp[i] = amount + 1
+	for i := 1; i <= amount; i++ {
+		dp[i] = amount + 1 // 初始化 dp 数组为最大值
 	}
+	dp[0] = 0
 	for i := 1; i <= amount; i++ { //遍历所有状态的所有值
-		for _, coin := range coins { //求所有选择的最小值 min(dp[4],dp[3],dp[0])+1
-			if i-coin >= 0 {
+		for _, coin := range coins {
+			if i-coin >= 0 { //求所有选择的最小值 min(dp[4],dp[3],dp[0])+1
 				dp[i] = min(dp[i], dp[i-coin]+1)
 			}
 		}
 	}
-	if amount-dp[amount] < 0 {
+	if dp[amount] > amount {
 		return -1
 	}
 	return dp[amount]

@@ -1050,25 +1050,6 @@ func invertTree(root *TreeNode) *TreeNode {
 
 
 
-``` go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func invertTree(root *TreeNode) *TreeNode {
-    if root != nil {
-        root.Left, root.Right = root.Right, root.Left
-        invertTree(root.Left)
-        invertTree(root.Right)
-    }
-    return root
-}
-```
-
 ## [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
 

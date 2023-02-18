@@ -486,7 +486,7 @@ func selection_sort(A []int, n int) {
 
 
 
-``` go
+```go
 func sortArray(nums []int) []int {
 	quick_sort(nums, 0, len(nums)-1)
 	return nums
@@ -537,7 +537,7 @@ func random_partition(A []int, start, end int) int {
 如果划分得到的 q 正好就是我们需要的下标，就直接返回 a[q]；
 否则，如果 q 比目标下标小，就递归右子区间，否则递归左子区间。
 
-``` go
+```go
 func findKthLargest(nums []int, k int) int {
 	rand.Seed(time.Now().Unix())
 	n := len(nums)
@@ -586,7 +586,7 @@ func random_partition(A []int, start, end int) int {
 
 建立一个大根堆，做 k - 1 次删除操作后堆顶元素就是我们要找的答案。
 
-``` go
+```go
 func findKthLargest(A []int, k int) int {
 	heap_size, n := len(A), len(A)
 	build_maxheap(A, heap_size)
@@ -632,7 +632,7 @@ func max_heapify(A []int, i, heap_size int) {
 
 堆排序的思想就是先将待排序的序列建成大根堆，使得每个父节点的元素大于等于它的子节点。此时整个序列最大值即为堆顶元素，我们将其与末尾元素交换，使末尾元素为最大值，然后再调整堆顶元素使得剩下的 n−1 个元素仍为大根堆，再重复执行以上操作我们即能得到一个有序的序列。
 
-``` go
+```go
 func sortArray(nums []int) []int {
 	heap_sort(nums)
 	return nums
@@ -692,7 +692,7 @@ func max_heapify(A []int, i, heap_size int) {
 3. 归并
 
 
-``` go
+```go
 
 func sortArray(nums []int) []int {
 	merge_sort(nums, 0, len(nums)-1)
@@ -792,7 +792,7 @@ func main() {
 
 
 
-``` go
+```go
 package main 
 
 import "fmt"
@@ -855,7 +855,7 @@ func main() {
 
 1. 快速排序
 
-``` go
+```go
 func sortArray(nums []int) []int {
 	quickSort(nums, 0, len(nums)-1)
 	return nums
@@ -880,7 +880,7 @@ func partition(a []int, l, r int) int {
 }
 ```
 
-``` go
+```go
 func sortArray(nums []int) []int {
     rand.Seed(time.Now().UnixNano())
 	quickSort(nums, 0, len(nums)-1)

@@ -36,37 +36,7 @@ func quickSort(A []int, start, end int) {
 
 **解法二**
 
-```go
-func sortArray(nums []int) []int {
-    quick_sort(nums, 0, len(nums)-1)
-    return nums
-}
-
-func quick_sort(A []int, start, end int) {
-    if start < end {
-        piv_pos := partition(A, start, end)
-        quick_sort(A, start, piv_pos-1)
-        quick_sort(A, piv_pos+1, end)
-    }
-}
-
-func partition(A []int, start, end int) int {
-    A[(start+end)>>1], A[end] = A[end], A[(start+end)>>1]
-    i, piv := start, A[end]
-    for j := start; j < end; j++ {
-        if A[j] < piv {
-            if i != j {
-                A[i], A[j] = A[j], A[i]
-            }
-            i++
-        }
-    }
-    A[i], A[end] = A[end], A[i]
-    return i 
-}
-```
-
-
+选取最后一个数字作为中枢
 ```go
 func sortArray(nums []int) []int {
     rand.Seed(time.Now().UnixNano())
@@ -82,11 +52,12 @@ func quick_sort(A []int, start, end int) {
     }
 }
 
+// 选取最后一个数字作为中枢
 func partition(A []int, start, end int) int {
     i, piv := start, A[end] // 从第一个数开始扫描，选取最后一位数字最为对比
     for j := start; j < end; j++ {
-        if A[j] < piv {
-            if i != j {// 不是同一个数
+        if A[j] < piv { // A[i] < piv < A[j]
+            if i != j { // 不是同一个数
                 A[i], A[j] = A[j], A[i]// A[j] 放在正确的位置
             }
             i++//扫描下一个数
@@ -103,7 +74,7 @@ func random_partition(A []int, start, end int) int {
 }
 ```
 
-
+选取第一个数字作为中枢
 ```go
 func quick_sort(A []int, start, end int) {
 	if start < end {
@@ -112,6 +83,8 @@ func quick_sort(A []int, start, end int) {
 		quick_sort(A, piv_pos+1, end)
 	}
 }
+
+// 选取第一个数字作为中枢
 func partition(A []int, start, end int) int {
 	piv, i := A[start], start+1//第一个元素作为枢轴
 	for j := start + 1; j <= end; j++ {
@@ -217,17 +190,19 @@ func merge(A []int, start, mid, end int) {
 
 插入排序基于这样的想法：每次迭代都会消耗输入元素中的一个元素，以找到其正确位置，即该元素在排序数组中的位置。
 
-通过在每次迭代时增加排序后的数组来迭代输入元素。它将当前元素与已排序数组中的最大值进行比较。如果当前元素更大，则它将元素留在其位置，然后移至下一个元素，否则它将在已排序数组中找到其正确位置，并将其移至该位置。这是通过将已排序数组中所有大于当前元素的元素移动到前面的一个位置来完成的
+通过在每次迭代时增加排序后的数组来迭代输入元素。它将当前元素与已排序数组中的最大值进行比较。
+如果当前元素更大，则它将元素留在其位置，然后移至下一个元素，否则它将在已排序数组中找到其正确位置，并将其移至该位置。
+这是通过将已排序数组中所有大于当前元素的元素移动到前面的一个位置来完成的
 
 ```go
 func insertion_sort(A []int, n int) {
 	for i := 0; i < n; i++ {
 		temp, j := A[i], i
 		for j > 0 && temp < A[j-1] { //当前元素小于左边元素
-			A[j] = A[j-1] //向前移动左边元素->
+			A[j] = A[j-1] //向前移动左边元素
 			j--
 		}
-		A[j] = temp //移动当前元素到正确的位置
+		A[j] = temp //移动当前元素到正确的位置 A[j-1] < temp A[j] 
 	}
 }
 ```

@@ -8,6 +8,23 @@
 **解法一**
 
 ```go
+func QuickSort(A []int, start, end int) {
+	if start >= end {return}
+	x := A[start+(end-start)>>1]
+	i, j := start-1, end+1
+	for i < j {
+		for i++; A[i] < x; i++ {}
+		for j--; A[j] > x; j-- {}
+		if i < j {
+			A[i], A[j] = A[j], A[i]
+		}
+	}
+	QuickSort(A, start, j)
+	QuickSort(A, j+1, end)
+}
+```
+
+```go
 func sortArray(nums []int) []int {
 	quickSort(nums, 0, len(nums)-1)
 	return nums
@@ -54,8 +71,8 @@ func quick_sort(A []int, start, end int) {
 func partition(A []int, start, end int) int {
     i, piv := start, A[end] // 从第一个数开始扫描，选取最后一位数字最为对比
     for j := start; j < end; j++ {
-        if A[j] < piv {
-            if i != j {// 不是同一个数
+        if A[j] < piv { // A[i] < piv < A[j]
+            if i != j { // 不是同一个数
                 A[i], A[j] = A[j], A[i]// A[j] 放在正确的位置
             }
             i++//扫描下一个数
@@ -71,6 +88,10 @@ func random_partition(A []int, start, end int) int {
     return partition(A, start, end)
 }
 ```
+
+## [补充题5. 手撕归并排序](https://leetcode.cn/problems/sort-an-array/)
+
+
 
 ## [补充题6. 手撕堆排序 912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/)
 
@@ -98,7 +119,7 @@ func buildMaxHeap(nums []int, heapSize int) {
 		maxHeapify(nums, i, heapSize)
 	}
 }
-
+// 迭代
 func maxHeapify(nums []int, i, heapSize int) {
 	for i<<1+1 < heapSize {
 		lson, rson, large := i<<1+1, i<<1+2, i
@@ -116,7 +137,7 @@ func maxHeapify(nums []int, i, heapSize int) {
 		}
 	}
 }
-
+// 递归
 func maxHeapify1(nums []int, i, heapSize int) {
 	lson, rson, large := i<<1+1, i<<1+2, i
 	if lson < heapSize && nums[large] < nums[lson] {
@@ -133,23 +154,59 @@ func maxHeapify1(nums []int, i, heapSize int) {
 ```
 
 
-
-
 ```go
+/*
+ * @lc app=leetcode.cn id=912 lang=golang
+ *
+ * [912] 排序数组
+ */
 
-func bubbleSort(nums []int) {
+// @lc code=start
+func sortArray(nums []int) []int {
+	// BubbleSort(nums)
+	InsertSort(nums)
+	return nums
+}
+
+// 插入排序
+func InsertSort(nums []int) {
 	n := len(nums)
+	if n <= 1 {
+		return
+	}
+	for i := 1; i < n; i++ {
+		value, j := nums[i], i-1
+		for ; j >= 0 && value < nums[j]; j-- { // 查找插入位置
+			nums[j+1] = nums[j] // 移动数据
+		}
+		nums[j+1] = value
+	}
+}
+
+// 冒泡排序
+func BubbleSort(nums []int) {
+	n := len(nums)
+	if n <= 1 {
+		return
+	}
 	for i := 0; i < n; i++ {
-		flag := false
+		flag := false // 提前退出冒泡循环的标志位
 		for j := 0; j < n-i-1; j++ {
 			if nums[j] > nums[j+1] {
-				nums[j], nums[j+1] = nums[j+1], nums[j]
-				flag = true
+				nums[j], nums[j+1] = nums[j+1], nums[j] // 交换相邻的2个元素
+				flag = true                             // 表示有数据要交换
 			}
 		}
-		if !flag {
+		if !flag { // 没有数据交换，提前退出
 			break
 		}
 	}
 }
+
+// 选择排序
+
+// @lc code=end
+
+
 ```
+

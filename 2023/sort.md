@@ -90,6 +90,9 @@ func sortArray(nums []int) []int {
 // 归并排序 O(nlogn)
 // 是一种分而治之的算法，其思想是将一个列表分解为几个子列表，
 // 直到每个子列表由一个元素组成，然后将这些子列表合并为排序后的列表。
+
+// 先把数组从中间分成前后两部分，然后对前后两部分分别排序，
+// 再将排好序的两部分合并在一起，这样整个数组就都有序了。
 func MergeSort(A []int, start, end int) {
 	if start < end {
 		mid := start + (end-start)>>1 //分2部分定义当前数组
@@ -275,6 +278,37 @@ func BubbleSort(A []int, n int) {
 	}
 }
 ```
+
+
+```go
+func InsertSort(A []int, n int) {
+	if n <= 1 {
+		return
+	}
+	for i := 1; i < n; i++ {
+		value, j := A[i], i-1
+		for ; j >= 0 && value < A[j]; j-- { // 查找插入位置
+			A[j+1] = A[j] // 移动数据
+		}
+		A[j+1] = value
+	}
+}
+
+func InsertSort1(A []int, n int) {
+	for i := 0; i < n; i++ {
+		insertElement := A[i] // 取无序的新元素
+		insertPosition := i   // 插入位置
+		for j := insertPosition - 1; j >= 0; j-- {
+			if insertElement < A[j] { // 如果新元素小于有序的元素
+				A[j+1] = A[j] // 有序的元素右移
+				insertPosition--
+			}
+			A[insertPosition] = insertElement // 插入新元素
+		}
+	}
+}
+```
+
 
 ## 排序总结 
 ---

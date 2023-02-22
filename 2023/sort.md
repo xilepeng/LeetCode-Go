@@ -26,7 +26,7 @@ func sortArray(nums []int) []int {
     
     return nums
 }
-// 快速排序
+// 快速排序 O(nlogn)
 // 基于分而治之的方法，随机选择枢轴元素划分数组，
 // 左边小于枢轴、右边大于枢轴，递归处理左右两边;
 func QuickSort(A []int, start, end int) {
@@ -87,7 +87,7 @@ func sortArray(nums []int) []int {
 	return nums
 }
 
-// 归并排序
+// 归并排序 O(nlogn)
 // 是一种分而治之的算法，其思想是将一个列表分解为几个子列表，
 // 直到每个子列表由一个元素组成，然后将这些子列表合并为排序后的列表。
 func MergeSort(A []int, start, end int) {

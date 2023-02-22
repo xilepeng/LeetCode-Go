@@ -11,7 +11,21 @@
 
 
 ```go
+/*
+ * @lc app=leetcode.cn id=912 lang=golang
+ *
+ * [912] 排序数组
+ */
 
+// @lc code=start
+func sortArray(nums []int) []int {
+    QuickSort(nums, 0, len(nums)-1)
+
+	rand.Seed(time.Now().UnixNano())
+    //QuickSort1(nums, 0, len(nums)-1)
+    
+    return nums
+}
 // 快速排序
 // 基于分而治之的方法，随机选择枢轴元素划分数组，
 // 左边小于枢轴、右边大于枢轴，递归处理左右两边;
@@ -137,6 +151,10 @@ func Merge1(A []int, start, mid, end int) {
 ## [补充题6. 手撕堆排序 ](https://leetcode-cn.com/problems/sort-an-array/)
 
 ```go
+func sortArray(nums []int) []int {
+	HeapSort(nums)
+	return nums
+}
 
 // 在大根堆中、最大元素总在根上，堆排序使用堆的这个属性进行排序
 func HeapSort(A []int) {

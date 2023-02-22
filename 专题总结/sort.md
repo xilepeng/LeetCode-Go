@@ -126,6 +126,7 @@ func build_maxheap(A []int, heap_size int) { // 建堆 O(n)
 		max_heapify(A, i, heap_size)
 	}
 }
+// 递归
 func max_heapify(A []int, i, heap_size int) {     // 调整大根堆 O(nlogn)
 	lson, rson, largest := i*2+1, i*2+2, i	  // i<<1+1, i<<1+2
 	if lson < heap_size && A[largest] < A[lson] { // 左儿子存在并大于根
@@ -139,9 +140,26 @@ func max_heapify(A []int, i, heap_size int) {     // 调整大根堆 O(nlogn)
 		max_heapify(A, largest, heap_size)  // 递归调整子树
 	}
 }
+
+// 迭代
+func maxHeapify(nums []int, i, heapSize int) {
+	for i<<1+1 < heapSize {
+		lson, rson, large := i<<1+1, i<<1+2, i
+		if lson < heapSize && nums[large] < nums[lson] {
+			large = lson
+		}
+		for rson < heapSize && nums[large] < nums[rson] {
+			large = rson
+		}
+		if large != i {
+			nums[i], nums[large] = nums[large], nums[i]
+			i = large
+		} else {
+			break
+		}
+	}
+}
 ```
-
-
 
 ### 3. [Merge Sort](https://www.hackerearth.com/practice/algorithms/sorting/merge-sort/tutorial/)
 
@@ -150,23 +168,23 @@ func max_heapify(A []int, i, heap_size int) {     // 调整大根堆 O(nlogn)
 ```go
 func merge_sort(A []int, start, end int) {
 	if start < end {
-		mid := start + (end-start)>>1 //分2部分定义当前数组
-		merge_sort(A, start, mid)     //排序数组的第1部分
-		merge_sort(A, mid+1, end)     //排序数组的第2部分
-		merge(A, start, mid, end)     //通过比较2个部分的元素来合并2个部分
+		mid := start + (end-start)>>1 // 分2部分定义当前数组
+		merge_sort(A, start, mid)     // 排序数组的第1部分
+		merge_sort(A, mid+1, end)     // 排序数组的第2部分
+		merge(A, start, mid, end)     // 通过比较2个部分的元素来合并2个部分
 	}
 }
 func merge(A []int, start, mid, end int) {
 	Arr := make([]int, end-start+1)
 	p, q, k := start, mid+1, 0
 	for i := start; i <= end; i++ {
-		if p > mid { //检查第一部分是否到达末尾
+		if p > mid { // 检查第一部分是否到达末尾
 			Arr[k] = A[q]
 			q++
-		} else if q > end { //检查第二部分是否到达末尾
+		} else if q > end { // 检查第二部分是否到达末尾
 			Arr[k] = A[p]
 			p++
-		} else if A[p] <= A[q] { //检查哪一部分有更小的元素
+		} else if A[p] <= A[q] { // 检查哪一部分有更小的元素
 			Arr[k] = A[p]
 			p++
 		} else {
@@ -181,10 +199,31 @@ func merge(A []int, start, mid, end int) {
 		start++
 	}
 }
+
+
+func Merge1(A []int, start, mid, end int) {
+	tmpArr := make([]int, end-start+1)
+	i, j, k := start, mid+1, 0
+	for ; i <= mid && j <= end; k++ {
+		if A[i] <= A[j] {
+			tmpArr[k] = A[i]
+			i++
+		} else {
+			tmpArr[k] = A[j]
+			j++
+		}
+	}
+	for ; i <= mid; i++ {
+		tmpArr[k] = A[i]
+		k++
+	}
+	for ; j <= end; j++ {
+		tmpArr[k] = A[j]
+		k++
+	}
+	copy(A[start:end+1], tmpArr)
+}
 ```
-
-
-
 
 ### 4. [Insertion Sort](https://www.hackerearth.com/practice/algorithms/sorting/insertion-sort/tutorial/#c252800)
 
@@ -206,6 +245,7 @@ func insertion_sort(A []int, n int) {
 	}
 }
 ```
+
 
 
 
@@ -889,7 +929,7 @@ func partition(a []int, l, r int) int {
 
 
 
-``` go
+```go
 func sortArray(nums []int) []int {
     quickSort(nums, 0, len(nums)-1)
     return nums
@@ -959,7 +999,7 @@ func maxHeapify(a []int, i, heapSize int) {
 
 3. 归并排序
 
-``` go
+```go
 func mergeSort(a []int, l, r int) {
 	if l >= r {
 		return
@@ -1347,40 +1387,56 @@ func partition(a []int, l, r int) int {
 我们将其与末尾元素交换，使末尾元素为最大值，然后再调整堆顶元素使得剩下的 n−1 个元素仍为大根堆，再重复执行以上操作我们即能得到一个有序的序列。
 
 
-
 ```go
-func heapSort(a []int) {
-    heapSize := len(a) 
-    buildMaxHeap(a, heapSize)
-    for i := heapSize - 1; i >= 1; i -- {
-        a[0], a[i] = a[i], a[0]
-        heapSize -- 
-        maxHeapify(a, 0, heapSize)
-    }
+
+// 在大根堆中、最大元素总在根上，堆排序使用堆的这个属性进行排序
+func HeapSort(A []int) {
+	heap_size := len(A)
+	build_maxheap(A, heap_size)
+	for i := heap_size - 1; i >= 0; i-- {
+		A[0], A[i] = A[i], A[0]      // 交换堆顶元素 A[0] 与堆底元素 A[i]，最大值 A[0] 放置在数组末尾
+		heap_size--                  // 删除堆顶元素 A[0]
+		max_heapify(A, 0, heap_size) // 堆顶元素 A[0] 向下调整
+	}
+}
+func build_maxheap(A []int, heap_size int) { // 建堆 O(n)
+	for i := heap_size / 2; i >= 0; i-- { // heap_size>>1 后面都是叶子节点，不需要向下调整
+		max_heapify(A, i, heap_size)
+	}
+}
+func max_heapify(A []int, i, heap_size int) { // 调整大根堆 O(nlogn)
+	lson, rson, largest := i*2+1, i*2+2, i        // i<<1+1, i<<1+2
+	if lson < heap_size && A[largest] < A[lson] { // 左儿子存在并大于根
+		largest = lson
+	}
+	if rson < heap_size && A[largest] < A[rson] { // 右儿子存在并大于根
+		largest = rson
+	}
+	if i != largest { // 找到左右儿子的最大值
+		A[i], A[largest] = A[largest], A[i] // 堆顶调整为最大值
+		max_heapify(A, largest, heap_size)  // 递归调整子树
+	}
 }
 
-func buildMaxHeap(a[]int, heapSize int) {
-    for i := heapSize / 2; i >= 0; i -- {
-        maxHeapify(a, i, heapSize)
-    }
-} 
-
-func maxHeapify(a []int, i, heapSize int) {
-    l, r, largest := i * 2 + 1, i * 2 + 2, i 
-    if l < heapSize && a[largest] < a[l] {
-        largest = l 
-    } 
-    if r < heapSize && a[largest] < a[r] {
-        largest = r 
-    }
-    if largest != i {
-        a[largest], a[i] = a[i], a[largest]
-        maxHeapify(a, largest, heapSize)
-    }
+// 迭代
+func maxHeapify(nums []int, i, heapSize int) {
+	for i<<1+1 < heapSize {
+		lson, rson, large := i<<1+1, i<<1+2, i
+		if lson < heapSize && nums[large] < nums[lson] {
+			large = lson
+		}
+		for rson < heapSize && nums[large] < nums[rson] {
+			large = rson
+		}
+		if large != i {
+			nums[i], nums[large] = nums[large], nums[i]
+			i = large
+		} else {
+			break
+		}
+	}
 }
 ```
-
-
 
 ## 方法三：归并排序
 思路

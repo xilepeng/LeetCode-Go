@@ -205,7 +205,7 @@ LRU 缓存机制可以通过哈希表辅以双向链表实现，我们用一个�
 
 
 
-``` go
+```go
 type LRUCache struct {
 	cache          map[int]*DLinkedNode
 	head, tail     *DLinkedNode

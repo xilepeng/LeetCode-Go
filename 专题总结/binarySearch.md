@@ -24,16 +24,15 @@
 
 **Go 二分查找高级模版**
 
-``` go
-
+```go
 func binarySearchLeft(nums []int, target int) int {
 	low, high := 0, len(nums)-1
 	for low < high {
-		pivot := low + (high-low)>>1
-		if nums[pivot] > target {
-			high = pivot // 答案在 pivot 左侧
+		mid := low + (high-low)>>1
+		if nums[mid] > target { // 答案在 mid 左侧 
+			high = mid          // [low,mid] [mid+1,high]
 		} else {
-			low = pivot + 1
+			low = mid + 1
 		}
 	}
 	return nums[low] // low == high
@@ -42,16 +41,15 @@ func binarySearchLeft(nums []int, target int) int {
 func binarySearchRight(nums []int, target int) int {
 	low, high := 0, len(nums)-1
 	for low < high {
-		pivot := low + (high-low+1)>>1
-		if nums[pivot] <= target {
-			low = pivot // 答案在 pivot 右侧
+		mid := low + (high-low+1)>>1
+		if nums[mid] <= target { // 答案在 mid 右侧 
+			low = mid            // [low,mid-1] [mid,high]
 		} else {
-			high = pivot - 1
+			high = mid - 1
 		}
 	}
 	return nums[low] // low == high
 }
-
 ```
 
 

@@ -4,6 +4,8 @@
 2. [剑指 Offer 09. 用两个栈实现队列](#剑指-offer-09-用两个栈实现队列)
 3. [剑指 Offer 06. 从尾到头打印链表](#剑指-offer-06-从尾到头打印链表)
 4. [剑指 Offer 24. 反转链表](#剑指-offer-24-反转链表)
+5. [剑指 Offer 10- I. 斐波那契数列](#剑指-offer-10--i-斐波那契数列)
+6. [剑指 Offer 10- II. 青蛙跳台阶问题](#剑指-offer-10--ii-青蛙跳台阶问题)
 
 
 
@@ -197,4 +199,74 @@ func reverseList1(head *ListNode) *ListNode {
     }
     return prev
 }
+```
+
+
+
+## [剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
+
+
+
+```go
+func fib(n int) int {
+    prev, curr := 0, 1 
+    for ; n > 0; n-- {
+        sum := (prev + curr) % 1000000007
+        prev = curr
+        curr = sum
+    }
+    return prev
+}
+
+func fib1(n int) int {
+    if n == 0 || n == 1 {
+        return n 
+    }
+    prev, curr := 0, 1
+    for i := 2; i <= n; i++ {
+        next := (prev + curr) % 1000000007
+        prev = curr
+        curr = next
+    }
+    return curr
+}
+```
+
+
+
+## [剑指 Offer 10- II. 青蛙跳台阶问题](https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/)
+
+``` go
+func numWays(n int) int {
+	prev, curr := 1, 1
+	for ; n > 0; n-- {
+		sum := (prev + curr) % 1000000007
+		prev = curr
+		curr = sum
+	}
+	return prev
+}
+
+func numWays1(n int) int {
+    if n == 1 || n == 2 {
+        return n 
+    }
+	prev, curr := 1, 1
+	for i := 2; i <= n; i++{
+		sum := (prev + curr) % 1000000007
+		prev = curr
+		curr = sum
+	}
+	return curr
+} 
+
+func numWays2(n int) int {
+	prev, curr := 1, 1
+	for i := 2; i <= n; i++{
+		sum := (prev + curr) % 1000000007
+		prev = curr
+		curr = sum
+	}
+	return curr
+} 
 ```

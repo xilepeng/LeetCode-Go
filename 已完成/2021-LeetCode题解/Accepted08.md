@@ -19,6 +19,11 @@
 18. [876. 链表的中间结点](#876-链表的中间结点)
 19. [114. 二叉树展开为链表](#114-二叉树展开为链表)
 20. [509. 斐波那契数](#509-斐波那契数)
+	 1. [最优解：滚动数组](#最优解滚动数组)
+	 2. [方法一：递归](#方法一递归)
+	 3. [方法二：带备忘录递归](#方法二带备忘录递归)
+	 4. [方法三：动态规划](#方法三动态规划)
+	 5. [方法四：滚动数组](#方法四滚动数组)
 21. [556. 下一个更大元素 III](#556-下一个更大元素-iii)
 
 
@@ -152,9 +157,176 @@ func addStrings(num1 string, num2 string) string {
 
 ## [509. 斐波那契数](https://leetcode-cn.com/problems/fibonacci-number/)
 
-```go
 
+
+### 最优解：滚动数组
+
+![](images/509-3.png)
+
+
+
+```go
+func fib(n int) int {
+	prev, curr := 0, 1
+	for ; n > 0; n-- { 
+		sum := prev + curr
+		prev = curr
+		curr = sum
+	}
+	return prev
+}
+
+func fib1(n int) int {
+	prev, curr := 0, 1
+	for i := 0; i < n; i++ { // n--
+		sum := prev + curr
+		prev = curr
+		curr = sum
+	}
+	return prev
+}
+
+func fib2(n int) int {
+	if n == 0 || n == 1 {
+		return n
+	}
+	prev, curr := 0, 1
+	for i := 2; i <= n; i++ {
+		sum := prev + curr
+		prev = curr
+		curr = sum
+	}
+	return curr
+}
 ```
+
+
+
+复杂度分析
+
+- 时间复杂度：O(n)。
+- 空间复杂度：O(1)。
+
+
+---
+
+### 方法一：递归
+
+![](images/509-1.png)
+
+``` go
+func fib(n int) int {
+	if n == 0 || n == 1 {
+		return n
+	}
+	return fib(n-1) + fib(n-2)
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(2^n)。
+- 空间复杂度：O(h)。
+
+### 方法二：带备忘录递归
+
+![](images/509-1-1.png)
+
+
+闭包写法：
+``` go
+func fib(n int) int {
+	memo := make([]int, n+1)//从0开始
+	var helper func(int) int
+
+	helper = func(n int) int {
+		if n == 0 || n == 1 {
+			return n
+		}
+		if memo[n] != 0 {
+			return memo[n]
+		}
+		memo[n] = helper(n-1) + helper(n-2)
+		return memo[n]
+	}
+
+	return helper(n)
+}
+```
+
+``` go
+func fib(n int) int {
+	memo := make([]int, n+1)
+	return helper(memo, n)
+}
+func helper(memo []int, n int) int {
+	if n < 2 {
+		return n
+	}
+	if memo[n] != 0 { //剪枝
+		return memo[n]
+	}
+	memo[n] = helper(memo, n-1) + helper(memo, n-2)
+	return memo[n]
+}
+```
+
+复杂度分析
+
+- 时间复杂度：O(n)。
+- 空间复杂度：O(n)。
+
+### 方法三：动态规划
+
+![](images/509-2.png)
+``` go
+func fib(n int) int {
+	if n == 0 {
+		return 0
+	}
+	dp := make([]int, n+1)
+	dp[0], dp[1] = 0, 1       //base case
+	for i := 2; i <= n; i++ { //状态转移
+		dp[i] = dp[i-1] + dp[i-2]
+	}
+	return dp[n]
+}
+```
+复杂度分析
+
+- 时间复杂度：O(n)。
+- 空间复杂度：O(n)。
+
+
+### 方法四：滚动数组
+
+![](images/509-3.png)
+
+动态规划空间优化：只存储前2项
+
+``` go
+func fib(n int) int {
+	if n == 0 || n == 1 { //base case
+		return n
+	} //递推关系
+	prev, curr := 0, 1
+	for i := 2; i <= n; i++ {
+		next := prev + curr // sum
+		prev = curr
+		curr = next
+	}
+	return curr
+}
+```
+
+
+
+复杂度分析
+
+- 时间复杂度：O(n)。
+- 空间复杂度：O(1)。
+
+
 
 ## [556. 下一个更大元素 III](https://leetcode-cn.com/problems/next-greater-element-iii/)
 

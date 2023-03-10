@@ -1,5 +1,11 @@
 
 
+1. [剑指 Offer 03. 数组中重复的数字](#剑指-offer-03-数组中重复的数字)
+2. [剑指 Offer 09. 用两个栈实现队列](#剑指-offer-09-用两个栈实现队列)
+3. [剑指 Offer 06. 从尾到头打印链表](#剑指-offer-06-从尾到头打印链表)
+4. [剑指 Offer 24. 反转链表](#剑指-offer-24-反转链表)
+
+
 
 ## [剑指 Offer 03. 数组中重复的数字](https://leetcode.cn/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/)
 
@@ -52,6 +58,48 @@ func findRepeatNumber(nums []int) int {
 
 
 
+## [剑指 Offer 09. 用两个栈实现队列](https://leetcode.cn/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
+
+```go
+type CQueue struct {
+    inStack,outStack []int 
+}
+
+func Constructor() CQueue {
+    return CQueue{
+    }
+}
+
+func (this *CQueue) AppendTail(value int)  {
+    this.inStack = append(this.inStack, value)
+}
+
+func (this *CQueue) DeleteHead() int {
+    if len(this.outStack) == 0 {
+        if len(this.inStack) == 0 {
+            return -1
+        }
+        this.in2out()
+    }
+    head := this.outStack[len(this.outStack)-1]
+    this.outStack = this.outStack[:len(this.outStack)-1]
+    return head
+}
+
+func (this *CQueue) in2out(){
+    for len(this.inStack) > 0 {
+        this.outStack = append(this.outStack, this.inStack[len(this.inStack)-1])
+        this.inStack = this.inStack[:len(this.inStack)-1]
+    }
+}
+
+/**
+ * Your CQueue object will be instantiated and called as such:
+ * obj := Constructor();
+ * obj.AppendTail(value);
+ * param_2 := obj.DeleteHead();
+ */
+```
 
 
 ## [剑指 Offer 06. 从尾到头打印链表](https://leetcode.cn/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/)
@@ -83,6 +131,35 @@ func reverseList(head *ListNode) *ListNode{
         dummy.Next = next
     }
     return dummy.Next
+}
+
+```
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func reversePrint(head *ListNode) (res []int) {
+    if head == nil {
+        return 
+    }
+    res = reversePrint(head.Next)
+    res = append(res, head.Val)
+    return 
+}
+func reversePrint1(head *ListNode) (res []int) {
+    stack := []int{}
+    for ; head != nil; head=head.Next {
+        stack = append(stack, head.Val)
+    }
+    for i := len(stack)-1; i >= 0; i-- {
+        res = append(res, stack[i])
+    }
+    return
 }
 ```
 

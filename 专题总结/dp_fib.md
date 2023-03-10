@@ -170,7 +170,7 @@ func numWays(n int) int {
 
 ### 方法一：递归
 
-![截屏2021-04-22 11.34.30.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsd9a3yaxj317o0o0q7h.jpg)
+![](images/509-1.png)
 
 ``` go
 func fib(n int) int {
@@ -188,8 +188,8 @@ func fib(n int) int {
 
 ### 方法二：带备忘录递归
 
+![](images/509-1-1.png)
 
-![截屏2021-04-23 20.07.36.png](http://ww1.sinaimg.cn/large/007daNw2ly1gptxon19akj319k0nw407.jpg)
 
 闭包写法：
 ``` go
@@ -236,8 +236,7 @@ func helper(memo []int, n int) int {
 
 ### 方法三：动态规划
 
-![截屏2021-04-22 11.35.07.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsda7wdjwj30zu0hwmyn.jpg)
-
+![](images/509-2.png)
 ``` go
 func fib(n int) int {
 	if n == 0 {
@@ -258,7 +257,7 @@ func fib(n int) int {
 
 ### 方法四：滚动数组
 
-![截屏2021-04-22 11.42.22.png](http://ww1.sinaimg.cn/large/007daNw2ly1gpsdgjxvorj31520kgjsx.jpg)
+![](images/509-3.png)
 
 动态规划空间优化：只存储前2项
 

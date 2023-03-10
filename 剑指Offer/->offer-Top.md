@@ -6,6 +6,7 @@
 4. [剑指 Offer 24. 反转链表](#剑指-offer-24-反转链表)
 5. [剑指 Offer 10- I. 斐波那契数列](#剑指-offer-10--i-斐波那契数列)
 6. [剑指 Offer 10- II. 青蛙跳台阶问题](#剑指-offer-10--ii-青蛙跳台阶问题)
+7. [剑指 Offer 30. 包含min函数的栈](#剑指-offer-30-包含min函数的栈)
 
 
 
@@ -14,6 +15,7 @@
 
 
 **解法一：原地交换**
+
 思路：把每个数放到对应的位置上，即让 nums[i] = i。
 从前往后遍历数组中的所有数，假设当前遍历到的数是 nums[i]，那么：
 
@@ -41,13 +43,12 @@ func findRepeatNumber(nums []int) int {
 
 ```go
 func findRepeatNumber(nums []int) int {
-	i, n := 0, len(nums)
-	for i < n {
+	for i := 0; i < len(nums); {
 		if nums[i] == i { // 此数字已在对应索引位置，无需交换，因此跳过
 			i++
 			continue
 		}
-		if nums[nums[i]] == nums[i] { // 索引 nums[i] 处和索引 i 处的元素值都为 nums[i]
+		if nums[nums[i]] == nums[i] { // 重复：索引 nums[i] 处和索引 i 处的元素值都为 nums[i]
 			return nums[i]            // 即找到一组重复值，返回此值 nums[i]
 		}
 		nums[nums[i]], nums[i] = nums[i], nums[nums[i]] // 将此数字交换至对应索引位置
@@ -269,4 +270,13 @@ func numWays2(n int) int {
 	}
 	return curr
 } 
+```
+
+
+
+## [剑指 Offer 30. 包含min函数的栈](https://leetcode.cn/problems/bao-han-minhan-shu-de-zhan-lcof/)
+
+
+```go
+
 ```

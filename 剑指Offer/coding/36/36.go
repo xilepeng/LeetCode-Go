@@ -15,18 +15,20 @@ func treeToDoublyList(root *TreeNode) *TreeNode {
 		return nil
 	}
 	dfs(root)
-	head.Left, prev.Right = prev, head
+	prev.Right = head // 连接双链
+	head.Left = prev
 	return head
 }
 func dfs(curr *TreeNode) {
 	if curr == nil {
 		return
 	}
-	dfs(curr.Left)
+	dfs(curr.Left) // 中序遍历: 左中右
 	if prev == nil {
 		head = curr
 	} else {
-		prev.Right, curr.Left = curr, prev
+		prev.Right = curr
+		curr.Left = prev
 	}
 	prev = curr
 	dfs(curr.Right)
@@ -42,6 +44,7 @@ func main() {
 	root.Right = node2
 	node1.Left = node3
 	node1.Right = node4
+
 	head := treeToDoublyList(root)
 	tail := head.Left
 	//从头开始遍历

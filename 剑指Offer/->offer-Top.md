@@ -1,12 +1,140 @@
 
 
-1. [剑指 Offer 03. 数组中重复的数字](#剑指-offer-03-数组中重复的数字)
+1. [剑指 Offer 22. 链表中倒数第k个节点](#剑指-offer-22-链表中倒数第k个节点)
 2. [剑指 Offer 09. 用两个栈实现队列](#剑指-offer-09-用两个栈实现队列)
-3. [剑指 Offer 06. 从尾到头打印链表](#剑指-offer-06-从尾到头打印链表)
-4. [剑指 Offer 24. 反转链表](#剑指-offer-24-反转链表)
-5. [剑指 Offer 10- I. 斐波那契数列](#剑指-offer-10--i-斐波那契数列)
-6. [剑指 Offer 10- II. 青蛙跳台阶问题](#剑指-offer-10--ii-青蛙跳台阶问题)
-7. [剑指 Offer 30. 包含min函数的栈](#剑指-offer-30-包含min函数的栈)
+3. [剑指 Offer 36. 二叉搜索树与双向链表](#剑指-offer-36-二叉搜索树与双向链表)
+4. [剑指 Offer 54. 二叉搜索树的第k大节点](#剑指-offer-54-二叉搜索树的第k大节点)
+5. [剑指 Offer 03. 数组中重复的数字](#剑指-offer-03-数组中重复的数字)
+6. [剑指 Offer 06. 从尾到头打印链表](#剑指-offer-06-从尾到头打印链表)
+7. [剑指 Offer 24. 反转链表](#剑指-offer-24-反转链表)
+8. [剑指 Offer 10- I. 斐波那契数列](#剑指-offer-10--i-斐波那契数列)
+9. [剑指 Offer 10- II. 青蛙跳台阶问题](#剑指-offer-10--ii-青蛙跳台阶问题)
+10. [剑指 Offer 30. 包含min函数的栈](#剑指-offer-30-包含min函数的栈)
+11. [剑指 Offer 04. 二维数组中的查找](#剑指-offer-04-二维数组中的查找)
+
+
+
+## [剑指 Offer 22. 链表中倒数第k个节点](https://leetcode.cn/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func getKthFromEnd(head *ListNode, k int) *ListNode {
+    slow, fast := head, head
+    for fast != nil {
+        if k > 0 {
+            fast = fast.Next
+            k--
+        } else {
+            slow, fast = slow.Next, fast.Next
+        }
+    }
+    return slow
+}
+func getKthFromEnd0(head *ListNode, k int) *ListNode {
+    slow, fast := head, head
+    for i := 0; fast != nil; i++ {
+        if i >= k {
+            slow = slow.Next
+        }
+        fast = fast.Next
+    }
+    return slow
+}
+```
+
+
+
+## [剑指 Offer 09. 用两个栈实现队列](https://leetcode.cn/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
+
+```go
+type CQueue struct {
+    inStack,outStack []int 
+}
+
+func Constructor() CQueue {
+    return CQueue{
+    }
+}
+
+func (this *CQueue) AppendTail(value int)  {
+    this.inStack = append(this.inStack, value)
+}
+
+func (this *CQueue) DeleteHead() int {
+    if len(this.outStack) == 0 {
+        if len(this.inStack) == 0 {
+            return -1
+        }
+        this.in2out()
+    }
+    head := this.outStack[len(this.outStack)-1]
+    this.outStack = this.outStack[:len(this.outStack)-1]
+    return head
+}
+
+func (this *CQueue) in2out(){
+    for len(this.inStack) > 0 {
+        this.outStack = append(this.outStack, this.inStack[len(this.inStack)-1])
+        this.inStack = this.inStack[:len(this.inStack)-1]
+    }
+}
+
+/**
+ * Your CQueue object will be instantiated and called as such:
+ * obj := Constructor();
+ * obj.AppendTail(value);
+ * param_2 := obj.DeleteHead();
+ */
+```
+
+
+## [剑指 Offer 36. 二叉搜索树与双向链表](https://leetcode.cn/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/description/)
+
+```go
+
+```
+
+
+
+
+## [剑指 Offer 54. 二叉搜索树的第k大节点](https://leetcode.cn/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
+
+
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func kthLargest(root *TreeNode, k int) (res int) {
+    var dfs func(*TreeNode)
+
+    dfs = func(root *TreeNode) {
+        if root == nil {
+            return
+        }
+        dfs(root.Right)
+        k--
+        if k == 0 { res = root.Val}
+        dfs(root.Left) 
+    }
+    
+    dfs(root)
+    return res
+}
+```
+
+
 
 
 
@@ -60,49 +188,6 @@ func findRepeatNumber(nums []int) int {
 [参考](https://leetcode.cn/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/solutions/96623/mian-shi-ti-03-shu-zu-zhong-zhong-fu-de-shu-zi-yua/)
 
 
-
-## [剑指 Offer 09. 用两个栈实现队列](https://leetcode.cn/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
-
-```go
-type CQueue struct {
-    inStack,outStack []int 
-}
-
-func Constructor() CQueue {
-    return CQueue{
-    }
-}
-
-func (this *CQueue) AppendTail(value int)  {
-    this.inStack = append(this.inStack, value)
-}
-
-func (this *CQueue) DeleteHead() int {
-    if len(this.outStack) == 0 {
-        if len(this.inStack) == 0 {
-            return -1
-        }
-        this.in2out()
-    }
-    head := this.outStack[len(this.outStack)-1]
-    this.outStack = this.outStack[:len(this.outStack)-1]
-    return head
-}
-
-func (this *CQueue) in2out(){
-    for len(this.inStack) > 0 {
-        this.outStack = append(this.outStack, this.inStack[len(this.inStack)-1])
-        this.inStack = this.inStack[:len(this.inStack)-1]
-    }
-}
-
-/**
- * Your CQueue object will be instantiated and called as such:
- * obj := Constructor();
- * obj.AppendTail(value);
- * param_2 := obj.DeleteHead();
- */
-```
 
 
 ## [剑指 Offer 06. 从尾到头打印链表](https://leetcode.cn/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/)
@@ -279,4 +364,28 @@ func numWays2(n int) int {
 
 ```go
 
+```
+
+
+## [剑指 Offer 04. 二维数组中的查找](https://leetcode.cn/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof/description/)
+
+
+```go
+func findNumberIn2DArray(matrix [][]int, target int) bool {
+    if len(matrix) == 0 {
+        return false
+    }
+    x, y := 0, len(matrix[0])-1
+    for x < len(matrix) && y >= 0 {
+        if matrix[x][y] == target {
+            return true
+        }
+        if target < matrix[x][y] {
+            y--
+        } else {
+            x++
+        }
+    }
+    return false
+}
 ```

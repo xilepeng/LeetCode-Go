@@ -10,6 +10,7 @@ type TreeNode struct {
 
 var head, prev *TreeNode // head 头 prev 尾
 
+// 二叉搜索树转双向循环链表
 func treeToDoublyList(root *TreeNode) *TreeNode {
 	if root == nil {
 		return nil
@@ -20,7 +21,9 @@ func treeToDoublyList(root *TreeNode) *TreeNode {
 	head.Left = prev  // 头指向尾
 	return head
 }
-func dfs(curr *TreeNode) { // 中序遍历: 左根右
+
+// 中序遍历: 左根右
+func dfs(curr *TreeNode) {
 	if curr == nil {
 		return
 	}
@@ -35,17 +38,8 @@ func dfs(curr *TreeNode) { // 中序遍历: 左根右
 	dfs(curr.Right) // 递归右子树
 }
 
-// 输出双向循环链表
-func outPut(root *TreeNode) {
-	for i := 0; i < 10; i++ {
-		if root != nil {
-			fmt.Print("<->", root.Val)
-		}
-		root = root.Right
-	}
-}
-
 func main() {
+	// 构造二叉搜索树
 	root := &TreeNode{4, nil, nil}
 	node1 := &TreeNode{2, nil, nil}
 	node2 := &TreeNode{5, nil, nil}
@@ -58,15 +52,21 @@ func main() {
 
 	head := treeToDoublyList(root)
 	tail := head.Left
-	//从头开始遍历
+
+	fmt.Println("从头开始遍历:")
 	for i := 0; i <= 9; i++ {
-		fmt.Printf("%d\t", head.Val)
+		fmt.Printf(" <-> %d", head.Val)
 		head = head.Right
 	}
-	//从尾开始遍历
+	fmt.Println("\n从尾开始遍历:")
 	for i := 0; i <= 9; i++ {
-		fmt.Printf("%d\t", tail.Val)
+		fmt.Printf(" <-> %d", tail.Val)
 		tail = tail.Left
 	}
 
 }
+
+//从头开始遍历:
+//<-> 1 <-> 2 <-> 3 <-> 4 <-> 5 <-> 1 <-> 2 <-> 3 <-> 4 <-> 5
+//从尾开始遍历:
+//<-> 5 <-> 4 <-> 3 <-> 2 <-> 1 <-> 5 <-> 4 <-> 3 <-> 2 <-> 1

@@ -1,3 +1,3 @@
-module LeetCode-Go/->Offer/coding
+module LeetCode-Go/Offer/coding
 
 go 1.20

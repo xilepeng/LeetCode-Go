@@ -12,6 +12,8 @@
 10. [剑指 Offer 30. 包含min函数的栈](#剑指-offer-30-包含min函数的栈)
 11. [剑指 Offer 04. 二维数组中的查找](#剑指-offer-04-二维数组中的查找)
 12. [剑指 Offer 33. 二叉搜索树的后序遍历序列](#剑指-offer-33-二叉搜索树的后序遍历序列)
+13. [剑指 Offer 42. 连续子数组的最大和](#剑指-offer-42-连续子数组的最大和)
+14. [剑指 Offer 51. 数组中的逆序对](#剑指-offer-51-数组中的逆序对)
 
 
 
@@ -513,4 +515,70 @@ func verifyPostorder2(postorder []int) bool {
 
     return dfs(0, len(postorder)-1)
 }
+```
+
+
+
+## [剑指 Offer 42. 连续子数组的最大和](https://leetcode.cn/problems/lian-xu-zi-shu-zu-de-zui-da-he-lcof/)
+
+
+```go
+func maxSubArray(nums []int) int {
+	max, preSum := math.MinInt32, 0 // max = nums[0] OK
+	for _, x := range nums {
+		if preSum < 0 {
+			preSum = 0
+		}
+		preSum += x
+		if max < preSum {
+			max = preSum
+		}
+	}
+	return max
+}
+```
+
+
+```go
+func maxSubArray(nums []int) int {
+	pre, maxSum := 0, nums[0]
+	for _, x := range nums {
+        // 若当前指针所指元素之前的和小于0，则丢弃当前元素之前的数列
+		pre = max(pre+x, x)       
+		maxSum = max(maxSum, pre) // 将当前值与最大值比较，取最大
+	}
+	return maxSum
+}
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+```
+
+```go
+func maxSubArray(nums []int) int {
+	max := nums[0]
+	for i := 1; i < len(nums); i++ {
+        // 若前一个元素大于0，将其加到当前元素上
+		if nums[i-1]+nums[i] > nums[i] { // nums[i-1] > 0  
+			nums[i] += nums[i-1]
+		}
+		if max < nums[i] {
+			max = nums[i]
+		}
+	}
+	return max
+}
+```
+
+
+
+
+## [剑指 Offer 51. 数组中的逆序对](https://leetcode.cn/problems/shu-zu-zhong-de-ni-xu-dui-lcof/)
+
+
+```go
+
 ```

@@ -665,7 +665,7 @@ func random_partition(A []int, start, end int) int {
 
 
 
-``` go
+```go
 func threeSum(nums []int) [][]int {
 	sort.Ints(nums)
 	res := [][]int{}
@@ -676,22 +676,22 @@ func threeSum(nums []int) [][]int {
 		}
 		if i > 0 && n1 == nums[i-1] { //如果和前一个相同，跳过
 			continue
-		} //转换为两数之和，双指针解法
-		l, r := i+1, len(nums)-1
-		for l < r {
-			n2, n3 := nums[l], nums[r]
+		}
+		start, end := i+1, len(nums)-1 //转换为两数之和，双指针解法
+		for start < end {
+			n2, n3 := nums[start], nums[end]
 			if n1+n2+n3 == 0 {
 				res = append(res, []int{n1, n2, n3})
-				for l < r && nums[l] == n2 { //去重移位
-					l++
+				for start < end && nums[start] == n2 { //去重移位
+					start++
 				}
-				for l < r && nums[r] == n3 {
-					r--
+				for start < end && nums[end] == n3 {
+					end--
 				}
 			} else if n1+n2+n3 < 0 {
-				l++
+				start++
 			} else {
-				r--
+				end--
 			}
 		}
 	}
@@ -716,17 +716,20 @@ func threeSum(nums []int) [][]int {
 
 **方法一：贪心**
 
-- 若当前指针所指元素之前的和小于0， 则丢弃当前元素之前的数列
-- 将当前值与最大值比较，取最大
+1. 若当前指针所指元素之前的和小于0， 则丢弃当前元素之前的数列 
+2. 将当前值与最大值比较，取最大
 
 ![](images/53-1.png)
 
-``` go
+
+
+```go
 func maxSubArray(nums []int) int {
-	curSum, maxSum := nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		curSum = max(nums[i], curSum+nums[i])
-		maxSum = max(maxSum, curSum)
+	pre, maxSum := 0, nums[0]
+	for _, x := range nums {
+        // 若当前指针所指元素之前的和小于0，则丢弃当前元素之前的数列
+		pre = max(pre+x, x)       
+		maxSum = max(maxSum, pre) // 将当前值与最大值比较，取最大
 	}
 	return maxSum
 }
@@ -738,13 +741,31 @@ func max(x, y int) int {
 }
 ```
 
+```go
+func maxSubArray(nums []int) int {
+	max := nums[0]
+	for i := 1; i < len(nums); i++ {
+		// 若前一个元素大于0，将其加到当前元素上
+		if nums[i-1]+nums[i] > nums[i] { // nums[i-1] > 0 
+			nums[i] += nums[i-1]
+		}
+		if max < nums[i] {
+			max = nums[i]
+		}
+	}
+	return max
+}
+```
+
+
+
 **方法二：动态规划**
 
 - 若前一个元素大于0，将其加到当前元素上
 
 ![](images/53-2.png)
 
-``` go
+```go
 func maxSubArray(nums []int) int {
 	max := nums[0]
 	for i := 1; i < len(nums); i++ {

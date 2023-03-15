@@ -11,6 +11,7 @@
 9. [剑指 Offer 10- II. 青蛙跳台阶问题](#剑指-offer-10--ii-青蛙跳台阶问题)
 10. [剑指 Offer 30. 包含min函数的栈](#剑指-offer-30-包含min函数的栈)
 11. [剑指 Offer 04. 二维数组中的查找](#剑指-offer-04-二维数组中的查找)
+12. [剑指 Offer 33. 二叉搜索树的后序遍历序列](#剑指-offer-33-二叉搜索树的后序遍历序列)
 
 
 
@@ -459,5 +460,57 @@ func findNumberIn2DArray(matrix [][]int, target int) bool {
         }
     }
     return false
+}
+```
+
+
+
+## [剑指 Offer 33. 二叉搜索树的后序遍历序列](https://leetcode.cn/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/description/)
+
+
+```go
+func verifyPostorder(postorder []int) bool {
+    var dfs func(int, int) bool
+
+    dfs = func(i, j int)bool {
+        if i >= j {   // 数组中元素最多只有一个
+            return true
+        }
+        left := i     // 左子树下标
+        for postorder[left] < postorder[j] { // postorder[i:right-1] < 根节点的值 
+            left++
+        }
+        right := left // 右子树下标
+        for postorder[right] > postorder[j] { // postorder[right:j-1] > 根节点的值 
+            right++
+        }
+        return right == j && dfs(i, right-1) && dfs(right, j-1) // 递归判断左右子树
+    }
+
+    return dfs(0, len(postorder)-1)
+}
+
+
+
+func verifyPostorder2(postorder []int) bool {
+    var dfs func(int, int) bool
+
+    dfs = func(i, j int)bool {
+        if i >= j {   // 数组中元素最多只有一个
+            return true
+        }
+        pos := i     // 左子树下标
+        for postorder[pos] < postorder[j] {     // postorder[i:pos-1] < 根节点的值 
+            pos++
+        }
+        for right := pos ; right < j; right++ {  // pos 右子树下标
+            if postorder[right] < postorder[j] { // postorder[pos:j-1] > 根节点的值 
+                return false
+            }
+        }
+        return dfs(i, pos-1) && dfs(pos, j-1) // 递归判断左右子树
+    }
+
+    return dfs(0, len(postorder)-1)
 }
 ```

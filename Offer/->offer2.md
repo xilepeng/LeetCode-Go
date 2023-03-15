@@ -4,6 +4,7 @@
 3. [33. 链表中倒数第k个节点](#33-链表中倒数第k个节点)
 4. [70. 二叉搜索树的第k个结点](#70-二叉搜索树的第k个结点)
 5. [15. 二维数组中的查找](#15-二维数组中的查找)
+6. [46. 二叉搜索树的后序遍历序列](#46-二叉搜索树的后序遍历序列)
 
 
 
@@ -153,5 +154,34 @@ func searchArray(matrix [][]int, target int) bool {
         }
     }
     return false
+}
+```
+
+
+
+
+## [46. 二叉搜索树的后序遍历序列](https://www.acwing.com/problem/content/44/)
+
+
+```go
+func verifySequenceOfBST(postorder []int) bool{
+	var dfs func(int, int) bool 
+	
+	dfs = func(i, j int) bool {
+	    if i >= j {
+	        return true
+	    }
+	    left := i 
+	    for postorder[left] < postorder[j] {
+	        left++
+	    }
+	    right := left
+	    for postorder[right] > postorder[j] {
+	        right++
+	    }
+	    return right == j && dfs(i, right-1) && dfs(right, j-1)
+	}
+	
+	return dfs(0, len(postorder)-1)
 }
 ```

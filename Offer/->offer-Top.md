@@ -610,6 +610,21 @@ func quickSelect(A []int, low, high, k int) {
 }
 
 func partition(A []int, low, high int) int {
+    i, j := low, high 
+    for i < j {
+        for i < j && A[i] <= A[high] {
+            i++
+        }
+        for i < j && A[j] >= A[high] {
+            j--
+        }
+        A[i], A[j] = A[j], A[i]
+    }
+    A[i], A[high] = A[high], A[i]
+    return i 
+}
+
+func Partition(A []int, low, high int) int {
     i, x := low, A[high]
     for j := low; j < high; j++ {
         if A[j] < x {

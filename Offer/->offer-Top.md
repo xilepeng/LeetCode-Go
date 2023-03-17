@@ -14,6 +14,7 @@
 12. [剑指 Offer 33. 二叉搜索树的后序遍历序列](#剑指-offer-33-二叉搜索树的后序遍历序列)
 13. [剑指 Offer 42. 连续子数组的最大和](#剑指-offer-42-连续子数组的最大和)
 14. [剑指 Offer 51. 数组中的逆序对](#剑指-offer-51-数组中的逆序对)
+15. [剑指 Offer 40. 最小的k个数](#剑指-offer-40-最小的k个数)
 
 
 
@@ -581,4 +582,42 @@ func maxSubArray(nums []int) int {
 
 ```go
 
+```
+
+
+
+
+## [剑指 Offer 40. 最小的k个数](https://leetcode.cn/problems/zui-xiao-de-kge-shu-lcof/description/)
+
+```go
+func getLeastNumbers(arr []int, k int) []int {
+    quickSelect(arr, 0, len(arr)-1, k)
+    return arr[:k]
+}
+
+func quickSelect(A []int, low, high, k int) {
+    if low >= high {
+        return
+    }
+    pos := partition(A, low, high)
+    if pos == k {
+        return
+    } else if pos < k {
+        quickSelect(A, pos+1, high, k)
+    } else {
+        quickSelect(A, low, pos-1, k)
+    }
+}
+
+func partition(A []int, low, high int) int {
+    i, x := low, A[high]
+    for j := low; j < high; j++ {
+        if A[j] < x {
+            A[i], A[j] = A[j], A[i]
+            i++
+        }
+    }
+    A[i], A[high] = A[high], A[i]
+    return i
+}
 ```

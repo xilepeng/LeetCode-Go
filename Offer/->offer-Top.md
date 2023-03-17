@@ -589,6 +589,8 @@ func maxSubArray(nums []int) int {
 
 ## [剑指 Offer 40. 最小的k个数](https://leetcode.cn/problems/zui-xiao-de-kge-shu-lcof/description/)
 
+**1. 结果无序**
+
 ```go
 func getLeastNumbers(arr []int, k int) []int {
     quickSelect(arr, 0, len(arr)-1, k)
@@ -634,5 +636,51 @@ func Partition(A []int, low, high int) int {
     }
     A[i], A[high] = A[high], A[i]
     return i
+}
+```
+
+
+**2. 结果有序**
+
+```go
+func getLeastNumbers(A []int, k int) (res []int) {
+	heapSize := len(A)
+	buildHeap(A, heapSize)
+	for i := heapSize - 1; i >= 0; i-- {
+		if k == 0 {
+			break
+		}
+		res = append(res, A[0])
+		k--
+		A[0], A[i] = A[i], A[0]
+		heapSize--
+		minHeapify(A, 0, heapSize)
+	}
+	return
+}
+
+func buildHeap(A []int, heapSize int) {
+	for i := heapSize >> 1; i >= 0; i-- {
+		minHeapify(A, i, heapSize)
+	}
+}
+
+// 小根堆：逆序
+func minHeapify(A []int, i, heapSize int) {
+	for i<<1+1 < heapSize {
+		lson, rson, small := i<<1+1, i<<1+2, i
+		for lson < heapSize && A[lson] < A[small] {
+			small = lson
+		}
+		for rson < heapSize && A[rson] < A[small] {
+			small = rson
+		}
+		if small != i {
+			A[i], A[small] = A[small], A[i]
+			i = small
+		} else {
+			break
+		}
+	}
 }
 ```

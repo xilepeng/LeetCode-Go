@@ -647,7 +647,7 @@ func getLeastNumbers(A []int, k int) (res []int) {
 	heapSize := len(A)
 	buildHeap(A, heapSize)
 	for i := heapSize - 1; i >= 0; i-- {
-		if k == 0 {
+		if k == 0 { // 优化
 			break
 		}
 		res = append(res, A[0])

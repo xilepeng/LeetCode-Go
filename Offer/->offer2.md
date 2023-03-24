@@ -5,6 +5,9 @@
 4. [70. 二叉搜索树的第k个结点](#70-二叉搜索树的第k个结点)
 5. [15. 二维数组中的查找](#15-二维数组中的查找)
 6. [46. 二叉搜索树的后序遍历序列](#46-二叉搜索树的后序遍历序列)
+7. [28. 在O(1)时间删除链表结点](#28-在o1时间删除链表结点)
+8. [53. 最小的k个数](#53-最小的k个数)
+9. [36. 合并两个排序的链表](#36-合并两个排序的链表)
 
 
 
@@ -185,3 +188,109 @@ func verifySequenceOfBST(postorder []int) bool{
 	return dfs(0, len(postorder)-1)
 }
 ```
+
+
+
+## [28. 在O(1)时间删除链表结点](https://www.acwing.com/problem/content/85/)
+
+```go
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+// 由于是单链表，我们不能找到前驱节点，所以我们不能按常规方法将该节点删除。
+// 我们可以换一种思路，将下一个节点的值复制到当前节点，然后将下一个节点删除即可。
+func deleteNode(node *ListNode)  {
+    node.Val = node.Next.Val
+    node.Next = node.Next.Next
+}
+```
+
+
+
+## [53. 最小的k个数](https://www.acwing.com/problem/content/49/)
+
+
+**2. 结果有序**
+
+```go
+func getLeastNumbers(A []int, k int) (res []int) {
+	heapSize := len(A)
+	buildHeap(A, heapSize)
+	for i := heapSize - 1; i >= 0; i-- {
+		if k == 0 { // 优化
+			break
+		}
+		res = append(res, A[0])
+		k--
+		A[0], A[i] = A[i], A[0]
+		heapSize--
+		minHeapify(A, 0, heapSize)
+	}
+	return
+}
+
+func buildHeap(A []int, heapSize int) {
+	for i := heapSize >> 1; i >= 0; i-- {
+		minHeapify(A, i, heapSize)
+	}
+}
+
+// 小根堆：降序
+func minHeapify(A []int, i, heapSize int) {
+	for i<<1+1 < heapSize {
+		lson, rson, small := i<<1+1, i<<1+2, i
+		for lson < heapSize && A[lson] < A[small] {
+			small = lson
+		}
+		for rson < heapSize && A[rson] < A[small] {
+			small = rson
+		}
+		if small != i {
+			A[i], A[small] = A[small], A[i]
+			i = small
+		} else {
+			break
+		}
+	}
+}
+```
+
+
+
+## [36. 合并两个排序的链表](https://www.acwing.com/problem/content/description/34/)
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func merge(l1 *ListNode, l2 *ListNode) *ListNode {
+    dummy := &ListNode{}
+    prev := dummy
+    for l1 != nil && l2 != nil {
+        if l1.Val < l2.Val {
+            prev.Next = l1
+            l1 = l1.Next
+        } else {
+            prev.Next = l2
+            l2 = l2.Next
+        }
+        prev = prev.Next
+    }
+    if l1 == nil {
+        prev.Next = l2
+    } else {
+        prev.Next = l1
+    }
+    return dummy.Next
+}
+```
+

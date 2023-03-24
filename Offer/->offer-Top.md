@@ -15,10 +15,16 @@
 13. [剑指 Offer 42. 连续子数组的最大和](#剑指-offer-42-连续子数组的最大和)
 14. [剑指 Offer 51. 数组中的逆序对](#剑指-offer-51-数组中的逆序对)
 15. [剑指 Offer 40. 最小的k个数](#剑指-offer-40-最小的k个数)
+16. [剑指 Offer 18. 删除链表的节点](#剑指-offer-18-删除链表的节点)
+17. [剑指 Offer 52. 两个链表的第一个公共节点](#剑指-offer-52-两个链表的第一个公共节点)
+18. [剑指 Offer 25. 合并两个排序的链表](#剑指-offer-25-合并两个排序的链表)
+19. [剑指 Offer 10- I. 斐波那契数列](#剑指-offer-10--i-斐波那契数列-1)
+20. [剑指 Offer 10- II. 青蛙跳台阶问题](#剑指-offer-10--ii-青蛙跳台阶问题-1)
 
 
 
 ## [剑指 Offer 22. 链表中倒数第k个节点](https://leetcode.cn/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)
+
 
 ```go
 /**
@@ -32,26 +38,27 @@ func getKthFromEnd(head *ListNode, k int) *ListNode {
     slow, fast := head, head
     for fast != nil {
         if k > 0 {
-            fast = fast.Next
+            fast = fast.Next // fast 指针先走 k 步
             k--
         } else {
-            slow, fast = slow.Next, fast.Next
+            slow = slow.Next
+            fast = fast.Next
         }
     }
     return slow
 }
-func getKthFromEnd0(head *ListNode, k int) *ListNode {
+
+func getKthFromEnd1(head *ListNode, k int) *ListNode {
     slow, fast := head, head
     for i := 0; fast != nil; i++ {
         if i >= k {
             slow = slow.Next
         }
-        fast = fast.Next
+        fast = fast.Next // fast 指针先走 k 步
     }
     return slow
 }
 ```
-
 
 
 ## [剑指 Offer 09. 用两个栈实现队列](https://leetcode.cn/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
@@ -612,6 +619,7 @@ func quickSelect(A []int, low, high, k int) {
 }
 
 func partition(A []int, low, high int) int {
+    A[high], A[low+(high-low)>>1] = A[low+(high-low)>>1], A[high] // 优化
     i, j := low, high 
     for i < j {
         for i < j && A[i] <= A[high] {
@@ -665,7 +673,7 @@ func buildHeap(A []int, heapSize int) {
 	}
 }
 
-// 小根堆：逆序
+// 小根堆：降序
 func minHeapify(A []int, i, heapSize int) {
 	for i<<1+1 < heapSize {
 		lson, rson, small := i<<1+1, i<<1+2, i
@@ -683,4 +691,194 @@ func minHeapify(A []int, i, heapSize int) {
 		}
 	}
 }
+```
+
+
+## [剑指 Offer 18. 删除链表的节点](https://leetcode.cn/problems/shan-chu-lian-biao-de-jie-dian-lcof/)
+
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func deleteNode(head *ListNode, val int) *ListNode {
+	dummy := &ListNode{Next: head}
+	prev, curr := dummy, dummy.Next
+	for curr != nil{
+		if curr.Val == val {
+            prev.Next = curr.Next
+        } 
+        prev = prev.Next
+        curr = curr.Next
+	}
+	return dummy.Next
+}
+```
+
+
+## [剑指 Offer 52. 两个链表的第一个公共节点](https://leetcode.cn/problems/liang-ge-lian-biao-de-di-yi-ge-gong-gong-jie-dian-lcof/)
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+	if headA == nil || headB == nil {
+		return nil
+	}
+	A, B := headA, headB
+	for A != B {
+		if A != nil {
+			A = A.Next
+		} else {
+			A = headB
+		}
+		if B != nil {
+			B = B.Next
+		} else {
+			B = headA
+		}
+	}
+	return A
+}
+```
+
+
+
+
+
+
+
+
+
+
+## [剑指 Offer 25. 合并两个排序的链表](https://leetcode.cn/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/)
+
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
+	dummy := &ListNode{}
+	prev := dummy
+	for l1 != nil && l2 != nil {
+		if l1.Val < l2.Val {
+			prev.Next = l1
+			l1 = l1.Next
+		} else {
+			prev.Next = l2
+			l2 = l2.Next
+		}
+		prev = prev.Next
+	}
+	if l1 == nil {
+		prev.Next = l2
+	} else {
+		prev.Next = l1
+	}
+	return dummy.Next
+}
+
+func mergeTwoLists1(l1 *ListNode, l2 *ListNode) *ListNode {
+	if l1 == nil {
+		return l2
+	} else if l2 == nil {
+		return l1
+	} else if l1.Val < l2.Val {
+		l1.Next = mergeTwoLists(l1.Next, l2)
+		return l1
+	} else {
+		l2.Next = mergeTwoLists(l1, l2.Next)
+		return l2
+	}
+}
+```
+
+
+
+
+
+## [剑指 Offer 10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
+
+
+
+```go
+func fib(n int) int {
+    prev, curr := 0, 1 
+    for ; n > 0; n-- {
+        sum := (prev + curr)%1000000007
+        prev = curr
+        curr = sum
+    }
+    return prev
+}
+```
+
+
+``` go
+func fib(n int) int {
+    if n == 0 || n == 1 {
+        return n 
+    }
+    prev, curr := 0, 1
+    for i := 2; i <= n; i++ {
+        next := (prev + curr)%1000000007
+        prev = curr
+        curr = next
+    }
+    return curr
+}
+```
+
+
+
+## [剑指 Offer 10- II. 青蛙跳台阶问题](https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/)
+
+``` go
+func numWays(n int) int {
+	prev, curr := 1, 1
+	for ; n > 0; n-- {
+		sum := (prev + curr) % 1000000007
+		prev = curr
+		curr = sum
+	}
+	return prev
+}
+
+
+func numWays1(n int) int {
+    if n == 1 || n == 2 {
+        return n 
+    }
+	prev, curr := 1, 1
+	for i := 2; i <= n; i++{
+		sum := (prev + curr) % 1000000007
+		prev = curr
+		curr = sum
+	}
+	return curr
+} 
+
+func numWays2(n int) int {
+	prev, curr := 1, 1
+	for i := 2; i <= n; i++{
+		sum := (prev + curr) % 1000000007
+		prev = curr
+		curr = sum
+	}
+	return curr
+} 
 ```

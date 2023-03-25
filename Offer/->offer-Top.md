@@ -20,6 +20,7 @@
 18. [剑指 Offer 25. 合并两个排序的链表](#剑指-offer-25-合并两个排序的链表)
 19. [剑指 Offer 10- I. 斐波那契数列](#剑指-offer-10--i-斐波那契数列-1)
 20. [剑指 Offer 10- II. 青蛙跳台阶问题](#剑指-offer-10--ii-青蛙跳台阶问题-1)
+21. [剑指 Offer 48. 最长不含重复字符的子字符串](#剑指-offer-48-最长不含重复字符的子字符串)
 
 
 
@@ -881,4 +882,30 @@ func numWays2(n int) int {
 	}
 	return curr
 } 
+```
+
+
+
+
+## [剑指 Offer 48. 最长不含重复字符的子字符串](https://leetcode.cn/problems/zui-chang-bu-han-zhong-fu-zi-fu-de-zi-zi-fu-chuan-lcof)
+
+```go
+func lengthOfLongestSubstring(s string) int {
+	longest, n := 0, len(s)
+	freq := make(map[byte]int, n) // 哈希集合记录每个字符出现次数
+	for i, j := 0, 0; j < n; j++ {
+		freq[s[j]]++         // 首次出现存入哈希
+		for freq[s[j]] > 1 { // 当前字符与首字符重复
+			freq[s[i]]-- // 收缩窗口，跳过重复首字符
+			i++ 		 // 向后扫描
+			if freq[s[j]] == 1 { // 优化：如果无重复退出循环
+				break
+			}
+		}
+		if longest < j-i+1 { // 统计无重复字符的最长子串
+			longest = j - i + 1
+		}
+	}
+	return longest
+}
 ```

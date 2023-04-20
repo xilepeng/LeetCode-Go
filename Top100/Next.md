@@ -276,3 +276,93 @@ func searchLastLessElement(nums []int, target int) int {
 	return -1
 }
 ```
+
+
+## [补充题5. 手撕归并排序](https://leetcode.cn/problems/sort-an-array/)
+
+```go
+func sortArray(nums []int) []int {
+	arrLen := len(nums)
+	if arrLen <= 1 {
+		return nums
+	}
+	mergeSort(nums, 0, arrLen-1)
+	return nums
+}
+
+func mergeSort(arr []int, start, end int) {
+	if start >= end {
+		return
+	}
+	mid := start + (end-start)>>1
+	mergeSort(arr, start, mid)
+	mergeSort(arr, mid+1, end)
+	// merge(arr, start, mid, end)
+	// merge1(arr, start, mid, end)
+	merge2(arr, start, mid, end)
+}
+
+func merge(arr []int, start, mid, end int) {
+	tmpArr := make([]int, end-start+1)
+	i, j, k := start, mid+1, 0
+	for ; i <= mid && j <= end; k++ {
+		if arr[i] < arr[j] {
+			tmpArr[k] = arr[i]
+			i++
+		} else {
+			tmpArr[k] = arr[j]
+			j++
+		}
+	}
+	for ; i <= mid; i++ {
+		tmpArr[k] = arr[i]
+		k++
+	}
+	for ; j <= end; j++ {
+		tmpArr[k] = arr[j]
+		k++
+	}
+	copy(arr[start:end+1], tmpArr)
+}
+
+func merge1(arr []int, start, mid, end int) {
+	tmpArr := make([]int, end-start+1)
+	i, j, k := start, mid+1, 0
+	for p := start; p <= end; p++ {
+		if i > mid {
+			tmpArr[k] = arr[j]
+			j++
+		} else if j > end {
+			tmpArr[k] = arr[i]
+			i++
+		} else if arr[i] < arr[j] {
+			tmpArr[k] = arr[i]
+			i++
+		} else {
+			tmpArr[k] = arr[j]
+			j++
+		}
+		k++
+	}
+	for p := 0; p < k; p++ {
+		arr[start] = tmpArr[p]
+		start++
+	}
+}
+
+func merge2(arr []int, start, mid, end int) {
+	tmpArr := make([]int, end-start+1)
+	i, j, k := start, mid+1, 0
+	for i <= mid || j <= end {
+		if j > end || (i <= mid && arr[i] < arr[j]) {
+			tmpArr[k] = arr[i]
+			i++
+		} else {
+			tmpArr[k] = arr[j]
+			j++
+		}
+		k++
+	}
+	copy(arr[start:end+1], tmpArr)
+}
+```

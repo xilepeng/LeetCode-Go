@@ -406,7 +406,7 @@ func fib1(n int) int {
 
 ## [剑指 Offer 10- II. 青蛙跳台阶问题](https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/)
 
-``` go
+```go
 func numWays(n int) int {
 	prev, curr := 1, 1
 	for ; n > 0; n-- {
@@ -681,7 +681,44 @@ func maxSubArray(nums []int) int {
 
 
 ```go
+func reversePairs(nums []int) int {
+	return mergeSort(nums, 0, len(nums)-1)
+}
 
+func mergeSort(arr []int, start, end int) int {
+	if start >= end {
+		return 0
+	}
+	mid := start + (end-start)>>1
+	left := mergeSort(arr, start, mid)
+	right := mergeSort(arr, mid+1, end)
+	cross := merge(arr, start, mid, end)
+	return left + right + cross
+}
+
+func merge(arr []int, start, mid, end int) int {
+	tmpArr := make([]int, end-start+1)
+	i, j, k, count := start, mid+1, 0, 0
+	for p := start; p <= end; p++ {
+		if i > mid {
+			tmpArr[k] = arr[j]
+			j++
+		} else if j > end {
+			tmpArr[k] = arr[i]
+			i++
+		} else if arr[i] <= arr[j] {
+			tmpArr[k] = arr[i]
+			i++
+		} else {
+			count += mid - i + 1
+			tmpArr[k] = arr[j]
+			j++
+		}
+		k++
+	}
+	copy(arr[start:end+1], tmpArr)
+	return count
+}
 ```
 
 

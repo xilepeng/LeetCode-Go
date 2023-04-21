@@ -1040,5 +1040,96 @@ func lengthOfLongestSubstring(s string) int {
 ```
 
 
+## [剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](https://leetcode.cn/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/)
 
 
+
+
+```go
+func exchange(nums []int) []int {
+    n := len(nums)
+    for slow, fast := 0, 0; fast < n; fast++ {
+        if nums[fast]&1 == 1 { // 奇数
+            nums[slow], nums[fast] = nums[fast], nums[slow] // 奇数交换到前半部分
+            slow++
+        }
+    }
+    return nums
+}
+```
+
+
+**方法一：两次遍历**
+思路
+
+新建一个数组 res 用来保存调整完成的数组。遍历两次 nums，第一次遍历时把所有奇数依次追加到 res 中，第二次遍历时把所有偶数依次追加到 res 中。
+
+```go
+func exchange(nums []int) []int {
+    res := make([]int, 0, len(nums))
+    for _,num := range nums {
+        if num%2 == 1 {
+            res = append(res, num)
+        }
+    }
+    for _,num := range nums {
+        if num%2 == 0 {
+            res = append(res, num)
+        }
+    }
+    return res
+}
+```
+
+**复杂度分析**
+
+- 时间复杂度：O(n)，其中 n 为数组 nums 的长度。需遍历 nums 两次。
+
+- 空间复杂度：O(1)。结果不计入空间复杂度。
+
+
+**方法二：双指针 + 一次遍历**
+```go
+func exchange(nums []int) []int {
+    n := len(nums)
+    res := make([]int, n)
+    left, right := 0, n-1
+    for _,num := range nums {
+        if num%2 == 1 {
+            res[left] = num
+            left++
+        } else {
+            res[right] = num
+            right--
+        }
+    }
+    return res
+}
+```
+**复杂度分析**
+
+- 时间复杂度：O(n)，其中 n 为数组 nums 的长度。需遍历 nums 1次。
+
+- 空间复杂度：O(1)。结果不计入空间复杂度。
+
+
+**方法三：原地交换**
+```go
+func exchange(nums []int) []int {
+    left, right := 0, len(nums)-1
+    for left < right {
+        for left < right && nums[left]%2 == 1 {
+            left++
+        }
+        for left < right && nums[right]%2 == 0 {
+            right--
+        }
+        if left < right {
+            nums[left], nums[right] = nums[right], nums[left]
+            left++
+            right--
+        }
+    }
+    return nums
+}
+```

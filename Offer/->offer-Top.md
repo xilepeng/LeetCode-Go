@@ -1124,11 +1124,7 @@ func exchange(nums []int) []int {
         for left < right && nums[right]%2 == 0 {
             right--
         }
-        if left < right {
-            nums[left], nums[right] = nums[right], nums[left]
-            //left++
-            //right--
-        }
+		nums[left], nums[right] = nums[right], nums[left]
     }
     return nums
 }

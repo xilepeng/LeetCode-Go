@@ -495,11 +495,11 @@ func mergeTwoLists(l1, l2 *ListNode) *ListNode {
 
 - 选择不遍历到底，可以减小横向、竖向遍历之间的影响
 
-- 轮迭代结束时，4条边的两端同时收窄 1
+- 一轮迭代结束时，4条边的两端同时收窄 1
 
-- 轮迭代所做的事情很清晰：遍历一个“圈”，遍历的范围收缩为内圈
+- 一轮迭代所做的事情很清晰：遍历一个“圈”，遍历的范围收缩为内圈
 
-- 层层向里处理，按顺时针依次遍历：上、右、下、左。
+- 一层层向里处理，按顺时针依次遍历：上、右、下、左。
 
 - 不再形成“环”了，就会剩下一行或一列，然后单独判断
 
@@ -531,7 +531,7 @@ func mergeTwoLists(l1, l2 *ListNode) *ListNode {
 - 时间复杂度 O(m*n)，m、n 分别是矩阵的行数和列数
 - 空间复杂度 O(m*n)
 
-``` go
+```go
 func spiralOrder(matrix [][]int) []int {
 	if len(matrix) == 0 {
 		return []int{}
@@ -575,7 +575,7 @@ func spiralOrder(matrix [][]int) []int {
 - 但你发现，**遍历完成要么发生在遍历完“上边”，要么发生在遍历完“右边”**
 - 所以只需在这两步操作之后，加 if (top > bottom || left > right) break 即可
 
-``` go
+```go
 func spiralOrder(matrix [][]int) []int {
 	if len(matrix) == 0 {
 		return []int{}
@@ -605,7 +605,7 @@ func spiralOrder(matrix [][]int) []int {
 - 不等于就继续遍历，等于就 break
 
 
-``` go
+```go
 func spiralOrder(matrix [][]int) []int {
 	if len(matrix) == 0 {
 		return []int{}

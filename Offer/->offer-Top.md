@@ -21,6 +21,10 @@
 19. [剑指 Offer 10- I. 斐波那契数列](#剑指-offer-10--i-斐波那契数列-1)
 20. [剑指 Offer 10- II. 青蛙跳台阶问题](#剑指-offer-10--ii-青蛙跳台阶问题-1)
 21. [剑指 Offer 48. 最长不含重复字符的子字符串](#剑指-offer-48-最长不含重复字符的子字符串)
+22. [剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](#剑指-offer-21-调整数组顺序使奇数位于偶数前面)
+23. [剑指 Offer 62. 圆圈中最后剩下的数字](#剑指-offer-62-圆圈中最后剩下的数字)
+24. [剑指 Offer 26. 树的子结构](#剑指-offer-26-树的子结构)
+25. [剑指 Offer 27. 二叉树的镜像](#剑指-offer-27-二叉树的镜像)
 
 
 
@@ -1126,10 +1130,159 @@ func exchange(nums []int) []int {
         }
 		if left < right {
             nums[left], nums[right] = nums[right], nums[left]	
-			//left++
+			//left++    
 			//right--
         }
     }
     return nums
 }
 ```
+
+
+## [剑指 Offer 62. 圆圈中最后剩下的数字](https://leetcode.cn/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/description/)
+
+递推关系：(新 + m) % n
+
+```go
+func lastRemaining(n int, m int) int {
+	if n == 1 {
+		return 0
+	}
+	return (lastRemaining(n-1, m) + m) % n
+}
+```
+
+```go
+func lastRemaining(n int, m int) int {
+	return f(n, m)
+}
+
+func f(n int, m int) int {
+	if n == 1 {
+		return 0
+	}
+	x := f(n-1, m)
+	return (x + m) % n
+}
+```
+
+
+## [剑指 Offer 26. 树的子结构](https://leetcode.cn/problems/shu-de-zi-jie-gou-lcof/description/)
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func isSubStructure(A *TreeNode, B *TreeNode) bool {
+	if A == nil || B == nil { // 约定空树不是任意一个树的子结构
+		return false
+	}
+	if isSame(A, B) {
+		return true
+	}
+	return isSubStructure(A.Left, B) || isSubStructure(A.Right, B)
+}
+
+func isSame(A *TreeNode, B *TreeNode) bool {
+	if B == nil {
+		return true
+	}
+	if A == nil || A.Val != B.Val {
+		return false
+	}
+	return isSame(A.Left, B.Left) && isSame(A.Right, B.Right)
+}
+```
+
+
+## [剑指 Offer 27. 二叉树的镜像](https://leetcode.cn/problems/er-cha-shu-de-jing-xiang-lcof/description/)
+
+
+![](../已完成/2022-LeetCode题解/images/Howell.png)
+
+**思路**：
+
+- 遍历的过程中反转每个节点的左右孩子就可以达到整体反转的效果；
+- 注意：只要把每一个结点的左右孩子都反转一下，就可以达到整体反转的效果；
+- 前序、后序、层序都可以，中序不可以，因为中序遍历会把某些节点的孩子反转2次；
+
+**解法一：递归**
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func mirrorTree(root *TreeNode) *TreeNode {
+    if root == nil {
+        return nil 
+    } // 前序遍历：根左右
+    root.Left, root.Right = root.Right, root.Left // 反转当前节点的左右孩子节点：交换左右孩子节点
+    mirrorTree(root.Left) // 反转左子树
+    mirrorTree(root.Right)// 反转右子树
+    return root
+}
+```
+    
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func mirrorTree(root *TreeNode) *TreeNode {
+    if root == nil {
+        return nil 
+    } // 后序遍历：左右根
+    mirrorTree(root.Left) // 反转左子树
+    mirrorTree(root.Right)// 反转右子树
+    root.Left, root.Right = root.Right, root.Left // 反转当前节点的左右孩子节点：交换左右孩子节点
+    return root
+}
+```
+
+**解法二：迭代法**
+
+- 模拟前序遍历
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func mirrorTree(root *TreeNode) *TreeNode {
+    if root == nil {
+        return nil
+    }
+    q := []*TreeNode{root}
+    for len(q) > 0 {
+        node := q[0]
+        q = q[1:]
+        node.Left, node.Right = node.Right, node.Left // 前序遍历：根左右
+        if node.Left != nil {
+            q = append(q, node.Left)
+        }
+        if node.Right != nil {
+            q = append(q, node.Right)
+        }
+    }
+    return root
+}
+```
+

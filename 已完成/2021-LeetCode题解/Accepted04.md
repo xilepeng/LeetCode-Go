@@ -705,22 +705,41 @@ func rotate(matrix [][]int) {
 ## [169. 多数元素](https://leetcode-cn.com/problems/majority-element/)
 
 
-``` go
+
+```go
 func majorityElement(nums []int) int {
-	m, vote := 0, 0
-	for _, x := range nums {
-		if vote == 0 {
-			m = x
+	res, count := -1, 0
+	for _, num := range nums {
+		if count == 0 { // 如果票数等于0，重新赋值，抵消掉非众数
+			res = num
 		}
-		if m == x { // x 等于众数
-			vote++
-		} else {
-			vote-- // 不相等，删除
+		if res == num { // 如果num和众数res相等,票数自增1
+			count++
+		} else { // 不相等,票数自减1
+			count--
 		}
 	}
-	return m
+	return res
 }
 ```
+
+```go
+func moreThanHalfNum_Solution(nums []int) int {
+    major, vote := -1, 0
+    for _, x := range nums {
+        if vote == 0 {
+            major = x 
+        }
+        if major == x {
+            vote++
+        } else {
+            vote--
+        }
+    }
+    return major
+}
+```
+
 
 
 

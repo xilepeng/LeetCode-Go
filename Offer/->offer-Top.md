@@ -1,4 +1,4 @@
-
+CodeTop排名
 
 1. [剑指 Offer 22. 链表中倒数第k个节点](#剑指-offer-22-链表中倒数第k个节点)
 2. [剑指 Offer 09. 用两个栈实现队列](#剑指-offer-09-用两个栈实现队列)
@@ -25,6 +25,12 @@
 23. [剑指 Offer 62. 圆圈中最后剩下的数字](#剑指-offer-62-圆圈中最后剩下的数字)
 24. [剑指 Offer 26. 树的子结构](#剑指-offer-26-树的子结构)
 25. [剑指 Offer 27. 二叉树的镜像](#剑指-offer-27-二叉树的镜像)
+26. [剑指 Offer 29. 顺时针打印矩阵](#剑指-offer-29-顺时针打印矩阵)
+27. [剑指 Offer 52. 两个链表的第一个公共节点](#剑指-offer-52-两个链表的第一个公共节点-1)
+28. [剑指 Offer 61. 扑克牌中的顺子](#剑指-offer-61-扑克牌中的顺子)
+29. [剑指 Offer 39. 数组中出现次数超过一半的数字](#剑指-offer-39-数组中出现次数超过一半的数字)
+30. [剑指 Offer 45. 把数组排成最小的数](#剑指-offer-45-把数组排成最小的数)
+31. [剑指 Offer 34. 二叉树中和为某一值的路径](#剑指-offer-34-二叉树中和为某一值的路径)
 
 
 
@@ -1286,3 +1292,163 @@ func mirrorTree(root *TreeNode) *TreeNode {
 }
 ```
 
+## [剑指 Offer 29. 顺时针打印矩阵](https://leetcode.cn/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/)
+
+```go
+func spiralOrder(matrix [][]int) (res []int) {
+	if len(matrix) == 0 {
+		return
+	}
+	top, right, bottom, left := 0, len(matrix[0])-1, len(matrix)-1, 0
+	for left <= right && top <= bottom { // 一条边从头遍历到底 (包括最后一个元素)
+		for i := left; i <= right; i++ { // 上
+			res = append(res, matrix[top][i])
+		}
+		top++                            // 四个边界同时收缩，进入内层
+		for i := top; i <= bottom; i++ { // 右
+			res = append(res, matrix[i][right])
+		}
+		right--
+		if top > bottom || left > right { // 防止重复遍历
+			break
+		}
+		for i := right; i >= left; i-- { // 下
+			res = append(res, matrix[bottom][i])
+		}
+		bottom--
+		for i := bottom; i >= top; i-- { // 左
+			res = append(res, matrix[i][left])
+		}
+		left++
+	}
+	return
+}
+```
+
+## [剑指 Offer 52. 两个链表的第一个公共节点](https://leetcode.cn/problems/liang-ge-lian-biao-de-di-yi-ge-gong-gong-jie-dian-lcof/)
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+	A, B := headA, headB
+	for A != B {
+		if A != nil {
+			A = A.Next
+		} else { // 首次遍历到尾，以另一个链表的头为起点从头开始遍历
+			A = headB
+		}
+		if B != nil {
+			B = B.Next
+		} else {
+			B = headA
+		}
+	}
+	return A // 直到链表相交 A == B，退出循环返回
+}
+```
+
+
+## [剑指 Offer 61. 扑克牌中的顺子](https://leetcode.cn/problems/bu-ke-pai-zhong-de-shun-zi-lcof/)
+
+```go
+func isStraight(nums []int) bool {
+	m := make(map[int]int, 5)
+	min, max := 14, 0
+	for _, num := range nums {
+		if num == 0 { // 跳过大小王
+			continue
+		}
+		if num < min { // 最小牌
+			min = num
+		}
+		if num > max { // 最大牌
+			max = num
+		}
+		if _, ok := m[num]; ok { // 若有重复，提前返回 false
+			return false
+		}
+		m[num] = num // 添加牌至 Set
+	}
+	return max-min < 5 // 最大牌 - 最小牌 < 5 则可构成顺子
+}
+```
+
+
+
+```go
+func isStraight(nums []int) bool {
+	joker := 0
+	sort.Ints(nums) // 数组排序
+	for i := 0; i < len(nums)-1; i++ {
+		if nums[i] == 0 { // 统计大小王数量
+			joker++
+		} else if nums[i] == nums[i+1] { // 若有重复，提前返回 false
+			return false
+		}
+	}
+	return nums[4]-nums[joker] < 5 // 最大牌 - 最小牌 < 5 则可构成顺子
+}
+```
+
+
+![参考](https://leetcode.cn/problems/bu-ke-pai-zhong-de-shun-zi-lcof/solutions/212071/mian-shi-ti-61-bu-ke-pai-zhong-de-shun-zi-ji-he-se/)
+
+
+
+## [剑指 Offer 39. 数组中出现次数超过一半的数字](https://leetcode.cn/problems/shu-zu-zhong-chu-xian-ci-shu-chao-guo-yi-ban-de-shu-zi-lcof/)
+
+
+```go
+func majorityElement(nums []int) int {
+	res, count := -1, 0
+	for _, num := range nums {
+		if count == 0 { // 如果票数等于0，重新赋值，抵消掉非众数
+			res = num
+		}
+		if res == num { // 如果num和众数res相等,票数自增1
+			count++
+		} else { // 不相等,票数自减1
+			count--
+		}
+	}
+	return res
+}
+```
+
+```go
+func moreThanHalfNum_Solution(nums []int) int {
+    major, vote := -1, 0
+    for _, x := range nums {
+        if vote == 0 {
+            major = x 
+        }
+        if major == x {
+            vote++
+        } else {
+            vote--
+        }
+    }
+    return major
+}
+```
+
+
+## [剑指 Offer 45. 把数组排成最小的数](https://leetcode.cn/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/)
+
+```go
+
+
+```
+
+## [剑指 Offer 34. 二叉树中和为某一值的路径](https://leetcode.cn/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/)
+
+```go
+
+
+```

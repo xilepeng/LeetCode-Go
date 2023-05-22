@@ -1,6 +1,8 @@
 
 1. [155. 最小栈](#155-最小栈)
 2. [34. 在排序数组中查找元素的第一个和最后一个位置](#34-在排序数组中查找元素的第一个和最后一个位置)
+3. [补充题5. 手撕归并排序](#补充题5-手撕归并排序)
+4. [154. 寻找旋转排序数组中的最小值 II](#154-寻找旋转排序数组中的最小值-ii)
 
 
 ## [155. 最小栈](https://leetcode.cn/problems/min-stack/)
@@ -364,5 +366,27 @@ func merge2(arr []int, start, mid, end int) {
 		k++
 	}
 	copy(arr[start:end+1], tmpArr)
+}
+```
+
+
+
+
+## [154. 寻找旋转排序数组中的最小值 II](https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii/description/)
+
+```go
+func findMin(nums []int) int {
+	low, high := 0, len(nums)-1
+	for low < high {
+		mid := low + ((high - low) >> 1) // mid = (low + high)/2
+		if nums[mid] < nums[high] {      // mid 在右排序区，旋转点在[low, mid]
+			high = mid
+		} else if nums[mid] > nums[high] { // mid 在左排序区，旋转点在[mid+1, high]
+			low = mid + 1
+		} else { // 无法判断 mid 在哪个排序数组中
+			high--
+		}
+	}
+	return nums[low]
 }
 ```

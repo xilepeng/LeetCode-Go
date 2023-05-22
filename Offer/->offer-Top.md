@@ -4,33 +4,39 @@ CodeTop排名
 2. [剑指 Offer 09. 用两个栈实现队列](#剑指-offer-09-用两个栈实现队列)
 3. [剑指 Offer 36. 二叉搜索树与双向链表](#剑指-offer-36-二叉搜索树与双向链表)
 4. [剑指 Offer 54. 二叉搜索树的第k大节点](#剑指-offer-54-二叉搜索树的第k大节点)
-5. [剑指 Offer 03. 数组中重复的数字](#剑指-offer-03-数组中重复的数字)
-6. [剑指 Offer 06. 从尾到头打印链表](#剑指-offer-06-从尾到头打印链表)
-7. [剑指 Offer 24. 反转链表](#剑指-offer-24-反转链表)
-8. [剑指 Offer 10- I. 斐波那契数列](#剑指-offer-10--i-斐波那契数列)
-9. [剑指 Offer 10- II. 青蛙跳台阶问题](#剑指-offer-10--ii-青蛙跳台阶问题)
-10. [剑指 Offer 30. 包含min函数的栈](#剑指-offer-30-包含min函数的栈)
-11. [剑指 Offer 04. 二维数组中的查找](#剑指-offer-04-二维数组中的查找)
-12. [剑指 Offer 33. 二叉搜索树的后序遍历序列](#剑指-offer-33-二叉搜索树的后序遍历序列)
-13. [剑指 Offer 42. 连续子数组的最大和](#剑指-offer-42-连续子数组的最大和)
-14. [剑指 Offer 51. 数组中的逆序对](#剑指-offer-51-数组中的逆序对)
-15. [剑指 Offer 40. 最小的k个数](#剑指-offer-40-最小的k个数)
-16. [剑指 Offer 18. 删除链表的节点](#剑指-offer-18-删除链表的节点)
-17. [剑指 Offer 52. 两个链表的第一个公共节点](#剑指-offer-52-两个链表的第一个公共节点)
-18. [剑指 Offer 25. 合并两个排序的链表](#剑指-offer-25-合并两个排序的链表)
-19. [剑指 Offer 10- I. 斐波那契数列](#剑指-offer-10--i-斐波那契数列-1)
-20. [剑指 Offer 10- II. 青蛙跳台阶问题](#剑指-offer-10--ii-青蛙跳台阶问题-1)
-21. [剑指 Offer 48. 最长不含重复字符的子字符串](#剑指-offer-48-最长不含重复字符的子字符串)
-22. [剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](#剑指-offer-21-调整数组顺序使奇数位于偶数前面)
-23. [剑指 Offer 62. 圆圈中最后剩下的数字](#剑指-offer-62-圆圈中最后剩下的数字)
-24. [剑指 Offer 26. 树的子结构](#剑指-offer-26-树的子结构)
-25. [剑指 Offer 27. 二叉树的镜像](#剑指-offer-27-二叉树的镜像)
-26. [剑指 Offer 29. 顺时针打印矩阵](#剑指-offer-29-顺时针打印矩阵)
-27. [剑指 Offer 52. 两个链表的第一个公共节点](#剑指-offer-52-两个链表的第一个公共节点-1)
-28. [剑指 Offer 61. 扑克牌中的顺子](#剑指-offer-61-扑克牌中的顺子)
-29. [剑指 Offer 39. 数组中出现次数超过一半的数字](#剑指-offer-39-数组中出现次数超过一半的数字)
-30. [剑指 Offer 45. 把数组排成最小的数](#剑指-offer-45-把数组排成最小的数)
-31. [剑指 Offer 34. 二叉树中和为某一值的路径](#剑指-offer-34-二叉树中和为某一值的路径)
+5. [剑指 Offer 06. 从尾到头打印链表](#剑指-offer-06-从尾到头打印链表)
+6. [剑指 Offer 10- I. 斐波那契数列](#剑指-offer-10--i-斐波那契数列)
+7. [剑指 Offer 10- II. 青蛙跳台阶问题](#剑指-offer-10--ii-青蛙跳台阶问题)
+8. [剑指 Offer 30. 包含min函数的栈](#剑指-offer-30-包含min函数的栈)
+9. [剑指 Offer 04. 二维数组中的查找](#剑指-offer-04-二维数组中的查找)
+10. [剑指 Offer 42. 连续子数组的最大和](#剑指-offer-42-连续子数组的最大和)
+11. [剑指 Offer 51. 数组中的逆序对](#剑指-offer-51-数组中的逆序对)
+12. [剑指 Offer 40. 最小的k个数](#剑指-offer-40-最小的k个数)
+13. [剑指 Offer 18. 删除链表的节点](#剑指-offer-18-删除链表的节点)
+14. [剑指 Offer 52. 两个链表的第一个公共节点](#剑指-offer-52-两个链表的第一个公共节点)
+15. [剑指 Offer 25. 合并两个排序的链表](#剑指-offer-25-合并两个排序的链表)
+16. [剑指 Offer 10- I. 斐波那契数列](#剑指-offer-10--i-斐波那契数列-1)
+17. [剑指 Offer 10- II. 青蛙跳台阶问题](#剑指-offer-10--ii-青蛙跳台阶问题-1)
+18. [剑指 Offer 48. 最长不含重复字符的子字符串](#剑指-offer-48-最长不含重复字符的子字符串)
+19. [剑指 Offer 21. 调整数组顺序使奇数位于偶数前面](#剑指-offer-21-调整数组顺序使奇数位于偶数前面)
+20. [剑指 Offer 62. 圆圈中最后剩下的数字](#剑指-offer-62-圆圈中最后剩下的数字)
+21. [剑指 Offer 26. 树的子结构](#剑指-offer-26-树的子结构)
+22. [剑指 Offer 27. 二叉树的镜像](#剑指-offer-27-二叉树的镜像)
+23. [剑指 Offer 29. 顺时针打印矩阵](#剑指-offer-29-顺时针打印矩阵)
+24. [剑指 Offer 52. 两个链表的第一个公共节点](#剑指-offer-52-两个链表的第一个公共节点-1)
+25. [剑指 Offer 61. 扑克牌中的顺子](#剑指-offer-61-扑克牌中的顺子)
+26. [剑指 Offer 39. 数组中出现次数超过一半的数字](#剑指-offer-39-数组中出现次数超过一半的数字)
+27. [剑指 Offer 45. 把数组排成最小的数](#剑指-offer-45-把数组排成最小的数)
+28. [剑指 Offer 34. 二叉树中和为某一值的路径](#剑指-offer-34-二叉树中和为某一值的路径)
+29. [剑指 Offer 53 - I. 在排序数组中查找数字 I](#剑指-offer-53---i-在排序数组中查找数字-i)
+30. [剑指 Offer 48. 最长不含重复字符的子字符串](#剑指-offer-48-最长不含重复字符的子字符串-1)
+31. [剑指 Offer 11. 旋转数组的最小数字](#剑指-offer-11-旋转数组的最小数字)
+32. [剑指 Offer 33. 二叉搜索树的后序遍历序列](#剑指-offer-33-二叉搜索树的后序遍历序列)
+33. [剑指 Offer 03. 数组中重复的数字](#剑指-offer-03-数组中重复的数字)
+34. [剑指 Offer 32 - III. 从上到下打印二叉树 III](#剑指-offer-32---iii-从上到下打印二叉树-iii)
+35. [剑指 Offer 07. 重建二叉树 📝](#剑指-offer-07-重建二叉树-)
+36. [剑指 Offer 35. 复杂链表的复制 📝](#剑指-offer-35-复杂链表的复制-)
+37. [剑指 Offer 24. 反转链表](#剑指-offer-24-反转链表)
 
 
 
@@ -231,59 +237,6 @@ func kthLargest(root *TreeNode, k int) (res int) {
 
 
 
-
-## [剑指 Offer 03. 数组中重复的数字](https://leetcode.cn/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/)
-
-
-
-**解法一：原地交换**
-
-思路：把每个数放到对应的位置上，即让 nums[i] = i。
-从前往后遍历数组中的所有数，假设当前遍历到的数是 nums[i]，那么：
-
-- 如果 nums[i] != i && nums[nums[i]] == nums[i]，则说明 nums[i] 出现了多次，直接返回 nums[i] 即可；
-- 如果 nums[nums[i]] != nums[i]，那我们就把 x 交换到正确的位置上，即 swap(nums[nums[i]], nums[i])，每次swap操作都会将一个数放在正确的位置上，
-- 交换完之后如果nums[i] != i，则重复进行该操作。由于每次交换都会将一个数放在正确的位置上，所以swap操作最多会进行 n 次，不会发生死循环。
-循环结束后，如果没有找到任何重复的数，则返回-1。
-
-```go
-func findRepeatNumber(nums []int) int {
-	for i := range nums {
-		for nums[nums[i]] != nums[i] { // 如果 nums[i] 不在 nums[i] 位置
-			nums[nums[i]], nums[i] = nums[i], nums[nums[i]] // 每次swap操作都会将一个数放在正确的位置上
-		}
-		if nums[i] != i { // 如果出现重复，直接返回
-			return nums[i]
-		}
-	}
-	return -1
-}
-```
-
-
-**解法二：原地交换**
-
-```go
-func findRepeatNumber(nums []int) int {
-	for i := 0; i < len(nums); {
-		if nums[i] == i { // 此数字已在对应索引位置，无需交换，因此跳过
-			i++
-			continue
-		}
-		if nums[nums[i]] == nums[i] { // 重复：索引 nums[i] 处和索引 i 处的元素值都为 nums[i]
-			return nums[i]            // 即找到一组重复值，返回此值 nums[i]
-		}
-		nums[nums[i]], nums[i] = nums[i], nums[nums[i]] // 将此数字交换至对应索引位置
-	}
-	return -1
-}
-```
-
-[参考](https://leetcode.cn/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/solutions/96623/mian-shi-ti-03-shu-zu-zhong-zhong-fu-de-shu-zi-yua/)
-
-
-
-
 ## [剑指 Offer 06. 从尾到头打印链表](https://leetcode.cn/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/)
 
 ```go
@@ -345,41 +298,6 @@ func reversePrint1(head *ListNode) (res []int) {
 }
 ```
 
-
-## [剑指 Offer 24. 反转链表](https://leetcode.cn/problems/fan-zhuan-lian-biao-lcof/)
-
-```go
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func reverseList(head *ListNode) *ListNode{
-    dummy := &ListNode{Next:head}
-    curr := head
-    for curr != nil && curr.Next != nil {
-        next := curr.Next
-        curr.Next = next.Next
-        next.Next = dummy.Next
-        dummy.Next = next
-    }
-    return dummy.Next
-}
-
-func reverseList1(head *ListNode) *ListNode {
-    var prev *ListNode
-    curr := head
-    for curr != nil {
-        next := curr.Next
-        curr.Next = prev
-        prev = curr
-        curr = next
-    }
-    return prev
-}
-```
 
 
 
@@ -577,56 +495,6 @@ func findNumberIn2DArray(matrix [][]int, target int) bool {
 ```
 
 
-
-## [剑指 Offer 33. 二叉搜索树的后序遍历序列](https://leetcode.cn/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/description/)
-
-
-```go
-func verifyPostorder(postorder []int) bool {
-    var dfs func(int, int) bool
-
-    dfs = func(i, j int)bool {
-        if i >= j {   // 数组中元素最多只有一个
-            return true
-        }
-        left := i     // 左子树下标
-        for postorder[left] < postorder[j] { // postorder[i:right-1] < 根节点的值 
-            left++
-        }
-        right := left // 右子树下标
-        for postorder[right] > postorder[j] { // postorder[right:j-1] > 根节点的值 
-            right++
-        }
-        return right == j && dfs(i, right-1) && dfs(right, j-1) // 递归判断左右子树
-    }
-
-    return dfs(0, len(postorder)-1)
-}
-
-
-
-func verifyPostorder2(postorder []int) bool {
-    var dfs func(int, int) bool
-
-    dfs = func(i, j int)bool {
-        if i >= j {   // 数组中元素最多只有一个
-            return true
-        }
-        pos := i     // 左子树下标
-        for postorder[pos] < postorder[j] {     // postorder[i:pos-1] < 根节点的值 
-            pos++
-        }
-        for right := pos ; right < j; right++ {  // pos 右子树下标
-            if postorder[right] < postorder[j] { // postorder[pos:j-1] > 根节点的值 
-                return false
-            }
-        }
-        return dfs(i, pos-1) && dfs(pos, j-1) // 递归判断左右子树
-    }
-
-    return dfs(0, len(postorder)-1)
-}
-```
 
 
 
@@ -1443,12 +1311,359 @@ func moreThanHalfNum_Solution(nums []int) int {
 
 ```go
 
+func minNumber(nums []int) string {
+    // 快排实现排序，排序后转成string
+	res := make([]string, len(nums))
+	for i, v := range nums {
+		res[i] = strconv.Itoa(v)
+	}
+	compare := func(str1, str2 string) bool {
+		nums1, _ := strconv.Atoi(str1 + str2)
+		nums2, _ := strconv.Atoi(str2 + str1)
+		if nums1 < nums2 {
+			return true
+		}
+		return false
+	}
+	var quickSort func([]string, int, int)
 
+	quickSort = func(strArr []string, low, high int) {
+		if low > high {
+			return
+		}
+		i, j := low, len(strArr)-1
+		pivot := strArr[high]
+		for i < j {
+			for i < j && compare(strArr[i], pivot) {
+				i++
+			}
+			for i < j && !compare(strArr[j], pivot) {
+				j--
+			}
+			strArr[i], strArr[j] = strArr[j], strArr[i]
+		}
+		strArr[i], strArr[high] = strArr[high], strArr[i]
+
+		quickSort(strArr, low, i-1)
+		quickSort(strArr, i+1, high)
+	}
+
+	quickSort(res, 0, len(res)-1)
+
+	ans := ""
+	for _, s := range res {
+		ans += s
+	}
+	return ans
+}
 ```
+
+![参考题解](https://leetcode.cn/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/solutions/190476/mian-shi-ti-45-ba-shu-zu-pai-cheng-zui-xiao-de-s-4/)
+
+！[参考视频](https://www.acwing.com/video/182/)
+
 
 ## [剑指 Offer 34. 二叉树中和为某一值的路径](https://leetcode.cn/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/)
 
 ```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func pathSum(root *TreeNode, target int) (res [][]int) {
+    path := []int{}
+    var preorder func(*TreeNode, int)
+    
+    preorder = func(node *TreeNode, left int) {
+        if node == nil {
+            return
+        }
+        left -= node.Val
+        path = append(path, node.Val)
+        defer func(){path = path[:len(path)-1]}()
+        if left == 0 && node.Left == nil && node.Right == nil {
+            res = append(res, append([]int(nil), path...))
+            return
+        }
+        preorder(node.Left, left)
+        preorder(node.Right, left)
+    }
 
+    preorder(root, target)
+    return 
+}
+```
+
+## [剑指 Offer 53 - I. 在排序数组中查找数字 I](https://leetcode.cn/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/description/)
+
+```go
+// 二分查找 target 和 target−1 的右边界，将两结果相减并返回即可。
+func search(nums []int, target int) int {
+	var searchFirstGreaterElement func(int) int // 第一个大于 target的数的下标
+	searchFirstGreaterElement = func(target int) int {
+		low, high := 0, len(nums)-1
+		for low <= high {
+			mid := low + ((high - low) >> 1)
+			if nums[mid] <= target {
+				low = mid + 1
+			} else {
+				high = mid - 1
+			}
+		}
+		return low
+	}
+	return searchFirstGreaterElement(target) - searchFirstGreaterElement(target-1)
+}
+```
+
+![参考](https://leetcode.cn/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/solutions/155893/mian-shi-ti-53-i-zai-pai-xu-shu-zu-zhong-cha-zha-5/)
+
+
+## [剑指 Offer 48. 最长不含重复字符的子字符串](https://leetcode.cn/problems/zui-chang-bu-han-zhong-fu-zi-fu-de-zi-zi-fu-chuan-lcof/)
+
+```go
+func lengthOfLongestSubstring(s string) int {
+	longest, n := 0, len(s)
+	freq := make(map[byte]int, n) // 哈希集合记录每个字符出现次数
+	for i, j := 0, 0; j < n; j++ {
+		freq[s[j]]++         // 首次出现存入哈希
+		for freq[s[j]] > 1 { // 当前字符与首字符重复
+			freq[s[i]]-- // 收缩窗口，跳过重复首字符
+			i++ 		 // 向后扫描
+			if freq[s[j]] == 1 { // 优化：如果无重复退出循环
+				break
+			}
+		}
+		if longest < j-i+1 { // 统计无重复字符的最长子串
+			longest = j - i + 1
+		}
+	}
+	return longest
+}
+```
+
+
+
+## [剑指 Offer 11. 旋转数组的最小数字](https://leetcode.cn/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/description/)
+
+```go
+func minArray(nums []int) int {
+	low, high := 0, len(nums)-1
+	for low < high {
+		mid := low + ((high - low) >> 1) // mid = (low + high)/2
+		if nums[mid] < nums[high] {      // mid 在右排序区，旋转点在[low, mid]
+			high = mid
+		} else if nums[mid] > nums[high] { // mid 在左排序区，旋转点在[mid+1, high]
+			low = mid + 1
+		} else { // 无法判断 mid 在哪个排序数组中
+			high--
+		}
+	}
+	return nums[low]
+}
+```
+
+
+## [剑指 Offer 33. 二叉搜索树的后序遍历序列](https://leetcode.cn/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/description/)
+
+
+```go
+func verifyPostorder(postorder []int) bool {
+    var dfs func(int, int) bool
+
+    dfs = func(i, j int)bool {
+        if i >= j {   // 数组中元素最多只有一个
+            return true
+        }
+        left := i     // 左子树下标
+        for postorder[left] < postorder[j] { // postorder[i:right-1] < 根节点的值 
+            left++
+        }
+        right := left // 右子树下标
+        for postorder[right] > postorder[j] { // postorder[right:j-1] > 根节点的值 
+            right++
+        }
+        return right == j && dfs(i, right-1) && dfs(right, j-1) // 递归判断左右子树
+    }
+
+    return dfs(0, len(postorder)-1)
+}
+
+
+
+func verifyPostorder2(postorder []int) bool {
+    var dfs func(int, int) bool
+
+    dfs = func(i, j int)bool {
+        if i >= j {   // 数组中元素最多只有一个
+            return true
+        }
+        pos := i     // 左子树下标
+        for postorder[pos] < postorder[j] {     // postorder[i:pos-1] < 根节点的值 
+            pos++
+        }
+        for right := pos ; right < j; right++ {  // pos 右子树下标
+            if postorder[right] < postorder[j] { // postorder[pos:j-1] > 根节点的值 
+                return false
+            }
+        }
+        return dfs(i, pos-1) && dfs(pos, j-1) // 递归判断左右子树
+    }
+
+    return dfs(0, len(postorder)-1)
+}
+```
+
+
+
+
+
+## [剑指 Offer 03. 数组中重复的数字](https://leetcode.cn/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/)
+
+
+
+**解法一：原地交换**
+
+思路：把每个数放到对应的位置上，即让 nums[i] = i。
+从前往后遍历数组中的所有数，假设当前遍历到的数是 nums[i]，那么：
+
+- 如果 nums[i] != i && nums[nums[i]] == nums[i]，则说明 nums[i] 出现了多次，直接返回 nums[i] 即可；
+- 如果 nums[nums[i]] != nums[i]，那我们就把 x 交换到正确的位置上，即 swap(nums[nums[i]], nums[i])，每次swap操作都会将一个数放在正确的位置上，
+- 交换完之后如果nums[i] != i，则重复进行该操作。由于每次交换都会将一个数放在正确的位置上，所以swap操作最多会进行 n 次，不会发生死循环。
+循环结束后，如果没有找到任何重复的数，则返回-1。
+
+```go
+func findRepeatNumber(nums []int) int {
+	for i := range nums {
+		for nums[nums[i]] != nums[i] { // 如果 nums[i] 不在 nums[i] 位置
+			nums[nums[i]], nums[i] = nums[i], nums[nums[i]] // 每次swap操作都会将一个数放在正确的位置上
+		}
+		if nums[i] != i { // 如果出现重复，直接返回
+			return nums[i]
+		}
+	}
+	return -1
+}
+```
+
+
+**解法二：原地交换**
+
+```go
+func findRepeatNumber(nums []int) int {
+	for i := 0; i < len(nums); {
+		if nums[i] == i { // 此数字已在对应索引位置，无需交换，因此跳过
+			i++
+			continue
+		}
+		if nums[nums[i]] == nums[i] { // 重复：索引 nums[i] 处和索引 i 处的元素值都为 nums[i]
+			return nums[i]            // 即找到一组重复值，返回此值 nums[i]
+		}
+		nums[nums[i]], nums[i] = nums[i], nums[nums[i]] // 将此数字交换至对应索引位置
+	}
+	return -1
+}
+```
+
+[参考](https://leetcode.cn/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/solutions/96623/mian-shi-ti-03-shu-zu-zhong-zhong-fu-de-shu-zi-yua/)
+
+
+
+
+
+
+## [剑指 Offer 32 - III. 从上到下打印二叉树 III](https://leetcode.cn/problems/cong-shang-dao-xia-da-yin-er-cha-shu-iii-lcof/)
+
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func levelOrder(root *TreeNode) (res [][]int) {
+    var bfs func(*TreeNode, int)
+
+    bfs = func(node *TreeNode, level int) {
+        if node == nil {
+            return 
+        }
+        if level == len(res) {
+            res = append(res, []int{})
+        }
+        if level%2 == 0 { // 第一层按照从左到右的顺序打印
+            res[level] = append(res[level],node.Val )
+        } else {          // 第二层按照从右到左的顺序打印
+            res[level] = append([]int{node.Val}, res[level]...)
+        }
+        bfs(node.Left, level+1)
+        bfs(node.Right, level+1)
+    }
+    bfs(root, 0)
+    return
+}
+```
+
+
+## [剑指 Offer 07. 重建二叉树](https://leetcode.cn/problems/zhong-jian-er-cha-shu-lcof/) 📝
+
+
+```go
 
 ```
+
+
+## [剑指 Offer 35. 复杂链表的复制](https://leetcode.cn/problems/fu-za-lian-biao-de-fu-zhi-lcof/) 📝
+
+```go
+
+```
+
+
+
+
+
+## [剑指 Offer 24. 反转链表](https://leetcode.cn/problems/fan-zhuan-lian-biao-lcof/)
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func reverseList(head *ListNode) *ListNode{
+    dummy := &ListNode{Next:head}
+    curr := head
+    for curr != nil && curr.Next != nil {
+        next := curr.Next
+        curr.Next = next.Next
+        next.Next = dummy.Next
+        dummy.Next = next
+    }
+    return dummy.Next
+}
+
+func reverseList1(head *ListNode) *ListNode {
+    var prev *ListNode
+    curr := head
+    for curr != nil {
+        next := curr.Next
+        curr.Next = prev
+        prev = curr
+        curr = next
+    }
+    return prev
+}
+```
+
+
+
+

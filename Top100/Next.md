@@ -1,8 +1,99 @@
 
-1. [155. 最小栈](#155-最小栈)
-2. [34. 在排序数组中查找元素的第一个和最后一个位置](#34-在排序数组中查找元素的第一个和最后一个位置)
-3. [补充题5. 手撕归并排序](#补充题5-手撕归并排序)
-4. [154. 寻找旋转排序数组中的最小值 II](#154-寻找旋转排序数组中的最小值-ii)
+1. [46. 全排列](#46-全排列)
+2. [47. 全排列 II  补充](#47-全排列-ii--补充)
+3. [155. 最小栈](#155-最小栈)
+4. [34. 在排序数组中查找元素的第一个和最后一个位置](#34-在排序数组中查找元素的第一个和最后一个位置)
+5. [补充题5. 手撕归并排序](#补充题5-手撕归并排序)
+6. [154. 寻找旋转排序数组中的最小值 II](#154-寻找旋转排序数组中的最小值-ii)
+7. [400. 第 N 位数字](#400-第-n-位数字)
+
+
+
+
+
+## [46. 全排列](https://leetcode-cn.com/problems/permutations/)
+
+**枚举每个位置，填每个数 (回溯)**
+
+```go
+func permute(nums []int) [][]int {
+	res, path, used, n := [][]int{}, []int{}, make([]bool, len(nums)), len(nums)
+	var dfs func(int)
+	
+	dfs = func(pos int) {   // 枚举位置
+		if len(path) == n { // pos == n 
+			res = append(res, append([]int{}, path...)) // path append后会扩容，消除前面的无效数据(0)
+			return
+		}
+		for i := 0; i < n; i++ { // 枚举所有的选择
+			if !used[i] {        // 第i个位置未使用
+				used[i] = true               // 第i个位置已使用
+				path = append(path, nums[i]) // 做出选择，记录路径
+				dfs(pos + 1)                 // 枚举下一个位置
+				used[i] = false              // 撤销选择
+				path = path[:len(path)-1]    // 取消记录
+			}
+		}
+	}
+
+	dfs(0)
+	return res
+}
+```
+
+```go
+func permute(nums []int) [][]int {
+	res, n := [][]int{}, len(nums)
+	var dfs func(int)
+
+	dfs = func(pos int) {
+		if pos == n { // 所有位置都已填满
+			res = append(res, append([]int{}, nums...))
+			return // 结束递归
+		}
+		for i := pos; i < len(nums); i++ {
+			nums[pos], nums[i] = nums[i], nums[pos] // pos 位置填入 nums[i]
+			dfs(pos + 1)                            // 递归填下一个位置
+			nums[pos], nums[i] = nums[i], nums[pos] //撤销、回溯
+		}
+	}
+
+	dfs(0)
+	return res
+}
+```
+
+
+## [47. 全排列 II](https://leetcode-cn.com/problems/permutations-ii/)  补充
+
+```go
+func permuteUnique(nums []int) [][]int {
+	sort.Ints(nums)
+	used, res, path := make([]bool, len(nums)), [][]int{}, []int{}
+	var dfs func(int)
+
+	dfs = func(pos int) {
+		if len(path) == len(nums) {
+			res = append(res, append([]int{}, path...))
+			return
+		}
+		for i := 0; i < len(nums); i++ {
+			if used[i] || i > 0 && !used[i-1] && nums[i-1] == nums[i] { // 已使用 或 重复
+				continue // 去重，跳过
+			}
+			used[i] = true
+			path = append(path, nums[i])
+			dfs(pos + 1)
+			used[i] = false
+			path = path[:len(path)-1]
+		}
+	}
+
+	dfs(0)
+	return res
+}
+```
+
 
 
 ## [155. 最小栈](https://leetcode.cn/problems/min-stack/)
@@ -390,3 +481,51 @@ func findMin(nums []int) int {
 	return nums[low]
 }
 ```
+
+
+## [400. 第 N 位数字](https://leetcode.cn/problems/nth-digit/description/)
+
+```go
+
+func findNthDigit(n int) int {
+	start, digit := 1, 1
+	for n > 9*start*digit {
+		n -= 9 * start * digit
+		start *= 10
+		digit++
+	}
+	num := start + (n-1)/digit
+	digitIndex := (n - 1) % digit
+	return int(strconv.Itoa(num)[digitIndex] - '0')
+}
+
+func findNthDigit1(n int) int {
+	digit, start, count := 1, 1, 9
+	for n > count {
+		n -= count
+		start *= 10
+		digit++
+		count = 9 * start * digit
+	}
+	num := start + (n-1)/digit
+	index := (n - 1) % digit
+	return int((strconv.Itoa(num)[index]) - '0')
+}
+
+func findNthDigit2(n int) int {
+	if n <= 9 {
+		return n
+	}
+	bits := 1
+	for n > 9*int(math.Pow10(bits-1))*bits {
+		n -= 9 * int(math.Pow10(bits-1)) * bits
+		bits++
+	}
+	index := n - 1
+	start := int(math.Pow10(bits - 1))
+	num := start + index/bits
+	digitIndex := index % bits
+	return num / int(math.Pow10(bits-digitIndex-1)) % 10
+}
+```
+

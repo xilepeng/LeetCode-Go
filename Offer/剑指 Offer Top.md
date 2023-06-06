@@ -34,9 +34,10 @@ CodeTop排名
 32. [剑指 Offer 33. 二叉搜索树的后序遍历序列](#剑指-offer-33-二叉搜索树的后序遍历序列)
 33. [剑指 Offer 03. 数组中重复的数字](#剑指-offer-03-数组中重复的数字)
 34. [剑指 Offer 32 - III. 从上到下打印二叉树 III](#剑指-offer-32---iii-从上到下打印二叉树-iii)
-35. [剑指 Offer 07. 重建二叉树 📝](#剑指-offer-07-重建二叉树-)
-36. [剑指 Offer 35. 复杂链表的复制 📝](#剑指-offer-35-复杂链表的复制-)
+35. [剑指 Offer 07. 重建二叉树](#剑指-offer-07-重建二叉树)
+36. [剑指 Offer 35. 复杂链表的复制](#剑指-offer-35-复杂链表的复制)
 37. [剑指 Offer 24. 反转链表](#剑指-offer-24-反转链表)
+38. [剑指 Offer 44. 数字序列中某一位的数字](#剑指-offer-44-数字序列中某一位的数字)
 
 
 
@@ -1611,18 +1612,67 @@ func levelOrder(root *TreeNode) (res [][]int) {
 ```
 
 
-## [剑指 Offer 07. 重建二叉树](https://leetcode.cn/problems/zhong-jian-er-cha-shu-lcof/) 📝
+## [剑指 Offer 07. 重建二叉树](https://leetcode.cn/problems/zhong-jian-er-cha-shu-lcof/) 
 
 
 ```go
-
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func buildTree(preorder []int, inorder []int) *TreeNode {
+	if len(preorder) == 0 {
+		return nil
+	}
+	root := &TreeNode{Val: preorder[0]}
+	for pos, node_val := range inorder {
+		if node_val == root.Val {
+			root.Left = buildTree(preorder[1:pos+1], inorder[:pos])   // 左子树的前序和中序遍历结果
+			root.Right = buildTree(preorder[pos+1:], inorder[pos+1:]) // 右子树的前序和中序遍历结果
+		}
+	}
+	return root
+}
 ```
 
 
-## [剑指 Offer 35. 复杂链表的复制](https://leetcode.cn/problems/fu-za-lian-biao-de-fu-zhi-lcof/) 📝
+## [剑指 Offer 35. 复杂链表的复制](https://leetcode.cn/problems/fu-za-lian-biao-de-fu-zhi-lcof/) 
 
 ```go
+/**
+ * Definition for a Node.
+ * type Node struct {
+ *     Val int
+ *     Next *Node
+ *     Random *Node
+ * }
+ */
+var CacheNode map[*Node]*Node // 用哈希表记录每一个节点对应新节点的创建情况
 
+func deepCopy(node *Node) *Node {
+	if node == nil {
+		return nil
+	}
+	// 一个节点可能被多个其他节点指向，因此我们可能递归地多次尝试拷贝某个节点，
+	// 为了防止重复拷贝，我们需要首先检查当前节点是否被拷贝过
+	// 如果已经拷贝过，我们可以直接从哈希表中取出拷贝后的节点的指针并返回即可。
+	if n, ok := CacheNode[node]; ok {
+		return n // &node
+	}
+	newNode := &Node{Val: node.Val}        // 拷贝当前节点
+	CacheNode[node] = newNode              // 记录当前节点已拷贝
+	newNode.Next = deepCopy(node.Next)     // 拷贝当前节点的后继节点
+	newNode.Random = deepCopy(node.Random) // 拷贝当前节点的随机指针指向的节点
+	return newNode
+}
+func copyRandomList(head *Node) *Node {
+	CacheNode = map[*Node]*Node{}
+	return deepCopy(head)
+}
 ```
 
 
@@ -1663,6 +1713,57 @@ func reverseList1(head *ListNode) *ListNode {
     return prev
 }
 ```
+
+
+
+
+
+## [剑指 Offer 44. 数字序列中某一位的数字](https://leetcode.cn/problems/shu-zi-xu-lie-zhong-mou-yi-wei-de-shu-zi-lcof/description/)
+
+```go
+func findNthDigit(n int) int {
+	start, digit := 1, 1
+	for n > 9*start*digit {
+		n -= 9 * start * digit
+		start *= 10
+		digit++
+	}
+	num := start + (n-1)/digit
+	digitIndex := (n - 1) % digit
+	return int(strconv.Itoa(num)[digitIndex] - '0')
+}
+
+func findNthDigit1(n int) int {
+	digit, start, count := 1, 1, 9
+	for n > count {
+		n -= count
+		start *= 10
+		digit++
+		count = 9 * start * digit
+	}
+	num := start + (n-1)/digit
+	index := (n - 1) % digit
+	return int((strconv.Itoa(num)[index]) - '0')
+}
+
+func findNthDigit2(n int) int {
+	if n <= 9 {
+		return n
+	}
+	bits := 1
+	for n > 9*int(math.Pow10(bits-1))*bits {
+		n -= 9 * int(math.Pow10(bits-1)) * bits
+		bits++
+	}
+	index := n - 1
+	start := int(math.Pow10(bits - 1))
+	num := start + index/bits
+	digitIndex := index % bits
+	return num / int(math.Pow10(bits-digitIndex-1)) % 10
+}
+```
+
+
 
 
 

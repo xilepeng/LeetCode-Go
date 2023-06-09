@@ -1727,11 +1727,11 @@ func permutation(s string) []string {
         if x == len(bytes)-1 {
             res = append(res, string(bytes))
         }
-        repeat := map[byte]bool{}
+        dict := map[byte]bool{}
         for i := x; i < len(bytes); i++ {
-            if !repeat[bytes[i]]{
+            if !dict[bytes[i]]{
                 bytes[x], bytes[i] = bytes[i], bytes[x]
-                repeat[bytes[x]] = true
+                dict[bytes[x]] = true
                 dfs(x+1)
                 bytes[x], bytes[i] = bytes[i], bytes[x]
             }
@@ -1741,6 +1741,8 @@ func permutation(s string) []string {
     return res
 }
 ```
+
+
 
 
 

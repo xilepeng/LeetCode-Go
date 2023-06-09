@@ -37,7 +37,7 @@ CodeTop排名
 35. [剑指 Offer 07. 重建二叉树](#剑指-offer-07-重建二叉树)
 36. [剑指 Offer 35. 复杂链表的复制](#剑指-offer-35-复杂链表的复制)
 37. [剑指 Offer 24. 反转链表](#剑指-offer-24-反转链表)
-38. [剑指 Offer 44. 数字序列中某一位的数字](#剑指-offer-44-数字序列中某一位的数字)
+38. [剑指 Offer 38. 字符串的排列](#剑指-offer-38-字符串的排列)
 
 
 
@@ -1715,53 +1715,39 @@ func reverseList1(head *ListNode) *ListNode {
 ```
 
 
-
-
-
-## [剑指 Offer 44. 数字序列中某一位的数字](https://leetcode.cn/problems/shu-zi-xu-lie-zhong-mou-yi-wei-de-shu-zi-lcof/description/)
+## [剑指 Offer 38. 字符串的排列](https://leetcode.cn/problems/zi-fu-chuan-de-pai-lie-lcof/description/)
 
 ```go
-func findNthDigit(n int) int {
-	start, digit := 1, 1
-	for n > 9*start*digit {
-		n -= 9 * start * digit
-		start *= 10
-		digit++
-	}
-	num := start + (n-1)/digit
-	digitIndex := (n - 1) % digit
-	return int(strconv.Itoa(num)[digitIndex] - '0')
-}
+func permutation(s string) []string {
+    res := []string{}
+    bytes := []byte(s)
+    var dfs func(int)
 
-func findNthDigit1(n int) int {
-	digit, start, count := 1, 1, 9
-	for n > count {
-		n -= count
-		start *= 10
-		digit++
-		count = 9 * start * digit
-	}
-	num := start + (n-1)/digit
-	index := (n - 1) % digit
-	return int((strconv.Itoa(num)[index]) - '0')
-}
-
-func findNthDigit2(n int) int {
-	if n <= 9 {
-		return n
-	}
-	bits := 1
-	for n > 9*int(math.Pow10(bits-1))*bits {
-		n -= 9 * int(math.Pow10(bits-1)) * bits
-		bits++
-	}
-	index := n - 1
-	start := int(math.Pow10(bits - 1))
-	num := start + index/bits
-	digitIndex := index % bits
-	return num / int(math.Pow10(bits-digitIndex-1)) % 10
+    dfs = func(x int) {
+        if x == len(bytes)-1 {
+            res = append(res, string(bytes))
+        }
+        repeat := map[byte]bool{}
+        for i := x; i < len(bytes); i++ {
+            if !repeat[bytes[i]]{
+                bytes[x], bytes[i] = bytes[i], bytes[x]
+                repeat[bytes[x]] = true
+                dfs(x+1)
+                bytes[x], bytes[i] = bytes[i], bytes[x]
+            }
+        }
+    }
+    dfs(0)
+    return res
 }
 ```
+
+
+
+
+
+
+
 
 
 

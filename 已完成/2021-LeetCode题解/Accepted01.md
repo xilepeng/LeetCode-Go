@@ -417,6 +417,8 @@ func max(x, y int) int {
 
 
 
+
+
 **方法一：基于快速排序的选择方法**
 
 快速选择算法思路：
@@ -426,37 +428,34 @@ func max(x, y int) int {
 否则，如果 q 比目标下标小，就递归右子区间，否则递归左子区间。
 
 ``` go
-func findKthLargest(nums []int, k int) int {
-	rand.Seed(time.Now().UnixNano())
-	return quick_select(nums, 0, len(nums)-1, len(nums)-k)
+func findKthLargest(A []int, k int) int {
+	n := len(A)
+	return quickSelect(A, 0, n-1, n-k)
 }
-func quick_select(A []int, start, end, i int) int {
-	
-	if q := random_partition(A, start, end); q == i {
-		return A[q]
-	} else if q < i {
-		return quick_select(A, q+1, end, i)
-	} else {
-		return quick_select(A,start, q-1, i)
+func quickSelect(A []int, l, r, k int) int {
+	if l == r {
+		return A[k]
 	}
-}
-func random_partition(A []int, start, end int) int {
-	random := rand.Int()%(end-start+1) + start
-	A[random], A[start] = A[start], A[random]
-	return partiton(A, start, end)
-}
-func partiton(A []int, start, end int) int{
-	piv, i := A[start], start+1
-	for j := start+1; j <= end; j ++ {
-		if A[j] < piv {
+	partition := A[l+(r-l)>>1] // A[(l+r)/2]
+	i, j := l-1, r+1
+	for i < j {
+		for i++; A[i] < partition; i++ {
+		}
+		for j--; A[j] > partition; j-- {
+		}
+		if i < j {
 			A[i], A[j] = A[j], A[i]
-			i++
 		}
 	}
-	A[start], A[i-1] = A[i-1], A[start]
-	return i-1
+	if k <= j {
+		return quickSelect(A, l, j, k)
+	} else {
+		return quickSelect(A, j+1, r, k)
+	}
 }
 ```
+
+
 
 复杂度分析
 

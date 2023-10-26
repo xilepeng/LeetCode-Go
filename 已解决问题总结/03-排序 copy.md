@@ -16,6 +16,32 @@
 
 ## [手撕快速排序 ](https://leetcode-cn.com/problems/sort-an-array/)
 
+``` go
+func sortArray(nums []int) []int {
+	QuickSort(nums, 0, len(nums)-1)
+	return nums
+}
+
+func QuickSort(A []int, Left, Right int) {
+	if Left >= Right {
+		return
+	}
+	Pivot := A[Left+((Right-Left)>>1)]
+	i, j := Left-1, Right+1
+	for i < j {
+		for i++; A[i] < Pivot; i++ {
+		}
+		for j--; A[j] > Pivot; j-- {
+		}
+		if i < j {
+			A[i], A[j] = A[j], A[i]
+		}
+	}
+	QuickSort(A, Left, j)
+	QuickSort(A, j+1, Right)
+}
+```
+
 **1.优雅写法**
 
 ```go
@@ -91,6 +117,21 @@ func partition(A []int, low, high int) int {
 	pivot := A[low+(high-low)>>1]
 	i, j := low-1, high+1
 	for i < j {
+		for i++; A[i] < pivot; i++ {
+		}
+		for j--; A[j] > pivot; j-- {
+		}
+		if i < j {
+			A[i], A[j] = A[j], A[i]
+		}
+	}
+	return j
+}
+
+func partition2(A []int, low, high int) int {
+	pivot := A[low+(high-low)>>1]
+	i, j := low-1, high+1
+	for i < j {
 		for {
 			i++
 			if A[i] >= pivot {
@@ -102,21 +143,6 @@ func partition(A []int, low, high int) int {
 			if A[j] <= pivot {
 				break
 			}
-		}
-		if i < j {
-			A[i], A[j] = A[j], A[i]
-		}
-	}
-	return j
-}
-
-func Partition(A []int, low, high int) int {
-	pivot := A[low+(high-low)>>1]
-	i, j := low-1, high+1
-	for i < j {
-		for i++; A[i] < pivot; i++ {
-		}
-		for j--; A[j] > pivot; j-- {
 		}
 		if i < j {
 			A[i], A[j] = A[j], A[i]

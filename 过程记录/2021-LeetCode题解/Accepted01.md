@@ -1,24 +1,24 @@
 
-1. [✅ 206. 反转链表](#-206-反转链表)
-2. [✅ 146. LRU 缓存机制](#-146-lru-缓存机制)
-3. [✅ 3. 无重复字符的最长子串](#-3-无重复字符的最长子串)
-4. [✅ 215. 数组中的第K个最大元素](#-215-数组中的第k个最大元素)
-5. [✅ 25. K 个一组翻转链表](#-25-k-个一组翻转链表)
-6. [✅ 补充题4. 手撕快速排序 912. 排序数组 ](#-补充题4-手撕快速排序-912-排序数组-)
-7. [✅ 15. 三数之和](#-15-三数之和)
-8. [✅ 53. 最大子序和](#-53-最大子序和)
-9. [✅ 1. 两数之和](#-1-两数之和)
-10. [✅ 21. 合并两个有序链表](#-21-合并两个有序链表)
-11. [✅ 141. 环形链表](#-141-环形链表)
-12. [✅ 102. 二叉树的层序遍历](#-102-二叉树的层序遍历)
-13. [✅ 121. 买卖股票的最佳时机](#-121-买卖股票的最佳时机)
-14. [✅ 160. 相交链表](#-160-相交链表)
-15. [✅ 88. 合并两个有序数组](#-88-合并两个有序数组)
-16. [✅ 103. 二叉树的锯齿形层序遍历](#-103-二叉树的锯齿形层序遍历)
-17. [✅ 20. 有效的括号](#-20-有效的括号)
-18. [✅ 236. 二叉树的最近公共祖先](#-236-二叉树的最近公共祖先)
-19. [✅ 5. 最长回文子串](#-5-最长回文子串)
-20. [✅ 415. 字符串相加](#-415-字符串相加)
+1. [206. 反转链表](#206-反转链表)
+2. [146. LRU 缓存机制](#146-lru-缓存机制)
+3. [3. 无重复字符的最长子串](#3-无重复字符的最长子串)
+4. [215. 数组中的第K个最大元素](#215-数组中的第k个最大元素)
+5. [25. K 个一组翻转链表](#25-k-个一组翻转链表)
+6. [补充题4. 手撕快速排序 912. 排序数组 ](#补充题4-手撕快速排序-912-排序数组-)
+7. [15. 三数之和](#15-三数之和)
+8. [53. 最大子序和](#53-最大子序和)
+9. [1. 两数之和](#1-两数之和)
+10. [21. 合并两个有序链表](#21-合并两个有序链表)
+11. [141. 环形链表](#141-环形链表)
+12. [102. 二叉树的层序遍历](#102-二叉树的层序遍历)
+13. [121. 买卖股票的最佳时机](#121-买卖股票的最佳时机)
+14. [160. 相交链表](#160-相交链表)
+15. [88. 合并两个有序数组](#88-合并两个有序数组)
+16. [103. 二叉树的锯齿形层序遍历](#103-二叉树的锯齿形层序遍历)
+17. [20. 有效的括号](#20-有效的括号)
+18. [236. 二叉树的最近公共祖先](#236-二叉树的最近公共祖先)
+19. [5. 最长回文子串](#5-最长回文子串)
+20. [415. 字符串相加](#415-字符串相加)
 
 
 
@@ -50,7 +50,7 @@
 ------
 
 
-## ✅ [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
+## [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 
 
 
 <!-- **方法一：迭代（双指针）** -->
@@ -168,7 +168,7 @@ func reverseList(head *ListNode) *ListNode {
 
 
 
-## ✅ [146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
+## [146. LRU 缓存机制](https://leetcode-cn.com/problems/lru-cache/)
 
 ![](images/146.png)
 
@@ -306,7 +306,7 @@ func (this *LRUCache) removeTail() *DLinkedNode {
 
 
 
-## ✅ [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
+## [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
 
 
 
@@ -412,7 +412,7 @@ func max(x, y int) int {
 
 
 
-## ✅ [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
+## [215. 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
 
 
 
@@ -517,7 +517,7 @@ func max_heapify(A []int, i, heap_size int) {
 
 
 
-## ✅ [25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
+## [25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
 
 ![](images/25-1.png)
 ![](images/25-2.png)
@@ -575,7 +575,7 @@ func reverse(head *ListNode) *ListNode {
 
 
 
-## ✅ [补充题4. 手撕快速排序 912. 排序数组 ](https://leetcode-cn.com/problems/sort-an-array/)
+## [补充题4. 手撕快速排序 912. 排序数组 ](https://leetcode-cn.com/problems/sort-an-array/)
 
 
 
@@ -641,7 +641,7 @@ func random_partition(A []int, start, end int) int {
 
 
 
-## ✅ [15. 三数之和](https://leetcode-cn.com/problems/3sum/)
+## [15. 三数之和](https://leetcode-cn.com/problems/3sum/)
 
 **思路**
 
@@ -711,7 +711,7 @@ func threeSum(nums []int) [][]int {
 
 
 
-## ✅ [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+## [53. 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
 
 **方法一：贪心**
 
@@ -772,7 +772,7 @@ func maxSubArray(nums []int) int {
 
 
 
-## ✅ [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
+## [1. 两数之和](https://leetcode-cn.com/problems/two-sum/)
 
 
 **方法一：暴力枚举**
@@ -852,7 +852,7 @@ Any Detial?
 
 
 
-## ✅ [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+## [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
 
 
 
@@ -975,7 +975,7 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 
 
 
-## ✅ [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
+## [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
 
 
 ``` go
@@ -1004,7 +1004,7 @@ func hasCycle(head *ListNode) bool {
 
 
 
-## ✅ [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+## [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
 
 **方法一：DFS递归**
 
@@ -1074,7 +1074,7 @@ func levelOrder(root *TreeNode) [][]int {
 
 
 
-## ✅ [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
+## [121. 买卖股票的最佳时机](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/)
 
 
 ``` go
@@ -1122,7 +1122,7 @@ func max(x, y int) int {
 
 
 
-## ✅ [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
+## [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
 
 **方法一：双指针法**
 
@@ -1167,7 +1167,7 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
 
 
 
-## ✅ [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
+## [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
 
 **方法一：逆向双指针**
 
@@ -1222,7 +1222,7 @@ func merge(nums1 []int, m int, nums2 []int, n int) {
 
 
 
-## ✅ [103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+## [103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
 
 **方法一：深度优先遍历**
 
@@ -1329,7 +1329,7 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 
 
 
-## ✅ [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
+## [20. 有效的括号](https://leetcode-cn.com/problems/valid-parentheses/)
 
 ``` go
 func isValid(s string) bool {
@@ -1358,7 +1358,7 @@ func isValid(s string) bool {
 
 
 
-## ✅ [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+## [236. 二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
 
 
 ``` go
@@ -1409,7 +1409,7 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 
 
 
-## ✅ [5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
+## [5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
 
 **方法一：（暴力枚举） O(n^2)**
 
@@ -1488,7 +1488,7 @@ func expend(s string, l, r int) (int, int) {
 
 
 
-## ✅ [415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
+## [415. 字符串相加](https://leetcode-cn.com/problems/add-strings/)
 
 
 

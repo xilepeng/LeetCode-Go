@@ -31,18 +31,6 @@ func maxProfit(prices []int) int {
 	}
 	return max_profit
 }
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-func min(x, y int) int {
-	if x < y {
-		return x
-	}
-	return y
-}
 ```
 
 
@@ -57,13 +45,6 @@ func maxProfit(prices []int) int {
 		sell = max(sell, buy+p)
 	}
 	return sell
-}
-
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
 }
 ```
 
@@ -507,13 +488,6 @@ func maxProfit(prices []int) int {
 	}
 	return sell
 }
-
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
 ```
 
 [122. 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
@@ -527,12 +501,6 @@ func maxProfit(prices []int) int {
 		sell = max(sell, buy+p)
 	}
 	return sell
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
 }
 ```
 

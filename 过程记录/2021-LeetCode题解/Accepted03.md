@@ -1045,12 +1045,7 @@ func max(x, y int) int {
 	}
 	return dp[m][n]
 }
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
+
 ```
 
 [参考](https://leetcode-cn.com/problems/longest-common-subsequence/solution/zui-chang-gong-gong-zi-xu-lie-by-leetcod-y7u0/)
@@ -1212,12 +1207,6 @@ func maxDepth(root *TreeNode) int {
 	}
 	return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
 }
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
 ```
 
 复杂度分析
@@ -1309,12 +1298,7 @@ func abs(x int) int {
 	}
 	return x
 }
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
+
 ```
 
 复杂度分析

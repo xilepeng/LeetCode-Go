@@ -5,6 +5,8 @@ func main() {
 	calculate(s)
 }
 
+// [224. 基本计算器](https://leetcode.cn/problems/basic-calculator/description/?source=vscode)
+
 func calculate(s string) (res int) {
 	stack := []int{1} // 栈顶元素记录当前位置所处的每个括号所「共同形成」的符号
 	sign := 1         // 标记「当前」的符号，取值为 {−1,+1} 的整数

@@ -14,14 +14,14 @@
 10. [695. 岛屿的最大面积](#695-岛屿的最大面积)
 11. [394. 字符串解码](#394-字符串解码)
 12. [209. 长度最小的子数组](#209-长度最小的子数组)
-	1. [方法一：滑动窗口](#方法一滑动窗口)
+	 1. [方法一：滑动窗口](#方法一滑动窗口)
 13. [322. 零钱兑换 补充](#322-零钱兑换-补充)
-		1. [iterate amount](#iterate-amount)
+		 1. [iterate amount](#iterate-amount)
 14. [518. 零钱兑换 II](#518-零钱兑换-ii)
-		1. [iterate coins](#iterate-coins)
+		 1. [iterate coins](#iterate-coins)
 15. [剑指 Offer 40. 最小的k个数](#剑指-offer-40-最小的k个数)
-	1. [方法一：快速选择](#方法一快速选择)
-	2. [小根堆](#小根堆)
+	 1. [方法一：快速选择](#方法一快速选择)
+	 2. [小根堆](#小根堆)
 16. [328. 奇偶链表](#328-奇偶链表)
 17. [125. 验证回文串](#125-验证回文串)
 18. [189. 旋转数组](#189-旋转数组)
@@ -643,12 +643,6 @@ func dfs(grid [][]int, i, j int) int {
 	area += dfs(grid, i, j+1)
 	area += dfs(grid, i, j-1)
 	return area
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
 }
 ```
 

@@ -106,38 +106,26 @@
 
 ## [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
 
-
 ```go
 func lengthOfLongestSubstring(s string) int {
 	longest, n := 0, len(s)
-	freq := make(map[byte]int, n)
+	freq := make(map[byte]int, n) // freq 记录每个字符出现次数，byte 可避免额外的字节/字符串转换
 	for i, j := 0, 0; j < n; j++ {
-		freq[s[j]]++
-		for freq[s[j]] > 1 {
-			freq[s[i]]--
-			i++
+		freq[s[j]]++         // 首次出现存入哈希
+		for freq[s[j]] > 1 { // 循环检测：如果当前字符与首字符重复
+			freq[s[i]]--         // 去重，直到 freq[s[j]] == 1,退出
+			i++                  // 向后扫描
+			if freq[s[j]] == 1 { // 优化：如果无重复退出循环
+				break
+			}
 		}
-		longest = max(longest, j-i+1) 
+		longest = max(longest, j-i+1) // 统计无重复字符的最长子串
 	}
 	return longest
 }
 ```
 
-```go
-func lengthOfLongestSubstring(s string) int {
-	longest, n := 0, len(s)
-	freq := make(map[byte]int, n)
-	for l, r := 0, 0; r < n; r++ {
-		freq[s[r]]++
-		for freq[s[r]] > 1 {
-			freq[s[l]]--
-			l++
-		}
-		longest = max(longest, r-l+1)
-	}
-	return longest
-}
-```
+
 
 
 ## [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/) 

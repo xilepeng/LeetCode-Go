@@ -1,3 +1,3 @@
 module LeetCode-Go/2023/demo
 
-go 1.19
+go 1.24

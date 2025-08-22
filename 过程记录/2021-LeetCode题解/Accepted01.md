@@ -329,86 +329,101 @@ func (this *LRUCache) removeTail() *DLinkedNode {
 
 
 
-``` go
+
+```go
 func lengthOfLongestSubstring(s string) int {
-	hash := map[byte]int{} // 哈希集合记录每个字符出现次数
-	res := 0
-	for i, j := 0, 0; j < len(s); j++ {
-		hash[s[j]]++                // 首次存入哈希
-		for ; hash[s[j]] > 1; i++ { // 出现字符和首字符重复，i++跳过首字符(收缩窗口)
-			hash[s[i]]-- // 哈希记录次数减1
-		}
-		res = max(res, j-i+1) // 统计无重复字符的最长子串
-	}
-	return res
-}
-func max(x, y int) int {
-	if x < y {
-		return y
-	}
-	return x
+    longest, n := 0, len(s)
+    freq := make(map[byte]int, n) // freq 记录每个字节出现次数，byte 可避免额外的字节/字符串转换
+    for i, j := 0, 0; j < n; j++ {
+        freq[s[j]]++         // 首次出现存入哈希表，记为1
+        for freq[s[j]] > 1 { // 循环检测：如果大于1，表示当前字节有重复
+            freq[s[i]]--         // 去重，直到 freq[s[j]] == 1,退出
+            i++                  // 向后扫描
+            if freq[s[j]] == 1 { // 优化：如果无重复字符，则退出循环
+                break
+            }
+        }
+        longest = max(longest, j-i+1) // 统计无重复字符的最长子串
+    }
+    return longest
 }
 ```
+
+
 [参考](https://www.acwing.com/solution/content/49/)
 
 
-**方法二：双指针 / 滑动窗口**
+**方法二：双指针 | 滑动窗口**
 
 
 ![](images/3.png)
 
+
+
 ``` go
-func lengthOfLongestSubstring(s string) (res int) {
-	m := map[byte]int{} // 无重复字符的最长下标
-	start := 0          // 无重复字符的起点下标
-	for i := 0; i < len(s); i++ { // 扩展窗口
-		if _, exists := m[s[i]]; exists { // 有重复字符
-			start = max(start, m[s[i]]+1) // 取index较大值作为起点（收缩窗口）
+func lengthOfLongestSubstring(s string) int {
+	longest, n := 0, len(s)        // len(s)返回字符串的字节数目（不是rune字符数目）
+	index := make(map[byte]int, n) // m 记录字节索引，byte 可避免额外的字节/字符串转换
+	for left, right := 0, 0; right < n; right++ {
+		if idx, ok := index[s[right]]; ok { // 如果第i个字节已存在
+			left = max(left, idx+1) // 取索引较大值作为起始索引（收缩窗口）
 		}
-		m[s[i]] = i               // 无重复字符，加入map
-		res = max(res, i-start+1) // 统计目前无重复字符的最大长度
+		index[s[right]] = right              // 首次出现加入map，记录字节对应的索引
+		longest = max(longest, right-left+1) // 统计无重复字符的最长子串
 	}
-	return
-}
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
+	return longest
 }
 ```
-
 
 ```go
 func lengthOfLongestSubstring(s string) int {
-	m := map[rune]int{}
-	res, start := 0, 0
-	for i, x := range s {
-		if _, ok := m[x]; ok {
-			start = max(start, m[x]+1)
+	longest, n := 0, len(s)
+	index := make(map[byte]int, n)                // 记录字符对应的下标
+	for left, right := 0, 0; right < n; right++ { // right++ 指针继续向后扫描
+		if idx, ok := index[s[right]]; ok && idx >= left { // 遇到重复字符，跳过
+			left = idx + 1 // 收缩窗口
 		}
-		m[x] = i
-		res = max(res, i-start+1)
+		index[s[right]] = right //首次遇见，存储对应下标
+		longest = max(longest, right-left+1)
 	}
-	return res
-}
-
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
+	return longest
 }
 ```
 
+
+方法二：位图
+
+```go
+func lengthOfLongestSubstring(s string) int {
+	if len(s) == 0 {
+		return 0
+	}
+	var bitSet [256]bool
+	result, left, right := 0, 0, 0
+	for left < len(s) {
+		// 右侧字符对应的 bitSet 被标记 true，说明此字符在 X 位置重复，需要左侧向前移动，直到将 X 标记为 false
+		if bitSet[s[right]] { // s[right]第2次出现，与s[left]标记位重复
+			bitSet[s[left]] = false // 放弃 s[left] 标记位
+			left++                  // 跳过重复，向后扫描
+		} else {
+			bitSet[s[right]] = true // s[right]第1次出现，标记为true，选择 s[right] 标记位
+			right++                 // 向后扫描
+		}
+		if result < right-left {
+			result = right - left
+		}
+		if left+result >= len(s) || right >= len(s) {
+			break
+		}
+	}
+	return result
+}
+```
 
 
 
 - T(n) = O(n)
 - S(n) = O(|Σ|) 其中 Σ 表示字符集（即字符串中可以出现的字符），∣Σ∣ 表示字符集的大小。
-
-
-[参考](https://www.bilibili.com/video/BV1ub4y1d7Z8)
 
 
 
